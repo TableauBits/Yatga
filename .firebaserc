@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "matbactivity": {
+      "hosting": {
+        "Yatga": [
+          "matbactivity"
+        ]
+      }
+    }
+  }
+}
