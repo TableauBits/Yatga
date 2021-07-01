@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import axios from 'axios';
+
+import { io, Socket } from 'socket.io-client'
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,17 @@ import axios from 'axios';
 export class AppComponent {
   title = 'Yatga';
 
+  socket: Socket;
+
   constructor(private fireAuth: AngularFireAuth) {
+    this.socket = io('https://matbay-kalimba.herokuapp.com:3945');
+    this.socket.emit('BONJOUR À TOUS', "C'EST ANGULAR BATAR");
+    this.setupSocketConnection();
+  }
+
+  setupSocketConnection() {
+    
+    this.socket.emit('my message', 'Hello there from Angular.');
   }
 
   async signIn() {
@@ -27,7 +39,7 @@ export class AppComponent {
     console.log('BUT NOT FOR ME');
 
     try {
-      axios.get(`https://matbay-kalimba.herokuapp.com/${token}`)
+      axios.get(`https://matbay-kalimba.herokuapp.com/auth/${token}`)
       .then(result => {
         console.log(result);
       });
