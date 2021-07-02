@@ -9,8 +9,6 @@ import firebase from 'firebase/app';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Yatga';
-
   ws: WebSocket;
 
   constructor(private fireAuth: AngularFireAuth) {
@@ -27,7 +25,7 @@ export class AppComponent {
 
     const token = await (await this.fireAuth.currentUser)?.getIdToken();
     const token2 = await (await this.fireAuth.currentUser)?.getIdTokenResult();
-    console.log(token, token2);
+    // console.log(token, token2);
 
     if (token) this.ws.send(token);
     else console.log('Firebase token is undefined');

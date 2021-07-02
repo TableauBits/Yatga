@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { User } from 'src/app/types/user';
 
 @Component({
   selector: 'app-profile-page',
@@ -7,7 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePageComponent implements OnInit {
 
-  constructor() { }
+  // public profileForm: FormGroup;
+  private currentUser: User;
+
+  constructor() {
+    this.currentUser = {
+      displayName: '',
+      photoURL: '',
+      uid: '',
+      email: '',
+      roles: []
+    }
+  }
 
   ngOnInit(): void {
   }
