@@ -9,16 +9,20 @@ import { environment } from '../environments/environment';
 
 //Firebase
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

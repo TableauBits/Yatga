@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import axios from 'axios';
-
-import { io, Socket } from 'socket.io-client'
+// import axios from 'axios';
 
 @Component({
   selector: 'app-root',
@@ -13,22 +11,16 @@ import { io, Socket } from 'socket.io-client'
 export class AppComponent {
   title = 'Yatga';
 
-  socket: Socket;
+  ws: WebSocket;
 
   constructor(private fireAuth: AngularFireAuth) {
-    this.socket = io('https://matbay-kalimba.herokuapp.com:3945');
-    this.socket.emit('BONJOUR À TOUS', "C'EST ANGULAR BATAR");
-    this.setupSocketConnection();
+    this.ws = new WebSocket('wss://matbay-kalimba.herokuapp.com/')
+    this.ws.onmessage = (event) => {
+      console.log(event);
+    }
   }
 
-  setupSocketConnection() {
-    
-    this.socket.emit('my message', 'Hello there from Angular.');
-  }
-
-  async signIn() {
-    console.log('CALL 911');
-    
+  async signIn() {    
     const provider = new firebase.auth.GoogleAuthProvider();
     const credentials: firebase.auth.UserCredential = await this.fireAuth.signInWithPopup(provider);
     console.log(credentials);
@@ -36,15 +28,17 @@ export class AppComponent {
     const token = await (await this.fireAuth.currentUser)?.getIdToken();
     const token2 = await (await this.fireAuth.currentUser)?.getIdTokenResult();
     console.log(token, token2);
-    console.log('BUT NOT FOR ME');
 
-    try {
-      axios.get(`https://matbay-kalimba.herokuapp.com/auth/${token}`)
-      .then(result => {
-        console.log(result);
-      });
-    } catch (error) {
-      console.log(error);
-    }      
+    if (token) this.ws.send(token);
+    else console.log('Firebase token is undefined');
+
+    // try {
+    //   axios.get(`https://matbay-kalimba.herokuapp.com/auth/${token}`)
+    //   .then(result => {
+    //     console.log(result);
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }      
   }
 }

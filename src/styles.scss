@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+// https://mdbootstrap.com/docs/angular/css/colors/
+
+html, body { height: 100%; }
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color:  #353738;
+}
+
+.mat-dialog-container {
+  background-color: #353738;
+}
+
+.custom-br {
+  width: 95%;
+  height: 2px;
+  background-color: #434647;
+  margin:auto; 
+  display:table;
+}
+
+.picture {
+  width: 45px;
+  height: 45px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;    
+}
+
+.warning {
+  color: red
+}
