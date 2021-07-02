@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-// import axios from 'axios';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +14,18 @@ export class AppComponent {
   ws: WebSocket;
 
   constructor(private fireAuth: AngularFireAuth) {
-    this.ws = new WebSocket('wss://matbay-kalimba.herokuapp.com/')
+    let connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
+    if (!environment.production) {
+      connectionURL += `:${environment.portWebSocket}`;
+      console.warn("Debug mode enabled! Yatga will attempt to connect to: ", connectionURL);
+    }
+    this.ws = new WebSocket(connectionURL)
     this.ws.onmessage = (event) => {
       console.log(event);
     }
   }
 
-  async signIn() {    
+  async signIn() {
     const provider = new firebase.auth.GoogleAuthProvider();
     const credentials: firebase.auth.UserCredential = await this.fireAuth.signInWithPopup(provider);
     console.log(credentials);
@@ -31,14 +36,5 @@ export class AppComponent {
 
     if (token) this.ws.send(token);
     else console.log('Firebase token is undefined');
-
-    // try {
-    //   axios.get(`https://matbay-kalimba.herokuapp.com/auth/${token}`)
-    //   .then(result => {
-    //     console.log(result);
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }      
   }
 }
