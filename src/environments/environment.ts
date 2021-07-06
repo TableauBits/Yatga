@@ -13,7 +13,11 @@ export const environment = {
     messagingSenderId: "1017121160583",
     appId: "1:1017121160583:web:6f1b1a1d03a03b0a37e722",
     measurementId: "G-J5C20QVC69"
-  }
+  },
+  protocolHTTP: "http://",
+  protocolWebSocket: "ws://",
+  serverAPI: "localhost",
+  portWebSocket: "3000", // in developpement, we need to give a port, otherwise ws is going to assume 4200 (used by angular)
 };
 
 /*
