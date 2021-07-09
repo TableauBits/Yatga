@@ -1,27 +1,45 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
 import { createMessage, EventTypes, Message, ResponseStatus } from '../types/message';
 import { EMPTY_USER, User } from '../types/user';
+import firebase from 'firebase/app';
+
+type ResUserGetOne = {
+	userInfo: User
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  // Communication and Events
   public ws: WebSocket;
+  public emitter: EventEmitter;
+
+  // Current User infos
+  public uid: string;
+  public user: User;
   public isAuthenticate: boolean;
 
-  public uid: string;
-  public currentUser: User;
-
-  private emitter: EventEmitter;
-
-  constructor() {
+  constructor(private fireAuth: AngularFireAuth) {
     this.isAuthenticate = false;
     this.uid = '';
-    this.currentUser = EMPTY_USER;
+    this.user = EMPTY_USER;
     this.emitter = new EventEmitter();
+
+    this.fireAuth.authState.subscribe(async user => {
+      if (user) {
+        const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, {idToken: await user.getIdToken()});
+        this.ws.send(clientAuthenticateMessage);
+        this.emitter.once('authenticate', () => {
+          const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, {uid: user.uid});
+          this.ws.send(getCurrentUserMessage);
+        })
+      }
+    });
 
     let connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
     if (!environment.production) {
@@ -35,11 +53,26 @@ export class AuthService {
     }
   }
 
-  signIn(token: string | undefined) : EventEmitter{
+  async signIn() : Promise<void>{
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await this.fireAuth.signInWithPopup(provider);
+    const token = await (await this.fireAuth.currentUser)?.getIdToken()
+    
     const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, {idToken: token});
     this.ws.send(clientAuthenticateMessage);
 
-    return this.emitter;
+    this.emitter.once('authenticate', () => {
+      const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, {uid: this.uid});
+      this.ws.send(getCurrentUserMessage);
+    })
+  }
+
+  waitForAuth(fn: (event: MessageEvent<any>) => void): void {
+    this.emitter.once('user_get_one', () => {
+      this.ws.onmessage = (event) => {
+        fn(event);
+      }
+    })
   }
 
   private handleEvents(event: MessageEvent<any>): void {
@@ -64,8 +97,9 @@ export class AuthService {
         break;
   
       case EventTypes.USER_get_one:
-        console.log(message);
-        this.currentUser = message.data as User;
+        this.user = (message.data as ResUserGetOne).userInfo;
+        this.ws.onmessage = () => {}; // TODO: check if we need to do something else before
+        this.emitter.emit('user_get_one');
         break;
     
       default:

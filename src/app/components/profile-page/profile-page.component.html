@@ -1,1 +1,22 @@
-<p>profile-page works!</p>
+<div id="container">
+  <div *ngIf="auth.isAuthenticate; else loggedOut" id="user-info">
+    <h1>Bonjour {{ auth.user.displayName }}. Voici votre profil:</h1>
+    <img class="picture" [src]="auth.user.photoURL" [alt]="auth.user.displayName">
+    <form [formGroup]="profileForm">
+      <br>
+      <mat-form-field appearance="outline">
+          <mat-label>Nom d'utilisateur <mat-icon>group</mat-icon> </mat-label>
+          <input matInput formControlName="displayName">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline">
+          <mat-label>URL de la photo de profil <mat-icon>image</mat-icon> </mat-label>
+          <input matInput formControlName="photoURL">
+      </mat-form-field>
+    </form>
+    <button mat-raised-button color="primary" (click)="updateProfile()"> Actualiser </button>
+  </div>
+  <ng-template #loggedOut>
+    Connectez-vous pour voir votre profil
+  </ng-template>
+</div>
