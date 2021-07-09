@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { environment } from 'src/environments/environment';
+import { AuthService } from './services/auth.service';
+import { createMessage, EventTypes } from './types/message';
 
 @Component({
   selector: 'app-root',
@@ -9,30 +10,19 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  ws: WebSocket;
 
-  constructor(private fireAuth: AngularFireAuth) {
-    let connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
-    if (!environment.production) {
-      connectionURL += `:${environment.portWebSocket}`;
-      console.warn("Debug mode enabled! Yatga will attempt to connect to: ", connectionURL);
-    }
-    this.ws = new WebSocket(connectionURL)
-    this.ws.onmessage = (event) => {
-      console.log(event);
-    }
-  }
+  constructor(private fireAuth: AngularFireAuth, private auth: AuthService) {}
 
   async signIn() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    const credentials: firebase.auth.UserCredential = await this.fireAuth.signInWithPopup(provider);
-    console.log(credentials);
-
+    await this.fireAuth.signInWithPopup(provider);
     const token = await (await this.fireAuth.currentUser)?.getIdToken();
-    const token2 = await (await this.fireAuth.currentUser)?.getIdTokenResult();
-    // console.log(token, token2);
+    
+    const emitter = this.auth.signIn(token);
 
-    if (token) this.ws.send(token);
-    else console.log('Firebase token is undefined');
+    emitter.on('authenticate', () => {
+      const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, {uid: this.auth.uid});
+      this.auth.ws.send(getCurrentUserMessage);
+    })
   }
 }

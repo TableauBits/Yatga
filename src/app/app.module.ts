@@ -1,16 +1,23 @@
+// Angular
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-
+// Angular Fire
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from "@angular/fire/auth";
 import { environment } from '../environments/environment';
 
-//Firebase
-import { AngularFireAuthModule } from "@angular/fire/auth";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// Components
+import { AppComponent } from './app.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+
+// Modules
+import { AppRoutingModule } from './app-routing.module';
+
+// Services
+import { AuthService } from './services/auth.service';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +31,7 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
     AngularFireAuthModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

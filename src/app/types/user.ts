@@ -5,3 +5,11 @@ export interface User {
   photoURL: string;
   roles: string[];
 }
+
+export const EMPTY_USER: User = {
+  uid: '',
+  email: '',
+  displayName: '',
+  photoURL: '',
+  roles : []
+}
