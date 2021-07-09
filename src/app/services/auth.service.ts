@@ -67,12 +67,13 @@ export class AuthService {
     })
   }
 
-  waitForAuth(fn: (event: MessageEvent<any>) => void): void {
+  waitForAuth(eventHandler: (event: MessageEvent<any>) => void, authCallback: () => void, context: any): void {
     this.emitter.once('user_get_one', () => {
       this.ws.onmessage = (event) => {
-        fn(event);
+        eventHandler.call(context, event);
       }
-    })
+      authCallback.call(context);
+    });
   }
 
   private handleEvents(event: MessageEvent<any>): void {

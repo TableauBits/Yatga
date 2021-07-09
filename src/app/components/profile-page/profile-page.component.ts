@@ -14,15 +14,21 @@ export class ProfilePageComponent {
   public profileForm: FormGroup;
 
   constructor(public auth: AuthService, public fb: FormBuilder) {
-    this.auth.waitForAuth(this.handleEvents);
-    this.profileForm = fb.group({
-      displayName: [this.auth.user.displayName, Validators.required],
-      photoURL: [this.auth.user.photoURL, Validators.required]
+    this.profileForm = this.fb.group({
+      displayName: ["", Validators.required],
+      photoURL: ["", Validators.required]
     })
+    this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
   }
 
   private handleEvents(event: MessageEvent<any>): void {
     let message: Message<unknown>;
+  }
+
+  private onConnect(): void {
+    console.log(this);
+    this.profileForm.get("displayName")?.setValue(this.auth.user.displayName);
+    this.profileForm.get("photoURL")?.setValue(this.auth.user.photoURL);
   }
 
   updateProfile(): void {
