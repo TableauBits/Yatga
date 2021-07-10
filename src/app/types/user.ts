@@ -13,3 +13,20 @@ export const EMPTY_USER: User = {
   photoURL: '',
   roles : []
 }
+
+export interface Role {
+  name: string;
+  // description: string;
+  icon: string;
+}
+
+export function returnUserRoles(roles: string[]): Role[] {
+  return roles.map(role => USER_ROLES[role]);
+}
+
+const USER_ROLES: Record<string, Role> = {
+  dev: {name: 'Dev', icon: 'build'},
+  admin: {name: 'Admin', icon: 'verified_user'},
+  member: {name: 'Membre', icon: 'headset'},
+  test: {name: 'Cobaye', icon: 'device_unknown'}
+}

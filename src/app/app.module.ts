@@ -17,7 +17,8 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input"
+import { MatInputModule } from "@angular/material/input";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -43,6 +44,7 @@ import { AuthService } from './services/auth.service';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatTooltipModule
   ],
   providers: [
     AuthService, 

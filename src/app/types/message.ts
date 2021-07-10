@@ -12,7 +12,6 @@ export function createMessage<T>(event: string, data: T): string {
 	return JSON.stringify({ event: event, data: data });
 }
 
-// TODO : À déplacer dans un dossier CONSTANTS
 export enum EventTypes {
 	CLIENT_authenticate = "CLIENT-authenticate",
 	USER_get_one = "USER-get-one",

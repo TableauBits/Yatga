@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { createMessage, EventTypes, Message } from 'src/app/types/message';
-import { User } from 'src/app/types/user';
+import { returnUserRoles, Role, User } from 'src/app/types/user';
 
 @Component({
   selector: 'app-profile-page',
@@ -26,7 +26,6 @@ export class ProfilePageComponent {
   }
 
   private onConnect(): void {
-    console.log(this);
     this.profileForm.get("displayName")?.setValue(this.auth.user.displayName);
     this.profileForm.get("photoURL")?.setValue(this.auth.user.photoURL);
   }
@@ -42,6 +41,10 @@ export class ProfilePageComponent {
 
     const editProfileMessage = createMessage(EventTypes.USER_edit, {userData: newUser});
     this.auth.ws.send(editProfileMessage);
+  }
+
+  getRoles(): Role[] {
+    return returnUserRoles(this.auth.user.roles);
   }
 
 }
