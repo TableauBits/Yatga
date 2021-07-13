@@ -22,8 +22,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
-//NO
-//PLS
+
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 
