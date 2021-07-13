@@ -20,17 +20,23 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
 
+// MDB
+import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+//NO
+//PLS
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ProfilePageComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,11 +50,12 @@ import { AuthService } from './services/auth.service';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MdbDropdownModule,
   ],
   providers: [
-    AuthService, 
-    { provide: PERSISTENCE, useValue: 'local'},  // Firebase login persitance
+    AuthService,
+    { provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
   ],
   bootstrap: [AppComponent]
 })

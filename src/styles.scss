@@ -1,23 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
-// https://mdbootstrap.com/docs/angular/css/colors/
+// MDB SCSS
+@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
+// Font Awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
+@import "styles/variables.scss";
+
 
 html, body { height: 100%; }
-body { 
-  margin: 0; 
+body {
+  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   color: whitesmoke;
-  background-color:  #353738;
+  background-color:  $cape-cod;
 }
 
 .mat-dialog-container {
-  background-color: #353738;
+  background-color: $cape-cod;
 }
 
 .custom-br {
   width: 95%;
   height: 2px;
   background-color: #434647;
-  margin:auto; 
+  margin:auto;
   display:table;
 }
 
@@ -25,7 +34,7 @@ body {
   width: 45px;
   height: 45px;
   -moz-border-radius: 25px;
-  border-radius: 25px;    
+  border-radius: 25px;
 }
 
 .warning {

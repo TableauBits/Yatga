@@ -21,8 +21,10 @@
     "@angular/platform-browser": "~12.0.4",
     "@angular/platform-browser-dynamic": "~12.0.4",
     "@angular/router": "~12.0.4",
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "axios": "^0.21.1",
     "firebase": "^7.0 || ^8.0",
+    "mdb-angular-ui-kit": "^1.0.0-beta8",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"

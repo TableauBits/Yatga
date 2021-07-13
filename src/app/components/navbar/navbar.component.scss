@@ -1,0 +1,22 @@
+@import "../../../styles/variables.scss";
+
+#content {
+  color: whitesmoke;
+  background-color: $mineshaft;
+  text-align: left;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+#content:hover {
+  background-color: $sasuke;
+}
+
+.started-at-the-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 999;
+}
+
+
