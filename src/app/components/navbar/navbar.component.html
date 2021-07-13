@@ -5,10 +5,9 @@
 
     <!-- Dropdown Menu -->
     <div mdbDropdown class="dropdown">
-      <img src="https://mdbootstrap.com/img/new/avatars/2.jpg"
-        class="dropdown-toggle d-flex align-items-center rounded-circle" href="#" id="dropdownMenuLink"
-        mdbDropdownToggle role="button" data-mdb-toggle="dropdown" height="45" alt="" loading="lazy"
-        aria-expanded="false" />
+      <img src="{{auth.user.photoURL}}" class="dropdown-toggle d-flex align-items-center rounded-circle" href="#"
+        id="dropdownMenuLink" mdbDropdownToggle role="button" data-mdb-toggle="dropdown" width="45" height="45" alt=""
+        loading="lazy" aria-expanded="false" />
 
       <ul mdbDropdownMenu class="dropdown-menu navbar-dark" id="content" aria-labelledby="dropdownMenuLink">
         <li><a class="dropdown-item" href="#" id="content">Profil</a></li>

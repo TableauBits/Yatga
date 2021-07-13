@@ -11,101 +11,101 @@ type ResUserGetOne = {
 }
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class AuthService {
 
-  // Communication and Events
-  public ws: WebSocket;
-  public emitter: EventEmitter;
+	// Communication and Events
+	public ws: WebSocket;
+	public emitter: EventEmitter;
 
-  // Current User infos
-  public uid: string;
-  public user: User;
-  public isAuthenticate: boolean;
+	// Current User infos
+	public uid: string;
+	public user: User;
+	public isAuthenticate: boolean;
 
-  constructor(private fireAuth: AngularFireAuth) {
-    this.isAuthenticate = false;
-    this.uid = '';
-    this.user = EMPTY_USER;
-    this.emitter = new EventEmitter();
+	constructor(private fireAuth: AngularFireAuth) {
+		this.isAuthenticate = false;
+		this.uid = '';
+		this.user = EMPTY_USER;
+		this.emitter = new EventEmitter();
 
-    this.fireAuth.authState.subscribe(async user => {
-      if (user) {
-        const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, {idToken: await user.getIdToken()});
-        this.ws.send(clientAuthenticateMessage);
-        this.emitter.once('authenticate', () => {
-          const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, {uid: user.uid});
-          this.ws.send(getCurrentUserMessage);
-        })
-      }
-    });
+		this.fireAuth.authState.subscribe(async user => {
+			if (user) {
+				const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, { idToken: await user.getIdToken() });
+				this.ws.send(clientAuthenticateMessage);
+				this.emitter.once('authenticate', () => {
+					const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, { uid: user.uid });
+					this.ws.send(getCurrentUserMessage);
+				})
+			}
+		});
 
-    let connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
-    if (!environment.production) {
-      connectionURL += `:${environment.portWebSocket}`;
-      console.warn("Debug mode enabled! Yatga will attempt to connect to: ", connectionURL);
-    }
-    this.ws = new WebSocket(connectionURL)
+		let connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
+		if (!environment.production) {
+			connectionURL += `:${environment.portWebSocket}`;
+			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", connectionURL);
+		}
+		this.ws = new WebSocket(connectionURL)
 
-    this.ws.onmessage = (event) => {
-      this.handleEvents(event);
-    }
-  }
+		this.ws.onmessage = (event) => {
+			this.handleEvents(event);
+		}
+	}
 
-  async signIn() : Promise<void>{
-    const provider = new firebase.auth.GoogleAuthProvider();
-    await this.fireAuth.signInWithPopup(provider);
-    const token = await (await this.fireAuth.currentUser)?.getIdToken()
-    
-    const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, {idToken: token});
-    this.ws.send(clientAuthenticateMessage);
+	async signIn(): Promise<void> {
+		const provider = new firebase.auth.GoogleAuthProvider();
+		await this.fireAuth.signInWithPopup(provider);
+		const token = await (await this.fireAuth.currentUser)?.getIdToken()
 
-    this.emitter.once('authenticate', () => {
-      const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, {uid: this.uid});
-      this.ws.send(getCurrentUserMessage);
-    })
-  }
+		const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, { idToken: token });
+		this.ws.send(clientAuthenticateMessage);
 
-  waitForAuth(eventHandler: (event: MessageEvent<any>) => void, authCallback: () => void, context: any): void {
-    this.emitter.once('user_get_one', () => {
-      this.ws.onmessage = (event) => {
-        eventHandler.call(context, event);
-      }
-      authCallback.call(context);
-    });
-  }
+		this.emitter.once('authenticate', () => {
+			const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, { uid: this.uid });
+			this.ws.send(getCurrentUserMessage);
+		})
+	}
 
-  private handleEvents(event: MessageEvent<any>): void {
-    let message: Message<unknown>;
-    try {
-      message = JSON.parse(event.data.toString()) as Message<unknown>;
-    } catch (error: unknown) {
-      console.error(`Could not parse event (${event})!`);
-      return;
-    }
-  
-    switch (message.event) {
-      case EventTypes.CLIENT_authenticate:
-        const response = message.data as ResponseStatus;
+	waitForAuth(eventHandler: (event: MessageEvent<any>) => void, authCallback: () => void, context: any): void {
+		this.emitter.once('user_get_one', () => {
+			this.ws.onmessage = (event) => {
+				eventHandler.call(context, event);
+			}
+			authCallback.call(context);
+		});
+	}
 
-        if (response.success) {
-          this.uid = response.status;
-          this.isAuthenticate = true;
-          this.emitter.emit('authenticate');
-        } else console.error(message.data as ResponseStatus);
-        
-        break;
-  
-      case EventTypes.USER_get_one:
-        this.user = (message.data as ResUserGetOne).userInfo;
-        this.ws.onmessage = () => {}; // TODO: check if we need to do something else before
-        this.emitter.emit('user_get_one');
-        break;
-    
-      default:
-        console.log(`Receive an unknown event : ${message.event}`)
-        break;
-    }
-  }
+	private handleEvents(event: MessageEvent<any>): void {
+		let message: Message<unknown>;
+		try {
+			message = JSON.parse(event.data.toString()) as Message<unknown>;
+		} catch (error: unknown) {
+			console.error(`Could not parse event (${event})!`);
+			return;
+		}
+
+		switch (message.event) {
+			case EventTypes.CLIENT_authenticate:
+				const response = message.data as ResponseStatus;
+
+				if (response.success) {
+					this.uid = response.status;
+					this.emitter.emit('authenticate');
+				} else console.error(message.data as ResponseStatus);
+
+				break;
+
+			case EventTypes.USER_get_one:
+				this.isAuthenticate = true;
+				this.user = (message.data as ResUserGetOne).userInfo;
+				this.ws.onmessage = () => { }; // TODO: check if we need to do something else before
+				this.emitter.emit('user_get_one');
+				break;
+
+			default:
+				console.log(`Receive an unknown event : ${message.event}`)
+				break;
+		}
+	}
 }
