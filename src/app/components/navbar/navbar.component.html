@@ -1,22 +1,59 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark started-at-the-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <!-- Navbar Brand -->
     <a class="navbar-brand" href="#">MATBay!</a>
 
-    <!-- Dropdown Menu -->
-    <div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="basicNav.toggle()"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarNav"
+      mdbCollapse
+      #basicNav="mdbCollapse"
+    >
+    <div mdbDropdown class="dropdown navbar-button">
+      <button
+        class="btn btn-primary purple dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        aria-expanded="false"
+        mdbDropdownToggle
+      >
+        Constitutions
+      </button>
+      <ul mdbDropdownMenu class="dropdown-menu bakamitai" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item content"href="#">Action</a></li>
+        <li>
+          <hr class="dropdown-divider" />
+        </li>
+        <li><a class="dropdown-item content" href="#">Another action</a></li>
+        <li><a class="dropdown-item content" href="#">Something else here</a></li>
+      </ul>
+    </div>
+    <button type="button" class="btn purple btn-primary navbar-button">Utilisateurs</button>
+
+        <!-- Dropdown Menu -->
+        <div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
+    </div>
   </div>
 </nav>
 
 <ng-template #signedIn>
-  <div mdbDropdown class="dropdown">
-    <img src="{{auth.user.photoURL}}" class="dropdown-toggle d-flex align-items-center rounded-circle" href="#"
+  <div mdbDropdown class="dropdown ms-auto ">
+    <img src="{{auth.user.photoURL}}" class="dropdown-toggle d-flex align-items-center rounded-circle navbar-button" href="#"
       id="dropdownMenuLink" mdbDropdownToggle role="button" data-mdb-toggle="dropdown" width="45" height="45" alt=""
       loading="lazy" aria-expanded="false" />
 
-    <ul mdbDropdownMenu class="dropdown-menu navbar-dark" id="content" aria-labelledby="dropdownMenuLink">
-      <li><a class="dropdown-item" href="#" id="content">Profil</a></li>
-      <li><a class="dropdown-item" href="#" (click)="!!auth.signOut()" id="content">Déconnexion</a></li>
+    <ul mdbDropdownMenu class="dropdown-menu navbar-dark content" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item content" href="#">Profil</a></li>
+      <li><a class="dropdown-item content" href="#" (click)="!!auth.signOut()">Déconnexion</a></li>
     </ul>
   </div>
 </ng-template>

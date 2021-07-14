@@ -1,22 +1,31 @@
 @import "../../../styles/variables.scss";
 
-#content {
+.bakamitai {
   color: whitesmoke;
   background-color: $mineshaft;
   text-align: left;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-#content:hover {
+.content {
+  color: whitesmoke;
+  background-color: $mineshaft;
+  text-align: left;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.purple {
+  background-color: $angular-purple
+}
+
+.content:hover {
   background-color: $sasuke;
 }
 
-.started-at-the-top {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 999;
+.navbar-button {
+  margin: 0px 10px;
 }
 
-
+.noHover{
+  pointer-events: none;
+}
