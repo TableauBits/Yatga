@@ -6,8 +6,48 @@ import { createMessage, EventTypes, Message, ResponseStatus } from '../types/mes
 import { EMPTY_USER, User } from '../types/user';
 import firebase from 'firebase/app';
 
+const WS_PING_INTERVAL = 30000;
+
 type ResUserGetOne = {
   userInfo: User
+}
+
+function* lyrics() {
+  while (true) {
+    yield "Tell me why you did it, every dream falling apart";
+    yield "Tell me why you did it after the promise";
+    yield "Still aching, still aching, oh baby I need your love";
+    yield "Looking so different, glaring street light";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+    yield "Tell me why you did it, every dream falling apart";
+    yield "Tell me why you did it after the promise";
+    yield "Still aching, still aching, oh baby I need your love";
+    yield "Looking so different, glaring street light";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+    yield "Heartbeat, heartbeat, it keeps on pounding";
+    yield "Heartbreak, heartbreak, you tell me goodbye";
+  }
+}
+
+function ping(ws: WebSocket): void {
+  const lyric = lyrics().next().value;
+  ws.send(createMessage(EventTypes.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
+  if (!environment.production) {
+    console.trace(lyric);
+  }
+  setTimeout(ping, WS_PING_INTERVAL, ws);
 }
 
 @Injectable({
@@ -87,6 +127,8 @@ export class AuthService {
       this.ws.onmessage = (event) => {
         eventHandler.call(context, event);
       }
+      ping(this.ws);
+      
       authCallback.call(context);
     });
   }

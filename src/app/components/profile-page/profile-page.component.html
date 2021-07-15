@@ -1,7 +1,18 @@
 <div id="container">
 	<div *ngIf="auth.isAuthenticate; else loggedOut" id="user-info">
 		<h1>Bonjour {{ auth.user.displayName }}. Voici votre profil:</h1>
+		<br>
+		<span class="custom-br"></span>
+		<br>
 		<img class="picture" [src]="auth.user.photoURL" [alt]="auth.user.displayName">
+		<br>
+		<span class="custom-br"></span>
+		<br>
+		<div class="icons-container">
+			<span *ngFor="let role of getRoles()">
+				<mat-icon matTooltip="{{role.name}}" class="role"> {{role.icon}} </mat-icon>
+			</span>
+		</div>
 		<form [formGroup]="profileForm">
 			<br>
 			<mat-form-field appearance="outline">
@@ -17,10 +28,6 @@
 			</mat-form-field>
 		</form>
 		<button mat-raised-button color="primary" (click)="updateProfile()"> Actualiser </button>
-		<br>
-		<span *ngFor="let role of getRoles()">
-			<mat-icon matTooltip="{{role.name}}" class="role"> {{role.icon}} </mat-icon>
-		</span>
 	</div>
 	<ng-template #loggedOut>
 		Connectez-vous pour voir votre profil.

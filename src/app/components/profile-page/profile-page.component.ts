@@ -44,7 +44,8 @@ export class ProfilePageComponent {
   }
 
   getRoles(): Role[] {
-    return returnUserRoles(this.auth.user.roles);
+    const roles = returnUserRoles(this.auth.user.roles)
+    return roles ? roles : [];
   }
 
 }

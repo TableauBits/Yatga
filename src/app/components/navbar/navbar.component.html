@@ -3,13 +3,10 @@
     <!-- Navbar Brand -->
     <a class="navbar-brand" href="#">MATBay!</a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
+    <!-- Collapse button-->
+    <button class="navbar-toggler" type="button"
       (click)="basicNav.toggle()"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+      aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
     </button>
     <div
@@ -29,18 +26,18 @@
         Constitutions
       </button>
       <ul mdbDropdownMenu class="dropdown-menu bakamitai" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item content"href="#">Action</a></li>
-        <li>
-          <hr class="dropdown-divider" />
-        </li>
-        <li><a class="dropdown-item content" href="#">Another action</a></li>
-        <li><a class="dropdown-item content" href="#">Something else here</a></li>
+        <li><a class="dropdown-item content"href="#">Créer une Constitution</a></li>
+        <li><a class="dropdown-item content"href="#">Rejoindre une Constitution</a></li>
+        <li><hr class="dropdown-divider"/></li>
+        <li><a class="dropdown-item content" href="#">Voir les Constitutions en cours</a></li>
+        <li><a class="dropdown-item content" href="#">Voir l'Historique</a></li>
       </ul>
     </div>
-    <button type="button" class="btn purple btn-primary navbar-button">Utilisateurs</button>
+    
+    <button mat-raised-button class="btn purple btn-primary navbar-button">Utilisateurs</button>
 
-        <!-- Dropdown Menu -->
-        <div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
+      <!-- Dropdown Menu -->
+      <div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
     </div>
   </div>
 </nav>
@@ -58,5 +55,5 @@
   </div>
 </ng-template>
 <ng-template #signedOut>
-  <button mat-raised-button color="primary" (click)="auth.signIn()">Connexion</button>
+  <button mat-raised-button class="ms-auto" color="primary" (click)="auth.signIn()">Connexion</button>
 </ng-template>

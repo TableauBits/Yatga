@@ -20,7 +20,8 @@ export interface Role {
   icon: string;
 }
 
-export function returnUserRoles(roles: string[]): Role[] {
+export function returnUserRoles(roles: string[]): Role[] | undefined {
+  if (roles === undefined) return undefined;
   return roles.map(role => USER_ROLES[role]);
 }
 
