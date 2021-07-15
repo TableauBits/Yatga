@@ -1,7 +1,6 @@
 <div id="container">
 	<div *ngIf="auth.isAuthenticate; else loggedOut" id="user-info">
 		<h1>Bonjour {{ auth.user.displayName }}. Voici votre profil:</h1>
-		<br>
 		<span class="custom-br"></span>
 		<br>
 		<img class="picture" [src]="auth.user.photoURL" [alt]="auth.user.displayName">
@@ -28,6 +27,10 @@
 			</mat-form-field>
 		</form>
 		<button mat-raised-button color="primary" (click)="updateProfile()"> Actualiser </button>
+		<br>
+		<div *ngIf="!errorStatus.hidden" class="status">
+			<div class="status-message"> {{ errorStatus.message }} </div>
+		</div>
 	</div>
 	<ng-template #loggedOut>
 		Connectez-vous pour voir votre profil.

@@ -63,3 +63,19 @@ mat-form-field {
   background-color: $sasuke;
   border-radius: 15%;
 }
+
+.status {
+  grid-area: status;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+}
+
+.status-message {
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
+  color: darkred;
+  background-color: lightcoral;
+}

@@ -16,7 +16,6 @@ export const EMPTY_USER: User = {
 
 export interface Role {
   name: string;
-  // description: string;
   icon: string;
 }
 
@@ -29,5 +28,5 @@ const USER_ROLES: Record<string, Role> = {
   dev: {name: 'Dev', icon: 'build'},
   admin: {name: 'Admin', icon: 'verified_user'},
   member: {name: 'Membre', icon: 'headset'},
-  test: {name: 'Cobaye', icon: 'device_unknown'}
+  test: {name: 'Cobaye', icon: 'adb'}
 }
