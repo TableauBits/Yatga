@@ -40,9 +40,10 @@ function* lyrics() {
     yield "Heartbreak, heartbreak, you tell me goodbye";
   }
 }
+const lyricGenerator = lyrics();
 
 function ping(ws: WebSocket): void {
-  const lyric = lyrics().next().value;
+  const lyric = lyricGenerator.next().value;
   ws.send(createMessage(EventTypes.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
   if (!environment.production) {
     console.trace(lyric);
@@ -71,23 +72,24 @@ export class AuthService {
     this.user = EMPTY_USER;
     this.emitter = new EventEmitter();
 
-    this.fireAuth.authState.subscribe(async user => {
-      if (user) {
-        const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, { idToken: await user.getIdToken() });
-        this.ws.send(clientAuthenticateMessage);
-        this.emitter.once('authenticate', () => {
-          const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, { uid: user.uid });
-          this.ws.send(getCurrentUserMessage);
-        })
-      }
-    });
-
     this.connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
     if (!environment.production) {
       this.connectionURL += `:${environment.portWebSocket}`;
       console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.connectionURL);
     }
     this.ws = new WebSocket(this.connectionURL)
+    this.ws.onopen = () => {
+      this.fireAuth.authState.subscribe(async user => {
+        if (user) {
+          const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, { idToken: await user.getIdToken() });
+          this.ws.send(clientAuthenticateMessage);
+          this.emitter.once('authenticate', () => {
+            const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, { uid: user.uid });
+            this.ws.send(getCurrentUserMessage);
+          })
+        }
+      });
+    };
 
     this.ws.onmessage = (event) => {
       this.handleEvents(event);
@@ -128,7 +130,7 @@ export class AuthService {
         eventHandler.call(context, event);
       }
       ping(this.ws);
-      
+
       authCallback.call(context);
     });
   }
