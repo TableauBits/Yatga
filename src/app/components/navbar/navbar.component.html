@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <!-- Navbar Brand -->
-    <a class="navbar-brand" href="#">MATBay!</a>
+    <a class="navbar-brand" routerLink="/">MATBay!</a>
 
     <!-- Collapse button-->
     <button class="navbar-toggler" type="button"
@@ -34,7 +34,7 @@
       </ul>
     </div>
     
-    <button mat-raised-button class="btn purple btn-primary navbar-button">Utilisateurs</button>
+    <button mat-raised-button class="btn purple btn-primary navbar-button" routerLink="/users">Utilisateurs</button>
 
       <!-- Dropdown Menu -->
       <div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
@@ -49,8 +49,8 @@
       loading="lazy" aria-expanded="false" />
 
     <ul mdbDropdownMenu class="dropdown-menu navbar-dark content" aria-labelledby="dropdownMenuLink">
-      <li><a class="dropdown-item content" href="#">Profil</a></li>
-      <li><a class="dropdown-item content" href="#" (click)="!!auth.signOut()">Déconnexion</a></li>
+      <li><a class="dropdown-item content" routerLink="/profile">Profil</a></li>
+      <li><a class="dropdown-item content" (click)="!!auth.signOut()">Déconnexion</a></li>
     </ul>
   </div>
 </ng-template>
