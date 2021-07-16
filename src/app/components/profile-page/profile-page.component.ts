@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { createMessage, EventTypes, Message } from 'src/app/types/message';
-import { returnUserRoles, Role, User } from 'src/app/types/user';
+import { EMPTY_USER, returnUserRoles, Role, User } from 'src/app/types/user';
 
 const DISPLAY_NAME_MIN_LENGTH = 1;
 const DISPLAY_NAME_MAX_LENGTH = 25;
@@ -25,8 +25,8 @@ export class ProfilePageComponent {
 
   constructor(public auth: AuthService, public fb: FormBuilder) {
     this.profileForm = this.fb.group({
-      displayName: ["", Validators.required],
-      photoURL: ["", Validators.required]
+      displayName: [this.isAlreadyAuth() ? this.auth.user.displayName : "", Validators.required],
+      photoURL: [this.isAlreadyAuth() ? this.auth.user.photoURL : "", Validators.required]
     })
     this.errorStatus = {
       error: false,
@@ -37,7 +37,12 @@ export class ProfilePageComponent {
   }
 
   private handleEvents(event: MessageEvent<any>): void {
+    // TODO : Encore utile ?
     let message: Message<unknown>;
+  }
+
+  private isAlreadyAuth(): boolean {
+    return this,this.auth.user !== EMPTY_USER;
   }
 
   private onConnect(): void {
