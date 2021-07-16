@@ -9,15 +9,15 @@ export interface ResponseStatus {
 }
 
 export function createMessage<T>(event: string, data: T): string {
-	return JSON.stringify({ event: event, data: data });
+  return JSON.stringify({ event: event, data: data });
 }
 
 export enum EventTypes {
-	CLIENT_authenticate = "CLIENT-authenticate",
-	CLIENT_ping = "CLIENT-ping",
-	USER_get_one = "USER-get-one",
-	USER_get_many = "USER-get-many",
-	USER_get_all = "USER-get-all",
-	USER_edit = "USER-edit",
-	USER_create = "USER_create",
+  CLIENT_authenticate = "CLIENT-authenticate",
+  CLIENT_ping = "CLIENT-ping",
+  USER_get = "USER-get",
+  USER_get_all = "USER-get-all",
+  USER_update = "USER-update",
+  USER_edit = "USER-edit",
+  USER_create = "USER-create",
 }

@@ -8,8 +8,12 @@ import firebase from 'firebase/app';
 
 const WS_PING_INTERVAL = 30000;
 
-type ResUserGetOne = {
-  userInfo: User
+type ResUserGet = {
+  userInfos: User[];
+}
+
+type ResUserUpdate = {
+  userInfo: User;
 }
 
 function* lyrics() {
@@ -84,7 +88,7 @@ export class AuthService {
           const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, { idToken: await user.getIdToken() });
           this.ws.send(clientAuthenticateMessage);
           this.emitter.once('authenticate', () => {
-            const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, { uid: user.uid });
+            const getCurrentUserMessage = createMessage(EventTypes.USER_get, { uids: [user.uid] });
             this.ws.send(getCurrentUserMessage);
           })
         }
@@ -113,7 +117,7 @@ export class AuthService {
     await this.fireAuth.signInWithPopup(provider);
 
     this.emitter.once('authenticate', () => {
-      const getCurrentUserMessage = createMessage(EventTypes.USER_get_one, { uid: this.uid });
+      const getCurrentUserMessage = createMessage(EventTypes.USER_get, { uids: [this.uid] });
       this.ws.send(getCurrentUserMessage);
     })
   }
@@ -127,6 +131,14 @@ export class AuthService {
   waitForAuth(eventHandler: (event: MessageEvent<any>) => void, authCallback: () => void, context: any): void {
     this.emitter.once('user_get_one', () => {
       this.ws.onmessage = (event) => {
+        console.log(event);
+        const message = JSON.parse(event.data.toString()) as Message<unknown>
+        console.log(message);
+        if (message.event === EventTypes.USER_update) {
+          console.log('coucou');
+          const userUpdate = message.data as ResUserUpdate;
+          this.user = userUpdate.userInfo;
+        }
         eventHandler.call(context, event);
       }
       ping(this.ws);
@@ -155,9 +167,9 @@ export class AuthService {
 
         break;
 
-      case EventTypes.USER_get_one:
+      case EventTypes.USER_get:
         this.isAuthenticate = true;
-        this.user = (message.data as ResUserGetOne).userInfo;
+        this.user = (message.data as ResUserGet).userInfos[0];
         this.ws.onmessage = () => { }; // TODO: check if we need to do something else before
         this.emitter.emit('user_get_one');
         break;
