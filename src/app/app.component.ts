@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	title = 'Yatga';
 
-	onSignIn(googleUser: any): void {
-		console.log('Google Auth Response', googleUser);
-	}
+  constructor(private auth: AuthService) {}
+
+  async signIn() {
+    await this.auth.signIn();
+  }
 }

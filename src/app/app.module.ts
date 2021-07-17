@@ -1,18 +1,66 @@
-import { BrowserModule } from '@angular/platform-browser';
+// Angular
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
+// Angular Fire
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule, PERSISTENCE } from "@angular/fire/auth";
+import { environment } from '../environments/environment';
+
+// Components
 import { AppComponent } from './app.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+import { UsersPageComponent } from './components/users-page/users-page.component';
+
+// Material
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatTooltipModule } from "@angular/material/tooltip";
+
+// MDB
+import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
+
+// Routing
+import { AppRoutingModule } from './app-routing.module';
+
+// Services
+import { AuthService } from './services/auth.service';
 
 @NgModule({
-	declarations: [
-		AppComponent
-	],
-	imports: [
-		BrowserModule,
-		AppRoutingModule
-	],
-	providers: [],
-	bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    ProfilePageComponent,
+    NavbarComponent,
+    HomePageComponent,
+    UsersPageComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatTooltipModule,
+    MdbDropdownModule,
+    MdbCollapseModule
+  ],
+  providers: [
+    AuthService,
+    { provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

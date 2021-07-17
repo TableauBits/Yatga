@@ -1,0 +1,81 @@
+@import "../../../styles/variables.scss";
+
+#container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.1fr 1.0fr;
+  gap: 2%;
+  grid-template-areas:
+      "status"
+      "profile-info";
+  height: 100%;
+  justify-content: center;
+}
+
+#user-info {
+  grid-area: profile-info;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.picture {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  border-radius: 50%;
+
+  width: 400px;
+  height: 400px;  
+}
+
+form {
+  width: 100%;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 35%;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+  
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
+}
+
+.icons-container {
+  border: 2px solid $mineshaft;
+  background-color: $sasuke;
+  border-radius: 15%;
+}
+
+.status {
+  grid-area: status;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+}
+
+.status-message {
+  box-sizing: border-box;
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
+  color: darkred;
+  background-color: lightcoral;
+}
