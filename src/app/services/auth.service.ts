@@ -8,10 +8,6 @@ import firebase from 'firebase/app';
 
 const WS_PING_INTERVAL = 30000;
 
-type ResUserGet = {
-  userInfos: User[];
-}
-
 type ResUserUpdate = {
   userInfo: User;
 }
@@ -135,7 +131,6 @@ export class AuthService {
         const message = JSON.parse(event.data.toString()) as Message<unknown>
         console.log(message);
         if (message.event === EventTypes.USER_update) {
-          console.log('coucou');
           const userUpdate = message.data as ResUserUpdate;
           this.user = userUpdate.userInfo;
         }
@@ -167,9 +162,9 @@ export class AuthService {
 
         break;
 
-      case EventTypes.USER_get:
+      case EventTypes.USER_update:
         this.isAuthenticate = true;
-        this.user = (message.data as ResUserGet).userInfos[0];
+        this.user = (message.data as ResUserUpdate).userInfo;
         this.ws.onmessage = () => { }; // TODO: check if we need to do something else before
         this.emitter.emit('user_get_one');
         break;
