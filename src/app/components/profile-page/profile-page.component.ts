@@ -33,12 +33,7 @@ export class ProfilePageComponent {
       hidden: true,
       message: "",
     }
-    this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
-  }
-
-  private handleEvents(event: MessageEvent<any>): void {
-    // TODO : Encore utile ?
-    let message: Message<unknown>;
+    this.auth.waitForAuth(() => {}, this.onConnect, this);
   }
 
   private isAlreadyAuth(): boolean {
