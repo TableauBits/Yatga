@@ -37,7 +37,7 @@ export class ProfilePageComponent {
   }
 
   private isAlreadyAuth(): boolean {
-    return this,this.auth.user !== EMPTY_USER;
+    return this.auth.user !== EMPTY_USER;
   }
 
   private onConnect(): void {
