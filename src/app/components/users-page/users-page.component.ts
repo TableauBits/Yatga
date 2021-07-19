@@ -28,7 +28,6 @@ export class UsersPageComponent {
 	}
 
 	private onConnect(): void {
-		console.log('CONNECT');
 		this.auth.ws.send(createMessage(EventTypes.USER_get_all, {}));
 	}
 
@@ -36,7 +35,7 @@ export class UsersPageComponent {
 		const users = [];
 		for (const user of this.users.values()) {
 			if (isNil(filter)) users.push(user);
-			else if (user.roles.includes(filter)) users.push(user);
+			else if (user.roles[0] === filter) users.push(user);
 		}
 		return users;
 	}

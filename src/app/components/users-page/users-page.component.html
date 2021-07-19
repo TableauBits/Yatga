@@ -2,20 +2,95 @@
 <h1 class="title"> LISTE DES UTILISATEURS </h1>
 <span class="custom-br"></span>
 <br>
-<div *ngFor="let user of getUsers()"class="card bg-dark" style="width: 16rem;">
-  <img
-    src={{user.photoURL}}
-    class="card-img-top"
-    alt="..."
-    style="height: 12rem;"
-  />
-  <div class="card-body">
-    <h3 class="card-title">{{user.displayName}}</h3>
-    <span class="custom-br"></span>
-    <br>
-    <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of the
-      card's content.
-    </p>
+<span class="d-block p-2 bg-dark text-white user-title"> Matbay Staff </span>
+<br>
+<div class="container">
+  <div class="row g-4">
+    <div class="col" *ngFor="let user of getUsers('admin')">
+      <div class="card user-card border border-danger shadow-0 bg-dark">
+        <img
+          src={{user.photoURL}}
+          class="card-img-top user-card-image"
+          alt="..."
+        />
+        <div class="card-body">
+          <h3 class="card-title custom-h3">{{user.displayName}}
+            <div class="icons-container">
+              <span *ngFor="let role of getRoles(user)">
+                <mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
+              </span>
+            </div>
+          </h3>
+          <span class="custom-br"></span>
+          <br>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the card's content.dfsssssssssssdddddddddddddddddddddfsssssssssss
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<br>
+<span class="d-block p-2 bg-dark shadow-0 text-white user-title"> Matbay Member </span>
+<br>
+<div class="container">
+  <div class="row g-4">
+    <div class="col" *ngFor="let user of getUsers('member')">
+      <div class="card user-card bg-dark border border-warning shadow-0">
+        <img
+          src={{user.photoURL}}
+          class="card-img-top user-card-image"
+          alt="..."
+        />
+        <div class="card-body">
+          <h3 class="card-title custom-h3">{{user.displayName}}
+            <div class="icons-container">
+              <span *ngFor="let role of getRoles(user)">
+                <mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
+              </span>
+            </div>
+          </h3>
+          <span class="custom-br"></span>
+          <br>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the
+            card's content.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<span class="d-block p-2 bg-dark text-white user-title"> Matbay Test Subject </span>
+<br>
+<div class="container">
+  <div class="row g-4">
+    <div class="col" *ngFor="let user of getUsers('test')">
+      <div class="card user-card bg-dark shadow-0">
+        <img
+          src={{user.photoURL}}
+          class="card-img-top user-card-image"
+          alt="..."
+        />
+        <div class="card-body">
+          <h3 class="card-title custom-h3">{{user.displayName}}
+            <div class="icons-container">
+              <span *ngFor="let role of getRoles(user)">
+                <mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
+              </span>
+            </div>
+          </h3>
+          <span class="custom-br"></span>
+          <br>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the bulk of the
+            card's content.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

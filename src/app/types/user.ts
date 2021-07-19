@@ -25,8 +25,8 @@ export function returnUserRoles(roles: string[]): Role[] | undefined {
 }
 
 const USER_ROLES: Record<string, Role> = {
-  dev: {name: 'Dev', icon: 'build'},
   admin: {name: 'Admin', icon: 'verified_user'},
+  dev: {name: 'Dev', icon: 'build'},
   member: {name: 'Membre', icon: 'headset'},
   test: {name: 'Cobaye', icon: 'adb'}
 }
