@@ -28,7 +28,7 @@
   border-radius: 50%;
 
   width: 400px;
-  height: 400px;  
+  height: 400px;
 }
 
 form {
@@ -50,7 +50,7 @@ mat-form-field {
   .mat-input-element {
       caret-color: whitesmoke!important;
   }
-  
+
   mat-form-field {
       .mat-hint, input, ::placeholder, .mat-form-field-label {
           color: whitesmoke;
@@ -69,6 +69,7 @@ mat-form-field {
   justify-self: center;
   display: flex;
   align-items: center;
+  margin-top: 2rem;
 }
 
 .status-message {

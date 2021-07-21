@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { createMessage, EventTypes, Message } from 'src/app/types/message';
 import { EMPTY_USER, returnUserRoles, Role, User } from 'src/app/types/user';
 
 const DISPLAY_NAME_MIN_LENGTH = 1;
 const DISPLAY_NAME_MAX_LENGTH = 25;
+
+const DESCRIPTION_MAX_LENGTH = 140;
 
 interface Status {
 	error: boolean;
@@ -70,14 +73,25 @@ export class ProfilePageComponent {
 			const value = displayName.value as string;
 			// TODO : server failure ?
 			if (value.length < DISPLAY_NAME_MIN_LENGTH || value.length > DISPLAY_NAME_MAX_LENGTH) {
-				this.notifyFailure(`Le nouveau nom d'utilisateur est invalide (Doit être entre ${DISPLAY_NAME_MIN_LENGTH} et ${DISPLAY_NAME_MAX_LENGTH} caractères)`)
+				this.notifyFailure(`Le nouveau nom d'utilisateur est invalide (Doit être entre ${DISPLAY_NAME_MIN_LENGTH} et ${DISPLAY_NAME_MAX_LENGTH} caractères)`);
 			} else {
 				newUser.displayName = value;
 				this.clearStatus();
 			}
 		}
 		if (photoURL) newUser.photoURL = photoURL.value;
-		if (description) newUser.description = description.value;
+		if (description) {
+			const value = description.value as string;
+			// TODO : server failure ?
+			if (value.length > DESCRIPTION_MAX_LENGTH) {
+				this.notifyFailure(`La description de votre profil est trop longue (${value.length}/${DESCRIPTION_MAX_LENGTH} caractères authorisés)`);
+			} else {
+				newUser.description = value;
+				this.clearStatus();
+			}
+		}
+
+		if (isEqual(this.auth.user, newUser)) { return; }
 
 		if (this.errorStatus.hidden) {
 			const editProfileMessage = createMessage(EventTypes.USER_edit, { userData: newUser });
