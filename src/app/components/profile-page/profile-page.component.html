@@ -25,6 +25,13 @@
 				</mat-label>
 				<input matInput formControlName="photoURL">
 			</mat-form-field>
+			<br>
+			<mat-form-field appearance="outline">
+				<mat-label>Description <mat-icon>subject</mat-icon>
+				</mat-label>
+				<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+					cdkAutosizeMaxRows="5" formControlName="description"></textarea>
+			</mat-form-field>
 		</form>
 		<button mat-raised-button color="primary" (click)="updateProfile()"> Actualiser </button>
 		<br>
