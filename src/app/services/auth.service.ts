@@ -142,7 +142,7 @@ export class AuthService {
 			authCallback.call(context);
 		} else {
 			this.emitter.once('user_get_one', () => {
-				this.ws.onmessage = (event) => {;
+				this.ws.onmessage = (event) => {
 					const message = JSON.parse(event.data.toString()) as Message<unknown>
 					this.updateUser(message);
 					eventHandler.call(context, event);

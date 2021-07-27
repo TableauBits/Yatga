@@ -16,6 +16,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { UsersPageComponent } from './components/users-page/users-page.component';
+import { CurrentConstitutionPageComponent } from './components/current-constitution-page/current-constitution-page.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -34,6 +35,7 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { AuthService } from './services/auth.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,7 @@ import { AuthService } from './services/auth.service';
     NavbarComponent,
     HomePageComponent,
     UsersPageComponent,
+    CurrentConstitutionPageComponent,
   ],
   imports: [
     BrowserModule,
