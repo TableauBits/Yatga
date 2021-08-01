@@ -37,35 +37,35 @@ import { AuthService } from './services/auth.service';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProfilePageComponent,
-    NavbarComponent,
-    HomePageComponent,
-    UsersPageComponent,
-    CurrentConstitutionPageComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TextFieldModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatTooltipModule,
-    MdbDropdownModule,
-    MdbCollapseModule,
-  ],
-  providers: [
-    AuthService,
-    { provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		ProfilePageComponent,
+		NavbarComponent,
+		HomePageComponent,
+		UsersPageComponent,
+		CurrentConstitutionPageComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		AngularFireModule.initializeApp(environment.firebase),
+		AngularFireAuthModule,
+		BrowserAnimationsModule,
+		FormsModule,
+		ReactiveFormsModule,
+		TextFieldModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		MatIconModule,
+		MatInputModule,
+		MatTooltipModule,
+		MdbDropdownModule,
+		MdbCollapseModule,
+	],
+	providers: [
+		AuthService,
+		{ provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

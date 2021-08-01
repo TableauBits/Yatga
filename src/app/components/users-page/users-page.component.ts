@@ -52,7 +52,6 @@ export class UsersPageComponent implements OnDestroy {
 	ngOnDestroy(): void {
 		// Unsubscribe from all user updates except the user himself
 		const uids: string[] = [...this.users.keys()].filter((uid) => uid !== this.auth.uid);
-		console.log(uids);
 		this.auth.ws.send(createMessage<ReqUnsubscribe>(EventTypes.USER_unsubscribe, { uids: uids }));
 	}
 }

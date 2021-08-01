@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 
-  constructor(private auth: AuthService) {}
+	constructor(private auth: AuthService) { }
 
-  async signIn() {
-    await this.auth.signIn();
-  }
+	async signIn() {
+		await this.auth.signIn();
+	}
 }
