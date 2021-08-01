@@ -3,15 +3,43 @@
 <span class="custom-br"></span>
 <br>
 <div class="title">
-  <table id="t01">
-    <tr>
-      <th> </th>
-      <th> Saison </th>
-      <th> Partie </th>
-      <th> Nom </th>
-      <th> Président </th>
-      <th> Youtube Playlist </th>
-      <th> Statut </th>
-    </tr>
-  </table>
+	<table id="t01">
+		<tr>
+			<th> </th>
+			<th> Saison </th>
+			<th> Partie </th>
+			<th> Nom </th>
+			<th> Président </th>
+			<th> Youtube Playlist </th>
+			<th> Statut </th>
+		</tr>
+		<tr *ngFor="let displayData of getConstitutions()">
+			<td>
+				<span *ngIf="displayData.constitution.isPublic" matTooltip="Publique">
+					<mat-icon>public</mat-icon>
+				</span>
+				<span *ngIf="!displayData.constitution.isPublic" matTooltip="Privée">
+					<mat-icon>vpn_lock</mat-icon>
+				</span>
+			</td>
+			<td> {{displayData.constitution.season}} </td>
+			<td> {{displayData.constitution.part}} </td>
+			<td> {{displayData.constitution.name}}</td>
+			<td> {{displayData.owner.displayName}} </td>
+			<td>
+				<div *ngIf="displayData.constitution.playlistLink !== ''">
+					<a target="_blank" href="{{displayData.constitution.playlistLink}}">
+						<mat-icon>library_music</mat-icon>
+					</a>
+				</div>
+				<div *ngIf="displayData.constitution.playlistLink === ''"> Pas de lien Youtube Playlist disponible
+				</div>
+			</td>
+			<td [ngSwitch]="getStatus(displayData.constitution)">
+				<button mat-raised-button *ngSwitchCase="'JOINED'">Voir</button>
+				<button mat-raised-button *ngSwitchCase="'JOINABLE'">rejoindre</button>
+				<span *ngSwitchCase="'FULL'">complet</span>
+			</td>
+		</tr>
+	</table>
 </div>
