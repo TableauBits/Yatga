@@ -36,9 +36,9 @@
 				</div>
 			</td>
 			<td [ngSwitch]="getStatus(displayData.constitution)">
-				<button mat-raised-button *ngSwitchCase="'JOINED'">Voir</button>
-				<button mat-raised-button *ngSwitchCase="'JOINABLE'">rejoindre</button>
-				<span *ngSwitchCase="'FULL'">complet</span>
+				<button mat-raised-button color="primary" *ngSwitchCase="'JOINED'">Voir</button>
+				<button mat-raised-button color="primary" *ngSwitchCase="'JOINABLE'" (click)="joinConstitution(displayData)">Rejoindre</button>
+				<span *ngSwitchCase="'FULL'">Complet</span>
 			</td>
 		</tr>
 	</table>
