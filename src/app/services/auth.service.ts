@@ -8,6 +8,16 @@ import firebase from 'firebase/app';
 
 const WS_PING_INTERVAL = 30000;
 
+type ReqClientAuth = {
+	idToken: string;
+}
+export type ReqUserGet = {
+	uids: string[];
+}
+type ReqPing = {
+	data: string;
+}
+
 export type ResUserUpdate = {
 	userInfo: User;
 }
@@ -44,7 +54,7 @@ const lyricGenerator = lyrics();
 
 function ping(ws: WebSocket): void {
 	const lyric = lyricGenerator.next().value;
-	ws.send(createMessage(EventTypes.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
+	ws.send(createMessage<ReqPing>(EventTypes.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
 	if (!environment.production) {
 		console.trace(lyric);
 	}
@@ -81,10 +91,10 @@ export class AuthService {
 		this.ws.onopen = () => {
 			this.fireAuth.authState.subscribe(async user => {
 				if (user) {
-					const clientAuthenticateMessage = createMessage(EventTypes.CLIENT_authenticate, { idToken: await user.getIdToken() });
+					const clientAuthenticateMessage = createMessage<ReqClientAuth>(EventTypes.CLIENT_authenticate, { idToken: await user.getIdToken() });
 					this.ws.send(clientAuthenticateMessage);
 					this.emitter.once('authenticate', () => {
-						const getCurrentUserMessage = createMessage(EventTypes.USER_get, { uids: [user.uid] });
+						const getCurrentUserMessage = createMessage<ReqUserGet>(EventTypes.USER_get, { uids: [user.uid] });
 						this.ws.send(getCurrentUserMessage);
 					})
 				}
@@ -113,7 +123,7 @@ export class AuthService {
 		await this.fireAuth.signInWithPopup(provider);
 
 		this.emitter.once('authenticate', () => {
-			const getCurrentUserMessage = createMessage(EventTypes.USER_get, { uids: [this.uid] });
+			const getCurrentUserMessage = createMessage<ReqUserGet>(EventTypes.USER_get, { uids: [this.uid] });
 			this.ws.send(getCurrentUserMessage);
 		})
 	}
@@ -125,7 +135,7 @@ export class AuthService {
 	}
 
 	private updateUser(message: Message<unknown>): void {
-		if (message.event === EventTypes.USER_update && 
+		if (message.event === EventTypes.USER_update &&
 			this.uid === (message.data as ResUserUpdate).userInfo.uid) {
 			const userUpdate = message.data as ResUserUpdate;
 			this.user = userUpdate.userInfo;
@@ -142,7 +152,7 @@ export class AuthService {
 			authCallback.call(context);
 		} else {
 			this.emitter.once('user_get_one', () => {
-				this.ws.onmessage = (event) => {;
+				this.ws.onmessage = (event) => {
 					const message = JSON.parse(event.data.toString()) as Message<unknown>
 					this.updateUser(message);
 					eventHandler.call(context, event);

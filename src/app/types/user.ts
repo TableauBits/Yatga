@@ -16,6 +16,10 @@ export const EMPTY_USER: User = {
 	description: '',
 }
 
+export interface ReqUserUnsubscribe {
+	uids: string[];
+}
+
 export interface Role {
 	name: string;
 	icon: string;

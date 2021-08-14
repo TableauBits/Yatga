@@ -2,11 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { isNil } from 'lodash';
 import { AuthService, ResUserUpdate } from 'src/app/services/auth.service';
 import { createMessage, EventTypes, Message } from 'src/app/types/message';
-import { returnUserRoles, Role, User } from 'src/app/types/user';
-
-interface ReqUnsubscribe {
-	uids: string[];
-}
+import { ReqUserUnsubscribe, returnUserRoles, Role, User } from 'src/app/types/user';
 
 @Component({
 	selector: 'app-users-page',
@@ -52,7 +48,6 @@ export class UsersPageComponent implements OnDestroy {
 	ngOnDestroy(): void {
 		// Unsubscribe from all user updates except the user himself
 		const uids: string[] = [...this.users.keys()].filter((uid) => uid !== this.auth.uid);
-		console.log(uids);
-		this.auth.ws.send(createMessage<ReqUnsubscribe>(EventTypes.USER_unsubscribe, { uids: uids }));
+		this.auth.ws.send(createMessage<ReqUserUnsubscribe>(EventTypes.USER_unsubscribe, { uids: uids }));
 	}
 }

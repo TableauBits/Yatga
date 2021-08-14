@@ -16,6 +16,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { UsersPageComponent } from './components/users-page/users-page.component';
+import { CurrentConstitutionPageComponent } from './components/current-constitution-page/current-constitution-page.component';
+import { ConstitutionComponent } from './components/constitution/constitution.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -34,35 +36,38 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { AuthService } from './services/auth.service';
 
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProfilePageComponent,
-    NavbarComponent,
-    HomePageComponent,
-    UsersPageComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TextFieldModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatTooltipModule,
-    MdbDropdownModule,
-    MdbCollapseModule,
-  ],
-  providers: [
-    AuthService,
-    { provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		ProfilePageComponent,
+		NavbarComponent,
+		HomePageComponent,
+		UsersPageComponent,
+		CurrentConstitutionPageComponent,
+  ConstitutionComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		AngularFireModule.initializeApp(environment.firebase),
+		AngularFireAuthModule,
+		BrowserAnimationsModule,
+		FormsModule,
+		ReactiveFormsModule,
+		TextFieldModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		MatIconModule,
+		MatInputModule,
+		MatTooltipModule,
+		MdbDropdownModule,
+		MdbCollapseModule,
+	],
+	providers: [
+		AuthService,
+		{ provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }
