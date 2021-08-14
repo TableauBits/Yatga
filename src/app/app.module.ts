@@ -17,6 +17,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { UsersPageComponent } from './components/users-page/users-page.component';
 import { CurrentConstitutionPageComponent } from './components/current-constitution-page/current-constitution-page.component';
+import { ConstitutionComponent } from './components/constitution/constitution.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -44,6 +45,7 @@ import { AuthService } from './services/auth.service';
 		HomePageComponent,
 		UsersPageComponent,
 		CurrentConstitutionPageComponent,
+  ConstitutionComponent,
 	],
 	imports: [
 		BrowserModule,
