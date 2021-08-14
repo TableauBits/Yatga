@@ -34,8 +34,8 @@ function compareConstitutionASC(c1: DisplayData, c2: DisplayData): number {
 	if (c1.constitution.season > c2.constitution.season) { return 1; }
 	if (c1.constitution.season < c2.constitution.season) { return -1; }
 	else {
-			if (c1.constitution.part > c2.constitution.part) { return 1; }
-			if (c1.constitution.part < c2.constitution.part ) { return -1; }
+		if (c1.constitution.part > c2.constitution.part) { return 1; }
+		if (c1.constitution.part < c2.constitution.part) { return -1; }
 	}
 	return 0;
 }
@@ -61,7 +61,7 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 				const data = (message.data as ResCstUpdate).cstInfo;
 				const refConstitution = this.constitutions.get(data.id);
 
-				if (refConstitution?.constitution.users !== data.users  && data.users.length > 0) {
+				if (refConstitution?.constitution.users !== data.users && data.users.length > 0) {
 					this.auth.ws.send(createMessage<ReqUserGet>(EventTypes.USER_get, { uids: [data.users[OWNER_INDEX]] }))
 				}
 				this.constitutions.set(data.id, { constitution: data, owner: refConstitution ? refConstitution.owner : EMPTY_USER })
@@ -106,11 +106,13 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 			ids.add(data.constitution.id);
 		});
 
-		this.auth.ws.send(createMessage<ReqUserUnsubscribe>(EventTypes.USER_unsubscribe, { uids: Array.from(uids.values())}));
+		uids.delete(this.auth.uid);
+
+		this.auth.ws.send(createMessage<ReqUserUnsubscribe>(EventTypes.USER_unsubscribe, { uids: Array.from(uids.values()) }));
 		this.auth.ws.send(createMessage<ReqCstUnsubscribe>(EventTypes.CST_unsubscribe, { ids: Array.from(ids.values()) }));
 	}
 
 	joinConstitution(data: DisplayData) {
-		this.auth.ws.send(createMessage<ReqCstJoin>(EventTypes.CST_join, {id: data.constitution.id}))
+		this.auth.ws.send(createMessage<ReqCstJoin>(EventTypes.CST_join, { id: data.constitution.id }))
 	}
 }
