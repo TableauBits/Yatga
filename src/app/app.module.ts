@@ -35,6 +35,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { AuthService } from './services/auth.service';
 		UsersPageComponent,
 		CurrentConstitutionPageComponent,
   ConstitutionComponent,
+  AdminPageComponent,
 	],
 	imports: [
 		BrowserModule,

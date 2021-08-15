@@ -29,6 +29,9 @@
 			<button mat-raised-button class="btn purple btn-primary navbar-button"
 				routerLink="/users">Utilisateurs</button>
 
+				<button mat-raised-button class="btn purple btn-primary navbar-button"
+				routerLink="/admin-page">Administrateur</button>
+
 			<!-- Dropdown Menu -->
 			<div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
 		</div>
