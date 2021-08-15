@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
+import { createMessage, EventType, Message, User, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
 import { isNil } from 'lodash';
-import { AuthService, ResUserUpdate } from 'src/app/services/auth.service';
-import { createMessage, EventTypes, Message } from 'src/app/types/message';
-import { ReqUserUnsubscribe, returnUserRoles, Role, User } from 'src/app/types/user';
+import { AuthService } from 'src/app/services/auth.service';
+import { returnUserRoles, RoleData } from 'src/app/types/role';
 
 @Component({
 	selector: 'app-users-page',
@@ -20,15 +20,15 @@ export class UsersPageComponent implements OnDestroy {
 
 	private handleEvents(event: MessageEvent<any>): void {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
-		if (message.event !== EventTypes.USER_update) return;
+		if (message.event !== EventType.USER_update) return;
 
-		const data = (message.data as ResUserUpdate).userInfo;
+		const data = (message.data as UsrResUpdate).userInfo;
 
 		this.users.set(data.uid, data)
 	}
 
 	private onConnect(): void {
-		this.auth.ws.send(createMessage(EventTypes.USER_get_all, {}));
+		this.auth.ws.send(createMessage(EventType.USER_get_all, {}));
 	}
 
 	getUsers(filter?: string | undefined): User[] {
@@ -40,7 +40,7 @@ export class UsersPageComponent implements OnDestroy {
 		return users;
 	}
 
-	getRoles(user: User): Role[] {
+	getRoles(user: User): RoleData[] {
 		const roles = returnUserRoles(user.roles)
 		return roles ? roles : [];
 	}
@@ -48,6 +48,6 @@ export class UsersPageComponent implements OnDestroy {
 	ngOnDestroy(): void {
 		// Unsubscribe from all user updates except the user himself
 		const uids: string[] = [...this.users.keys()].filter((uid) => uid !== this.auth.uid);
-		this.auth.ws.send(createMessage<ReqUserUnsubscribe>(EventTypes.USER_unsubscribe, { uids: uids }));
+		this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: uids }));
 	}
 }
