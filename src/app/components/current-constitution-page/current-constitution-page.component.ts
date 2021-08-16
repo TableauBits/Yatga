@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Constitution, createMessage, 
 	CstReqGetFromUser, CstReqJoin, CstReqUnsubscribe, CstResUpdate, 
-	EMPTY_USER, EventType, Message, User, 
+	EMPTY_USER, EventType, extractMessageData, Message, User, 
 	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -46,7 +46,7 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 		switch (message.event) {
 			case EventType.CST_update: {
-				const data = (message.data as CstResUpdate).cstInfo;
+				const data = extractMessageData<CstResUpdate>(message).cstInfo;
 				const refConstitution = this.constitutions.get(data.id);
 
 				if (refConstitution?.constitution.users !== data.users && data.users.length > 0) {
@@ -56,7 +56,7 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 			} break;
 
 			case EventType.USER_update: {
-				const user = (message.data as UsrResUpdate).userInfo;
+				const user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.constitutions.forEach((data) => {
 					if (data.constitution.users[OWNER_INDEX] === user.uid) {
 						data.owner = user;

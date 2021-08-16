@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { createMessage, EventType, Message, User, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import { createMessage, EventType, extractMessageData, Message, User, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { returnUserRoles, RoleData } from 'src/app/types/role';
@@ -22,7 +22,7 @@ export class UsersPageComponent implements OnDestroy {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 		if (message.event !== EventType.USER_update) return;
 
-		const data = (message.data as UsrResUpdate).userInfo;
+		const data = extractMessageData<UsrResUpdate>(message).userInfo;
 
 		this.users.set(data.uid, data)
 	}

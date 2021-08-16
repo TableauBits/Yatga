@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
 import firebase from 'firebase/app';
-import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from '@tableaubits/hang';
+import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from '@tableaubits/hang';
 
 const WS_PING_INTERVAL = 30000;
 
@@ -120,10 +120,11 @@ export class AuthService {
 	}
 
 	private updateUser(message: Message<unknown>): void {
+		const data = extractMessageData<UsrResUpdate>(message);
+
 		if (message.event === EventType.USER_update &&
-			this.uid === (message.data as UsrResUpdate).userInfo.uid) {
-			const userUpdate = message.data as UsrResUpdate;
-			this.user = userUpdate.userInfo;
+			this.uid === data.userInfo.uid) {
+			this.user = data.userInfo;
 		}
 	}
 
@@ -170,7 +171,7 @@ export class AuthService {
 
 			case EventType.USER_update:
 				this.isAuthenticate = true;
-				this.user = (message.data as UsrResUpdate).userInfo;
+				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.ws.onmessage = () => { }; // TODO: check if we need to do something else before
 				this.emitter.emit('user_get_one');
 				break;
