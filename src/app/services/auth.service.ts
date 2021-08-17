@@ -2,25 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
-import { createMessage, EventTypes, Message, ResponseStatus } from '../types/message';
-import { EMPTY_USER, User } from '../types/user';
 import firebase from 'firebase/app';
+import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from '@tableaubits/hang';
 
 const WS_PING_INTERVAL = 30000;
-
-type ReqClientAuth = {
-	idToken: string;
-}
-export type ReqUserGet = {
-	uids: string[];
-}
-type ReqPing = {
-	data: string;
-}
-
-export type ResUserUpdate = {
-	userInfo: User;
-}
 
 function* lyrics() {
 	while (true) {
@@ -54,7 +39,7 @@ const lyricGenerator = lyrics();
 
 function ping(ws: WebSocket): void {
 	const lyric = lyricGenerator.next().value;
-	ws.send(createMessage<ReqPing>(EventTypes.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
+	ws.send(createMessage<CltReqPing>(EventType.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
 	if (!environment.production) {
 		console.trace(lyric);
 	}
@@ -91,10 +76,10 @@ export class AuthService {
 		this.ws.onopen = () => {
 			this.fireAuth.authState.subscribe(async user => {
 				if (user) {
-					const clientAuthenticateMessage = createMessage<ReqClientAuth>(EventTypes.CLIENT_authenticate, { idToken: await user.getIdToken() });
+					const clientAuthenticateMessage = createMessage<CltReqAuthenticate>(EventType.CLIENT_authenticate, { idToken: await user.getIdToken() });
 					this.ws.send(clientAuthenticateMessage);
 					this.emitter.once('authenticate', () => {
-						const getCurrentUserMessage = createMessage<ReqUserGet>(EventTypes.USER_get, { uids: [user.uid] });
+						const getCurrentUserMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: [user.uid] });
 						this.ws.send(getCurrentUserMessage);
 					})
 				}
@@ -123,7 +108,7 @@ export class AuthService {
 		await this.fireAuth.signInWithPopup(provider);
 
 		this.emitter.once('authenticate', () => {
-			const getCurrentUserMessage = createMessage<ReqUserGet>(EventTypes.USER_get, { uids: [this.uid] });
+			const getCurrentUserMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: [this.uid] });
 			this.ws.send(getCurrentUserMessage);
 		})
 	}
@@ -135,10 +120,11 @@ export class AuthService {
 	}
 
 	private updateUser(message: Message<unknown>): void {
-		if (message.event === EventTypes.USER_update &&
-			this.uid === (message.data as ResUserUpdate).userInfo.uid) {
-			const userUpdate = message.data as ResUserUpdate;
-			this.user = userUpdate.userInfo;
+		const data = extractMessageData<UsrResUpdate>(message);
+
+		if (message.event === EventType.USER_update &&
+			this.uid === data.userInfo.uid) {
+			this.user = data.userInfo;
 		}
 	}
 
@@ -173,7 +159,7 @@ export class AuthService {
 		}
 
 		switch (message.event) {
-			case EventTypes.CLIENT_authenticate:
+			case EventType.CLIENT_authenticate:
 				const response = message.data as ResponseStatus;
 
 				if (response.success) {
@@ -183,9 +169,9 @@ export class AuthService {
 
 				break;
 
-			case EventTypes.USER_update:
+			case EventType.USER_update:
 				this.isAuthenticate = true;
-				this.user = (message.data as ResUserUpdate).userInfo;
+				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.ws.onmessage = () => { }; // TODO: check if we need to do something else before
 				this.emitter.emit('user_get_one');
 				break;

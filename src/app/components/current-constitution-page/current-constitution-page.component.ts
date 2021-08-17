@@ -1,23 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AuthService, ReqUserGet, ResUserUpdate } from 'src/app/services/auth.service';
-import { Constitution } from 'src/app/types/constitution';
-import { createMessage, EventTypes, Message } from 'src/app/types/message';
-import { EMPTY_USER, ReqUserUnsubscribe, User } from 'src/app/types/user';
+import { Constitution, createMessage, 
+	CstReqGetFromUser, CstReqJoin, CstReqUnsubscribe, CstResUpdate, 
+	EMPTY_USER, EventType, extractMessageData, Message, User, 
+	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import { AuthService } from 'src/app/services/auth.service';
 
 const OWNER_INDEX = 0;
-
-type ReqCstGetFromUser = {}
-type ReqCstUnsubscribe = {
-	ids: string[]
-}
-
-type ResCstUpdate = {
-	cstInfo: Constitution;
-};
-
-type ReqCstJoin = {
-	id: string;
-}
 
 enum ConstitutionStatus {
 	JOINABLE = "JOINABLE",
@@ -57,18 +45,18 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 	private handleEvents(event: MessageEvent<any>): void {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 		switch (message.event) {
-			case EventTypes.CST_update: {
-				const data = (message.data as ResCstUpdate).cstInfo;
+			case EventType.CST_update: {
+				const data = extractMessageData<CstResUpdate>(message).cstInfo;
 				const refConstitution = this.constitutions.get(data.id);
 
 				if (refConstitution?.constitution.users !== data.users && data.users.length > 0) {
-					this.auth.ws.send(createMessage<ReqUserGet>(EventTypes.USER_get, { uids: [data.users[OWNER_INDEX]] }))
+					this.auth.ws.send(createMessage<UsrReqGet>(EventType.USER_get, { uids: [data.users[OWNER_INDEX]] }))
 				}
 				this.constitutions.set(data.id, { constitution: data, owner: refConstitution ? refConstitution.owner : EMPTY_USER })
 			} break;
 
-			case EventTypes.USER_update: {
-				const user = (message.data as ResUserUpdate).userInfo;
+			case EventType.USER_update: {
+				const user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.constitutions.forEach((data) => {
 					if (data.constitution.users[OWNER_INDEX] === user.uid) {
 						data.owner = user;
@@ -82,7 +70,7 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 	}
 
 	private onConnect(): void {
-		this.auth.ws.send(createMessage<ReqCstGetFromUser>(EventTypes.CST_get_from_user, {}));
+		this.auth.ws.send(createMessage<CstReqGetFromUser>(EventType.CST_get_from_user, {}));
 	}
 
 	getConstitutions(): DisplayData[] {
@@ -108,11 +96,11 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 
 		uids.delete(this.auth.uid);
 
-		this.auth.ws.send(createMessage<ReqUserUnsubscribe>(EventTypes.USER_unsubscribe, { uids: Array.from(uids.values()) }));
-		this.auth.ws.send(createMessage<ReqCstUnsubscribe>(EventTypes.CST_unsubscribe, { ids: Array.from(ids.values()) }));
+		this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: Array.from(uids.values()) }));
+		this.auth.ws.send(createMessage<CstReqUnsubscribe>(EventType.CST_unsubscribe, { ids: Array.from(ids.values()) }));
 	}
 
 	joinConstitution(data: DisplayData) {
-		this.auth.ws.send(createMessage<ReqCstJoin>(EventTypes.CST_join, { id: data.constitution.id }))
+		this.auth.ws.send(createMessage<CstReqJoin>(EventType.CST_join, { id: data.constitution.id }))
 	}
 }
