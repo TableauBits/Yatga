@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { createMessage, EMPTY_USER, EventType, User } from '@tableaubits/hang';
 import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { createMessage, EventTypes, Message } from 'src/app/types/message';
-import { EMPTY_USER, returnUserRoles, Role, User } from 'src/app/types/user';
+import { returnUserRoles, RoleData } from 'src/app/types/role';
 
 const DISPLAY_NAME_MIN_LENGTH = 1;
 const DISPLAY_NAME_MAX_LENGTH = 25;
@@ -94,12 +94,12 @@ export class ProfilePageComponent {
 		if (isEqual(this.auth.user, newUser)) { return; }
 
 		if (this.errorStatus.hidden) {
-			const editProfileMessage = createMessage(EventTypes.USER_edit, { userData: newUser });
+			const editProfileMessage = createMessage(EventType.USER_edit, { userData: newUser });
 			this.auth.ws.send(editProfileMessage);
 		}
 	}
 
-	getRoles(): Role[] {
+	getRoles(): RoleData[] {
 		const roles = returnUserRoles(this.auth.user.roles)
 		return roles ? roles : [];
 	}
