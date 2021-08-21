@@ -25,7 +25,7 @@
 
 mat-select {
   color: whitesmoke;
-} 
+}
 
 mat-select-value {
   color: whitesmoke !important;
@@ -54,5 +54,22 @@ mat-select-value {
       .mat-hint, input, ::placeholder, .mat-form-field-label {
           color: whitesmoke;
       }
+  }
+}
+
+::ng-deep {
+  .mat-slider-thumb-label {
+    transform: rotate(45deg) !important;
+    border-radius: 50% 50% 0 !important;
+    background-color: $angular-purple !important;
+  }
+  .mat-slider-thumb {
+    transform: scale(0) !important;
+  }
+  .mat-slider-thumb-label-text {
+    opacity: 1 !important;
+  }
+  .mat-slider-track-fill {
+    background-color: $angular-purple !important;
   }
 }
