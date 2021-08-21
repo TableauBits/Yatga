@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Role } from '@tableaubits/hang';
 import { AuthService } from 'src/app/services/auth.service';
 @Component({
 	selector: 'app-navbar',
@@ -8,5 +9,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NavbarComponent {
 
 	constructor(public auth: AuthService) {
+	}
+
+	isAuthorized(): boolean {
+		return this.auth.user.roles.includes(Role.ADMIN);
 	}
 }

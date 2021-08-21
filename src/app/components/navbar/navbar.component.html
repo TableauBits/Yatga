@@ -15,7 +15,6 @@
 					Constitutions
 				</button>
 				<ul mdbDropdownMenu class="dropdown-menu bakamitai" aria-labelledby="dropdownMenuButton">
-					<li><a class="dropdown-item content" href="#">Créer une Constitution</a></li>
 					<li><a class="dropdown-item content" href="#">Rejoindre une Constitution</a></li>
 					<li>
 						<hr class="dropdown-divider" />
@@ -29,7 +28,7 @@
 			<button mat-raised-button class="btn purple btn-primary navbar-button"
 				routerLink="/users">Utilisateurs</button>
 
-				<button mat-raised-button class="btn purple btn-primary navbar-button"
+			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
 				routerLink="/admin-page">Administrateur</button>
 
 			<!-- Dropdown Menu -->

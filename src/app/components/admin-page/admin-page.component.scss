@@ -1,0 +1,25 @@
+@import "../../../styles/variables.scss";
+
+.page {
+  display: block;
+  width: 100%;
+}
+
+.option-column {
+  width: 74%;
+  float: left;
+  text-align: center;
+  margin-right: 1%;
+}
+
+.button-column {
+  width: 22%;
+  float: left;
+  text-align: center;
+  border: 2px solid $sasuke;
+  background-color: $mineshaft;
+  border-radius: 25px;
+  margin-left: 1%;
+  margin-right: 2%;
+  overflow-x: auto;
+}
