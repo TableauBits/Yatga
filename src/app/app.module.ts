@@ -27,6 +27,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from "@angular/material/slider";
+import { MatCheckboxModule } from '@angular/material/checkbox'
  
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -38,7 +39,7 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { AuthService } from './services/auth.service';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
-import { NewConstitutionComponent } from './components/new-constitution/new-constitution.component';
+import { NewConstitutionComponent } from './components/admin-page/new-constitution/new-constitution.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { NewConstitutionComponent } from './components/new-constitution/new-cons
 		MatSelectModule,
 		MatSliderModule,
 		MatTooltipModule,
+		MatCheckboxModule,
 		MdbDropdownModule,
 		MdbCollapseModule,
 	],
