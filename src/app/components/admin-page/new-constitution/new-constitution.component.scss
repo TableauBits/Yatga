@@ -1,0 +1,75 @@
+@import "../../../../styles/variables.scss";
+
+.background {
+  border: 2px solid $sasuke;
+  background-color: $mineshaft;
+  border-radius: 25px;
+  font-size:medium;
+}
+
+.numberField {
+  margin-right: 1%;
+  width: 8%;
+}
+
+.nameField {
+  width: 70%;
+  margin-left: 1%
+}
+
+.typeField {
+  width: 89%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+mat-select {
+  color: whitesmoke;
+}
+
+mat-select-value {
+  color: whitesmoke !important;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+
+  .mat-select-value {
+    color: whitesmoke;
+  }
+  .mat-select-arrow-wrapper {
+      color: whitesmoke;
+      background-color: whitesmoke;
+  }
+
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
+}
+
+::ng-deep {
+  .mat-slider-thumb-label {
+    transform: rotate(45deg) !important;
+    border-radius: 50% 50% 0 !important;
+    background-color: $angular-purple !important;
+  }
+  .mat-slider-thumb {
+    transform: scale(0) !important;
+  }
+  .mat-slider-thumb-label-text {
+    opacity: 1 !important;
+  }
+  .mat-slider-track-fill {
+    background-color: $angular-purple !important;
+  }
+}

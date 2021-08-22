@@ -4,17 +4,12 @@ import { createMessage, EMPTY_USER, EventType, User } from '@tableaubits/hang';
 import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { returnUserRoles, RoleData } from 'src/app/types/role';
+import { Status } from 'src/app/types/status';
 
 const DISPLAY_NAME_MIN_LENGTH = 1;
 const DISPLAY_NAME_MAX_LENGTH = 25;
 
 const DESCRIPTION_MAX_LENGTH = 140;
-
-interface Status {
-	error: boolean;
-	hidden: boolean;
-	message: string;
-}
 
 @Component({
 	selector: 'app-profile-page',
@@ -32,11 +27,7 @@ export class ProfilePageComponent {
 			photoURL: [this.isAlreadyAuth() ? this.auth.user.photoURL : "", Validators.required],
 			description: [this.isAlreadyAuth() ? this.auth.user.description : ""],
 		})
-		this.errorStatus = {
-			error: false,
-			hidden: true,
-			message: "",
-		}
+		this.errorStatus = new Status();
 		this.auth.waitForAuth(() => { }, this.onConnect, this);
 	}
 
@@ -50,18 +41,6 @@ export class ProfilePageComponent {
 		this.profileForm.get("description")?.setValue(this.auth.user.description);
 	}
 
-	notifyFailure(message: string): void {
-		this.errorStatus.hidden = false;
-		this.errorStatus.error = true;
-		this.errorStatus.message = message;
-	}
-
-	clearStatus(): void {
-		this.errorStatus.hidden = true;
-		this.errorStatus.error = false;
-		this.errorStatus.message = '';
-	}
-
 	updateProfile(): void {
 		const displayName = this.profileForm.get('displayName');
 		const photoURL = this.profileForm.get('photoURL');
@@ -73,10 +52,11 @@ export class ProfilePageComponent {
 			const value = displayName.value as string;
 			// TODO : server failure ?
 			if (value.length < DISPLAY_NAME_MIN_LENGTH || value.length > DISPLAY_NAME_MAX_LENGTH) {
-				this.notifyFailure(`Le nouveau nom d'utilisateur est invalide (Doit être entre ${DISPLAY_NAME_MIN_LENGTH} et ${DISPLAY_NAME_MAX_LENGTH} caractères)`);
+				this.errorStatus.notify(`Le nouveau nom d'utilisateur est invalide (Doit être entre ${DISPLAY_NAME_MIN_LENGTH} et ${DISPLAY_NAME_MAX_LENGTH} caractères)`, true)
+				return;
 			} else {
 				newUser.displayName = value;
-				this.clearStatus();
+				this.errorStatus.clearStatus();
 			}
 		}
 		if (photoURL) newUser.photoURL = photoURL.value;
@@ -84,10 +64,11 @@ export class ProfilePageComponent {
 			const value = description.value as string;
 			// TODO : server failure ?
 			if (value.length > DESCRIPTION_MAX_LENGTH) {
-				this.notifyFailure(`La description de votre profil est trop longue (${value.length}/${DESCRIPTION_MAX_LENGTH} caractères authorisés)`);
+				this.errorStatus.notify(`La description de votre profil est trop longue (${value.length}/${DESCRIPTION_MAX_LENGTH} caractères authorisés)`, true)
+				return;
 			} else {
 				newUser.description = value;
-				this.clearStatus();
+				this.errorStatus.clearStatus();
 			}
 		}
 
@@ -103,5 +84,4 @@ export class ProfilePageComponent {
 		const roles = returnUserRoles(this.auth.user.roles)
 		return roles ? roles : [];
 	}
-
 }

@@ -25,7 +25,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
-
+import { MatSelectModule } from "@angular/material/select";
+import { MatSliderModule } from "@angular/material/slider";
+import { MatCheckboxModule } from '@angular/material/checkbox'
+ 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
@@ -35,6 +38,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { NewConstitutionComponent } from './components/admin-page/new-constitution/new-constitution.component';
 
 
 @NgModule({
@@ -46,6 +51,8 @@ import { AuthService } from './services/auth.service';
 		UsersPageComponent,
 		CurrentConstitutionPageComponent,
   ConstitutionComponent,
+  AdminPageComponent,
+  NewConstitutionComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -60,7 +67,10 @@ import { AuthService } from './services/auth.service';
 		MatFormFieldModule,
 		MatIconModule,
 		MatInputModule,
+		MatSelectModule,
+		MatSliderModule,
 		MatTooltipModule,
+		MatCheckboxModule,
 		MdbDropdownModule,
 		MdbCollapseModule,
 	],
