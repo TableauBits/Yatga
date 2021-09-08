@@ -1,0 +1,70 @@
+<mat-sidenav-container class="sidenav">
+	<h1> {{constitution.name}} </h1>
+	<span class="custom-br"></span>
+	<br>
+	<button mat-raised-button color="primary" (click)="openDialogManageSongs()">
+		<mat-icon>apps</mat-icon> Gérer mes chansons
+	</button>
+	<br>
+	<br>
+	<button mat-raised-button [disabled]="true" color="primary">
+		<mat-icon>shuffle</mat-icon> Sélection Aléatoire
+	</button>
+	<br>
+	<br>
+	<span class="custom-br"></span>
+	<mat-list role="list" class="list-item" *ngFor="let user of getUsers()">
+		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
+			<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
+			<ng-template #isNotOwner>
+				<mat-icon matTooltip="Membre">account_box</mat-icon>
+			</ng-template>
+			<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
+			{{user.displayName}}
+		</mat-list-item>
+	</mat-list>
+	<span class="custom-br custom-br2"></span>
+	<br>
+	<button mat-raised-button [disabled]="true" class="warning">
+		<mat-icon>highlight_off</mat-icon> Quitter la constitution
+	</button>
+</mat-sidenav-container>
+<nav class="navbar round-navbard navbar-expand-lg navbar-dark bg-dark content">
+	<div class="container-fluid">
+		<!-- Collapse button-->
+		<button class="navbar-toggler" type="button" (click)="basicNav.toggle()" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<i class="fas fa-bars"></i>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.SONG_LIST) ? 'active' : ''" 
+							(click)="setCurrentSection(constitutionSection.SONG_LIST)">
+				<mat-icon>queue_music</mat-icon> Liste Chansons
+			</button>
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''" 
+							(click)="setCurrentSection(constitutionSection.VOTES)">
+				<mat-icon>how_to_vote</mat-icon> Zone Électorale
+			</button>
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.OWNER) ? 'active' : ''" 
+							*ngIf="isOwner()" 
+							(click)="setCurrentSection(constitutionSection.OWNER)">
+				<mat-icon>account_balance</mat-icon> Présidence
+			</button>
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.RESULTS) ? 'active' : ''" 
+							(click)="setCurrentSection(constitutionSection.RESULTS)">
+				<mat-icon>equalizer</mat-icon> Résultats
+			</button>
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.EXPORT) ? 'active' : ''" 
+							(click)="setCurrentSection(constitutionSection.EXPORT)">
+				<mat-icon>get_app</mat-icon> Exporter
+			</button>
+		</div>
+	</div>
+</nav>
+<div [ngSwitch]="currentSection" class="content">
+	<app-song-list *ngSwitchCase="constitutionSection.SONG_LIST"></app-song-list>
+	<app-votes *ngSwitchCase="constitutionSection.VOTES"> </app-votes>
+	<app-owner *ngSwitchCase="constitutionSection.OWNER"> </app-owner>
+	<app-results *ngSwitchCase="constitutionSection.RESULTS"> </app-results>
+	<app-export *ngSwitchCase="constitutionSection.EXPORT"> </app-export>
+</div>

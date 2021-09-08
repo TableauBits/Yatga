@@ -1,0 +1,33 @@
+@import "../../../styles/variables.scss";
+
+
+.content {
+  color: whitesmoke;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 85%;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
+}
