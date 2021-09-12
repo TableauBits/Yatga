@@ -6,4 +6,11 @@
     <th> URL </th>
     <th> Ajouté par </th>
   </tr>
+  <tr *ngFor="let song of getSongs()">
+    <td> {{ song.id }} </td>
+    <td> {{ song.title }} </td>
+    <td> {{ song.author }} </td>
+    <td> {{ song.url }} </td>
+    <td> {{ getUser(song.user).displayName }} </td>
+  </tr>
 </table>

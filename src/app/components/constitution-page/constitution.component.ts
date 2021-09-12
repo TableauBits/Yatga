@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Constitution, createMessage, CstReqGet, CstResUpdate, EventType, extractMessageData, Message, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import { Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EventType, extractMessageData, Message, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
 import { AuthService } from 'src/app/services/auth.service';
 import { EMPTY_CONSTITUTION, OWNER_INDEX } from 'src/app/types/constitution';
 import { ManageSongsComponent } from '../manage-songs/manage-songs.component';
@@ -22,22 +22,23 @@ enum ConstitutionSection {
 })
 export class ConstitutionComponent {
 
-  private cstID = "";
+  private cstID;
   constitution: Constitution;
   users: Map<string, User>;
   currentSection: ConstitutionSection;
-  songs: Song[];
+  songs: Map<number, Song>;
 
   constructor(
     private auth: AuthService, 
     private route: ActivatedRoute,
     private dialog: MatDialog
   ){
+    this.cstID = "";
     this.constitution = EMPTY_CONSTITUTION;
     this.currentSection = ConstitutionSection.SONG_LIST;
     this.users = new Map();
+    this.songs = new Map();
     this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
-    this.songs = [];
   }
 
   // HTML can't access the ConstiutionSection enum directly
@@ -73,6 +74,8 @@ export class ConstitutionComponent {
           this.auth.ws.send(getUsersMessage);
           const unsubscribeUsersMessage = createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, {uids: unusedListens});
           this.auth.ws.send(unsubscribeUsersMessage);
+          const getAllSongsMessage = createMessage<CstSongReqGetAll>(EventType.CST_SONG_get_all, {cstId: this.cstID, uid: ''}); // TODO : Remove uid for get all in Hang
+          this.auth.ws.send(getAllSongsMessage);
         } 
       }
         break;
@@ -81,12 +84,28 @@ export class ConstitutionComponent {
         this.users.set(data.uid, data)
       }
         break;
-      // TODO : songs
+      case EventType.CST_SONG_update: {
+        // TODO : check if is correct constitution ?
+        const data = extractMessageData<CstSongResUpdate>(message);
+        this.songUpdate(data);
+      }
+        break;
+    }
+  }
+
+  private songUpdate(response: CstSongResUpdate) {
+    const songInfo = response.songInfo;
+    switch (response.status) {
+      case "added" || "modified":
+        this.songs.set(songInfo.id, songInfo);
+        break;
+      case "removed":
+        this.songs.delete(songInfo.id);
+        break;
     }
   }
 
   openDialogManageSongs(): void {
-    // const config = new MatDialogConfig;
     this.dialog.open(ManageSongsComponent);
   }
 
