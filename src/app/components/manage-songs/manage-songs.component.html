@@ -28,7 +28,7 @@
           <input matInput formControlName="url" required>
         </mat-form-field>
       </form>
-      <button mat-raised-button color="primary">
+      <button mat-raised-button color="primary" (click)="addSong()">
         Ajouter
       </button>
       <button mat-raised-button color="warn" (click)="closeWindow()">
@@ -44,6 +44,19 @@
       <h2 class="title"> RETIRER UNE MUSIQUE </h2>
       <span class="custom-br"></span>
       <br>
+      <table id="t01">
+        <tr>
+          <th> ID </th>
+          <th> Titre </th>
+          <th> Retirer </th>
+        </tr>
+        <tr>
+          <td>  </td>
+          <td>  </td>
+          <td>  </td>
+        </tr>
+      </table>
+
       <button mat-raised-button color="warn" (click)="closeWindow()">
         <mat-icon>cancel</mat-icon>
       </button>

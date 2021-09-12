@@ -106,7 +106,14 @@ export class ConstitutionComponent {
   }
 
   openDialogManageSongs(): void {
-    this.dialog.open(ManageSongsComponent);
+    const config = new MatDialogConfig();
+
+    config.data = {
+      cstID: this.cstID,
+      songs: this.songs
+    }
+
+    this.dialog.open(ManageSongsComponent, config);
   }
 
   setCurrentSection(newSection: ConstitutionSection): void {

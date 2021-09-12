@@ -10,7 +10,9 @@
     <td> {{ song.id }} </td>
     <td> {{ song.title }} </td>
     <td> {{ song.author }} </td>
-    <td> {{ song.url }} </td>
+    <td> 
+      <a href="{{song.url}}" target="_blank"> <mat-icon>play_circle_outline</mat-icon> </a>
+    </td>
     <td> {{ getUser(song.user).displayName }} </td>
   </tr>
 </table>
