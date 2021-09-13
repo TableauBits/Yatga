@@ -1,3 +1,5 @@
+@import "../../../../styles/variables.scss";
+
 table {
   margin-left: auto;
   margin-right: auto;
@@ -7,23 +9,40 @@ table {
 }
 
 td, th {
-  border: 1px solid #434647;
+  border: 1px solid $sasuke;
   text-align: center;
   padding: 8px;
 }
 
 #t01 th {
-  background-color: #2E2E2E;
+  background-color: $mineshaft;
   color: whitesmoke;
 }
 
 #t01 tr:nth-child(even) {
-background-color: #434647;
+background-color: $sasuke;
 }
 #t01 tr:nth-child(odd) {
-background-color: #353738;
+background-color: $cape-cod;
 }
 
 .card {
 	width: 24rem;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+.text-info {
+  background-color: rgba($color: $cape-cod, $alpha: 0.75);
+}
+
+.blur {
+  filter: blur(25px);
+    -webkit-filter: blur(25px);
+    -moz-filter: blur(25px);
+    -o-filter: blur(25px);
+    -ms-filter: blur(25px);
+    margin: -5px -10px -10px -5px;
 }

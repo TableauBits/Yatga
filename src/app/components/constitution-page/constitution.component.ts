@@ -26,7 +26,9 @@ export class ConstitutionComponent {
 	constitution: Constitution;
 	users: Map<string, User>;
 	currentSection: ConstitutionSection;
-	songs: Map<number, Song>;
+	songs: Map<number, Song>;	// TODO : order by ID
+
+	// TODO : add Local Setting to change the order of song ? (ID ASC or ID DSC for exemple)
 
 	constructor(
 		private auth: AuthService,
@@ -135,5 +137,13 @@ export class ConstitutionComponent {
 
 	getUsers(): User[] {
 		return Array.from(this.users.values());
+	}
+
+	numberOfSongs(): number {
+		return Array.from(this.songs.values()).length;
+	}
+
+	numberOfSongsOfCurrentUser(): number {
+		return Array.from(this.songs.values()).filter(song => song.user === this.auth.uid).length;
 	}
 }

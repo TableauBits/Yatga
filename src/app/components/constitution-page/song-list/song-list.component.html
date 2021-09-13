@@ -6,14 +6,17 @@
 			<div class="col" *ngFor="let song of getSongs()">
 				<div class="card shadow-0 bg-dark">
 					<h3 class="card-header">{{song.title}}</h3>
-					<img src="{{getImageURL(song)}}" class="card-img" alt="...">
+					<div class="no-overflow"> <img src="{{getImageURL(song)}}" class="card-img blur" alt="..."> </div> 
 					<div class="card-img-overlay">
-						<div class="card-body">
-							<h5 class="card-title">Special title treatment</h5>
-							<p class="card-text">
-								With supporting text below as a natural lead-in to additional content.
+						<div class="card-body ">
+							<br>
+							<p class="card-text text-info">
+								{{song.author}}
+								<br>
+								{{getUser(song.user).displayName}}
+								<br>
 							</p>
-							<a href="#" class="btn btn-primary">Go clubbing</a>
+							<a  class="btn btn-primary">Go clubbing</a>
 						</div>
 					</div>
 				</div>

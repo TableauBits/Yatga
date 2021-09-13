@@ -1,6 +1,12 @@
 <mat-sidenav-container class="sidenav">
 	<h1> {{constitution.name}} </h1>
 	<span class="custom-br"></span>
+	Nombre de chansons : <br>
+	Constitution : {{numberOfSongs()}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}}
+	<br>
+	Vous : {{numberOfSongsOfCurrentUser()}} / {{constitution.numberOfSongsPerUser}}
+	<br>
+	<span class="custom-br"></span>
 	<br>
 	<button mat-raised-button color="primary" (click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes chansons
