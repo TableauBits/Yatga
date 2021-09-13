@@ -38,6 +38,9 @@
 		<div *ngIf="!errorStatus.hidden" class="status">
 			<div class="status-message"> {{ errorStatus.message }} </div>
 		</div>
+		<br>
+		<mat-slide-toggle [checked]="localSettings.cardsView" (change)="saveLocalSettings()"> Mode Confortable
+		</mat-slide-toggle>
 	</div>
 	<ng-template #loggedOut>
 		Connectez-vous pour voir votre profil.

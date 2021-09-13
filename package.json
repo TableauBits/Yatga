@@ -25,11 +25,13 @@
 		"@fortawesome/fontawesome-free": "^5.15.3",
 		"@tableaubits/hang": "1.4.4",
 		"@types/lodash": "^4.14.171",
+		"@types/url-parse": "^1.4.4",
 		"firebase": "^7.0 || ^8.0",
 		"lodash": "^4.17.21",
 		"mdb-angular-ui-kit": "^1.0.0-beta8",
 		"rxjs": "~6.6.0",
 		"tslib": "^2.0.0",
+		"url-parser": "0.0.1",
 		"zone.js": "~0.11.3"
 	},
 	"devDependencies": {

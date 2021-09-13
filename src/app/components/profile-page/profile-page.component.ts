@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { createMessage, EMPTY_USER, EventType, User } from '@tableaubits/hang';
 import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { returnUserRoles, RoleData } from 'src/app/types/role';
 import { Status } from 'src/app/types/status';
 
@@ -10,6 +11,10 @@ const DISPLAY_NAME_MIN_LENGTH = 1;
 const DISPLAY_NAME_MAX_LENGTH = 25;
 
 const DESCRIPTION_MAX_LENGTH = 140;
+
+interface LocalSettings {
+	cardsView: boolean;
+}
 
 @Component({
 	selector: 'app-profile-page',
@@ -20,6 +25,7 @@ export class ProfilePageComponent {
 
 	public errorStatus: Status;
 	public profileForm: FormGroup;
+	public localSettings: LocalSettings;
 
 	constructor(public auth: AuthService, public fb: FormBuilder) {
 		this.profileForm = this.fb.group({
@@ -27,6 +33,7 @@ export class ProfilePageComponent {
 			photoURL: [this.isAlreadyAuth() ? this.auth.user.photoURL : "", Validators.required],
 			description: [this.isAlreadyAuth() ? this.auth.user.description : ""],
 		})
+		this.localSettings = { cardsView: (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true" };
 		this.errorStatus = new Status();
 		this.auth.waitForAuth(() => { }, this.onConnect, this);
 	}
@@ -83,5 +90,10 @@ export class ProfilePageComponent {
 	getRoles(): RoleData[] {
 		const roles = returnUserRoles(this.auth.user.roles)
 		return roles ? roles : [];
+	}
+
+	saveLocalSettings(): void {
+		this.localSettings.cardsView = !this.localSettings.cardsView;
+		localStorage.setItem(CARDS_VIEW_KEY, this.localSettings.cardsView.toString());
 	}
 }

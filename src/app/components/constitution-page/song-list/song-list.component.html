@@ -1,18 +1,45 @@
-<table id="t01">
-  <tr>
-    <th> ID </th>
-    <th> Titre </th>
-    <th> Auteur </th>
-    <th> URL </th>
-    <th> Ajouté par </th>
-  </tr>
-  <tr *ngFor="let song of getSongs()">
-    <td> {{ song.id }} </td>
-    <td> {{ song.title }} </td>
-    <td> {{ song.author }} </td>
-    <td> 
-      <a href="{{song.url}}" target="_blank"> <mat-icon>play_circle_outline</mat-icon> </a>
-    </td>
-    <td> {{ getUser(song.user).displayName }} </td>
-  </tr>
-</table>
+<div *ngIf="cardsViewEnabled; then cardsView; else compactView">
+</div>
+<ng-template #cardsView>
+	<div class="container">
+		<div class="row g-5">
+			<div class="col" *ngFor="let song of getSongs()">
+				<div class="card shadow-0 bg-dark">
+					<h3 class="card-header">{{song.title}}</h3>
+					<img src="{{getImageURL(song)}}" class="card-img" alt="...">
+					<div class="card-img-overlay">
+						<div class="card-body">
+							<h5 class="card-title">Special title treatment</h5>
+							<p class="card-text">
+								With supporting text below as a natural lead-in to additional content.
+							</p>
+							<a href="#" class="btn btn-primary">Go clubbing</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ng-template>
+<ng-template #compactView>
+	<table id="t01">
+		<tr>
+			<th> ID </th>
+			<th> Titre </th>
+			<th> Auteur </th>
+			<th> URL </th>
+			<th> Ajouté par </th>
+		</tr>
+		<tr *ngFor="let song of getSongs()">
+			<td> {{ song.id }} </td>
+			<td> {{ song.title }} </td>
+			<td> {{ song.author }} </td>
+			<td>
+				<a href="{{song.url}}" target="_blank">
+					<mat-icon>play_circle_outline</mat-icon>
+				</a>
+			</td>
+			<td> {{ getUser(song.user).displayName }} </td>
+		</tr>
+	</table>
+</ng-template>
