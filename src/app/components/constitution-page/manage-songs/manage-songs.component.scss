@@ -1,4 +1,4 @@
-@import "../../../styles/variables.scss";
+@import "../../../../styles/variables.scss";
 
 
 .content {
@@ -30,4 +30,29 @@ mat-form-field {
           color: whitesmoke;
       }
   }
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  overflow-x: auto;
+}
+
+td, th {
+  border: 1px solid #434647;
+  text-align: center;
+  padding: 8px;
+}
+
+#t01 th {
+  background-color: #2E2E2E;
+  color: whitesmoke;
+}
+
+#t01 tr:nth-child(even) {
+background-color: #434647;
+}
+#t01 tr:nth-child(odd) {
+background-color: #353738;
 }

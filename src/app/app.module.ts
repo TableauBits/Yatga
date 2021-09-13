@@ -25,7 +25,7 @@ import { VotesComponent } from './components/constitution-page/votes/votes.compo
 import { OwnerComponent } from './components/constitution-page/owner/owner.component';
 import { ResultsComponent } from './components/constitution-page/results/results.component';
 import { ExportComponent } from './components/constitution-page/export/export.component';
-import { ManageSongsComponent } from './components/manage-songs/manage-songs.component';
+import { ManageSongsComponent } from './components/constitution-page/manage-songs/manage-songs.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -39,7 +39,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs'
-import { MatDialogModule } from "@angular/material/dialog"; 
+import { MatDialogModule } from "@angular/material/dialog";
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -60,15 +60,15 @@ import { AuthService } from './services/auth.service';
 		HomePageComponent,
 		UsersPageComponent,
 		CurrentConstitutionPageComponent,
-  	ConstitutionComponent,
-  	AdminPageComponent,
-  	NewConstitutionComponent,
-    SongListComponent,
-    VotesComponent,
-    OwnerComponent,
-    ResultsComponent,
-    ExportComponent,
-    ManageSongsComponent,
+		ConstitutionComponent,
+		AdminPageComponent,
+		NewConstitutionComponent,
+		SongListComponent,
+		VotesComponent,
+		OwnerComponent,
+		ResultsComponent,
+		ExportComponent,
+		ManageSongsComponent,
 	],
 	imports: [
 		BrowserModule,

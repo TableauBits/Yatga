@@ -1,0 +1,75 @@
+<div class="content">
+	<h1 class="title"> GÉRER MES MUSIQUES </h1>
+	<span class="custom-br"></span>
+	<br>
+	<mat-tab-group mat-align-tabs="center" backgroundColor="primary">
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<mat-icon>add_box</mat-icon>
+				Ajouter
+			</ng-template>
+			<br>
+			<h2 class="title"> AJOUTER UNE MUSIQUE </h2>
+			<span class="custom-br"></span>
+			<form [formGroup]="newSongForm">
+				<br>
+				<mat-form-field appearance="outline">
+					<mat-label> Titre </mat-label>
+					<input matInput formControlName="title" required>
+				</mat-form-field>
+				<br>
+				<mat-form-field appearance="outline">
+					<mat-label> Auteur </mat-label>
+					<input matInput formControlName="author" required>
+				</mat-form-field>
+				<br>
+				<mat-form-field appearance="outline">
+					<mat-label> URL </mat-label>
+					<input matInput formControlName="url" required>
+				</mat-form-field>
+			</form>
+			<button mat-raised-button color="primary" (click)="addSong()">
+				Ajouter
+			</button>
+			<button mat-raised-button color="warn" (click)="closeWindow()">
+				<mat-icon>cancel</mat-icon>
+			</button>
+		</mat-tab>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<mat-icon>delete</mat-icon>
+				Retirer
+			</ng-template>
+			<br>
+			<h2 class="title"> RETIRER UNE MUSIQUE </h2>
+			<span class="custom-br"></span>
+			<br>
+			<table id="t01">
+				<tr>
+					<th> Titre </th>
+					<th> Auteur </th>
+					<th> Retirer </th>
+				</tr>
+				<tr *ngFor="let song of getUserSongs()">
+					<td>{{song.title}}</td>
+					<td>{{song.author}}</td>
+					<td>
+						<button mat-raised-button color="primary" (click)="removeSong(song.id)">
+							<mat-icon>delete</mat-icon>
+						</button>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<button mat-raised-button color="warn" (click)="closeWindow()">
+				<mat-icon>cancel</mat-icon>
+			</button>
+		</mat-tab>
+		<mat-tab label="Modifier" [disabled]="true">
+			<ng-template mat-tab-label>
+				<mat-icon>create</mat-icon>
+				Modifier
+			</ng-template>
+		</mat-tab>
+	</mat-tab-group>
+</div>
