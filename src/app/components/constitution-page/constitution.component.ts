@@ -12,7 +12,8 @@ enum ConstitutionSection {
 	VOTES,
 	OWNER,
 	RESULTS,
-	EXPORT
+	EXPORT,
+	PARAMETERS
 }
 
 @Component({
@@ -137,10 +138,6 @@ export class ConstitutionComponent {
 
 	getUsers(): User[] {
 		return Array.from(this.users.values());
-	}
-
-	numberOfSongs(): number {
-		return Array.from(this.songs.values()).length;
 	}
 
 	numberOfSongsOfCurrentUser(): number {

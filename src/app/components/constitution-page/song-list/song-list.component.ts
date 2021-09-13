@@ -3,6 +3,18 @@ import { EMPTY_USER, Song, SongPlatform, User } from '@tableaubits/hang';
 import { CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import * as URLParse from 'url-parse';
 
+function compareConstitutionASC(s1: Song, s2: Song): number {
+	if (s1.id > s2.id) return 1;
+	if (s1.id < s2.id) return -1;
+	return 0;
+}
+
+function compareConstitutionDSC(s1: Song, s2: Song): number {
+	if (s1.id > s2.id) return -1;
+	if (s1.id < s2.id) return 1;
+	return 0;
+}
+
 @Component({
 	selector: 'app-song-list',
 	templateUrl: './song-list.component.html',
@@ -14,16 +26,21 @@ export class SongListComponent {
 	@Input() users: Map<string, User>;
 
 	cardsViewEnabled: boolean;
+	cardsSort: 'asc' | 'dsc';
 
 	constructor() {
 		this.songs = new Map();
 		this.users = new Map();
 
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
+		this.cardsSort = 'dsc';
 	}
 
 	getSongs(): Song[] {
-		return Array.from(this.songs.values());
+		const songs = Array.from(this.songs.values());
+
+		if (this.cardsSort === 'asc') return songs.sort(compareConstitutionASC)
+		else return songs.sort(compareConstitutionDSC);
 	}
 
 	getUser(uid: string): User {

@@ -2,7 +2,7 @@
 	<h1> {{constitution.name}} </h1>
 	<span class="custom-br"></span>
 	Nombre de chansons : <br>
-	Constitution : {{numberOfSongs()}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}}
+	Constitution : {{songs.size}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}}
 	<br>
 	Vous : {{numberOfSongsOfCurrentUser()}} / {{constitution.numberOfSongsPerUser}}
 	<br>
@@ -63,6 +63,10 @@
 			<button mat-button [ngClass]="isSectionActive(constitutionSection.EXPORT) ? 'active' : ''" 
 							(click)="setCurrentSection(constitutionSection.EXPORT)">
 				<mat-icon>get_app</mat-icon> Exporter
+			</button>
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.PARAMETERS) ? 'active' : ''" 
+							(click)="setCurrentSection(constitutionSection.PARAMETERS)">
+				<mat-icon>settings</mat-icon> Paramètres
 			</button>
 		</div>
 	</div>
