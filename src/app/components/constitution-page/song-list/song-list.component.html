@@ -6,18 +6,28 @@
 			<div class="col" *ngFor="let song of getSongs()">
 				<div class="card shadow-0 bg-dark">
 					<h3 class="card-header">{{song.title}}</h3>
-					<div class="no-overflow"> <img src="{{getImageURL(song)}}" class="card-img blur" alt="..."> </div> 
+					<img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
 					<div class="card-img-overlay">
 						<div class="card-body ">
 							<br>
 							<p class="card-text text-info">
-								{{song.author}}
+								<span class="drop-shadow">{{song.author}}</span>
 								<br>
-								{{getUser(song.user).displayName}}
+								<span class="drop-shadow">{{getUser(song.user).displayName}}</span>
 								<br>
-								{{song.id}}
+								<span class="drop-shadow">{{song.id}}</span>
+								<br>
 							</p>
-							<a  class="btn btn-primary">Go clubbing</a>
+							<!-- iframe width="180" height="130" frameborder="0" [src]="getEmbedURL(song)"
+								allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+								allowfullscreen>
+							</iframe-->
+							<button mat-raised-button color="primary">
+								<mat-icon>music_video</mat-icon>
+							</button>
+							<button mat-raised-button color="primary" [disabled]="true">
+								<mat-icon>star_border</mat-icon>
+							</button>
 						</div>
 					</div>
 				</div>

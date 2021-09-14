@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_USER, Song, SongPlatform, User } from '@tableaubits/hang';
 import { CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import * as URLParse from 'url-parse';
@@ -22,15 +23,13 @@ function compareConstitutionDSC(s1: Song, s2: Song): number {
 })
 export class SongListComponent {
 
-	@Input() songs: Map<number, Song>;
-	@Input() users: Map<string, User>;
+	@Input() songs: Map<number, Song> = new Map();
+	@Input() users: Map<string, User> = new Map();
 
 	cardsViewEnabled: boolean;
 	cardsSort: 'asc' | 'dsc';
 
-	constructor() {
-		this.songs = new Map();
-		this.users = new Map();
+	constructor(private sanitizer: DomSanitizer) {
 
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
 		this.cardsSort = 'dsc';
@@ -47,19 +46,38 @@ export class SongListComponent {
 		return this.users.get(uid) || EMPTY_USER;
 	}
 
-	getImageURL(song: Song): string {
+	getIDFromURL(song: Song): string {
 		switch (song.platform) {
 			case SongPlatform.YOUTUBE: {
 				const parsedURL = new URLParse(song.url, true);
-				let videoID = "dQw4w9WgXcQ";
-				console.log("url: ", parsedURL.hostname);
-				if (parsedURL.hostname === "www.youtu.be") { videoID = parsedURL.pathname }
-				if (parsedURL.hostname === "www.youtube.com") { console.log(parsedURL.query); videoID = parsedURL.query["v"] ?? "" }
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`
+				let videoID = "i2-a5itIPy4"; // "X_dkdW3EG5Q" // "LmMfALLf1jo" // "dQw4w9WgXcQ";
+				if (parsedURL.hostname === "youtu.be") { videoID = parsedURL.pathname.split("/")[1] }
+				if (parsedURL.hostname === "www.youtube.com") { videoID = parsedURL.query["v"] ?? "" }
+				return videoID;
 			}
 
 			default: return "";
 		}
 	}
 
+	getImageURL(song: Song): string {
+		switch (song.platform) {
+			case SongPlatform.YOUTUBE: {
+				const videoID = this.getIDFromURL(song);
+				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
+			}
+		}
+	}
+
+	getEmbedURL(song: Song): SafeResourceUrl {
+		switch (song.platform) {
+			case SongPlatform.YOUTUBE: {
+				const videoID = this.getIDFromURL(song);
+				return this.sanitizer.bypassSecurityTrustResourceUrl(`https://youtube.com/embed/${videoID}`);
+			}
+
+			default:
+				return "";
+		}
+	}
 }

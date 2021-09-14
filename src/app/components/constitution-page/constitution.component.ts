@@ -27,9 +27,7 @@ export class ConstitutionComponent {
 	constitution: Constitution;
 	users: Map<string, User>;
 	currentSection: ConstitutionSection;
-	songs: Map<number, Song>;	// TODO : order by ID
-
-	// TODO : add Local Setting to change the order of song ? (ID ASC or ID DSC for exemple)
+	songs: Map<number, Song>;
 
 	constructor(
 		private auth: AuthService,
