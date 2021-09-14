@@ -25,12 +25,12 @@ export class SongListComponent {
 
 	@Input() songs: Map<number, Song> = new Map();
 	@Input() users: Map<string, User> = new Map();
+	safeUrls: Map<number, SafeResourceUrl> = new Map();
 
 	cardsViewEnabled: boolean;
 	cardsSort: 'asc' | 'dsc';
 
 	constructor(private sanitizer: DomSanitizer) {
-
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
 		this.cardsSort = 'dsc';
 	}
@@ -79,5 +79,13 @@ export class SongListComponent {
 			default:
 				return "";
 		}
+	}
+
+	getSongSafeURL(song: Song): SafeResourceUrl {
+		if (!this.safeUrls.has(song.id)) {
+			this.safeUrls.set(song.id, this.getEmbedURL(song));
+		}
+		
+		return this.safeUrls.get(song.id) || '';
 	}
 }

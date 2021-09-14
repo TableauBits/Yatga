@@ -18,10 +18,10 @@
 								<span class="drop-shadow">{{song.id}}</span>
 								<br>
 							</p>
-							<!-- iframe width="180" height="130" frameborder="0" [src]="getEmbedURL(song)"
+							<iframe width="180" height="130" frameborder="0" [src]="getSongSafeURL(song)"
 								allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 								allowfullscreen>
-							</iframe-->
+							</iframe>
 							<button mat-raised-button color="primary">
 								<mat-icon>music_video</mat-icon>
 							</button>
