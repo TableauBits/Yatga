@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_USER, Song, SongPlatform, User } from '@tableaubits/hang';
-import { CARDS_VIEW_KEY } from 'src/app/types/local-storage';
+import { AuthService } from 'src/app/services/auth.service';
+import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import * as URLParse from 'url-parse';
+import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 
 function compareConstitutionASC(s1: Song, s2: Song): number {
 	if (s1.id > s2.id) return 1;
@@ -23,22 +26,27 @@ function compareConstitutionDSC(s1: Song, s2: Song): number {
 })
 export class SongListComponent {
 
+	@Input() cstId: string = "";
 	@Input() songs: Map<number, Song> = new Map();
 	@Input() users: Map<string, User> = new Map();
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
 
 	cardsViewEnabled: boolean;
-	cardsSort: 'asc' | 'dsc';
+	cardsSortASC: boolean;
 
-	constructor(private sanitizer: DomSanitizer) {
+	constructor(
+		private sanitizer: DomSanitizer, 
+		private auth: AuthService,
+		private dialog: MatDialog
+	) {
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
-		this.cardsSort = 'dsc';
+		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 	}
 
 	getSongs(): Song[] {
 		const songs = Array.from(this.songs.values());
 
-		if (this.cardsSort === 'asc') return songs.sort(compareConstitutionASC)
+		if (this.cardsSortASC) return songs.sort(compareConstitutionASC)
 		else return songs.sort(compareConstitutionDSC);
 	}
 
@@ -87,5 +95,24 @@ export class SongListComponent {
 		}
 		
 		return this.safeUrls.get(song.id) || '';
+	}
+
+	isCurrentUserSong(song: Song): boolean {
+		return song.user === this.auth.uid;
+	}
+
+	onNavigate(song: Song): void {
+    window.open(song.url, "_blank");
+	}
+
+	openDeleteSongWarning(song: Song): void {
+		const config = new MatDialogConfig();
+
+		config.data = {
+			cstId: this.cstId,
+			song
+		}
+
+		this.dialog.open(DeleteSongWarningComponent, config);
 	}
 }

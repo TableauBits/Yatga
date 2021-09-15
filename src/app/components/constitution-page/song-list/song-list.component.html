@@ -5,28 +5,39 @@
 		<div class="row g-5">
 			<div class="col" *ngFor="let song of getSongs()">
 				<div class="card shadow-0 bg-dark">
-					<h3 class="card-header">{{song.title}}</h3>
+					<h3 class="card-header">
+						{{song.title}}
+						<img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
+					</h3>
 					<img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
 					<div class="card-img-overlay">
-						<div class="card-body ">
+						<div class="card-body">
 							<br>
-							<p class="card-text text-info">
+							<!-- p class="card-text text-info">
 								<span class="drop-shadow">{{song.author}}</span>
 								<br>
 								<span class="drop-shadow">{{getUser(song.user).displayName}}</span>
 								<br>
 								<span class="drop-shadow">{{song.id}}</span>
 								<br>
-							</p>
-							<iframe width="180" height="130" frameborder="0" [src]="getSongSafeURL(song)"
-								allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-								allowfullscreen>
+							</p -->
+							<iframe width="300" height="160" frameborder="0" [src]="getSongSafeURL(song)"
+							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen>
 							</iframe>
+							<br>	
+							<br>
 							<button mat-raised-button color="primary">
 								<mat-icon>music_video</mat-icon>
 							</button>
+							<button mat-raised-button color="primary" (click)="onNavigate(song)">
+								<mat-icon>play_circle_outline</mat-icon>
+							</button>
 							<button mat-raised-button color="primary" [disabled]="true">
 								<mat-icon>star_border</mat-icon>
+							</button>
+							<button *ngIf="isCurrentUserSong(song)" mat-raised-button color="warn" (click)="openDeleteSongWarning(song)">
+								<mat-icon>cancel</mat-icon>
 							</button>
 						</div>
 					</div>

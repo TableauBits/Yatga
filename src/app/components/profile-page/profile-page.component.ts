@@ -12,10 +12,6 @@ const DISPLAY_NAME_MAX_LENGTH = 25;
 
 const DESCRIPTION_MAX_LENGTH = 140;
 
-interface LocalSettings {
-	cardsView: boolean;
-}
-
 @Component({
 	selector: 'app-profile-page',
 	templateUrl: './profile-page.component.html',
@@ -25,7 +21,6 @@ export class ProfilePageComponent {
 
 	public errorStatus: Status;
 	public profileForm: FormGroup;
-	public localSettings: LocalSettings;
 
 	constructor(public auth: AuthService, public fb: FormBuilder) {
 		this.profileForm = this.fb.group({
@@ -33,7 +28,6 @@ export class ProfilePageComponent {
 			photoURL: [this.isAlreadyAuth() ? this.auth.user.photoURL : "", Validators.required],
 			description: [this.isAlreadyAuth() ? this.auth.user.description : ""],
 		})
-		this.localSettings = { cardsView: (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true" };
 		this.errorStatus = new Status();
 		this.auth.waitForAuth(() => { }, this.onConnect, this);
 	}
@@ -90,10 +84,5 @@ export class ProfilePageComponent {
 	getRoles(): RoleData[] {
 		const roles = returnUserRoles(this.auth.user.roles)
 		return roles ? roles : [];
-	}
-
-	saveLocalSettings(): void {
-		this.localSettings.cardsView = !this.localSettings.cardsView;
-		localStorage.setItem(CARDS_VIEW_KEY, this.localSettings.cardsView.toString());
 	}
 }

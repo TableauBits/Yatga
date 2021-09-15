@@ -26,6 +26,8 @@ import { OwnerComponent } from './components/constitution-page/owner/owner.compo
 import { ResultsComponent } from './components/constitution-page/results/results.component';
 import { ExportComponent } from './components/constitution-page/export/export.component';
 import { ManageSongsComponent } from './components/constitution-page/manage-songs/manage-songs.component';
+import { ParametersComponent } from './components/constitution-page/parameters/parameters.component';
+import { DeleteSongWarningComponent } from './components/delete-song-warning/delete-song-warning.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -70,6 +72,8 @@ import { AuthService } from './services/auth.service';
 		ResultsComponent,
 		ExportComponent,
 		ManageSongsComponent,
+  	ParametersComponent,
+  	DeleteSongWarningComponent,
 	],
 	imports: [
 		BrowserModule,

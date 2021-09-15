@@ -42,7 +42,7 @@ td, th {
 	border-radius: 6%;
 }
 
-$blur: 75px; // 12px // 0 px
+$blur: 70px; // 0px // 12px // 75px // 5000px
 .blur {
 	filter: blur($blur);
 	-webkit-filter: blur($blur);
@@ -56,3 +56,7 @@ $blur: 75px; // 12px // 0 px
 	padding-right: 0;
 	padding-bottom: 0;
 }
+
+.image-de {
+	float: right;
+} 
