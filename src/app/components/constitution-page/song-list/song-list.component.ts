@@ -31,6 +31,7 @@ export class SongListComponent {
 	@Input() songs: Map<number, Song> = new Map();
 	@Input() users: Map<string, User> = new Map();
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
+	currentIframeSongID: number;
 
 	cardsViewEnabled: boolean;
 	cardsSortASC: boolean;
@@ -41,6 +42,7 @@ export class SongListComponent {
 		private dialog: MatDialog
 	) {
 		this.constitution = EMPTY_CONSTITUTION;
+		this.currentIframeSongID = -1;
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 	}
@@ -101,16 +103,14 @@ export class SongListComponent {
 		}
 
 		this.dialog.open(SongNavigatorComponent, config);
+		this.currentIframeSongID = -1;
 	}
 
 	canDeleteSong(): boolean {
 		return canModifySongs(this.constitution);
 	}
 
-	generateLazyEmbedHTML(song: Song): string {
-		const videoID = getIDFromURL(song);
-		const original =  "<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/Y8Wp3dafaMQ?autoplay=1><img src=https://img.youtube.com/vi/Y8Wp3dafaMQ/hqdefault.jpg alt='Video The Dark Knight Rises: What Went Wrong? – Wisecrack Edition'><span>▶</span></a>";
-		const myTest = `<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=https://www.youtube.com/embed/${videoID}?autoplay=1><img src=https://img.youtube.com/vi/${videoID}/mqdefault.jpg alt='${song.title}'></a>`
-		return myTest
+	updateCurrentIframeSong(song: Song): void {
+		this.currentIframeSongID = song.id;
 	}
 }

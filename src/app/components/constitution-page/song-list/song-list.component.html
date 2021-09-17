@@ -15,10 +15,14 @@
 					<img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
 					<div class="card-img-overlay">
 						<div class="card-body">
-							<iframe height="200" frameborder="0" [src]="getSongSafeURL(song)" [srcdoc]="generateLazyEmbedHTML(song)"
+							<iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
+							height="200" frameborder="0" [src]="getSongSafeURL(song)" 
 							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 							allowfullscreen>
-							</iframe>	
+							</iframe>
+							<ng-template #loadImage>
+								<img src="{{getImageURL(song)}}" height="208" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+							</ng-template>
 							<br>
 							<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
 								<mat-icon>music_video</mat-icon>
