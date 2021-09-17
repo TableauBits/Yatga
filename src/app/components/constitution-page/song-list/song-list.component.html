@@ -6,26 +6,19 @@
 			<div class="col" *ngFor="let song of getSongs()">
 				<div class="card shadow-0 bg-dark">
 					<h3 class="card-header">
-						{{song.title}}
-						<img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
+						<div>
+							{{song.title}}
+							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
+						</div>
+						<i> {{song.author}} </i> 
 					</h3>
 					<img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
 					<div class="card-img-overlay">
 						<div class="card-body">
-							<br>
-							<!-- p class="card-text text-info">
-								<span class="drop-shadow">{{song.author}}</span>
-								<br>
-								<span class="drop-shadow">{{getUser(song.user).displayName}}</span>
-								<br>
-								<span class="drop-shadow">{{song.id}}</span>
-								<br>
-							</p -->
-							<iframe width="300" height="160" frameborder="0" [src]="getSongSafeURL(song)"
+							<iframe id="god_plz" height="200"frameborder="0" [src]="getSongSafeURL(song)" [srcdoc]="generateLazyEmbedHTML(song)"
 							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 							allowfullscreen>
-							</iframe>
-							<br>	
+							</iframe>	
 							<br>
 							<button mat-raised-button color="primary">
 								<mat-icon>music_video</mat-icon>
@@ -36,7 +29,7 @@
 							<button mat-raised-button color="primary" [disabled]="true">
 								<mat-icon>star_border</mat-icon>
 							</button>
-							<button *ngIf="isCurrentUserSong(song)" mat-raised-button color="warn" (click)="openDeleteSongWarning(song)">
+							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" (click)="openDeleteSongWarning(song)">
 								<mat-icon>cancel</mat-icon>
 							</button>
 						</div>
@@ -57,7 +50,11 @@
 		</tr>
 		<tr *ngFor="let song of getSongs()">
 			<td> {{ song.id }} </td>
-			<td> {{ song.title }} </td>
+			<td> 
+				<button mat-raised-button color="primary">
+					{{ song.title }} 
+				</button>
+			</td>
 			<td> {{ song.author }} </td>
 			<td>
 				<a href="{{song.url}}" target="_blank">

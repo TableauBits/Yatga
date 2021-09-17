@@ -54,7 +54,6 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { AuthService } from './services/auth.service';
 
-
 @NgModule({
 	declarations: [
 		AppComponent,

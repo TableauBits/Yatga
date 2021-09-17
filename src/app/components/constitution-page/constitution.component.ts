@@ -2,9 +2,8 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EventType, extractMessageData, Message, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
 import { AuthService } from 'src/app/services/auth.service';
-import { EMPTY_CONSTITUTION, OWNER_INDEX } from 'src/app/types/constitution';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 
 enum ConstitutionSection {
@@ -111,7 +110,7 @@ export class ConstitutionComponent {
 
 		config.data = {
 			cstID: this.cstID,
-			songs: this.songs
+			songs: Array.from(this.songs.values())
 		}
 
 		this.dialog.open(ManageSongsComponent, config);
@@ -140,5 +139,9 @@ export class ConstitutionComponent {
 
 	numberOfSongsOfCurrentUser(): number {
 		return Array.from(this.songs.values()).filter(song => song.user === this.auth.uid).length;
+	}
+
+	updateSongs(): boolean {
+		return canModifySongs(this.constitution);
 	}
 }
