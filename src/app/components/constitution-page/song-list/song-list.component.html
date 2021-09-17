@@ -15,12 +15,12 @@
 					<img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
 					<div class="card-img-overlay">
 						<div class="card-body">
-							<iframe id="god_plz" height="200"frameborder="0" [src]="getSongSafeURL(song)" [srcdoc]="generateLazyEmbedHTML(song)"
+							<iframe height="200" frameborder="0" [src]="getSongSafeURL(song)" [srcdoc]="generateLazyEmbedHTML(song)"
 							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 							allowfullscreen>
 							</iframe>	
 							<br>
-							<button mat-raised-button color="primary">
+							<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
 								<mat-icon>music_video</mat-icon>
 							</button>
 							<button mat-raised-button color="primary" (click)="onNavigate(song)">
@@ -51,7 +51,7 @@
 		<tr *ngFor="let song of getSongs()">
 			<td> {{ song.id }} </td>
 			<td> 
-				<button mat-raised-button color="primary">
+				<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
 					{{ song.title }} 
 				</button>
 			</td>

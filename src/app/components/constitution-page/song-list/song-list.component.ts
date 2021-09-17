@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
+import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
 
 function compareConstitutionASC(s1: Song, s2: Song): number {
 	if (s1.id > s2.id) return 1;
@@ -89,6 +90,17 @@ export class SongListComponent {
 		}
 
 		this.dialog.open(DeleteSongWarningComponent, config);
+	}
+
+	openSongNavigator(song: Song): void {
+		const config = new MatDialogConfig();
+
+		config.data = {
+			currentSong: song,
+			songs: this.getSongs(),
+		}
+
+		this.dialog.open(SongNavigatorComponent, config);
 	}
 
 	canDeleteSong(): boolean {
