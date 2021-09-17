@@ -29,6 +29,7 @@ td, th {
 .card {
 	width: 24rem;
 	overflow: hidden;
+	margin: auto;
 }
 
 .no-overflow {
@@ -66,8 +67,21 @@ iframe {
 	width: 100%;
 	padding-top: 25px;
 	padding-bottom: 5px;
+	cursor: pointer;
 }
 
 .image-de {
 	float: right;
+}
+
+.centered {
+	cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button {
+	overflow: hidden;
 }

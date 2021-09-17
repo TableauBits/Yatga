@@ -17,6 +17,7 @@ export function getIDFromURL(song: Song): string {
 }
 
 export function getEmbedURL(song: Song, sanitizer: DomSanitizer): SafeResourceUrl {
+  // TODO : Add autoplay option ?
   switch (song.platform) {
     case SongPlatform.YOUTUBE: {
       const videoID = getIDFromURL(song);

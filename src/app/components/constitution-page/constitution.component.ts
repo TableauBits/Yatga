@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
@@ -31,7 +31,8 @@ export class ConstitutionComponent {
 	constructor(
 		private auth: AuthService,
 		private route: ActivatedRoute,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private router: Router
 	) {
 		this.cstID = "";
 		this.constitution = EMPTY_CONSTITUTION;
@@ -48,7 +49,7 @@ export class ConstitutionComponent {
 
 	private onConnect(): void {
 		this.route.params.subscribe((params) => {
-			this.cstID = params.cstID;  // TODO : check if user is a member of the constitution and redirect him
+			this.cstID = params.cstID;
 
 			const getCSTMessage = createMessage<CstReqGet>(EventType.CST_get, { ids: [this.cstID] })
 			this.auth.ws.send(getCSTMessage);
@@ -70,6 +71,10 @@ export class ConstitutionComponent {
 						this.users.delete(uid)
 					}
 
+					if (!this.constitution.users.includes(this.auth.uid)) {
+						this.router.navigate(['']);
+					}
+
 					const getUsersMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: newUsers })
 					this.auth.ws.send(getUsersMessage);
 					const unsubscribeUsersMessage = createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: unusedListens });
@@ -85,7 +90,6 @@ export class ConstitutionComponent {
 			}
 				break;
 			case EventType.CST_SONG_update: {
-				// TODO : check if is correct constitution ?
 				const data = extractMessageData<CstSongResUpdate>(message);
 				this.songUpdate(data);
 			}

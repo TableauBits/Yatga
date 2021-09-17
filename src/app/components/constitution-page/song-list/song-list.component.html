@@ -22,6 +22,9 @@
 							</iframe>
 							<ng-template #loadImage>
 								<img src="{{getImageURL(song)}}" height="208" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+								<div class="centered">
+									<button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
+								</div>
 							</ng-template>
 							<br>
 							<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
