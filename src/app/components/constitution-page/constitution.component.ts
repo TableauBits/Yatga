@@ -79,7 +79,7 @@ export class ConstitutionComponent {
 					this.auth.ws.send(getUsersMessage);
 					const unsubscribeUsersMessage = createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: unusedListens });
 					this.auth.ws.send(unsubscribeUsersMessage);
-					const getAllSongsMessage = createMessage<CstSongReqGetAll>(EventType.CST_SONG_get_all, { cstId: this.cstID, uid: '' }); // TODO : Remove uid for get all in Hang
+					const getAllSongsMessage = createMessage<CstSongReqGetAll>(EventType.CST_SONG_get_all, { cstId: this.cstID });
 					this.auth.ws.send(getAllSongsMessage);
 				}
 			}

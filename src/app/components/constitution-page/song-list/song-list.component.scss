@@ -43,7 +43,7 @@ td, th {
 	border-radius: 6%;
 }
 
-$blur: 70px; // 0px // 12px // 75px // 5000px
+$blur: 100px; // 0px // 12px // 75px // 5000px
 .blur {
 	filter: blur($blur);
 	-webkit-filter: blur($blur);

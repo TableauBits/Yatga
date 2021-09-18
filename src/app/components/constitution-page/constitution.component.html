@@ -1,5 +1,10 @@
 <mat-sidenav-container class="sidenav">
-	<h1> {{constitution.name}} </h1>
+	<h1 *ngIf="constitution.playlistLink === ''; else playlistLink"> {{constitution.name}} </h1>
+	<ng-template #playlistLink>
+		<a href="{{constitution.playlistLink}}" target="_blank">
+			<h1> {{constitution.name}} </h1>
+		</a>
+	</ng-template>
 	<span class="custom-br"></span>
 	Nombre de chansons : <br>
 	Constitution : {{songs.size}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}}
