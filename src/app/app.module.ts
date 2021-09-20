@@ -17,7 +17,17 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { UsersPageComponent } from './components/users-page/users-page.component';
 import { CurrentConstitutionPageComponent } from './components/current-constitution-page/current-constitution-page.component';
-import { ConstitutionComponent } from './components/constitution/constitution.component';
+import { ConstitutionComponent } from './components/constitution-page/constitution.component';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { NewConstitutionComponent } from './components/admin-page/new-constitution/new-constitution.component';
+import { SongListComponent } from './components/constitution-page/song-list/song-list.component';
+import { VotesComponent } from './components/constitution-page/votes/votes.component';
+import { OwnerComponent } from './components/constitution-page/owner/owner.component';
+import { ResultsComponent } from './components/constitution-page/results/results.component';
+import { ExportComponent } from './components/constitution-page/export/export.component';
+import { ManageSongsComponent } from './components/constitution-page/manage-songs/manage-songs.component';
+import { ParametersComponent } from './components/constitution-page/parameters/parameters.component';
+import { DeleteSongWarningComponent } from './components/delete-song-warning/delete-song-warning.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -27,8 +37,14 @@ import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from "@angular/material/slider";
-import { MatCheckboxModule } from '@angular/material/checkbox'
- 
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
+
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
@@ -38,9 +54,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { AdminPageComponent } from './components/admin-page/admin-page.component';
-import { NewConstitutionComponent } from './components/admin-page/new-constitution/new-constitution.component';
-
 
 @NgModule({
 	declarations: [
@@ -50,9 +63,18 @@ import { NewConstitutionComponent } from './components/admin-page/new-constituti
 		HomePageComponent,
 		UsersPageComponent,
 		CurrentConstitutionPageComponent,
-  ConstitutionComponent,
-  AdminPageComponent,
-  NewConstitutionComponent,
+		ConstitutionComponent,
+		AdminPageComponent,
+		NewConstitutionComponent,
+		SongListComponent,
+		VotesComponent,
+		OwnerComponent,
+		ResultsComponent,
+		ExportComponent,
+		ManageSongsComponent,
+  	ParametersComponent,
+  	DeleteSongWarningComponent,
+   SongNavigatorComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -71,8 +93,13 @@ import { NewConstitutionComponent } from './components/admin-page/new-constituti
 		MatSliderModule,
 		MatTooltipModule,
 		MatCheckboxModule,
+		MatSidenavModule,
+		MatSlideToggleModule,
+		MatListModule,
+		MatTabsModule,
+		MatDialogModule,
 		MdbDropdownModule,
-		MdbCollapseModule,
+		MdbCollapseModule
 	],
 	providers: [
 		AuthService,

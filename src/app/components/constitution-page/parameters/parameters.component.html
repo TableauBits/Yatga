@@ -1,0 +1,19 @@
+<h1 class="title"> LISTE DES PARAMÈTRES </h1>
+<span class="custom-br"></span>
+<br>
+
+<table>
+  <tr>
+    <th> Option </th>
+    <th> </th>
+  </tr>
+  <tr>
+    <td> Mode Confortable </td>
+    <td> <mat-slide-toggle [checked]="localSettings.cardsView" (change)="updateCardsView()"> </mat-slide-toggle></td>
+  </tr>
+  <tr>
+    <td> Montrer les nouvelles chansons d'abord </td>
+    <td> <mat-slide-toggle [checked]="localSettings.cardsSortDSC" (change)="updateCardsSort()"> </mat-slide-toggle> </td>
+  </tr>
+</table>
+

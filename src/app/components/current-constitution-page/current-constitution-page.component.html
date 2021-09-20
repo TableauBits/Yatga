@@ -11,6 +11,7 @@
 			<th> Nom </th>
 			<th> Président </th>
 			<th> Youtube Playlist </th>
+			<th> Utilisateurs </th>	
 			<th> Statut </th>
 		</tr>
 		<tr *ngFor="let displayData of getConstitutions()">
@@ -35,9 +36,12 @@
 				<div *ngIf="displayData.constitution.playlistLink === ''"> Pas de lien Youtube Playlist disponible
 				</div>
 			</td>
+			<td>
+				{{ displayData.constitution.users.length}} / {{ displayData.constitution.maxUserCount}}
+			</td>
 			<td [ngSwitch]="getStatus(displayData.constitution)">
-				<button mat-raised-button color="primary" *ngSwitchCase="'JOINED'">Voir</button>
-				<button mat-raised-button color="primary" *ngSwitchCase="'JOINABLE'" (click)="joinConstitution(displayData)">Rejoindre</button>
+				<button mat-raised-button color="primary" *ngSwitchCase="'JOINED'" [routerLink]="['/constitution/', displayData.constitution.id]">Voir</button>
+				<button mat-raised-button color="primary" *ngSwitchCase="'JOINABLE'" (click)="joinConstitution(displayData)" [routerLink]="['/constitution/', displayData.constitution.id]">Rejoindre</button>
 				<span *ngSwitchCase="'FULL'">Complet</span>
 			</td>
 		</tr>

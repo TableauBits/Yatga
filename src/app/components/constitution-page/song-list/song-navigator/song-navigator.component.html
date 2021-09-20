@@ -1,0 +1,23 @@
+<div class="title">
+    <a href="{{currentSong.url}}" target="_blank">
+      <h1> {{currentSong.title}} - {{currentSong.author}} </h1>
+    </a>
+  <span class="custom-br"></span>
+</div>
+<br>
+<div class="title">
+  <iframe width="720" height="480" frameborder="0"
+      [src]="currentSongSafeURL"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>
+  <br>
+  <br>
+  <button mat-button class="previous-button" color="primary" [disabled]="!previousSongExist()" (click)="changeSong(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
+  <button mat-button class="next-button" color="primary" [disabled]="!nextSongExist()" (click)="changeSong(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+  <br>
+</div>
+<br>
+<br>
+<button mat-raised-button color="primary" (click)="closeWindow()">
+  Fermer
+</button>

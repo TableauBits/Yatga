@@ -1,0 +1,58 @@
+@import "../../../../styles/variables.scss";
+
+
+.content {
+  color: whitesmoke;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 85%;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  overflow-x: auto;
+}
+
+td, th {
+  border: 1px solid #434647;
+  text-align: center;
+  padding: 8px;
+}
+
+#t01 th {
+  background-color: #2E2E2E;
+  color: whitesmoke;
+}
+
+#t01 tr:nth-child(even) {
+background-color: #434647;
+}
+#t01 tr:nth-child(odd) {
+background-color: #353738;
+}

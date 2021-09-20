@@ -1,0 +1,81 @@
+@import "../../../styles/variables.scss";
+
+.active {
+  background-color: $cape-cod;
+}
+
+/* CSS  https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp */
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 16%; /* Set the width of the sidebar */
+  // max-width: 300px;
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 0; /* Stay on top */
+  top: 0%; /* Stay at the top */
+  left: 0;
+  background-color: $mineshaft;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 80px;
+  text-align: center;
+  color: whitesmoke;
+  border-right: 2px solid $sasuke;
+  background-color: $mineshaft;
+}
+
+.avatar {
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 1%;
+}
+
+.item {
+  background-color: $bg-dark;
+  border-radius: 25px;
+  text-align: center;
+  border: 2px solid $sasuke;
+  // max-width: 300px;
+}
+
+.admin-color {
+  color: $admin-dark;
+}
+
+.member-color {
+  color: $guest-dark;
+}
+
+.mat-list-base {
+	width: 97%;
+	margin: auto;
+}
+
+.admin {
+  color: $admin;
+}
+
+.custom-br2 {
+  margin-top: 8px ;
+}
+
+::ng-deep {
+	.mat-drawer-content {
+		overflow-x: hidden !important;
+	}
+}
+
+.round-navbard {
+  border: 2px solid $sasuke;
+  background-color: $mineshaft;
+  border-radius: 25px;
+}
+
+.content {
+  margin-left: 19%;
+  margin-right: 3%;
+  margin-bottom: 3%;
+  margin-top: 2%;
+}
+
+.list-item {
+  align-items: center;
+}
