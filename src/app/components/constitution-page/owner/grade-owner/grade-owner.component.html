@@ -1,0 +1,14 @@
+<mat-accordion multi>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Votes </mat-panel-title>
+    </mat-expansion-panel-header>
+    TODO : Bloquer la modification des chansons <mat-slide-toggle [checked]="true" [disabled]="true"> </mat-slide-toggle>
+    <br>
+    TODO : Bloquer la modification des votes <mat-slide-toggle> </mat-slide-toggle>
+    <br>
+    <br>
+    Nombre de votes : /{{numberOfVotes()}}
+    <mat-progress-bar mode="determinate" value="{{votesProgressBarValue()}}"> </mat-progress-bar>
+  </mat-expansion-panel>
+</mat-accordion>

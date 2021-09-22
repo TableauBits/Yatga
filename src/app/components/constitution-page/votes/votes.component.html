@@ -1,1 +1,5 @@
-<p>votes works!</p>
+<div [ngSwitch]="constitution.type" class="content">
+  <app-votes-grade *ngSwitchCase="constitutionType.GRADE"
+    [songs]="songs" [users]="users" [constitution]="constitution">
+  </app-votes-grade>
+</div>

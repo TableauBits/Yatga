@@ -1,1 +1,34 @@
-<p>owner works!</p>
+<div >
+  <h1 class="title"> INFORMATIONS </h1>
+  <span class="custom-br"> </span>
+  <br>
+  <mat-accordion multi>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header> 
+          <mat-panel-title> General </mat-panel-title>
+      </mat-expansion-panel-header>
+      <li> Saison {{constitution.season}} - Partie {{constitution.part}} </li>
+      <li> ID : {{constitution.id}} </li>
+      <br>
+      Nombre de participants : {{users.size}}/{{constitution.maxUserCount}}
+      <mat-progress-bar mode="determinate" value="{{usersProgressBarValue()}}"></mat-progress-bar>
+      <br>
+      Nombre de chansons : {{songs.size}}/{{numberOfSongs()}}
+      <mat-progress-bar mode="determinate" value="{{songsProgressBarValue()}}"> </mat-progress-bar>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header> 
+          <mat-panel-title> Paramètres </mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <h1 class="title"> TYPE </h1>
+  <span class="custom-br"> </span>
+  <br>
+  <div [ngSwitch]="constitution.type" class="content">
+    <app-grade-owner *ngSwitchCase="constitutionType.GRADE"
+      [songs]="songs" [users]="users" [constitution]="constitution">
+    </app-grade-owner>
+  </div>
+</div>
