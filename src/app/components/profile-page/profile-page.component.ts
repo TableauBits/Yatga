@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { createMessage, EMPTY_USER, EventType, User } from '@tableaubits/hang';
+import { createMessage, EMPTY_USER, EventType, User } from 'chelys';
 import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_VIEW_KEY } from 'src/app/types/local-storage';

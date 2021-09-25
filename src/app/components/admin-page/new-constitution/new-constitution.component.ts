@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from '@tableaubits/hang';
+import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from 'chelys';
 import { isEmpty } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
@@ -48,7 +48,7 @@ export class NewConstitutionComponent {
 		for (const key of keysForm) {
 			if (!this.newConstitutionForm.controls[key].valid) {
 				invalidKeys.push(key);
-			} ;
+			};
 		}
 
 		return invalidKeys;
@@ -86,8 +86,8 @@ export class NewConstitutionComponent {
 				numberOfSongsPerUser: this.newConstitutionForm.value['numberOfSongsPerUser'],
 				state: 0
 			}
-	
-			const newConstitutionMessage = createMessage(EventType.CST_create, {cstData: constitution});
+
+			const newConstitutionMessage = createMessage(EventType.CST_create, { cstData: constitution });
 			this.auth.ws.send(newConstitutionMessage);
 		}
 
