@@ -1,4 +1,4 @@
-import { Song } from "@tableaubits/hang";
+import { Song } from "chelys";
 
 export function compareSongASC(s1: Song, s2: Song): number {
 	if (s1.id > s2.id) return 1;

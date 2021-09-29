@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { createMessage, EventType, extractMessageData, Message, User, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import { createMessage, EventType, extractMessageData, Message, User, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { returnUserRoles, RoleData } from 'src/app/types/role';

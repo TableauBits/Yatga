@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, GradeUserData, Song, SongPlatform, User } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, GradeUserData, Song, SongPlatform, User } from '@tableaubits/hang';
-import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareSongASC, compareSongDSC } from 'src/app/types/song';
@@ -10,15 +10,15 @@ import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 
 @Component({
-  selector: 'app-votes-grade',
-  templateUrl: './votes-grade.component.html',
-  styleUrls: ['./votes-grade.component.scss']
+	selector: 'app-votes-grade',
+	templateUrl: './votes-grade.component.html',
+	styleUrls: ['./votes-grade.component.scss']
 })
 export class VotesGradeComponent {
 
-  @Input() constitution: Constitution = EMPTY_CONSTITUTION;
-  @Input() users: Map<string, User> = new Map();
-  @Input() songs: Map<number, Song> = new Map();
+	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
+	@Input() users: Map<string, User> = new Map();
+	@Input() songs: Map<number, Song> = new Map();
 
   safeUrls: Map<number, SafeResourceUrl> = new Map();
 	currentIframeSongID: number;
@@ -41,7 +41,6 @@ export class VotesGradeComponent {
   }
 
   getSongsToVote(): Song[] {
-    // TODO : Sort en fonction du local storage
     const songsToVote = Array.from(this.songs.values()).filter(song => song.user !== this.auth.uid);
     if (this.cardsSortASC) return songsToVote.sort(compareSongASC)
 		else return songsToVote.sort(compareSongDSC);

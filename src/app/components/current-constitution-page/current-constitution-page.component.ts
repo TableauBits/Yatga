@@ -1,8 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Constitution, createMessage, 
-	CstReqGetFromUser, CstReqJoin, CstReqUnsubscribe, CstResUpdate, 
-	EMPTY_USER, EventType, extractMessageData, Message, User, 
-	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import {
+	Constitution, createMessage,
+	CstReqGetFromUser, CstReqJoin, CstReqUnsubscribe, CstResUpdate,
+	EMPTY_USER, EventType, extractMessageData, Message, User,
+	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate
+} from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 
 const OWNER_INDEX = 0;

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, SongPlatform, User } from '@tableaubits/hang';
+import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { compareSongASC, compareSongDSC } from 'src/app/types/song';
@@ -26,7 +26,7 @@ export class SongListComponent {
 	cardsSortASC: boolean;
 
 	constructor(
-		private sanitizer: DomSanitizer, 
+		private sanitizer: DomSanitizer,
 		private auth: AuthService,
 		private dialog: MatDialog
 	) {
@@ -60,7 +60,7 @@ export class SongListComponent {
 		if (!this.safeUrls.has(song.id)) {
 			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
 		}
-		
+
 		return this.safeUrls.get(song.id) || '';
 	}
 
@@ -69,7 +69,7 @@ export class SongListComponent {
 	}
 
 	onNavigate(song: Song): void {
-    window.open(song.url, "_blank");
+		window.open(song.url, "_blank");
 	}
 
 	openDeleteSongWarning(song: Song): void {

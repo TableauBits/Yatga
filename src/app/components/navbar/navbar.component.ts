@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Role } from '@tableaubits/hang';
+import { Role } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 @Component({
 	selector: 'app-navbar',

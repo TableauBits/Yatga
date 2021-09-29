@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
 import firebase from 'firebase/app';
-import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from '@tableaubits/hang';
+import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from 'chelys';
 
 const WS_PING_INTERVAL = 30000;
 

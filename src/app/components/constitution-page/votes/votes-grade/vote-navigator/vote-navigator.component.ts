@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { GradeUserData, Song } from '@tableaubits/hang';
+import { GradeUserData, Song } from 'chelys';
 import { getEmbedURL } from 'src/app/types/url';
 
 interface VoteNavigatorInjectedData {
