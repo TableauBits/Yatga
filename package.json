@@ -26,6 +26,7 @@
 		"@tableaubits/hang": "^1.5.1",
 		"@types/lodash": "^4.14.171",
 		"@types/url-parse": "^1.4.4",
+		"echarts": "^5.2.1",
 		"firebase": "^7.0 || ^8.0",
 		"lodash": "^4.17.21",
 		"mdb-angular-ui-kit": "^1.0.0-beta8",

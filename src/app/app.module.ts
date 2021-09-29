@@ -58,6 +58,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { HistogramComponent } from './components/template/histogram/histogram.component';
+import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
 
 @NgModule({
 	declarations: [
@@ -81,6 +83,8 @@ import { AuthService } from './services/auth.service';
     SongNavigatorComponent,
     GradeOwnerComponent,
     VotesGradeComponent,
+    HistogramComponent,
+    VoteNavigatorComponent,
 	],
 	imports: [
 		BrowserModule,

@@ -1,33 +1,51 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Song } from '@tableaubits/hang';
+import { GradeUserData, Song } from '@tableaubits/hang';
 import { getEmbedURL } from 'src/app/types/url';
 
-interface SongNavigatorInjectedData {
+interface VoteNavigatorInjectedData {
   currentSong: Song,
-  songs: Song[]
-} 
+  songs: Song[],
+  currentVote: number,
+  votes: GradeUserData,
+}
 
 @Component({
-  selector: 'app-song-navigator',
-  templateUrl: './song-navigator.component.html',
-  styleUrls: ['./song-navigator.component.scss']
+  selector: 'app-vote-navigator',
+  templateUrl: './vote-navigator.component.html',
+  styleUrls: ['./vote-navigator.component.scss']
 })
-export class SongNavigatorComponent {
+export class VoteNavigatorComponent {
 
   currentSong: Song;
   currentSongSafeURL: SafeResourceUrl;
+  currentVote: number | undefined;
+
   songs: Song[];
+  votes: GradeUserData;
 
   constructor(
     private sanitizer: DomSanitizer,
-    private dialogRef: MatDialogRef<SongNavigatorComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
-  ) { 
+    private dialogRef: MatDialogRef<VoteNavigatorComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: VoteNavigatorInjectedData
+  ) {
     this.currentSong = data.currentSong;
+    this.currentVote = data.currentVote;
     this.songs = data.songs;
+    this.votes = data.votes;
     this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+  }
+
+  // TODO : Add/Modify vote request
+  // TODO : Live update
+
+  array(n: number): any[] {
+    return Array(n);
+  }
+
+  isSelected(grade: number): boolean {
+    return grade++  === this.currentVote;
   }
 
   previousSongExist(): boolean {
@@ -44,6 +62,7 @@ export class SongNavigatorComponent {
     const currentIndex = this.songs.lastIndexOf(this.currentSong);
 
     this.currentSong = this.songs[currentIndex + shift];
+    this.currentVote = this.votes.values.get(this.currentSong.id);
     this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
   }
 

@@ -1,3 +1,21 @@
+<mat-accordion multi>
+  <mat-expansion-panel [expanded]="showStats">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Statistiques </mat-panel-title>
+    </mat-expansion-panel-header>
+    Cacher les chansons déjà votées <mat-slide-toggle> </mat-slide-toggle>
+    <br>
+    <br>
+    Moyenne : {{getMean()}}
+    <br>
+    Variance : {{getVar()}}
+    <br>
+    <br>
+    Répartition des notes :
+    <app-histogram [values]="getGrades()"> </app-histogram>
+  </mat-expansion-panel>
+</mat-accordion>
+<br>
 <div class="container">
   <div class="row g-5">
     <div class="col" *ngFor="let song of getSongsToVote()">
@@ -5,9 +23,36 @@
         <h3 class="card-header">
           <div>
             {{song.title}}
+            <img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
           </div>
           <i> {{song.author}} </i> 
         </h3>
+        <img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
+        <div class="card-img-overlay">
+          <div class="card-body">
+            <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
+            height="200" frameborder="0" [src]="getSongSafeURL(song)" 
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+            </iframe>
+            <ng-template #loadImage>
+              <img src="{{getImageURL(song)}}" height="208" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+              <div class="centered">
+                <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
+              </div>
+            </ng-template>
+            <br>
+            <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
+              <mat-icon>how_to_vote</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" [disabled]="true">
+              <mat-icon>star_border</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" class="vote">
+              {{getVote(song)}}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
