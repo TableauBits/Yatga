@@ -1,10 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { GradeUserData, Song } from 'chelys';
+import { createMessage, CstGradeReqEdit, EventType, GradeUserData, Song } from 'chelys';
+import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
 
 interface VoteNavigatorInjectedData {
+  cstId: string,
   currentSong: Song,
   songs: Song[],
   currentVote: number,
@@ -18,6 +20,8 @@ interface VoteNavigatorInjectedData {
 })
 export class VoteNavigatorComponent {
 
+  cstId: string;
+
   currentSong: Song;
   currentSongSafeURL: SafeResourceUrl;
   currentVote: number | undefined;
@@ -26,10 +30,12 @@ export class VoteNavigatorComponent {
   votes: GradeUserData;
 
   constructor(
+    private auth: AuthService,
     private sanitizer: DomSanitizer,
     private dialogRef: MatDialogRef<VoteNavigatorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: VoteNavigatorInjectedData
   ) {
+    this.cstId = data.cstId;
     this.currentSong = data.currentSong;
     this.currentVote = data.currentVote;
     this.songs = data.songs;
@@ -37,15 +43,20 @@ export class VoteNavigatorComponent {
     this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
   }
 
-  // TODO : Add/Modify vote request
   // TODO : Live update
+
+  vote(grade: number) {
+    const message = createMessage<CstGradeReqEdit>(EventType.CST_GRADE_edit, {cstId: this.cstId, voteData: {grade: grade, songId: this.currentSong.id}});
+    this.auth.ws.send(message);
+    this.currentVote = grade; // TODO : Necessary ?
+  }
 
   array(n: number): any[] {
     return Array(n);
   }
 
   isSelected(grade: number): boolean {
-    return grade++  === this.currentVote;
+    return grade + 1  === this.currentVote;
   }
 
   previousSongExist(): boolean {

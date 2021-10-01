@@ -20,7 +20,7 @@
 <div class="alignment">
   <br>
   <span *ngFor="let button of array(10) ; index as i">
-      <button *ngIf="!isSelected(i)" mat-raised-button class="vote-button"> {{i+1}} </button>
+      <button *ngIf="!isSelected(i)" mat-raised-button class="vote-button" (click)="vote(i+1)"> {{i+1}} </button>
       <button *ngIf="isSelected(i)" mat-raised-button color="primary"> {{i+1}} </button>
   </span>
 </div>

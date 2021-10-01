@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, GradeUserData, Song, SongPlatform, User } from 'chelys';
+import { Constitution, createMessage, CstGradeReqGetSummary, CstGradeReqGetUser, CstGradeResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CARDS_SORT_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
+import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareSongASC, compareSongDSC } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
@@ -26,6 +26,7 @@ export class VotesGradeComponent {
   votes: GradeUserData;
 
   cardsSortASC: boolean;
+  cardsViewEnabled: boolean;
   showStats: boolean;
 
   constructor(
@@ -36,8 +37,29 @@ export class VotesGradeComponent {
     this.currentIframeSongID = -1;
     this.votes = { uid: '', values: new Map() };
     this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
+    this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
     this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "false";
+    
     // TODO : Requête pour chercher les votes
+    this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
+  }
+
+  private onConnect(): void {
+    const messageGetUserVotes = createMessage<CstGradeReqGetUser>(EventType.CST_GRADE_get_user, { cstId: this.constitution.id });
+    this.auth.ws.send(messageGetUserVotes);
+
+    const messageGetSummary = createMessage<CstGradeReqGetSummary>(EventType.CST_GRADE_get_summary, { cstId: this.constitution.id });
+    this.auth.ws.send(messageGetSummary);
+  }
+
+  private handleEvents(event: MessageEvent<any>): void {
+    let message = JSON.parse(event.data.toString()) as Message<unknown>;
+    
+    switch (message.event) {
+      case EventType.CST_GRADE_update: {
+        // const data = extractMessageData<CstGradeResUpdate>(message).
+      }
+    }
   }
 
   getSongsToVote(): Song[] {
@@ -56,7 +78,8 @@ export class VotesGradeComponent {
 
   getMean(): string {
     const values = Array.from(this.votes.values).map((value) => value[1]);
-    return mean(values).toFixed(3);
+    const meanValue = mean(values).toFixed(3)
+    return meanValue === 'NaN' ? '0.000' : meanValue;
   }
 
   getVar(): string {
@@ -68,6 +91,7 @@ export class VotesGradeComponent {
     const config = new MatDialogConfig();
 
     config.data = {
+      cstId: this.constitution.id,
 			currentSong: song,
       currentVote: this.getVote(song),
 			songs: this.getSongsToVote(),
@@ -76,6 +100,14 @@ export class VotesGradeComponent {
 
     this.dialog.open(VoteNavigatorComponent, config);
 		this.currentIframeSongID = -1;
+  }
+
+  userVotesProgressBarValue(): number {
+    return this.votes.values.size / (this.constitution.numberOfSongsPerUser * (this.constitution.maxUserCount - 1));
+  }
+
+  totalVotesProgressBarValue(): number {
+    return 0; // TODO
   }
 
   // TODO : Duplication de code ? //
