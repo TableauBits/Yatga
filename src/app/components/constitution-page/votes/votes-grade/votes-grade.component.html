@@ -9,7 +9,7 @@
     Mes votes : TODO
     <mat-progress-bar mode="determinate" value="{{userVotesProgressBarValue()}}"></mat-progress-bar>
     <br>
-    Total : TODO
+    Total : {{summary.voteCount}} / {{numberOfVotes()}}
     <mat-progress-bar mode="determinate" value="{{totalVotesProgressBarValue()}}"></mat-progress-bar>
     <br>
     Moyenne : {{getMean()}}

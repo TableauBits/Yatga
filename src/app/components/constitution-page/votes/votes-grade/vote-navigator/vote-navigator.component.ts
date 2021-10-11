@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { createMessage, CstGradeReqEdit, EventType, GradeUserData, Song } from 'chelys';
+import { createMessage, EventType, GradeReqEdit, GradeUserData, Song } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
 
@@ -46,7 +46,7 @@ export class VoteNavigatorComponent {
   // TODO : Live update
 
   vote(grade: number) {
-    const message = createMessage<CstGradeReqEdit>(EventType.CST_GRADE_edit, {cstId: this.cstId, voteData: {grade: grade, songId: this.currentSong.id}});
+    const message = createMessage<GradeReqEdit>(EventType.CST_SONG_GRADE_edit, {cstId: this.cstId, voteData: {grade: grade, songId: this.currentSong.id}});
     this.auth.ws.send(message);
     this.currentVote = grade; // TODO : Necessary ?
   }

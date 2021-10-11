@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Constitution, createMessage, CstGradeReqGetSummary, CstGradeReqGetUser, CstGradeResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
+import { Constitution, createMessage, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
@@ -8,6 +8,7 @@ import { mean, variance } from 'src/app/types/math';
 import { compareSongASC, compareSongDSC } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'app-votes-grade',
@@ -16,7 +17,7 @@ import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.componen
 })
 export class VotesGradeComponent {
 
-	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
+	@Input() constitution: Constitution = EMPTY_CONSTITUTION; // TODO : encore besoin ?
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
 
@@ -24,6 +25,9 @@ export class VotesGradeComponent {
 	currentIframeSongID: number;
 
   votes: GradeUserData;
+  summary: GradeSummary;
+
+  cstID = "";
 
   cardsSortASC: boolean;
   cardsViewEnabled: boolean;
@@ -32,10 +36,12 @@ export class VotesGradeComponent {
   constructor(
     private auth: AuthService, 
     private sanitizer: DomSanitizer,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
   ) { 
     this.currentIframeSongID = -1;
     this.votes = { uid: '', values: new Map() };
+    this.summary = { voteCount: 0 };
     this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
     this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
     this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "false";
@@ -45,20 +51,26 @@ export class VotesGradeComponent {
   }
 
   private onConnect(): void {
-    const messageGetUserVotes = createMessage<CstGradeReqGetUser>(EventType.CST_GRADE_get_user, { cstId: this.constitution.id });
-    this.auth.ws.send(messageGetUserVotes);
-
-    const messageGetSummary = createMessage<CstGradeReqGetSummary>(EventType.CST_GRADE_get_summary, { cstId: this.constitution.id });
-    this.auth.ws.send(messageGetSummary);
+    this.route.params.subscribe((params) => {
+			this.cstID = params.cstID;
+      const messageGetUserVotes = createMessage<GradeReqGetUser>(EventType.CST_SONG_GRADE_get_user, { cstId: this.cstID});
+      this.auth.ws.send(messageGetUserVotes);
+  
+      const messageGetSummary = createMessage<GradeReqGetSummary>(EventType.CST_SONG_GRADE_get_summary, { cstId: this.cstID});
+      this.auth.ws.send(messageGetSummary);
+    });
   }
 
   private handleEvents(event: MessageEvent<any>): void {
     let message = JSON.parse(event.data.toString()) as Message<unknown>;
     
     switch (message.event) {
-      case EventType.CST_GRADE_update: {
-        // const data = extractMessageData<CstGradeResUpdate>(message).
-      }
+      case EventType.CST_SONG_GRADE_summary_update: 
+        this.summary = extractMessageData<GradeResSummaryUpdate>(message).summary;
+        break;
+      case EventType.CST_SONG_GRADE_userdata_update:
+        this.votes = extractMessageData<GradeResUserDataUpdate>(message).userData;
+        break;
     }
   }
 
@@ -107,10 +119,14 @@ export class VotesGradeComponent {
   }
 
   totalVotesProgressBarValue(): number {
-    return 0; // TODO
+    return this.summary.voteCount / this.numberOfVotes() * 100;
   }
 
-  // TODO : Duplication de code ? //
+  // TODO : Duplication de code //
+
+  numberOfVotes(): number {
+		return this.constitution.maxUserCount * this.constitution.numberOfSongsPerUser * (this.constitution.maxUserCount - 1);
+	}
 
   getUser(uid: string): User {
 		return this.users.get(uid) || EMPTY_USER;

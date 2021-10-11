@@ -8,7 +8,7 @@
     TODO : Bloquer la modification des votes <mat-slide-toggle> </mat-slide-toggle>
     <br>
     <br>
-    Nombre de votes : /{{numberOfVotes()}}
+    Nombre de votes : {{summary.voteCount}} / {{numberOfVotes()}}
     <mat-progress-bar mode="determinate" value="{{votesProgressBarValue()}}"> </mat-progress-bar>
   </mat-expansion-panel>
 </mat-accordion>
