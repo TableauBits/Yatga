@@ -6,7 +6,7 @@
     Cacher les chansons déjà votées <mat-slide-toggle> </mat-slide-toggle>
     <br>
     <br>
-    Mes votes : TODO
+    Mes votes : {{this.votes.values.size}} / {{constitution.numberOfSongsPerUser * (constitution.maxUserCount - 1)}}
     <mat-progress-bar mode="determinate" value="{{userVotesProgressBarValue()}}"></mat-progress-bar>
     <br>
     Total : {{summary.voteCount}} / {{numberOfVotes()}}
@@ -18,7 +18,7 @@
     <br>
     <br>
     Répartition des notes :
-    <app-histogram [values]="getGrades()"> </app-histogram>
+    <app-histogram [values]="histogramGrades"> </app-histogram>
   </mat-expansion-panel>
 </mat-accordion>
 <br>

@@ -26,6 +26,7 @@ export class VotesGradeComponent {
 	currentIframeSongID: number;
 
   votes: GradeUserData;
+  histogramGrades: number[];
   summary: GradeSummary;
 
   cstID = "";
@@ -43,6 +44,7 @@ export class VotesGradeComponent {
     this.currentIframeSongID = -1;
     this.votes = { uid: this.auth.uid, values: new Map() };
     this.summary = { voteCount: 0 };
+    this.histogramGrades = [];
     this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
     this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
     this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "false";
@@ -70,9 +72,11 @@ export class VotesGradeComponent {
         break;
       case EventType.CST_SONG_GRADE_userdata_update:
         const entries = Object.entries(extractMessageData<GradeResUserDataUpdate>(message).userData.values);
+        this.histogramGrades = [];
 
         entries.forEach((entry) => {
           this.votes.values.set(toNumber(entry[0]), entry[1]);
+          this.histogramGrades.push(entry[1]);
         })
         break;
     }
@@ -119,7 +123,7 @@ export class VotesGradeComponent {
   }
 
   userVotesProgressBarValue(): number {
-    return this.votes.values.size / (this.constitution.numberOfSongsPerUser * (this.constitution.maxUserCount - 1));
+    return this.votes.values.size / (this.constitution.numberOfSongsPerUser * (this.constitution.maxUserCount - 1)) * 100;
   }
 
   totalVotesProgressBarValue(): number {

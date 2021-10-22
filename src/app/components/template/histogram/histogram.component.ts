@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
+import { isNil } from 'lodash';
 
 type EChartsOption = echarts.EChartsOption;
 
@@ -10,7 +11,7 @@ const GRADE_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   templateUrl: './histogram.component.html',
   styleUrls: ['./histogram.component.scss']
 })
-export class HistogramComponent implements AfterViewInit {
+export class HistogramComponent implements AfterViewInit, OnChanges {
 
   @Input() values: number[] = [];
 
@@ -18,9 +19,15 @@ export class HistogramComponent implements AfterViewInit {
   private option: EChartsOption;
 
   ngAfterViewInit() {
-    this.chart = echarts.init(document.getElementById('main')!);
+    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('main')!);
+    
     this.option = this.initChart();
     this.option && this.chart.setOption(this.option);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.values = changes['values'].currentValue;
+    this.ngAfterViewInit();
   }
 
   constructor() {
