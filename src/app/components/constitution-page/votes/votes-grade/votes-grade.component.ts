@@ -9,6 +9,7 @@ import { compareSongASC, compareSongDSC } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
+import { toNumber } from 'lodash';
 
 @Component({
 	selector: 'app-votes-grade',
@@ -40,13 +41,12 @@ export class VotesGradeComponent {
     private route: ActivatedRoute,
   ) { 
     this.currentIframeSongID = -1;
-    this.votes = { uid: '', values: new Map() };
+    this.votes = { uid: this.auth.uid, values: new Map() };
     this.summary = { voteCount: 0 };
     this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
     this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
     this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "false";
     
-    // TODO : Requête pour chercher les votes
     this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
   }
 
@@ -65,11 +65,15 @@ export class VotesGradeComponent {
     let message = JSON.parse(event.data.toString()) as Message<unknown>;
     
     switch (message.event) {
-      case EventType.CST_SONG_GRADE_summary_update: 
+      case EventType.CST_SONG_GRADE_summary_update:
         this.summary = extractMessageData<GradeResSummaryUpdate>(message).summary;
         break;
       case EventType.CST_SONG_GRADE_userdata_update:
-        this.votes = extractMessageData<GradeResUserDataUpdate>(message).userData;
+        const entries = Object.entries(extractMessageData<GradeResUserDataUpdate>(message).userData.values);
+
+        entries.forEach((entry) => {
+          this.votes.values.set(toNumber(entry[0]), entry[1]);
+        })
         break;
     }
   }
