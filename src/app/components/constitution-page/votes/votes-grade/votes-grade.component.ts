@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Constitution, createMessage, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
+import { Constitution, createMessage, DocumentGradeResUserDataUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
+import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareSongASC, compareSongDSC } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
-import { toNumber } from 'lodash';
+import { toMapNumber } from 'src/app/types/utils';
 
 @Component({
 	selector: 'app-votes-grade',
@@ -34,6 +34,7 @@ export class VotesGradeComponent {
   cardsSortASC: boolean;
   cardsViewEnabled: boolean;
   showStats: boolean;
+  showAlreadyVoted: boolean;
 
   constructor(
     private auth: AuthService, 
@@ -47,7 +48,8 @@ export class VotesGradeComponent {
     this.histogramGrades = [];
     this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
     this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
-    this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "false";
+    this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
+    this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
     
     this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
   }
@@ -71,19 +73,25 @@ export class VotesGradeComponent {
         this.summary = extractMessageData<GradeResSummaryUpdate>(message).summary;
         break;
       case EventType.CST_SONG_GRADE_userdata_update:
-        const entries = Object.entries(extractMessageData<GradeResUserDataUpdate>(message).userData.values);
-        this.histogramGrades = [];
-
-        entries.forEach((entry) => {
-          this.votes.values.set(toNumber(entry[0]), entry[1]);
-          this.histogramGrades.push(entry[1]);
-        })
+        console.log(message);
+        const data = extractMessageData<DocumentGradeResUserDataUpdate>(message).userData;
+        this.votes = { uid: data.uid, values: toMapNumber<number>(data.values) };
+        this.histogramGrades = Array.from(this.votes.values.values());
         break;
     }
   }
 
+  updateGradeAlreadyVoted(): void {
+		this.showAlreadyVoted = !this.showAlreadyVoted;
+		localStorage.setItem(GRADE_ALREADY_VOTES_KEY, this.showAlreadyVoted.toString());
+	}
+
   getSongsToVote(): Song[] {
-    const songsToVote = Array.from(this.songs.values()).filter(song => song.user !== this.auth.uid);
+    const songsToVote = Array.from(this.songs.values()).filter(song => {
+      const isNotUserSong = song.user !== this.auth.uid;
+      const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted
+      return isNotUserSong && !isAlreadyVoted;
+    });
     if (this.cardsSortASC) return songsToVote.sort(compareSongASC)
 		else return songsToVote.sort(compareSongDSC);
   }

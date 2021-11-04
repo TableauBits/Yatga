@@ -36,16 +36,11 @@ export class HistogramComponent implements AfterViewInit, OnChanges {
   }
 
   private initChart(): EChartsOption {
-    const counts: number[] = [];
-    GRADE_VALUES.forEach((grade) => {
-      counts.push(this.countGrade(grade));
-    })
-
     return {
       color: '#673AB7',
       series: [
         {
-          data: counts,
+          data: GRADE_VALUES.map((grade) => this.countGrade(grade)),
           type: 'bar'
         }
       ],

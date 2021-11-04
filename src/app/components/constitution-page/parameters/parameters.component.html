@@ -25,10 +25,10 @@
   </tr>
   <tr>
     <td> Cacher les chansons déjà votées </td>
-    <td> <mat-slide-toggle [disabled]="true"> </mat-slide-toggle></td>
+    <td> <mat-slide-toggle [checked]="localSettings.gradeShowAlreadyVoted" (change)="updateGradeAlreadyVoted()"> </mat-slide-toggle></td>
   </tr>
   <tr>
     <td> Garder l'onglet "Statistiques" ouvert </td>
-    <td> <mat-slide-toggle [disabled]="true"> </mat-slide-toggle></td>
+    <td> <mat-slide-toggle [checked]="localSettings.gradeShowStats" (change)="updateGradeShowStats()"> </mat-slide-toggle></td>
   </tr>
 </table>

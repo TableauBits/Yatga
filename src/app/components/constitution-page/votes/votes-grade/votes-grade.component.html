@@ -3,7 +3,7 @@
     <mat-expansion-panel-header> 
         <mat-panel-title> Statistiques </mat-panel-title>
     </mat-expansion-panel-header>
-    Cacher les chansons déjà votées <mat-slide-toggle> </mat-slide-toggle>
+    <mat-checkbox color="primary" [checked]="showAlreadyVoted" (change)="updateGradeAlreadyVoted()"> Cacher les chansons déjà votées  </mat-checkbox> 
     <br>
     <br>
     Mes votes : {{this.votes.values.size}} / {{constitution.numberOfSongsPerUser * (constitution.maxUserCount - 1)}}
