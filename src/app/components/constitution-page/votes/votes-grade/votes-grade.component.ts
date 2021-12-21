@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Constitution, createMessage, DocumentGradeResUserDataUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
+import { Constitution, createMessage, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
@@ -9,7 +9,7 @@ import { compareSongASC, compareSongDSC } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
-import { toMapNumber } from 'src/app/types/utils';
+import { toMap, toMapNumber } from 'src/app/types/utils';
 
 @Component({
 	selector: 'app-votes-grade',
@@ -44,7 +44,7 @@ export class VotesGradeComponent {
   ) { 
     this.currentIframeSongID = -1;
     this.votes = { uid: this.auth.uid, values: new Map() };
-    this.summary = { voteCount: 0 };
+    this.summary = { voteCount: 0, userCount: new Map() };
     this.histogramGrades = [];
     this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
     this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
@@ -69,14 +69,16 @@ export class VotesGradeComponent {
     let message = JSON.parse(event.data.toString()) as Message<unknown>;
     
     switch (message.event) {
-      case EventType.CST_SONG_GRADE_summary_update:
-        this.summary = extractMessageData<GradeResSummaryUpdate>(message).summary;
+      case EventType.CST_SONG_GRADE_summary_update: {
+        const data = extractMessageData<GradeResSummaryUpdate>(message).summary;
+        this.summary = {voteCount: data.voteCount, userCount: toMap(data.userCount)};
+      }
         break;
-      case EventType.CST_SONG_GRADE_userdata_update:
-        console.log(message);
-        const data = extractMessageData<DocumentGradeResUserDataUpdate>(message).userData;
+      case EventType.CST_SONG_GRADE_userdata_update: {
+        const data = extractMessageData<GradeResUserDataUpdate>(message).userData;
         this.votes = { uid: data.uid, values: toMapNumber<number>(data.values) };
         this.histogramGrades = Array.from(this.votes.values.values());
+      }
         break;
     }
   }

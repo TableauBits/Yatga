@@ -1,5 +1,37 @@
 @import "../../../../../styles/variables.scss";
 
+table {
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+	overflow-x: auto;
+	font-size:medium;
+}
+
+td, th {
+	border: 1px solid $sasuke;
+	text-align: center;
+	padding: 8px;
+}
+
+#t01 th {
+	background-color: $mineshaft;
+	color: whitesmoke;
+}
+
+#t01 tr:nth-child(even) {
+	background-color: $sasuke;
+}
+#t01 tr:nth-child(odd) {
+	background-color: $cape-cod;
+}
+
+.avatar {
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 1%;
+}
+
 mat-expansion-panel {
   background-color: $mineshaft;
   color: whitesmoke;

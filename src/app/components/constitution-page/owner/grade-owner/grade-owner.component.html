@@ -1,14 +1,53 @@
 <mat-accordion multi>
   <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header> 
+        <mat-panel-title> État </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table id="t01">
+      <tr>
+        <th> État </th>
+        <th> Actif </th>
+      </tr>
+      <tr>
+        <td> Ajouter des chansons </td>
+        <td> 
+          <mat-slide-toggle [checked]="false" [disabled]="true"> </mat-slide-toggle>
+        </td>
+      </tr>
+      <tr>
+        <td> Pouvoir voter </td>
+        <td> 
+          <mat-slide-toggle [checked]="true" [disabled]="true"> </mat-slide-toggle>
+        </td>
+      </tr>
+      <tr>
+        <td> Afficher les résultats </td>
+        <td> 
+          <mat-slide-toggle [checked]="true" [disabled]="false"> </mat-slide-toggle>
+        </td>
+      </tr>
+    </table> 
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header> 
         <mat-panel-title> Votes </mat-panel-title>
     </mat-expansion-panel-header>
-    TODO : Bloquer la modification des chansons <mat-slide-toggle [checked]="true" [disabled]="true"> </mat-slide-toggle>
-    <br>
-    TODO : Bloquer la modification des votes <mat-slide-toggle> </mat-slide-toggle>
-    <br>
-    <br>
     Nombre de votes : {{summary.voteCount}} / {{numberOfVotes()}}
     <mat-progress-bar mode="determinate" value="{{votesProgressBarValue()}}"> </mat-progress-bar>
+    <br>
+    <table id="t01">
+      <tr>
+        <th> </th>
+        <th> Membre </th>
+        <th> Votes </th>
+        <th> Progression </th>
+      </tr>
+      <tr *ngFor="let user of getUsers()">
+        <td> <img class="picture avatar" [src]="user.photoURL"> </td>
+        <td> {{ user.displayName }} </td>
+        <td> {{ userNumberOfVotes(user) }}</td>
+        <td> <mat-progress-bar mode="determinate" value="{{userVotesProgressBarValue(user)}}"> </mat-progress-bar> </td>
+      </tr>
+    </table>
   </mat-expansion-panel>
 </mat-accordion>
