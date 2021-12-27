@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Constitution, createMessage, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
+import { Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
@@ -80,6 +80,11 @@ export class VotesGradeComponent {
         this.histogramGrades = Array.from(this.votes.values.values());
       }
         break;
+      case EventType.CST_update: {
+        const cst = extractMessageData<CstResUpdate>(message).cstInfo;
+				if (cst.id !== this.constitution.id) return;
+				this.constitution = cst;
+      }
     }
   }
 

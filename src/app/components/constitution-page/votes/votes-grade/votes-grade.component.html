@@ -1,95 +1,103 @@
-<mat-accordion multi>
-  <mat-expansion-panel [expanded]="showStats">
-    <mat-expansion-panel-header> 
-        <mat-panel-title> Statistiques </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-checkbox color="primary" [checked]="showAlreadyVoted" (change)="updateGradeAlreadyVoted()"> Cacher les chansons déjà votées  </mat-checkbox> 
-    <br>
-    <br>
-    Mes votes : {{this.votes.values.size}} / {{constitution.numberOfSongsPerUser * (constitution.maxUserCount - 1)}}
-    <mat-progress-bar mode="determinate" value="{{userVotesProgressBarValue()}}"></mat-progress-bar>
-    <br>
-    Total : {{summary.voteCount}} / {{numberOfVotes()}}
-    <mat-progress-bar mode="determinate" value="{{totalVotesProgressBarValue()}}"></mat-progress-bar>
-    <br>
-    Moyenne : {{getMean()}}
-    <br>
-    Variance : {{getVar()}}
-    <br>
-    <br>
-    Répartition des notes :
-    <app-histogram [values]="histogramGrades"> </app-histogram>
-  </mat-expansion-panel>
-</mat-accordion>
-<br>
-<div *ngIf="cardsViewEnabled; then cardsView; else compactView">
-</div>
-<ng-template #cardsView>
-  <div class="container">
-    <div class="row g-5">
-      <div class="col" *ngFor="let song of getSongsToVote()">
-        <div class="card shadow-0 bg-dark">
-          <h3 class="card-header">
-            <div>
-              {{song.title}}
-              <img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
-            </div>
-            <i> {{song.author}} </i> 
-          </h3>
-          <img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
-          <div class="card-img-overlay">
-            <div class="card-body">
-              <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
-              height="200" frameborder="0" [src]="getSongSafeURL(song)" 
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-              </iframe>
-              <ng-template #loadImage>
-                <img src="{{getImageURL(song)}}" height="208" class="iframe-image" (click)="updateCurrentIframeSong(song)">
-                <div class="centered">
-                  <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
-                </div>
-              </ng-template>
-              <br>
-              <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
-                <mat-icon>how_to_vote</mat-icon>
-              </button>
-              <button mat-raised-button color="primary" [disabled]="true">
-                <mat-icon>star_border</mat-icon>
-              </button>
-              <button mat-raised-button color="primary" class="vote">
-                {{getVote(song)}}
-              </button>
+<div *ngIf="constitution.state === 1; then allowVotes; else hideVotes"> </div>
+
+<ng-template #hideVotes>
+  La période de votes n'est pas ouverte.
+</ng-template>
+
+<ng-template #allowVotes>
+  <mat-accordion multi>
+    <mat-expansion-panel [expanded]="showStats">
+      <mat-expansion-panel-header> 
+          <mat-panel-title> Statistiques </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-checkbox color="primary" [checked]="showAlreadyVoted" (change)="updateGradeAlreadyVoted()"> Cacher les chansons déjà votées  </mat-checkbox> 
+      <br>
+      <br>
+      Mes votes : {{this.votes.values.size}} / {{constitution.numberOfSongsPerUser * (constitution.maxUserCount - 1)}}
+      <mat-progress-bar mode="determinate" value="{{userVotesProgressBarValue()}}"></mat-progress-bar>
+      <br>
+      Total : {{summary.voteCount}} / {{numberOfVotes()}}
+      <mat-progress-bar mode="determinate" value="{{totalVotesProgressBarValue()}}"></mat-progress-bar>
+      <br>
+      Moyenne : {{getMean()}}
+      <br>
+      Variance : {{getVar()}}
+      <br>
+      <br>
+      Répartition des notes :
+      <app-histogram [values]="histogramGrades"> </app-histogram>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br>
+  <div *ngIf="cardsViewEnabled; then cardsView; else compactView">
+  </div>
+  <ng-template #cardsView>
+    <div class="container">
+      <div class="row g-5">
+        <div class="col" *ngFor="let song of getSongsToVote()">
+          <div class="card shadow-0 bg-dark">
+            <h3 class="card-header">
+              <div>
+                {{song.title}}
+                <img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
+              </div>
+              <i> {{song.author}} </i> 
+            </h3>
+            <img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
+            <div class="card-img-overlay">
+              <div class="card-body">
+                <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
+                height="200" frameborder="0" [src]="getSongSafeURL(song)" 
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+                </iframe>
+                <ng-template #loadImage>
+                  <img src="{{getImageURL(song)}}" height="208" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+                  <div class="centered">
+                    <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
+                  </div>
+                </ng-template>
+                <br>
+                <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
+                  <mat-icon>how_to_vote</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" [disabled]="true">
+                  <mat-icon>star_border</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" class="vote">
+                  {{getVote(song)}}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</ng-template>
-<ng-template #compactView>
-  <table id="t01">
-		<tr>
-			<th> ID </th>
-			<th> Titre </th>
-			<th> Auteur </th>
-			<th> URL </th>
-			<th> Note </th>
-		</tr>
-		<tr *ngFor="let song of getSongsToVote()">
-			<td> {{ song.id }} </td>
-			<td> 
-				<button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
-					{{ song.title }} 
-				</button>
-			</td>
-			<td> {{ song.author }} </td>
-			<td>
-				<a href="{{song.url}}" target="_blank">
-					<mat-icon>play_circle_outline</mat-icon>
-				</a>
-			</td>
-			<td> {{getVote(song)}} </td>
-		</tr>
-	</table>
+  </ng-template>
+  <ng-template #compactView>
+    <table id="t01">
+      <tr>
+        <th> ID </th>
+        <th> Titre </th>
+        <th> Auteur </th>
+        <th> URL </th>
+        <th> Note </th>
+      </tr>
+      <tr *ngFor="let song of getSongsToVote()">
+        <td> {{ song.id }} </td>
+        <td> 
+          <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
+            {{ song.title }} 
+          </button>
+        </td>
+        <td> {{ song.author }} </td>
+        <td>
+          <a href="{{song.url}}" target="_blank">
+            <mat-icon>play_circle_outline</mat-icon>
+          </a>
+        </td>
+        <td> {{getVote(song)}} </td>
+      </tr>
+    </table>
+  </ng-template>
 </ng-template>

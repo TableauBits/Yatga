@@ -43,8 +43,6 @@ export class VoteNavigatorComponent {
     this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
   }
 
-  // TODO : Live update
-
   vote(grade: number) {
     const message = createMessage<GradeReqEdit>(EventType.CST_SONG_GRADE_edit, {cstId: this.cstId, voteData: {grade: grade, songId: this.currentSong.id}});
     this.auth.ws.send(message);

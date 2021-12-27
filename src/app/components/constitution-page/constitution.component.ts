@@ -58,9 +58,9 @@ export class ConstitutionComponent {
 
 	private handleEvents(event: MessageEvent<any>): void {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
-
 		switch (message.event) {
 			case EventType.CST_update: {
+
 				const data = extractMessageData<CstResUpdate>(message).cstInfo;
 				if (data.id === this.cstID) {
 					this.constitution = data;
@@ -71,9 +71,9 @@ export class ConstitutionComponent {
 						this.users.delete(uid)
 					}
 
-					if (!this.constitution.users.includes(this.auth.uid)) {
-						this.router.navigate(['']);
-					}
+					// if (!this.constitution.users.includes(this.auth.uid)) {
+					// 	this.router.navigate(['']);
+					// }
 
 					const getUsersMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: newUsers })
 					this.auth.ws.send(getUsersMessage);
