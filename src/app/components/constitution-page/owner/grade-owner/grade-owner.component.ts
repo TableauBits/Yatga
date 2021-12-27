@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Constitution, createMessage, CstReqState, CstResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetSummary, GradeResSummaryUpdate, GradeSummary, Message, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
@@ -23,7 +23,7 @@ const STATES: Map<GradeState, string> = new Map([
 	templateUrl: './grade-owner.component.html',
 	styleUrls: ['./grade-owner.component.scss']
 })
-export class GradeOwnerComponent {
+export class GradeOwnerComponent implements OnDestroy {
 
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
@@ -32,7 +32,13 @@ export class GradeOwnerComponent {
 	cstID = "";
 
 	constructor(private auth: AuthService, private route: ActivatedRoute) {
-		this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
+		this.auth.pushAuthFunction(this.onConnect, this);
+		this.auth.pushEventHandler(this.handleEvents, this);
+	}
+
+	ngOnDestroy(): void {
+		this.auth.popEventHandler();
+		this.auth.popAuthCallback();
 	}
 
 	private onConnect(): void {
@@ -108,7 +114,7 @@ export class GradeOwnerComponent {
 		// this.constitution.state += shift;
 		const message = createMessage<CstReqState>(EventType.CST_state, {id: this.constitution.id, state: this.constitution.state + shift});
 		this.auth.ws.send(message);
-		window.location.reload();		// TODO : find a best option
+		// window.location.reload();		// TODO : find a best option
 	}
 
 	returnText(): string {

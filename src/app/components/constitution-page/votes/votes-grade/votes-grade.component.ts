@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { toMap, toMapNumber } from 'src/app/types/utils';
 	templateUrl: './votes-grade.component.html',
 	styleUrls: ['./votes-grade.component.scss']
 })
-export class VotesGradeComponent {
+export class VotesGradeComponent implements OnDestroy {
 
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION; // TODO : encore besoin ?
 	@Input() users: Map<string, User> = new Map();
@@ -51,8 +51,14 @@ export class VotesGradeComponent {
     this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
     this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
     
-    this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
+    this.auth.pushAuthFunction(this.onConnect, this);
+		this.auth.pushEventHandler(this.handleEvents, this);
   }
+
+	ngOnDestroy(): void {
+		this.auth.popEventHandler();
+		this.auth.popAuthCallback();
+	}
 
   private onConnect(): void {
     this.route.params.subscribe((params) => {

@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
@@ -20,7 +20,7 @@ enum ConstitutionSection {
 	templateUrl: './constitution.component.html',
 	styleUrls: ['./constitution.component.scss']
 })
-export class ConstitutionComponent {
+export class ConstitutionComponent implements OnDestroy {
 
 	private cstID;
 	constitution: Constitution;
@@ -39,7 +39,14 @@ export class ConstitutionComponent {
 		this.currentSection = ConstitutionSection.SONG_LIST;
 		this.users = new Map();
 		this.songs = new Map();
-		this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
+
+		this.auth.pushAuthFunction(this.onConnect, this);
+		this.auth.pushEventHandler(this.handleEvents, this);
+	}
+
+	ngOnDestroy(): void {
+		this.auth.popEventHandler();
+		this.auth.popAuthCallback();
 	}
 
 	// HTML can't access the ConstiutionSection enum directly
