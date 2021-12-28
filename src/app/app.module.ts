@@ -31,6 +31,9 @@ import { DeleteSongWarningComponent } from './components/delete-song-warning/del
 import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
 import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
 import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
+import { HistogramComponent } from './components/template/histogram/histogram.component';
+import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
+
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -58,8 +61,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { HistogramComponent } from './components/template/histogram/histogram.component';
-import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
 
 @NgModule({
 	declarations: [

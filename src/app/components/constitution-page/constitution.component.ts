@@ -1,7 +1,7 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
@@ -32,7 +32,6 @@ export class ConstitutionComponent implements OnDestroy {
 		private auth: AuthService,
 		private route: ActivatedRoute,
 		private dialog: MatDialog,
-		private router: Router
 	) {
 		this.cstID = "";
 		this.constitution = EMPTY_CONSTITUTION;
@@ -77,10 +76,6 @@ export class ConstitutionComponent implements OnDestroy {
 					for (const uid of unusedListens) {
 						this.users.delete(uid)
 					}
-
-					// if (!this.constitution.users.includes(this.auth.uid)) {
-					// 	this.router.navigate(['']);
-					// }
 
 					const getUsersMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: newUsers })
 					this.auth.ws.send(getUsersMessage);

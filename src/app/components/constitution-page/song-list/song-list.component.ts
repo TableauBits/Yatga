@@ -60,7 +60,6 @@ export class SongListComponent {
 		if (!this.safeUrls.has(song.id)) {
 			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
 		}
-
 		return this.safeUrls.get(song.id) || '';
 	}
 

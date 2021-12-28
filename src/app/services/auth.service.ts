@@ -129,14 +129,14 @@ export class AuthService {
 		this.resetState();
 	}
 
-	private updateUser(message: Message<unknown>): void {
-		const data = extractMessageData<UsrResUpdate>(message);
+	// private updateUser(message: Message<unknown>): void {
+	// 	const data = extractMessageData<UsrResUpdate>(message);
 
-		if (message.event === EventType.USER_update &&
-			this.uid === data.userInfo.uid) {
-			this.user = data.userInfo;
-		}
-	}
+	// 	if (message.event === EventType.USER_update &&
+	// 		this.uid === data.userInfo.uid) {
+	// 		this.user = data.userInfo;
+	// 	}
+	// }
 
 	// waitForAuth(eventHandler: (event: MessageEvent<any>) => void, authCallback: () => void, context: any): void {
 	// 	if (this.isAuthenticate) {
