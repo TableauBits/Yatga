@@ -73,8 +73,8 @@ export class AuthService {
 		this.uid = '';
 		this.user = EMPTY_USER;
 		this.emitter = new EventEmitter();
-		
-		this.eventHandlers = [];
+
+		this.eventHandlers = [[this.updateUserData, this]];
 		this.authCallbacks = [];
 
 		this.connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
@@ -129,35 +129,22 @@ export class AuthService {
 		this.resetState();
 	}
 
-	// private updateUser(message: Message<unknown>): void {
-	// 	const data = extractMessageData<UsrResUpdate>(message);
+	private updateUserData(event: MessageEvent<any>): void {
+		let message: Message<unknown>;
+		try {
+			message = JSON.parse(event.data.toString()) as Message<unknown>;
+		} catch (error: unknown) {
+			console.error(`Could not parse event (${event})!`);
+			return;
+		}
 
-	// 	if (message.event === EventType.USER_update &&
-	// 		this.uid === data.userInfo.uid) {
-	// 		this.user = data.userInfo;
-	// 	}
-	// }
+		const data = extractMessageData<UsrResUpdate>(message);
 
-	// waitForAuth(eventHandler: (event: MessageEvent<any>) => void, authCallback: () => void, context: any): void {
-	// 	if (this.isAuthenticate) {
-	// 		this.ws.onmessage = (event) => {
-	// 			const message = JSON.parse(event.data.toString()) as Message<unknown>
-	// 			this.updateUser(message);
-	// 			eventHandler.call(context, event);
-	// 		}
-	// 		authCallback.call(context);
-	// 	} else {
-	// 		this.emitter.once('user_get_one', () => {
-	// 			this.ws.onmessage = (event) => {
-	// 				const message = JSON.parse(event.data.toString()) as Message<unknown>
-	// 				this.updateUser(message);
-	// 				eventHandler.call(context, event);
-	// 			}
-	// 			authCallback.call(context);
-	// 			ping(this.ws);
-	// 		});
-	// 	}
-	// }
+		if (message.event === EventType.USER_update &&
+			this.uid === data.userInfo.uid) {
+			this.user = data.userInfo;
+		}
+	}
 
 	pushEventHandler(eventHandler: EventHandlerFunction, context: any): void {
 		this.eventHandlers.push([eventHandler, context]);
@@ -170,8 +157,8 @@ export class AuthService {
 		}
 	}
 
-	popEventHandler(): void {this.eventHandlers.pop();}
-	popAuthCallback(): void {this.authCallbacks.pop();}
+	popEventHandler(): void { this.eventHandlers.pop(); }
+	popAuthCallback(): void { this.authCallbacks.pop(); }
 
 	private handleEvents(event: MessageEvent<any>): void {
 		let message: Message<unknown>;
@@ -196,8 +183,9 @@ export class AuthService {
 			case EventType.USER_update:
 				this.isAuthenticate = true;
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
-				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event));};
+				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
 				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
+				this.authCallbacks = [];
 				break;
 
 			default:
