@@ -52,8 +52,6 @@ export class GradeOwnerComponent implements OnDestroy {
 	private handleEvents(event: MessageEvent<any>): void {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
     
-		console.log(message);
-
     switch (message.event) { 
 			case EventType.CST_SONG_GRADE_summary_update:
 				const data = extractMessageData<GradeResSummaryUpdate>(message).summary;
