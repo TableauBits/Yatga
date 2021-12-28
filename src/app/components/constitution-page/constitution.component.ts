@@ -1,8 +1,8 @@
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import { ActivatedRoute} from '@angular/router';
+import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 
@@ -20,7 +20,7 @@ enum ConstitutionSection {
 	templateUrl: './constitution.component.html',
 	styleUrls: ['./constitution.component.scss']
 })
-export class ConstitutionComponent {
+export class ConstitutionComponent implements OnDestroy {
 
 	private cstID;
 	constitution: Constitution;
@@ -32,14 +32,20 @@ export class ConstitutionComponent {
 		private auth: AuthService,
 		private route: ActivatedRoute,
 		private dialog: MatDialog,
-		private router: Router
 	) {
 		this.cstID = "";
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentSection = ConstitutionSection.SONG_LIST;
 		this.users = new Map();
 		this.songs = new Map();
-		this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
+
+		this.auth.pushAuthFunction(this.onConnect, this);
+		this.auth.pushEventHandler(this.handleEvents, this);
+	}
+
+	ngOnDestroy(): void {
+		this.auth.popEventHandler();
+		this.auth.popAuthCallback();
 	}
 
 	// HTML can't access the ConstiutionSection enum directly
@@ -58,9 +64,9 @@ export class ConstitutionComponent {
 
 	private handleEvents(event: MessageEvent<any>): void {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
-
 		switch (message.event) {
 			case EventType.CST_update: {
+
 				const data = extractMessageData<CstResUpdate>(message).cstInfo;
 				if (data.id === this.cstID) {
 					this.constitution = data;
@@ -69,10 +75,6 @@ export class ConstitutionComponent {
 					const unusedListens = Array.from(this.users.values()).filter((user) => !this.constitution.users.includes(user.uid)).map((user) => user.uid);
 					for (const uid of unusedListens) {
 						this.users.delete(uid)
-					}
-
-					if (!this.constitution.users.includes(this.auth.uid)) {
-						this.router.navigate(['']);
 					}
 
 					const getUsersMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: newUsers })

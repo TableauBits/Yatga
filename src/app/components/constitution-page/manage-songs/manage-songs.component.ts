@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { createMessage, CstSongReqAdd, CstSongReqRemove, EventType, Song, SongPlatform } from '@tableaubits/hang';
+import { createMessage, CstSongReqAdd, CstSongReqRemove, EventType, Song, SongPlatform } from 'chelys';
 import { isEmpty } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';

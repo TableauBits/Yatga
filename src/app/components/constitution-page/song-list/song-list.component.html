@@ -36,7 +36,7 @@
 							<button mat-raised-button color="primary" [disabled]="true">
 								<mat-icon>star_border</mat-icon>
 							</button>
-							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" (click)="openDeleteSongWarning(song)">
+							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)">
 								<mat-icon>cancel</mat-icon>
 							</button>
 						</div>

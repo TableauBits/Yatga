@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
 import firebase from 'firebase/app';
-import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from '@tableaubits/hang';
+import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from 'chelys';
 
 const WS_PING_INTERVAL = 30000;
 
@@ -46,6 +46,9 @@ function ping(ws: WebSocket): void {
 	setTimeout(ping, WS_PING_INTERVAL, ws);
 }
 
+type EventHandlerFunction = (event: MessageEvent<any>) => void;
+type AuthCallbackFunction = () => void;
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -61,11 +64,18 @@ export class AuthService {
 	public user: User;
 	public isAuthenticate: boolean;
 
+	// Callbacks
+	private eventHandlers: [EventHandlerFunction, any][];
+	private authCallbacks: [AuthCallbackFunction, any][];
+
 	constructor(private fireAuth: AngularFireAuth) {
 		this.isAuthenticate = false;
 		this.uid = '';
 		this.user = EMPTY_USER;
 		this.emitter = new EventEmitter();
+
+		this.eventHandlers = [[this.updateUserData, this]];
+		this.authCallbacks = [];
 
 		this.connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
 		if (!environment.production) {
@@ -119,7 +129,15 @@ export class AuthService {
 		this.resetState();
 	}
 
-	private updateUser(message: Message<unknown>): void {
+	private updateUserData(event: MessageEvent<any>): void {
+		let message: Message<unknown>;
+		try {
+			message = JSON.parse(event.data.toString()) as Message<unknown>;
+		} catch (error: unknown) {
+			console.error(`Could not parse event (${event})!`);
+			return;
+		}
+
 		const data = extractMessageData<UsrResUpdate>(message);
 
 		if (message.event === EventType.USER_update &&
@@ -128,26 +146,19 @@ export class AuthService {
 		}
 	}
 
-	waitForAuth(eventHandler: (event: MessageEvent<any>) => void, authCallback: () => void, context: any): void {
+	pushEventHandler(eventHandler: EventHandlerFunction, context: any): void {
+		this.eventHandlers.push([eventHandler, context]);
+	}
+	pushAuthFunction(authCallback: AuthCallbackFunction, context: any): void {
 		if (this.isAuthenticate) {
-			this.ws.onmessage = (event) => {
-				const message = JSON.parse(event.data.toString()) as Message<unknown>
-				this.updateUser(message);
-				eventHandler.call(context, event);
-			}
 			authCallback.call(context);
 		} else {
-			this.emitter.once('user_get_one', () => {
-				this.ws.onmessage = (event) => {
-					const message = JSON.parse(event.data.toString()) as Message<unknown>
-					this.updateUser(message);
-					eventHandler.call(context, event);
-				}
-				authCallback.call(context);
-				ping(this.ws);
-			});
+			this.authCallbacks.push([authCallback, context]);
 		}
 	}
+
+	popEventHandler(): void { this.eventHandlers.pop(); }
+	popAuthCallback(): void { this.authCallbacks.pop(); }
 
 	private handleEvents(event: MessageEvent<any>): void {
 		let message: Message<unknown>;
@@ -172,8 +183,9 @@ export class AuthService {
 			case EventType.USER_update:
 				this.isAuthenticate = true;
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
-				this.ws.onmessage = () => { }; // TODO: check if we need to do something else before
-				this.emitter.emit('user_get_one');
+				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
+				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
+				this.authCallbacks = [];
 				break;
 
 			default:

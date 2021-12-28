@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { createMessage, EventType, extractMessageData, Message, User, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import { createMessage, EventType, extractMessageData, Message, User, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { returnUserRoles, RoleData } from 'src/app/types/role';
@@ -15,7 +15,17 @@ export class UsersPageComponent implements OnDestroy {
 
 	constructor(public auth: AuthService) {
 		this.users = new Map();
-		this.auth.waitForAuth(this.handleEvents, this.onConnect, this);
+		this.auth.pushAuthFunction(this.onConnect, this);
+		this.auth.pushEventHandler(this.handleEvents, this);
+	}
+
+	ngOnDestroy(): void {
+		// Unsubscribe from all user updates except the user himself
+		const uids: string[] = [...this.users.keys()].filter((uid) => uid !== this.auth.uid);
+		this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: uids }));
+
+		this.auth.popEventHandler();
+		this.auth.popAuthCallback();
 	}
 
 	private handleEvents(event: MessageEvent<any>): void {
@@ -43,11 +53,5 @@ export class UsersPageComponent implements OnDestroy {
 	getRoles(user: User): RoleData[] {
 		const roles = returnUserRoles(user.roles)
 		return roles ? roles : [];
-	}
-
-	ngOnDestroy(): void {
-		// Unsubscribe from all user updates except the user himself
-		const uids: string[] = [...this.users.keys()].filter((uid) => uid !== this.auth.uid);
-		this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: uids }));
 	}
 }

@@ -28,6 +28,12 @@ import { ExportComponent } from './components/constitution-page/export/export.co
 import { ManageSongsComponent } from './components/constitution-page/manage-songs/manage-songs.component';
 import { ParametersComponent } from './components/constitution-page/parameters/parameters.component';
 import { DeleteSongWarningComponent } from './components/delete-song-warning/delete-song-warning.component';
+import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
+import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
+import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
+import { HistogramComponent } from './components/template/histogram/histogram.component';
+import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
+
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -43,7 +49,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatProgressBarModule } from "@angular/material/progress-bar"
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -74,7 +81,11 @@ import { AuthService } from './services/auth.service';
 		ManageSongsComponent,
   	ParametersComponent,
   	DeleteSongWarningComponent,
-   SongNavigatorComponent,
+    SongNavigatorComponent,
+    GradeOwnerComponent,
+    VotesGradeComponent,
+    HistogramComponent,
+    VoteNavigatorComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -98,6 +109,8 @@ import { AuthService } from './services/auth.service';
 		MatListModule,
 		MatTabsModule,
 		MatDialogModule,
+		MatExpansionModule,
+		MatProgressBarModule,
 		MdbDropdownModule,
 		MdbCollapseModule
 	],

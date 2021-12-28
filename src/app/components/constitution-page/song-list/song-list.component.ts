@@ -1,24 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, SongPlatform, User } from '@tableaubits/hang';
+import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
+import { compareSongASC, compareSongDSC } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
-
-function compareConstitutionASC(s1: Song, s2: Song): number {
-	if (s1.id > s2.id) return 1;
-	if (s1.id < s2.id) return -1;
-	return 0;
-}
-
-function compareConstitutionDSC(s1: Song, s2: Song): number {
-	if (s1.id > s2.id) return -1;
-	if (s1.id < s2.id) return 1;
-	return 0;
-}
 
 @Component({
 	selector: 'app-song-list',
@@ -37,7 +26,7 @@ export class SongListComponent {
 	cardsSortASC: boolean;
 
 	constructor(
-		private sanitizer: DomSanitizer, 
+		private sanitizer: DomSanitizer,
 		private auth: AuthService,
 		private dialog: MatDialog
 	) {
@@ -50,8 +39,8 @@ export class SongListComponent {
 	getSongs(): Song[] {
 		const songs = Array.from(this.songs.values());
 
-		if (this.cardsSortASC) return songs.sort(compareConstitutionASC)
-		else return songs.sort(compareConstitutionDSC);
+		if (this.cardsSortASC) return songs.sort(compareSongASC)
+		else return songs.sort(compareSongDSC);
 	}
 
 	getUser(uid: string): User {
@@ -71,7 +60,6 @@ export class SongListComponent {
 		if (!this.safeUrls.has(song.id)) {
 			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
 		}
-		
 		return this.safeUrls.get(song.id) || '';
 	}
 
@@ -80,7 +68,7 @@ export class SongListComponent {
 	}
 
 	onNavigate(song: Song): void {
-    window.open(song.url, "_blank");
+		window.open(song.url, "_blank");
 	}
 
 	openDeleteSongWarning(song: Song): void {

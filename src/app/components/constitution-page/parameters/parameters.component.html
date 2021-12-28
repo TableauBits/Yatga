@@ -1,7 +1,7 @@
 <h1 class="title"> LISTE DES PARAMÈTRES </h1>
 <span class="custom-br"></span>
 <br>
-
+<h2 class="title"> GLOBAL </h2>
 <table>
   <tr>
     <th> Option </th>
@@ -16,4 +16,19 @@
     <td> <mat-slide-toggle [checked]="localSettings.cardsSortDSC" (change)="updateCardsSort()"> </mat-slide-toggle> </td>
   </tr>
 </table>
-
+<br>
+<h2 class="title"> GRADE </h2>
+<table>
+  <tr>
+    <th> Option </th>
+    <th> </th>
+  </tr>
+  <tr>
+    <td> Cacher les chansons déjà votées </td>
+    <td> <mat-slide-toggle [checked]="localSettings.gradeShowAlreadyVoted" (change)="updateGradeAlreadyVoted()"> </mat-slide-toggle></td>
+  </tr>
+  <tr>
+    <td> Garder l'onglet "Statistiques" ouvert </td>
+    <td> <mat-slide-toggle [checked]="localSettings.gradeShowStats" (change)="updateGradeShowStats()"> </mat-slide-toggle></td>
+  </tr>
+</table>

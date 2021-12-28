@@ -1,8 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Constitution, createMessage, 
-	CstReqGetFromUser, CstReqJoin, CstReqUnsubscribe, CstResUpdate, 
-	EMPTY_USER, EventType, extractMessageData, Message, User, 
-	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from '@tableaubits/hang';
+import {
+	Constitution, createMessage,
+	CstReqGetFromUser, CstReqJoin, CstReqUnsubscribe, CstResUpdate,
+	EMPTY_USER, EventType, extractMessageData, Message, User,
+	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate
+} from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 
 const OWNER_INDEX = 0;
@@ -39,7 +41,26 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 
 	constructor(private auth: AuthService) {
 		this.constitutions = new Map();
-		auth.waitForAuth(this.handleEvents, this.onConnect, this);
+		this.auth.pushAuthFunction(this.onConnect, this);
+		this.auth.pushEventHandler(this.handleEvents, this);
+	}
+
+	ngOnDestroy() {
+		const uids: Set<string> = new Set();	// unsubsribe owners
+		const ids: Set<string> = new Set();		// unsubscribe constitutions
+
+		this.constitutions.forEach((data) => {
+			uids.add(data.owner.uid);
+			ids.add(data.constitution.id);
+		});
+
+		uids.delete(this.auth.uid);
+
+		this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: Array.from(uids.values()) }));
+		this.auth.ws.send(createMessage<CstReqUnsubscribe>(EventType.CST_unsubscribe, { ids: Array.from(ids.values()) }));
+
+		this.auth.popEventHandler();
+		this.auth.popAuthCallback();
 	}
 
 	private handleEvents(event: MessageEvent<any>): void {
@@ -83,21 +104,6 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 		if (constitution.users.length < constitution.maxUserCount)
 			return ConstitutionStatus.JOINABLE;
 		return ConstitutionStatus.FULL
-	}
-
-	ngOnDestroy() {
-		const uids: Set<string> = new Set();	// unsubsribe owners
-		const ids: Set<string> = new Set();		// unsubscribe constitutions
-
-		this.constitutions.forEach((data) => {
-			uids.add(data.owner.uid);
-			ids.add(data.constitution.id);
-		});
-
-		uids.delete(this.auth.uid);
-
-		this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: Array.from(uids.values()) }));
-		this.auth.ws.send(createMessage<CstReqUnsubscribe>(EventType.CST_unsubscribe, { ids: Array.from(ids.values()) }));
 	}
 
 	joinConstitution(data: DisplayData) {

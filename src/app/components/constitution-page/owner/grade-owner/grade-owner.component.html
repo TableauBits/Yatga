@@ -1,0 +1,36 @@
+<mat-accordion multi>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> État </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="center">
+      Actuel : {{returnText()}}
+      <br>
+      <br>
+      <button mat-raised-button [disabled]="!canGoPreviousState()" (click)="updateState(-1)" color="primary"> <mat-icon>keyboard_arrow_left</mat-icon> Précédant </button>
+      <button mat-raised-button [disabled]="!canGoNextState()" (click)="updateState(1)" color="primary"> Suivant <mat-icon>keyboard_arrow_right</mat-icon> </button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Votes </mat-panel-title>
+    </mat-expansion-panel-header>
+    Nombre de votes : {{summary.voteCount}} / {{numberOfVotes()}}
+    <mat-progress-bar mode="determinate" value="{{votesProgressBarValue()}}"> </mat-progress-bar>
+    <br>
+    <table id="t01">
+      <tr>
+        <th> </th>
+        <th> Membre </th>
+        <th> Votes </th>
+        <th> Progression </th>
+      </tr>
+      <tr *ngFor="let user of getUsers()">
+        <td> <img class="picture avatar" [src]="user.photoURL"> </td>
+        <td> {{ user.displayName }} </td>
+        <td> {{ userNumberOfVotes(user) }}</td>
+        <td> <mat-progress-bar mode="determinate" value="{{userVotesProgressBarValue(user)}}"> </mat-progress-bar> </td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>

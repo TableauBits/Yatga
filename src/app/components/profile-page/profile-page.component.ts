@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { createMessage, EMPTY_USER, EventType, User } from '@tableaubits/hang';
+import { createMessage, EMPTY_USER, EventType, User } from 'chelys';
 import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_VIEW_KEY } from 'src/app/types/local-storage';
@@ -17,7 +17,7 @@ const DESCRIPTION_MAX_LENGTH = 140;
 	templateUrl: './profile-page.component.html',
 	styleUrls: ['./profile-page.component.scss']
 })
-export class ProfilePageComponent {
+export class ProfilePageComponent implements OnDestroy {
 
 	public errorStatus: Status;
 	public profileForm: FormGroup;
@@ -29,7 +29,11 @@ export class ProfilePageComponent {
 			description: [this.isAlreadyAuth() ? this.auth.user.description : ""],
 		})
 		this.errorStatus = new Status();
-		this.auth.waitForAuth(() => { }, this.onConnect, this);
+		this.auth.pushAuthFunction(this.onConnect, this);
+	}
+
+	ngOnDestroy(): void {
+		this.auth.popAuthCallback();
 	}
 
 	private isAlreadyAuth(): boolean {
