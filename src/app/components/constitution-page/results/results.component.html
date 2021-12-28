@@ -1,1 +1,5 @@
-<p>results works!</p>
+<div [ngSwitch]="constitution.type">
+  <app-results-grade *ngSwitchCase="constitutionType.GRADE"
+    [songs]="songs" [users]="users" [constitution]="constitution">
+  </app-results-grade>
+</div>
