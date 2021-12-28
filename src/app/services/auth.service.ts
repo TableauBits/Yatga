@@ -41,7 +41,7 @@ function ping(ws: WebSocket): void {
 	const lyric = lyricGenerator.next().value;
 	ws.send(createMessage<CltReqPing>(EventType.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
 	if (!environment.production) {
-		console.trace(lyric);
+		console.log(lyric);
 	}
 	setTimeout(ping, WS_PING_INTERVAL, ws);
 }
@@ -185,7 +185,7 @@ export class AuthService {
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
 				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
-				this.authCallbacks = [];
+				ping(this.ws);
 				break;
 
 			default:

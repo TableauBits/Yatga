@@ -1,34 +1,42 @@
-<div class="content" mat-dialog-content>
-  <mat-tab-group mat-align-tabs="center" backgroundColor="primary">
-    <mat-tab>
-			<ng-template mat-tab-label>
-				Gagnant
-			</ng-template>
-    </mat-tab>
-    <mat-tab>
-			<ng-template mat-tab-label>
-				Notes
-			</ng-template>
-    </mat-tab>
-    <mat-tab>
-			<ng-template mat-tab-label>
-				Moyennes
-			</ng-template>
-    </mat-tab>
-    <mat-tab>
-			<ng-template mat-tab-label>
-				Rangs
-			</ng-template>
-    </mat-tab>
-    <mat-tab [disabled]="true">
-			<ng-template mat-tab-label>
-				Favoris
-			</ng-template>
-    </mat-tab>
-    <mat-tab>
-			<ng-template mat-tab-label>
-				Mon Profil
-			</ng-template>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+<div *ngIf="constitution.state === 2; then showResults; else hideResults"> </div>
+
+<ng-template #hideResults>
+  La période de résultats n'est pas ouverte.
+</ng-template>
+
+<ng-template #showResults>
+	<div class="content" mat-dialog-content>
+		<mat-tab-group mat-align-tabs="center" backgroundColor="primary">
+			<mat-tab>
+				<ng-template mat-tab-label>
+					Gagnant
+				</ng-template>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					Notes
+				</ng-template>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					Moyennes
+				</ng-template>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					Rangs
+				</ng-template>
+			</mat-tab>
+			<mat-tab [disabled]="true">
+				<ng-template mat-tab-label>
+					Favoris
+				</ng-template>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					Mon Profil
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+</ng-template>
