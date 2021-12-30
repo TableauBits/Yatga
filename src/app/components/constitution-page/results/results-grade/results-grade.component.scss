@@ -1,0 +1,10 @@
+@import "../../../../../styles/variables.scss";
+
+.active {
+  background-color: $angular-purple-light;
+}
+
+.round-navbard {
+  background-color: $angular-purple;
+  border-radius: 25px;
+}

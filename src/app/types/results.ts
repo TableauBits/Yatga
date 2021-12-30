@@ -8,6 +8,13 @@ export interface UserGradeResults {
   var: number;
 }
 
+export const EMPTY_USER_GRADE_RESULTS: UserGradeResults = {
+  data: {uid: "", values: new Map()},
+  normalizeScores: new Map(),
+  mean: -1,
+  var: -1
+}
+
 export function generateUserGradeResults(data: GradeUserData): UserGradeResults {
   const values = Array.from(data.values.values());
   const m = mean(values);

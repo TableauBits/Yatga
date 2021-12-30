@@ -29,11 +29,18 @@ import { ManageSongsComponent } from './components/constitution-page/manage-song
 import { ParametersComponent } from './components/constitution-page/parameters/parameters.component';
 import { DeleteSongWarningComponent } from './components/delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
-import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
-import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
 import { HistogramComponent } from './components/template/histogram/histogram.component';
 import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
+
+// Grade Components
+import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
+import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
 import { ResultsGradeComponent } from './components/constitution-page/results/results-grade/results-grade.component';
+import { GradeProfileComponent } from './components/constitution-page/results/results-grade/grade-profile/grade-profile.component';
+import { GradeRankingComponent } from './components/constitution-page/results/results-grade/grade-ranking/grade-ranking.component';
+import { GradeRanksComponent } from './components/constitution-page/results/results-grade/grade-ranks/grade-ranks.component';
+import { GradeGradesComponent } from './components/constitution-page/results/results-grade/grade-grades/grade-grades.component';
+import { GradeAverageComponent } from './components/constitution-page/results/results-grade/grade-average/grade-average.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -50,7 +57,7 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from "@angular/material/expansion";
-import { MatProgressBarModule } from "@angular/material/progress-bar"
+import { MatProgressBarModule } from "@angular/material/progress-bar"
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -87,6 +94,11 @@ import { AuthService } from './services/auth.service';
     HistogramComponent,
     VoteNavigatorComponent,
     ResultsGradeComponent,
+    GradeProfileComponent,
+    GradeRanksComponent,
+    GradeGradesComponent,
+    GradeAverageComponent,
+		GradeRankingComponent
 	],
 	imports: [
 		BrowserModule,

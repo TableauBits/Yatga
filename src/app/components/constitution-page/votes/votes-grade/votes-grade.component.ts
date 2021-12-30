@@ -18,7 +18,7 @@ import { toMap, toMapNumber } from 'src/app/types/utils';
 })
 export class VotesGradeComponent implements OnDestroy {
 
-	@Input() constitution: Constitution = EMPTY_CONSTITUTION; // TODO : encore besoin ?
+	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
 

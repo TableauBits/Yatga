@@ -33,7 +33,7 @@
 							<button mat-raised-button color="primary" (click)="onNavigate(song)">
 								<mat-icon>play_circle_outline</mat-icon>
 							</button>
-							<button mat-raised-button color="primary" [disabled]="true">
+							<button mat-raised-button color="primary" matTooltip="Disponible prochainement" [disabled]="true">
 								<mat-icon>star_border</mat-icon>
 							</button>
 							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)">
