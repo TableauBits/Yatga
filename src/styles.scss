@@ -84,3 +84,36 @@ body {
   color: whitesmoke;
   float: right;
 }
+
+.panel {
+  mat-expansion-panel {
+    background-color: $mineshaft;
+    color: whitesmoke;
+  }
+  
+  mat-panel-title {
+    color: whitesmoke;
+  }
+  
+  mat-form-field {
+    width: 35%;
+  }
+  
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+       color: whitesmoke;
+    }
+    .mat-form-field.mat-focused .mat-form-field-label {
+        color: whitesmoke !important;
+    }
+    .mat-input-element {
+        caret-color: whitesmoke!important;
+    }
+    
+    mat-form-field {
+        .mat-hint, input, ::placeholder, .mat-form-field-label {
+            color: whitesmoke;
+        }
+    }
+  }
+}
