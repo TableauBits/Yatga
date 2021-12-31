@@ -29,10 +29,14 @@ import { ManageSongsComponent } from './components/constitution-page/manage-song
 import { ParametersComponent } from './components/constitution-page/parameters/parameters.component';
 import { DeleteSongWarningComponent } from './components/delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
-import { HistogramComponent } from './components/template/histogram/histogram.component';
 import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
 
-// Grade Components
+// Charts Component
+import { HistogramComponent } from './components/template/histogram/histogram.component';
+import { RadarComponent } from './components/template/radar/radar.component';
+import { ScatterComponent } from './components/template/scatter/scatter.component';
+
+// Grade Component
 import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
 import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
 import { ResultsGradeComponent } from './components/constitution-page/results/results-grade/results-grade.component';
@@ -98,7 +102,9 @@ import { AuthService } from './services/auth.service';
     GradeRanksComponent,
     GradeGradesComponent,
     GradeAverageComponent,
-		GradeRankingComponent
+		GradeRankingComponent,
+  RadarComponent,
+  ScatterComponent
 	],
 	imports: [
 		BrowserModule,
