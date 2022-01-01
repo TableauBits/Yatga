@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, Message, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
-import { generateUserGradeResults, UserGradeResults } from 'src/app/types/results';
+import { EMPTY_USER_GRADE_RESULTS, generateUserGradeResults, UserGradeResults } from 'src/app/types/results';
 import { toMapNumber } from 'src/app/types/utils';
 
 enum GradeResultSection {
@@ -75,5 +75,10 @@ export class ResultsGradeComponent implements OnDestroy {
 	isSectionActive(section: GradeResultSection): boolean {
 		return section === this.currentSection;
 	}
+
+  getAuthResult(): UserGradeResults {
+    const test = this.results.get(this.auth.uid) || EMPTY_USER_GRADE_RESULTS;
+    return test;
+  }
 
 }

@@ -5,7 +5,7 @@
 </ng-template>
 
 <ng-template #showResults>
-	<div class="content" mat-dialog-content>
+	<div class="content soiree" mat-dialog-content>
 		<button mat-raised-button color="primary"> <mat-icon>important_devices</mat-icon> Soirée Électorale </button>
 		<br>
 		<br>
@@ -51,6 +51,6 @@
 		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES"> </app-grade-grades>
 		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE"> </app-grade-average>
 		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"> </app-grade-ranks>
-		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"> </app-grade-profile>
+		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL" [result]="getAuthResult()"> </app-grade-profile>
 	</div>
 </ng-template>

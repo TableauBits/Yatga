@@ -5,7 +5,7 @@
 		<div class="row g-5">
 			<div class="col" *ngFor="let song of getSongs()">
 				<div class="card shadow-0 bg-dark">
-					<h3 class="card-header">
+					<h3 class="card-header front">
 						<div>
 							{{song.title}}
 							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">

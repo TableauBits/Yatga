@@ -49,12 +49,14 @@ td, th {
     -moz-filter: blur($blur);
     -o-filter: blur($blur);
     -ms-filter: blur($blur);
+	user-select: none;
 }
 
 .card-body {
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 0;
+	user-select: none;
 }
 
 iframe {
@@ -67,10 +69,12 @@ iframe {
 	padding-top: 25px;
 	padding-bottom: 5px;
 	cursor: pointer;
+	user-select: none;
 }
 
 .image-de {
 	float: right;
+	user-select: none;
 }
 
 .centered {
