@@ -5,6 +5,7 @@ import { SongGradeResult } from 'src/app/types/results';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import * as confetti from 'canvas-confetti';
 import { randomInRange } from 'src/app/types/math';
+import { isNil } from 'lodash';
 
 const FIREWORK_DURATION = 10000;
 const FIREWORK_DEFAULTS = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 99999999999 };
@@ -31,9 +32,7 @@ export class GradeRankingComponent implements OnChanges {
     this.winner = this.getSongWinner();
   }
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    ) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   launchFireworks() {
     const myConfetti = confetti.create(this.fireworksCanvas.nativeElement, {
@@ -62,10 +61,20 @@ export class GradeRankingComponent implements OnChanges {
     if (this.songResults.length < 1) return EMPTY_SONG;
     return this.songs.get(this.songResults[0].id) || EMPTY_SONG;
   }
+  
+  getWinnerScore(): string {
+    if (isNil(this.songResults[0])) return '';
+    const score = this.songResults[0].score;
+    return isNil(score) ? '' : score.toFixed(5);
+  }
 
   getUser(uid: string): User {
 		return this.users.get(uid) || EMPTY_USER;
 	}
+
+  getSong(id: number): Song {
+    return this.songs.get(id) || EMPTY_SONG;
+  }
 
   getImageURL(song: Song): string {
 		switch (song.platform) {

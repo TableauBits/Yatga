@@ -49,7 +49,8 @@
 	<div [ngSwitch]="currentSection">
 		<app-grade-ranking *ngSwitchCase="gradeResultSection.RANKING"
 			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranking>
-		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES"> </app-grade-grades>
+		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES"
+			[users]="users" [userResults]="userResults"> </app-grade-grades>
 		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE"> </app-grade-average>
 		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"> </app-grade-ranks>
 		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL" [result]="getAuthResult()"> </app-grade-profile>

@@ -8,5 +8,13 @@
     <mat-expansion-panel-header> 
         <mat-panel-title> Répartitions des participants </mat-panel-title>
     </mat-expansion-panel-header>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img class="picture image-de" [src]="getSelectedUser().photoURL">
+    <app-histogram [values]="histogramValues"> </app-histogram>
   </mat-expansion-panel>
 </mat-accordion>

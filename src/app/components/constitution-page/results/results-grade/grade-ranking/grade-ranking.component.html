@@ -8,7 +8,10 @@
         <h3 class="card-header front">
           <div>
             {{winner.title}}
-            <img src="{{getUser(winner.user).photoURL}}" class="image-de picture" alt="...">
+            <span class="image-de"> 
+              {{getUser(winner.user).displayName}} 
+              <img src="{{getUser(winner.user).photoURL}}" class="picture" alt="...">
+            </span>
           </div>
           <i> {{winner.author}} </i> 
         </h3>
@@ -16,7 +19,7 @@
         <div class="card-img-overlay">
           <div class="card-body">
             <iframe id="video1" *ngIf="winner !== empty()"
-            height="200" frameborder="0" [src]="getSongSafeURL(winner)" 
+            height="400" frameborder="0" [src]="getSongSafeURL(winner)" 
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
             </iframe>
@@ -30,6 +33,7 @@
             <button mat-raised-button color="primary" (click)="onNavigate(winner)">
               <mat-icon>play_circle_outline</mat-icon>
             </button>
+            <span class="image-de"> <b> Score : {{getWinnerScore()}} </b>  </span>
           </div>
         </div>
       </div>
@@ -40,5 +44,29 @@
     <mat-expansion-panel-header> 
         <mat-panel-title> Classement Global </mat-panel-title>
     </mat-expansion-panel-header>
+    <table id="t01">
+      <tr>
+        <th> Position </th>
+        <th> Titre </th>
+        <th> Auteur </th>
+        <th> URL </th>
+        <th> Score </th>
+        <th> </th>
+        <th> Ajouté par </th>
+      </tr>
+      <tr *ngFor="let result of songResults;let indexOfelement=index;">
+        <td> {{ indexOfelement + 1 }} </td>
+        <td> {{ getSong(result.id).title }}  </td>
+        <td> {{ getSong(result.id).author }} </td>
+        <td>
+          <a href="{{getSong(result.id).url}}" target="_blank">
+            <mat-icon>play_circle_outline</mat-icon>
+          </a>
+        </td>
+        <td> {{ result.score.toFixed(5) }}</td>
+        <td> <img class="picture avatar" [src]="getUser(getSong(result.id).user).photoURL"> </td>
+        <td> {{ getUser(getSong(result.id).user).displayName }} </td>
+      </tr>
+    </table>
   </mat-expansion-panel>
 </mat-accordion>
