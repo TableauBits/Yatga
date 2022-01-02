@@ -10,3 +10,7 @@ export function normalize(mean: number, variance: number, value: number): number
   if (value == mean) return 0;
   return (value - mean)/Math.sqrt(variance);
 }
+
+export function randomInRange(min: number, max: number): number {
+  return Math.random() * (max - min) + min;
+}

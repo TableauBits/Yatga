@@ -1,0 +1,74 @@
+@import "../../../../../../styles/variables.scss";
+
+.winner-container {
+	position: relative;
+	width: 100%;
+	height: auto;
+}
+
+canvas {
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.card {
+	width: 24rem;
+	overflow: hidden;
+	margin: auto;
+	position: absolute;
+	position: absolute;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+
+    transform: translate(-50%, -50%); /* This is a shorthand of
+                                         translateX(-50%) and translateY(-50%) */
+}
+
+.no-overflow {
+	overflow: hidden;
+}
+
+.text-info {
+	background-color: rgba($color: $cape-cod, $alpha: 0.75);
+	width: fit-content;
+	padding: 4px;
+	border-radius: 6%;
+}
+
+.blur {
+	filter: blur($blur);
+	-webkit-filter: blur($blur);
+    -moz-filter: blur($blur);
+    -o-filter: blur($blur);
+    -ms-filter: blur($blur);
+	user-select: none;
+}
+
+.card-body {
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	user-select: none;
+}
+
+iframe {
+	width: 100%;
+	padding-top: 25px;
+}
+
+.iframe-image {
+	width: 100%;
+	padding-top: 25px;
+	padding-bottom: 5px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.centered {
+	cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

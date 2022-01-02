@@ -15,6 +15,11 @@ export const EMPTY_USER_GRADE_RESULTS: UserGradeResults = {
   var: -1
 }
 
+export interface SongGradeResult {
+  id: number;
+  score: number;
+}
+
 export function generateUserGradeResults(data: GradeUserData): UserGradeResults {
   const values = Array.from(data.values.values());
   const m = mean(values);

@@ -1,8 +1,40 @@
 <mat-accordion multi class="panel">
   <mat-expansion-panel [expanded]="false">
-    <mat-expansion-panel-header> 
+    <mat-expansion-panel-header (click)=launchFireworks()> 
         <mat-panel-title> Gagnant </mat-panel-title>
     </mat-expansion-panel-header>
+    <div class="winner-container">
+      <div class="card shadow-0 bg-dark">
+        <h3 class="card-header front">
+          <div>
+            {{winner.title}}
+            <img src="{{getUser(winner.user).photoURL}}" class="image-de picture" alt="...">
+          </div>
+          <i> {{winner.author}} </i> 
+        </h3>
+        <img src="{{getImageURL(winner)}}" class="card-img blur" alt="...">
+        <div class="card-img-overlay">
+          <div class="card-body">
+            <iframe id="video1" *ngIf="winner !== empty()"
+            height="200" frameborder="0" [src]="getSongSafeURL(winner)" 
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+            </iframe>
+            <ng-template #loadImage>
+              <img src="{{getImageURL(winner)}}" height="208" class="iframe-image">
+              <div class="centered">
+                <button mat-raised-button color="primary"> <mat-icon>play_arrow</mat-icon></button>
+              </div>
+            </ng-template>
+            <br>
+            <button mat-raised-button color="primary" (click)="onNavigate(winner)">
+              <mat-icon>play_circle_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <canvas class="fireworks" #fireworks> </canvas>
+    </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 

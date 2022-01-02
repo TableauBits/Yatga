@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, Message, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
-import { EMPTY_USER_GRADE_RESULTS, generateUserGradeResults, UserGradeResults } from 'src/app/types/results';
+import { EMPTY_USER_GRADE_RESULTS, generateUserGradeResults, SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { toMapNumber } from 'src/app/types/utils';
 
 enum GradeResultSection {
@@ -12,6 +12,12 @@ enum GradeResultSection {
   RANKS,
   FAVORITES,
   PROFIL
+}
+
+function compareScore(s1: SongGradeResult, s2: SongGradeResult): number {
+	if (s1.score > s2.score) return -1;
+	if (s1.score < s2.score) return 1;
+	return 0;
 }
 
 @Component({
@@ -25,7 +31,8 @@ export class ResultsGradeComponent implements OnDestroy {
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
 
-  results: Map<string, UserGradeResults> = new Map();
+  userResults: Map<string, UserGradeResults> = new Map();
+  songResults: SongGradeResult[] = [];
 
   currentSection: GradeResultSection = GradeResultSection.RANKING;
 
@@ -48,7 +55,6 @@ export class ResultsGradeComponent implements OnDestroy {
       const messagesGetAllUserVotes = createMessage<GradeReqGetAll>(EventType.CST_SONG_GRADE_get_all, {cstId: cstID});
       this.auth.ws.send(messagesGetAllUserVotes);
     });
-
   }
 
   private handleEvents(event: MessageEvent<any>): void {
@@ -59,7 +65,11 @@ export class ResultsGradeComponent implements OnDestroy {
       const kData = extractMessageData<GradeResUserDataUpdate>(message).userData;
       const data = {uid: kData.uid, values: toMapNumber<number>(kData.values)};
 
-      this.results.set(data.uid, generateUserGradeResults(data));
+      this.userResults.set(data.uid, generateUserGradeResults(data));
+    }
+
+    if (this.constitution.maxUserCount === this.userResults.size) {
+      this.generateSongResults();
     }
   }
 
@@ -77,8 +87,23 @@ export class ResultsGradeComponent implements OnDestroy {
 	}
 
   getAuthResult(): UserGradeResults {
-    const test = this.results.get(this.auth.uid) || EMPTY_USER_GRADE_RESULTS;
-    return test;
+    return this.userResults.get(this.auth.uid) || EMPTY_USER_GRADE_RESULTS;
+  }
+
+  generateSongResults(): void {
+    this.songResults = [];
+    for (const song of this.songs.values()) {
+      let score = 0;
+      for (const vote of this.userResults.values()) {
+        score += vote.normalizeScores.get(song.id) || 0;
+      }
+      this.songResults.push({
+        id: song.id,
+        score
+      });
+    }
+
+    this.songResults.sort(compareScore);
   }
 
 }
