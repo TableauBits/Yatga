@@ -58,6 +58,7 @@ export class AuthService {
 	public connectionURL: string;
 	public ws: WebSocket;
 	public emitter: EventEmitter;
+	public isConnected: boolean;
 
 	// Current User infos
 	public uid: string;
@@ -70,6 +71,7 @@ export class AuthService {
 
 	constructor(private fireAuth: AngularFireAuth) {
 		this.isAuthenticate = false;
+		this.isConnected = false;
 		this.uid = '';
 		this.user = EMPTY_USER;
 		this.emitter = new EventEmitter();
@@ -182,8 +184,10 @@ export class AuthService {
 
 			case EventType.USER_update:
 				this.isAuthenticate = true;
+				this.isConnected = true;
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
+				this.ws.onclose = () => {this.isConnected = false};
 				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
 				ping(this.ws);
 				break;

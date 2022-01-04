@@ -38,11 +38,17 @@
 </nav>
 
 <ng-template #signedIn>
-	<div mdbDropdown class="dropdown ms-auto ">
-		<img src="{{auth.user.photoURL}}" class="dropdown-toggle d-flex align-items-center rounded-circle navbar-button"
-			href="#" id="dropdownMenuLink" mdbDropdownToggle role="button" data-mdb-toggle="dropdown" width="45"
-			height="45" alt="" loading="lazy" aria-expanded="false" />
-
+	<div mdbDropdown class="dropdown ms-auto">
+		<ul class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item">
+				<mat-icon *ngIf="!auth.isConnected" class="warning vertical image-de" matTooltip="Vous êtes déconnecté de Kalimba. Essayez de recharger la page. Si le problème persiste, contactez un administrateur.">cloud_off</mat-icon>
+			</li>
+			<li>
+				<img src="{{auth.user.photoURL}}" class="dropdown-toggle d-flex align-items-center rounded-circle navbar-button"
+					href="#" id="dropdownMenuLink" mdbDropdownToggle role="button" data-mdb-toggle="dropdown" width="45"
+					height="45" alt="" loading="lazy" aria-expanded="false"/>
+			</li>
+		</ul>
 		<ul mdbDropdownMenu class="dropdown-menu navbar-dark content" aria-labelledby="dropdownMenuLink">
 			<li><a class="dropdown-item content" routerLink="/profile">Profil</a></li>
 			<li><a class="dropdown-item content" (click)="!!auth.signOut()">Déconnexion</a></li>
