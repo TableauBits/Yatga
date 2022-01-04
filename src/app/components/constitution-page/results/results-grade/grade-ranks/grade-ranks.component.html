@@ -3,10 +3,28 @@
     <mat-expansion-panel-header> 
         <mat-panel-title> Rangs moyens </mat-panel-title>
     </mat-expansion-panel-header>
+    <table id="t01">
+      <tr>
+        <th> Position </th>
+        <th colspan="2"> Utilisateur </th>
+        <th> Rank Moyen </th>
+        <th> Meilleur Rang </th>
+        <th> Pire Rang </th>
+      </tr>
+      <tr *ngFor="let rank of usersRank;let indexOfelement=index;">
+        <td> {{ indexOfelement + 1 }} </td>
+        <td> <img class="picture" [src]="getUser(rank.uid).photoURL"> </td>
+        <td> {{ getUser(rank.uid).displayName }} </td>
+        <td> {{ rank.rank.toFixed(2) }} </td>
+        <td> {{ rank.min }} </td>
+        <td> {{ rank.max }} </td>
+      </tr>
+    </table>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
         <mat-panel-title> Graphe des rangs des participants </mat-panel-title>
     </mat-expansion-panel-header>
+    <app-scatter [names]="scatterNames" [data]="scatterData" [axisMax]="scatterAxisMax"> </app-scatter>
   </mat-expansion-panel>
 </mat-accordion>

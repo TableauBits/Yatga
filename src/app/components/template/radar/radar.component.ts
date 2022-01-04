@@ -17,7 +17,7 @@ export class RadarComponent implements AfterViewInit, OnChanges {
   private option: EChartsOption;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('main')!);
+    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('radar')!);
     
     this.option = this.initChart();
     this.option && this.chart.setOption(this.option);
@@ -37,7 +37,7 @@ export class RadarComponent implements AfterViewInit, OnChanges {
   private initChart(): EChartsOption {
     return {
       // TODO : Legend ?
-      color: '#673AB7',
+      color: '#673ab7',
       radar: {
         indicator: this.indicators
       },

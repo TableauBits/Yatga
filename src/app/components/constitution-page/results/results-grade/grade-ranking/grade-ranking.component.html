@@ -19,7 +19,7 @@
         <div class="card-img-overlay">
           <div class="card-body">
             <iframe id="video1" *ngIf="winner !== empty()"
-            height="400" frameborder="0" [src]="getSongSafeURL(winner)" 
+            height="350" frameborder="0" [src]="getSongSafeURL(winner)" 
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
             </iframe>
@@ -51,8 +51,7 @@
         <th> Auteur </th>
         <th> URL </th>
         <th> Score </th>
-        <th> </th>
-        <th> Ajouté par </th>
+        <th colspan="2"> Ajouté par </th>
       </tr>
       <tr *ngFor="let result of songResults;let indexOfelement=index;">
         <td> {{ indexOfelement + 1 }} </td>

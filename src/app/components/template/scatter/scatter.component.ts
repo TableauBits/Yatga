@@ -3,7 +3,7 @@ import * as echarts from 'echarts';
 import { isNil } from 'lodash';
 import { EChartsOption, ScatterData } from 'src/app/types/charts';
 
-const BUBBLE_SIZE = 6;
+const BUBBLE_SIZE = 30;
 
 @Component({
   selector: 'app-scatter',
@@ -14,12 +14,13 @@ export class ScatterComponent implements AfterViewInit {
 
   @Input() names: string[] = [];
   @Input() data: ScatterData[] = [];
+  @Input() axisMax: number = 100;
 
   private chart: echarts.ECharts | undefined;
   private option: EChartsOption;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('main')!);
+    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('scatter')!);
     
     this.option = this.initChart();
     this.option && this.chart.setOption(this.option);
@@ -36,23 +37,34 @@ export class ScatterComponent implements AfterViewInit {
     this.option = {};
   }
 
+
   private initChart(): EChartsOption {
 
     const title: echarts.TitleComponentOption[] = [];
     const singleAxis: echarts.SingleAxisComponentOption[] = [];
     const series: echarts.ScatterSeriesOption[] = [];
 
+
+    const array: number[] = [];
+    for (let index = 0; index < this.axisMax; index++) {
+      array.push(index)
+    }
+
     this.names.forEach(function(name, idx) {
       title.push({
         textVerticalAlign: 'middle',
         top: ((idx + 0.5) * 100) / 7 + '%', // TODO : Nombres magique
-        text: name
+        text: name,
+        textStyle: {
+          fontSize: 17,
+          color: '#f4f4f4',
+        },
       });
       singleAxis.push({
-        left: 150, // TODO : Nombres magique
+        left: 200, // TODO : Nombres magique
         type: 'category',
         boundaryGap: false,
-        data: [], //! HBFS
+        data: array,
         top: (idx * 100) / 7 + 5 + '%',
         height: 100 / 7 - 10 + '%',
         axisLabel: {
@@ -78,6 +90,7 @@ export class ScatterComponent implements AfterViewInit {
       color: '#673AB7',
       tooltip: {
         position: 'top'
+        
       },
       title: title,
       singleAxis: singleAxis,

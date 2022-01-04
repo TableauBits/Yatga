@@ -19,27 +19,27 @@
 				<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
 					<button mat-button [ngClass]="isSectionActive(gradeResultSection.RANKING) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.RANKING)">
-						Classement
+					<mat-icon>reorder</mat-icon> Classement
 					</button>
 					<button mat-button [ngClass]="isSectionActive(gradeResultSection.GRADES) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.GRADES)">
-						Notes
+					<mat-icon>poll</mat-icon> Notes
 					</button>
 					<button mat-button [ngClass]="isSectionActive(gradeResultSection.AVERAGE) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.AVERAGE)">
-						Moyennes
+					<mat-icon>poll</mat-icon> Moyennes
 					</button>
 					<button mat-button [ngClass]="isSectionActive(gradeResultSection.RANKS) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.RANKS)">
-						Rangs
+					<mat-icon>poll</mat-icon> Rangs
 					</button>
 					<button mat-button [disabled]="true" [ngClass]="isSectionActive(gradeResultSection.FAVORITES) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.FAVORITES)">
-						Favoris
+					<mat-icon>favorite</mat-icon> Favoris
 					</button>
 					<button mat-button [ngClass]="isSectionActive(gradeResultSection.PROFIL) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.PROFIL)">
-						Mon Profil
+					<mat-icon>account_box</mat-icon> Mon Profil
 					</button>
 				</div>
 			</div>
@@ -51,8 +51,11 @@
 			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranking>
 		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES"
 			[users]="users" [userResults]="userResults"> </app-grade-grades>
-		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE"> </app-grade-average>
-		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"> </app-grade-ranks>
-		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL" [result]="getAuthResult()"> </app-grade-profile>
+		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE"
+			[users]="users" [userResults]="userResults" [songs]="songs" [numberOfSongsByUser]="constitution.numberOfSongsPerUser"> </app-grade-average>
+		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"
+			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranks>
+		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"
+			[result]="getAuthResult()"> </app-grade-profile>
 	</div>
 </ng-template>

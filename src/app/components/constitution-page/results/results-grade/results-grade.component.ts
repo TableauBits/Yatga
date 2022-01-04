@@ -43,7 +43,7 @@ export class ResultsGradeComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.auth.ws.send(createMessage<GradeReqUnsubscribe>(EventType.CST_SONG_GRADE_unsubscribe, {cstId: this.constitution.id}));
-    
+
     this.auth.popEventHandler();
 		this.auth.popAuthCallback();
   }
