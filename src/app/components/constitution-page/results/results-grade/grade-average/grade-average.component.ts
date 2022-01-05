@@ -46,6 +46,11 @@ export class GradeAverageComponent implements OnChanges {
     this.radarDatas.push({value: values, name: 'Moyenne (1-10)'});
   }
 
+  getMean(giver: string, receiver: string): number | string {
+    if (giver === receiver) return '/';
+    return this.meanBetweenUsers(giver, receiver).toFixed(2);
+  }
+
   meanBetweenUsers(giver: string, receiver: string): number {
     let mean = 0;
     const values = this.userResults.get(giver)?.data;

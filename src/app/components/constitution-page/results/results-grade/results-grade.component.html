@@ -50,7 +50,7 @@
 		<app-grade-ranking *ngSwitchCase="gradeResultSection.RANKING"
 			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranking>
 		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES"
-			[users]="users" [userResults]="userResults"> </app-grade-grades>
+			[users]="users" [songs]="songs" [userResults]="userResults"> </app-grade-grades>
 		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE"
 			[users]="users" [userResults]="userResults" [songs]="songs" [numberOfSongsByUser]="constitution.numberOfSongsPerUser"> </app-grade-average>
 		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"

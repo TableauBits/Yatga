@@ -1,8 +1,9 @@
 import { Component, Input, SimpleChanges} from '@angular/core';
-import { EMPTY_USER, User } from 'chelys';
-import { isNil } from 'lodash';
+import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
+import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserGradeResults } from 'src/app/types/results';
+import { getIDFromURL } from 'src/app/types/url';
 
 @Component({
   selector: 'app-grade-grades',
@@ -11,8 +12,11 @@ import { UserGradeResults } from 'src/app/types/results';
 })
 export class GradeGradesComponent {
 
+  @Input() songs: Map<number, Song> = new Map();
   @Input() users: Map<string, User> = new Map();
   @Input() userResults: Map<string, UserGradeResults> = new Map();
+
+  selectedSong: string;
 
   histogramValues: number[] = [];
   selectedUser: string;
@@ -24,6 +28,34 @@ export class GradeGradesComponent {
 
   constructor(private auth: AuthService) {
     this.selectedUser = auth.uid;
+    this.selectedSong = '-1';
+  }
+
+  getSongList(): Song[] {
+    return Array.from(this.songs.values());
+  }
+
+  getSelectedSong(): Song {
+    const id = toNumber(this.selectedSong)
+    return this.songs.get(id) || EMPTY_SONG;
+  }
+
+  getImageURL(): string {
+    const song = this.getSelectedSong();
+		switch (song.platform) {
+			case SongPlatform.YOUTUBE: {
+				const videoID = getIDFromURL(song);
+				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
+			}
+		}
+	}
+
+  returnVote(uid: string): number | string {
+    return this.userResults.get(uid)?.data.values.get(toNumber(this.selectedSong)) || '/';
+  }
+
+  getUser(uid: string): User {
+    return this.users.get(uid) || EMPTY_USER;
   }
 
   getSelectedUser(): User {
