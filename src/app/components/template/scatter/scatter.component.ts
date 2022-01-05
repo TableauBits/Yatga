@@ -87,7 +87,6 @@ export class ScatterComponent implements AfterViewInit {
     });
 
     return {
-      color: '#673AB7',
       tooltip: {
         position: 'top'
         
