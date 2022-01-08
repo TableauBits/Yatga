@@ -1,5 +1,7 @@
 import * as echarts from 'echarts';
 
+export const CHARTS_ID_LENGTH = 12;
+
 export type EChartsOption = echarts.EChartsOption;
 
 // Radar

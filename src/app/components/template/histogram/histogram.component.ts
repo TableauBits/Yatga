@@ -17,8 +17,12 @@ export class HistogramComponent implements AfterViewInit, OnChanges {
   private chart: echarts.ECharts | undefined;
   private option: EChartsOption;
 
+  // TODO : Generate a random id string
+
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('main')!);
+    if (isNil(this.chart)) {
+      this.chart = echarts.init(document.getElementById('histogram')!);
+    } 
     
     this.option = this.initChart();
     this.option && this.chart.setOption(this.option);

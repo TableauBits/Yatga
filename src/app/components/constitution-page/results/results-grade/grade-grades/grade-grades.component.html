@@ -11,6 +11,8 @@
       </mat-select>
     </mat-form-field>
     <img *ngIf="selectedSong !== '-1'" class="image-de picture2" [src]="getImageURL()">
+    <br>
+    <br>
     <table id="t01">
       <tr>
         <th *ngFor="let user of getUserList()"> <img class="picture" [src]="getUser(user.uid).photoURL"> {{user.displayName}} </th>
@@ -31,7 +33,7 @@
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
       </mat-select>
     </mat-form-field>
-    <img class="image-de round picture2" [src]="getSelectedUser().photoURL">
+    <img class="image-de picture3" [src]="getSelectedUser().photoURL">
     <app-histogram [values]="histogramValues"> </app-histogram>
   </mat-expansion-panel>
 </mat-accordion>
