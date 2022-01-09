@@ -72,6 +72,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { GradeNavigatorComponent } from './components/constitution-page/results/results-grade/grade-navigator/grade-navigator.component';
+
 
 @NgModule({
 	declarations: [
@@ -103,8 +105,9 @@ import { AuthService } from './services/auth.service';
     GradeGradesComponent,
     GradeAverageComponent,
 		GradeRankingComponent,
-  RadarComponent,
-  ScatterComponent
+  	RadarComponent,
+  	ScatterComponent,
+   GradeNavigatorComponent
 	],
 	imports: [
 		BrowserModule,

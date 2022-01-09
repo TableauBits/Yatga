@@ -1,9 +1,11 @@
 import { Component, Input, OnDestroy } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, Message, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { EMPTY_USER_GRADE_RESULTS, generateUserGradeResults, SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { toMapNumber } from 'src/app/types/utils';
+import { GradeNavigatorComponent } from './grade-navigator/grade-navigator.component';
 
 enum GradeResultSection {
   RANKING,
@@ -36,7 +38,11 @@ export class ResultsGradeComponent implements OnDestroy {
 
   currentSection: GradeResultSection = GradeResultSection.RANKING;
 
-  constructor(private auth: AuthService, private route: ActivatedRoute) {
+  constructor(
+    private auth: AuthService,
+    private route: ActivatedRoute,
+    private dialog: MatDialog
+  ) {
     this.auth.pushAuthFunction(this.onConnect, this);
 		this.auth.pushEventHandler(this.handleEvents, this);
   }
@@ -71,6 +77,18 @@ export class ResultsGradeComponent implements OnDestroy {
     if (this.constitution.maxUserCount === this.userResults.size) {
       this.generateSongResults();
     }
+  }
+
+  openResultNavigator(): void {
+    const config = new MatDialogConfig();
+
+    config.data = {
+      songResults: this.songResults,
+      users: this.users,
+      songs: this.songs
+    }
+
+    this.dialog.open(GradeNavigatorComponent, config);
   }
 
   // HTML can't access the ConstiutionSection enum directly
