@@ -33,8 +33,8 @@
 							<button mat-raised-button color="primary" (click)="onNavigate(song)">
 								<mat-icon>play_circle_outline</mat-icon>
 							</button>
-							<button mat-raised-button color="primary" matTooltip="Disponible prochainement" [disabled]="true">
-								<mat-icon>favorite_border</mat-icon>
+							<button mat-raised-button color="primary" [disabled]="canDeleteSong()" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song)">
+									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 							</button>
 							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)">
 								<mat-icon>cancel</mat-icon>
@@ -71,4 +71,8 @@
 			<td> {{ getUser(song.user).displayName }} </td>
 		</tr>
 	</table>
+</ng-template>
+
+<ng-template #normalSong>
+	<mat-icon>favorite_border</mat-icon>
 </ng-template>
