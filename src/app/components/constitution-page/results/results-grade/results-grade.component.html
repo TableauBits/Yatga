@@ -6,7 +6,7 @@
 
 <ng-template #showResults>
 	<div class="content soiree" mat-dialog-content>
-		<button mat-raised-button color="primary"> <mat-icon>important_devices</mat-icon> Soirée Électorale </button>
+		<button mat-raised-button color="primary" (click)="openResultNavigator()"> <mat-icon>important_devices</mat-icon> Soirée Électorale </button>
 		<br>
 		<br>
 		<nav class="navbar round-navbard navbar-expand-lg content">
@@ -33,7 +33,7 @@
 					(click)="setCurrentSection(gradeResultSection.RANKS)">
 					<mat-icon>poll</mat-icon> Rangs
 					</button>
-					<button mat-button [disabled]="true" [ngClass]="isSectionActive(gradeResultSection.FAVORITES) ? 'active' : ''" 
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.FAVORITES) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.FAVORITES)">
 					<mat-icon>favorite</mat-icon> Favoris
 					</button>

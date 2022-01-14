@@ -81,8 +81,8 @@
 		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="favorites">
 	</app-song-list>
 	<app-votes *ngSwitchCase="constitutionSection.VOTES"
-		[songs]="songs" [users]="users" [constitution]="constitution"
-	> </app-votes>
+		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="favorites">
+	</app-votes>
 	<app-owner *ngSwitchCase="constitutionSection.OWNER" 
 		[songs]="songs" [users]="users" [constitution]="constitution">
 	</app-owner>

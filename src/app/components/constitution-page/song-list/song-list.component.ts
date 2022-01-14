@@ -78,8 +78,7 @@ export class SongListComponent {
 		const config = new MatDialogConfig();
 
 		config.data = {
-			cstId: this.constitution.id,
-			song
+			song,
 		}
 
 		this.dialog.open(DeleteSongWarningComponent, config);
@@ -89,8 +88,10 @@ export class SongListComponent {
 		const config = new MatDialogConfig();
 
 		config.data = {
+			cstId: this.constitution.id,
 			currentSong: song,
 			songs: this.getSongs(),
+			favorites: this.favorites.get(this.auth.uid)
 		}
 
 		this.dialog.open(SongNavigatorComponent, config);

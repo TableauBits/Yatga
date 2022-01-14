@@ -61,9 +61,9 @@
                 <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
                   <mat-icon>how_to_vote</mat-icon>
                 </button>
-                <button mat-raised-button color="primary" [disabled]="true">
-                  <mat-icon>favorite_border</mat-icon>
-                </button>
+                <button mat-raised-button color="primary" [disabled]="canModifySongs()" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song)">
+									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+							  </button>
                 <button mat-raised-button color="primary" class="vote">
                   {{getVote(song)}}
                 </button>
@@ -100,4 +100,8 @@
       </tr>
     </table>
   </ng-template>
+</ng-template>
+
+<ng-template #normalSong>
+	<mat-icon>favorite_border</mat-icon>
 </ng-template>
