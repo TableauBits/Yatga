@@ -87,7 +87,7 @@
 		[songs]="songs" [users]="users" [constitution]="constitution">
 	</app-owner>
 	<app-results *ngSwitchCase="constitutionSection.RESULTS"
-		[songs]="songs" [users]="users" [constitution]="constitution">
+		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="favorites">
 	</app-results>
 	<app-export *ngSwitchCase="constitutionSection.EXPORT"> </app-export>
 	<app-parameters *ngSwitchCase="constitutionSection.PARAMETERS"> </app-parameters>

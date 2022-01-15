@@ -54,6 +54,10 @@ export class GradeGradesComponent {
     return this.userResults.get(uid)?.data.values.get(toNumber(this.selectedSong)) || '/';
   }
 
+  returnScore(uid: string): number | string {
+    return this.userResults.get(uid)?.normalizeScores.get(toNumber(this.selectedSong))?.toFixed(4) || '/';
+  }
+
   getUser(uid: string): User {
     return this.users.get(uid) || EMPTY_USER;
   }

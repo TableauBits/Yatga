@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, Message, Song, User } from 'chelys';
+import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, Message, Song, User, UserFavorites } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { EMPTY_USER_GRADE_RESULTS, generateUserGradeResults, SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { toMapNumber } from 'src/app/types/utils';
@@ -32,6 +32,7 @@ export class ResultsGradeComponent implements OnDestroy {
   @Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
+  @Input() favorites: Map<string, UserFavorites> = new Map();
 
   userResults: Map<string, UserGradeResults> = new Map();
   songResults: SongGradeResult[] = [];
@@ -83,10 +84,15 @@ export class ResultsGradeComponent implements OnDestroy {
     const config = new MatDialogConfig();
 
     config.data = {
+      userResults: this.userResults,
       songResults: this.songResults,
       users: this.users,
-      songs: this.songs
+      songs: this.songs,
+      favorites: this.favorites
     }
+
+    config.height = "55%";
+    config.width = "40%";
 
     this.dialog.open(GradeNavigatorComponent, config);
   }

@@ -1,4 +1,52 @@
+@import "../../../../../../styles/variables.scss";
+
 .rank-button {
-  background-color: #2E2E2E;
+  background-color: $mineshaft;
   color: whitesmoke;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+  align-items: center;
+}
+
+.same-line {
+  display: inline-block;
+}
+
+table {
+  color: whitesmoke;
+	margin-left: auto;
+	margin-right: auto;
+	width: 95%;
+	overflow-x: auto;
+	font-size:medium;
+}
+
+td, th {
+	border: 1px solid $sasuke;
+	text-align: center;
+	padding: 8px;
+}
+
+#t01 th {
+	background-color: $mineshaft;
+	color: whitesmoke;
+}
+
+#t01 tr:nth-child(even) {
+	background-color: $sasuke;
+}
+#t01 tr:nth-child(odd) {
+	background-color: $cape-cod;
+}
+
+.love {
+	// position: absolute;
+  -ms-transform: translate(-55%, 60%);
+  transform: translate(-55%, 60%);
+	font-size: small;
+	margin-right: -15px;
 }

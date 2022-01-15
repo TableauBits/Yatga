@@ -14,11 +14,14 @@
     <br>
     <br>
     <table id="t01">
-      <tr>
+      <tr >
         <th *ngFor="let user of getUserList()"> <img class="picture" [src]="getUser(user.uid).photoURL"> {{user.displayName}} </th>
       </tr>
       <tr>
         <td *ngFor="let user of getUserList()"> {{returnVote(user.uid)}} </td>
+      </tr>
+      <tr>
+        <td *ngFor="let user of getUserList()"> {{returnScore(user.uid)}}</td>
       </tr>
     </table>
   </mat-expansion-panel>
