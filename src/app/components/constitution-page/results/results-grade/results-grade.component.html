@@ -55,6 +55,8 @@
 			[users]="users" [userResults]="userResults" [songs]="songs" [numberOfSongsByUser]="constitution.numberOfSongsPerUser"> </app-grade-average>
 		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"
 			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranks>
+		<app-results-favorites *ngSwitchCase="gradeResultSection.FAVORITES"
+			[users]="users" [songs]="songs" [favorites]="favorites"></app-results-favorites>
 		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"
 			[result]="getAuthResult()"> </app-grade-profile>
 	</div>

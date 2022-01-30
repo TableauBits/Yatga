@@ -5,7 +5,7 @@
 <span class="custom-br"></span>
 </div>
 <br>
-<div mat-dialog-content>
+<div>
   <div class="flex-container">
     <div class="title">
       <iframe width="400" height="225" frameborder="0"
@@ -13,7 +13,6 @@
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
       </iframe>
       <br>
-      Favoris :
       <span *ngIf="getFavoriteForUser().length === 0"> No Data </span>
       <div class="same-line" *ngFor="let fav of getFavoriteForUser()">
         <img class="picture" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">

@@ -36,7 +36,7 @@
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
       </mat-select>
     </mat-form-field>
-    <img class="image-de picture3" [src]="getSelectedUser().photoURL">
+    <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
     <app-histogram [values]="histogramValues"> </app-histogram>
   </mat-expansion-panel>
 </mat-accordion>

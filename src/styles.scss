@@ -122,6 +122,10 @@ body {
 	z-index: 999;
 }
 
+.same-line {
+  display: inline-block;
+}
+
 .image-de {
 	float: right;
 	user-select: none;
@@ -129,4 +133,12 @@ body {
 
 .favorite {
 	color:deeppink;
+}
+
+.love {
+	// position: absolute;
+  -ms-transform: translate(-55%, 60%);
+  transform: translate(-55%, 60%);
+	font-size: small;
+	margin-right: -15px;
 }

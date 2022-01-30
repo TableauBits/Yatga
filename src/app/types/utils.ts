@@ -20,7 +20,7 @@ export function toMapNumber<T>(obj: Record<string, unknown>): Map<number, T> {
 	return map;
 }
 
-// Adapt from https://attacomsian.com/blog/javascript-generate-random-string
+// Adapted from https://attacomsian.com/blog/javascript-generate-random-string
 export function generateRandomString(length: number): string {
 	let str = '';
 

@@ -20,6 +20,11 @@ td, th {
 	color: whitesmoke;
 }
 
+.first {
+	background-color: $mineshaft;
+	color: whitesmoke;
+}
+
 #t01 tr:nth-child(even) {
 	background-color: $sasuke;
 }

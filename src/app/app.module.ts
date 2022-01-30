@@ -73,6 +73,8 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { AuthService } from './services/auth.service';
 import { GradeNavigatorComponent } from './components/constitution-page/results/results-grade/grade-navigator/grade-navigator.component';
+import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
+import { PieComponent } from './components/template/pie/pie.component';
 
 
 @NgModule({
@@ -107,7 +109,9 @@ import { GradeNavigatorComponent } from './components/constitution-page/results/
 		GradeRankingComponent,
   	RadarComponent,
   	ScatterComponent,
-   GradeNavigatorComponent
+   GradeNavigatorComponent,
+   ResultsFavoritesComponent,
+   PieComponent
 	],
 	imports: [
 		BrowserModule,

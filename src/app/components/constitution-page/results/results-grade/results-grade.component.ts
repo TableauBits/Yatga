@@ -91,8 +91,8 @@ export class ResultsGradeComponent implements OnDestroy {
       favorites: this.favorites
     }
 
-    config.height = "55%";
-    config.width = "40%";
+    config.maxHeight = "50%";
+    config.width = "45%";
 
     this.dialog.open(GradeNavigatorComponent, config);
   }

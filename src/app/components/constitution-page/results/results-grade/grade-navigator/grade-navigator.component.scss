@@ -12,10 +12,6 @@
   align-items: center;
 }
 
-.same-line {
-  display: inline-block;
-}
-
 table {
   color: whitesmoke;
 	margin-left: auto;
@@ -29,6 +25,7 @@ td, th {
 	border: 1px solid $sasuke;
 	text-align: center;
 	padding: 8px;
+	overflow: auto
 }
 
 #t01 th {
@@ -41,12 +38,4 @@ td, th {
 }
 #t01 tr:nth-child(odd) {
 	background-color: $cape-cod;
-}
-
-.love {
-	// position: absolute;
-  -ms-transform: translate(-55%, 60%);
-  transform: translate(-55%, 60%);
-	font-size: small;
-	margin-right: -15px;
 }
