@@ -79,6 +79,7 @@ export class SongListComponent {
 
 		config.data = {
 			song,
+			cstId: this.constitution.id
 		}
 
 		this.dialog.open(DeleteSongWarningComponent, config);
