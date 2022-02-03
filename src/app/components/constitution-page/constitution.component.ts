@@ -77,6 +77,7 @@ export class ConstitutionComponent implements OnDestroy {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 		switch (message.event) {
 			case EventType.CST_update: {
+
 				const data = extractMessageData<CstResUpdate>(message).cstInfo;
 				if (data.id === this.cstID) {
 					this.constitution = data;
