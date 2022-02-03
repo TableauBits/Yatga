@@ -47,7 +47,7 @@
             <div class="card-img-overlay">
               <div class="card-body">
                 <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
-                height="200" frameborder="0" [src]="getSongSafeURL(song)" 
+                height="208" frameborder="0" [src]="getSongSafeURL(song)" 
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
                 </iframe>
@@ -61,7 +61,7 @@
                 <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
                   <mat-icon>how_to_vote</mat-icon>
                 </button>
-                <button mat-raised-button color="primary" [disabled]="canModifySongs()" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song)">
+                <button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song) || canModifyFavorite()">
 									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 							  </button>
                 <button mat-raised-button color="primary" class="vote">

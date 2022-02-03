@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { PieData } from 'src/app/types/charts';
 
 interface SongFavoriteStat {
   song: number,
@@ -27,14 +28,17 @@ export class ResultsFavoritesComponent implements OnChanges {
 
   selectedUser: string;
   tableInfo: SongFavoriteStat[];
+  pieData: PieData[];
 
   ngOnChanges(): void {
     this.generateTableInfo();
+    this.generatePieData();
   }
 
   constructor(private auth: AuthService) {
     this.selectedUser = auth.uid;
     this.tableInfo = [];
+    this.pieData = [];
   }
 
   generateTableInfo(): void {
@@ -55,6 +59,31 @@ export class ResultsFavoritesComponent implements OnChanges {
     this.tableInfo.sort(compareSongFavoriteStat);
   }
 
+  generatePieData(): void {
+    this.pieData = [];
+    const data = new Map<string, PieData>();
+    const selectedFavorites = this.favorites.get(this.selectedUser);
+
+    if (isNil(selectedFavorites)) return;
+
+    for (const fav of selectedFavorites.favs) {
+      const user = this.songs.get(fav)?.user;
+      if (isNil(user)) continue;
+
+      if (data.has(user)) {
+        const count = data.get(user)?.value;
+        data.set(user, {name: user, value: count ? count + 1 : 1});
+      } else {
+        data.set(user, {name: user, value: 1});
+      }
+
+      this.pieData = Array.from(data.values()).map((v) => {
+        const name = this.getUser(v.name).displayName
+        return {value: v.value, name: name }
+      });
+    }
+  }
+
   getSong(id: number): Song {
     return this.songs.get(id) || EMPTY_SONG;
   }
@@ -72,7 +101,7 @@ export class ResultsFavoritesComponent implements OnChanges {
   }
 
   newSelection(): void  {
-    // TODO
+    this.generatePieData();
   }
 
 }

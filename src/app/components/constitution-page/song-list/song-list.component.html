@@ -16,7 +16,7 @@
 					<div class="card-img-overlay">
 						<div class="card-body">
 							<iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
-							height="200" frameborder="0" [src]="getSongSafeURL(song)" 
+							height="208" frameborder="0" [src]="getSongSafeURL(song)" 
 							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 							allowfullscreen>
 							</iframe>
@@ -33,7 +33,7 @@
 							<button mat-raised-button color="primary" (click)="onNavigate(song)">
 								<mat-icon>play_circle_outline</mat-icon>
 							</button>
-							<button mat-raised-button color="primary" [disabled]="canDeleteSong()" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song)">
+							<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song) || canModifyFavorite()">
 									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 							</button>
 							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)">

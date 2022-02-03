@@ -43,5 +43,9 @@
       </mat-select>
     </mat-form-field>
     <img class="picture image-de" [src]="getSelectedUser().photoURL">
+    <br>
+    <b> Ses favoris sont dirigés vers : </b>
+    <br>
+    <app-pie [data]="pieData"> </app-pie>
   </mat-expansion-panel>
 </mat-accordion>

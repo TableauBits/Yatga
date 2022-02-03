@@ -21,7 +21,7 @@ export class PieComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit() {
     if (isNil(this.chart)) {
       this.chart = echarts.init(document.getElementById('pie')!);
-    } 
+    }
     
     this.option = this.initChart();
     this.option && this.chart.setOption(this.option);
@@ -43,14 +43,17 @@ export class PieComponent implements AfterViewInit, OnChanges {
         trigger: 'item'
       },
       legend: {
-        orient: 'horizontal',
-        // left: 'left'
+        orient: 'vertical',
+        left: 'left',
+        textStyle: {
+          color: '#f4f4f4',
+        }
       },
       series: [
         {
           // name: '',
           type: 'pie',
-          radius: '50%',
+          radius: ['40%', '70%'],
           data: this.data,
           emphasis: {
             itemStyle: {
@@ -58,7 +61,10 @@ export class PieComponent implements AfterViewInit, OnChanges {
               shadowOffsetX: 0,
               shadowColor: 'rgba(0,0,0,0.5)'
             }
-          }
+          },
+          label: {
+            color: '#f4f4f4'
+          },
         }
       ]
     }
