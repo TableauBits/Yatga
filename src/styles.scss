@@ -84,3 +84,8 @@ body {
   color: whitesmoke;
   float: right;
 }
+
+.black-and-white {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}

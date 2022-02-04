@@ -25,6 +25,8 @@ export class SongListComponent {
 	cardsViewEnabled: boolean;
 	cardsSortASC: boolean;
 
+	selectedUsers: string[];
+
 	constructor(
 		private sanitizer: DomSanitizer,
 		private auth: AuthService,
@@ -34,13 +36,20 @@ export class SongListComponent {
 		this.currentIframeSongID = -1;
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
+		this.selectedUsers = Array.from(this.users.keys());
 	}
 
 	getSongs(): Song[] {
-		const songs = Array.from(this.songs.values());
+		const songs = Array.from(this.songs.values()).filter((song) => {
+			return this.isSelected(song.user);
+		});
 
 		if (this.cardsSortASC) return songs.sort(compareSongASC)
 		else return songs.sort(compareSongDSC);
+	}
+
+	getUsers(): User[] {
+		return Array.from(this.users.values());
 	}
 
 	getUser(uid: string): User {
@@ -100,5 +109,31 @@ export class SongListComponent {
 
 	updateCurrentIframeSong(song: Song): void {
 		this.currentIframeSongID = song.id;
+	}
+
+	// FILTER FUNCTIONS
+	toggleUserFilter(uid: string): void {
+		const index = this.selectedUsers.findIndex((user) => {return user === uid});
+		if (index !== -1) {
+			this.selectedUsers.splice(index, 1);
+		} else {
+			this.selectedUsers.push(uid);
+		}
+	}
+
+	isSelected(uid: string): boolean {
+		return !this.selectedUsers.includes(uid);
+	}
+
+	select(mode: string): void {
+		// TODO : wtf
+		switch (mode) {
+			case 'all':
+				this.selectedUsers = [];
+				break;
+			case 'none':
+				this.selectedUsers = Array.from(this.users.keys());
+				break;
+		}
 	}
 }

@@ -36,6 +36,8 @@ export class VotesGradeComponent implements OnDestroy {
 	showStats: boolean;
 	showAlreadyVoted: boolean;
 
+	selectedUsers: string[];
+
 	constructor(
 		private auth: AuthService,
 		private sanitizer: DomSanitizer,
@@ -50,6 +52,7 @@ export class VotesGradeComponent implements OnDestroy {
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
 		this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
 		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
+		this.selectedUsers = Array.from(this.users.keys());
 
 		this.auth.pushAuthFunction(this.onConnect, this);
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -103,7 +106,7 @@ export class VotesGradeComponent implements OnDestroy {
 		const songsToVote = Array.from(this.songs.values()).filter(song => {
 			const isNotUserSong = song.user !== this.auth.uid;
 			const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted
-			return isNotUserSong && !isAlreadyVoted;
+			return isNotUserSong && !isAlreadyVoted && this.isSelected(song.user);
 		});
 		if (this.cardsSortASC) return songsToVote.sort(compareSongASC)
 		else return songsToVote.sort(compareSongDSC);
@@ -153,6 +156,10 @@ export class VotesGradeComponent implements OnDestroy {
 
 	// TODO : Duplication de code //
 
+	getUsers(): User[] {
+		return Array.from(this.users.values());
+	}
+
 	numberOfVotes(): number {
 		return this.constitution.maxUserCount * this.constitution.numberOfSongsPerUser * (this.constitution.maxUserCount - 1);
 	}
@@ -180,6 +187,32 @@ export class VotesGradeComponent implements OnDestroy {
 
 	updateCurrentIframeSong(song: Song): void {
 		this.currentIframeSongID = song.id;
+	}
+
+	// FILTER FUNCTIONS
+	toggleUserFilter(uid: string): void {
+		const index = this.selectedUsers.findIndex((user) => {return user === uid});
+		if (index !== -1) {
+			this.selectedUsers.splice(index, 1);
+		} else {
+			this.selectedUsers.push(uid);
+		}
+	}
+	
+	isSelected(uid: string): boolean {
+		return !this.selectedUsers.includes(uid);
+	}
+	
+	select(mode: string): void {
+		// TODO : wtf
+		switch (mode) {
+			case 'all':
+				this.selectedUsers = [];
+				break;
+			case 'none':
+				this.selectedUsers = Array.from(this.users.keys());
+				break;
+		}
 	}
 
 }
