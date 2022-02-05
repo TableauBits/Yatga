@@ -139,3 +139,14 @@ mat-form-field {
 .filter-button {
 	margin-left: 2%;
 }
+
+
+.menu-panel {
+	color: whitesmoke;
+}
+
+::ng-deep {
+	.mat-menu-content {
+		background-color: $sasuke !important;
+	}
+}

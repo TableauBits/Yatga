@@ -108,3 +108,13 @@ button {
 .cancel {
 	float: right;
 }
+
+.menu-panel {
+	color: whitesmoke;
+}
+
+::ng-deep {
+	.mat-menu-content {
+		background-color: $sasuke !important;
+	}
+}

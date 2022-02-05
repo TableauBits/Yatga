@@ -50,7 +50,8 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from "@angular/material/expansion";
-import { MatProgressBarModule } from "@angular/material/progress-bar"
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatMenuModule} from '@angular/material/menu';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -108,6 +109,7 @@ import { AuthService } from './services/auth.service';
 		MatSlideToggleModule,
 		MatListModule,
 		MatTabsModule,
+		MatMenuModule,
 		MatDialogModule,
 		MatExpansionModule,
 		MatProgressBarModule,
