@@ -33,7 +33,7 @@ import { GradeOwnerComponent } from './components/constitution-page/owner/grade-
 import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
 import { HistogramComponent } from './components/template/histogram/histogram.component';
 import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
-
+import { JoinConstitutionComponent } from './components/join-constitution/join-constitution.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -86,6 +86,7 @@ import { AuthService } from './services/auth.service';
     VotesGradeComponent,
     HistogramComponent,
     VoteNavigatorComponent,
+    JoinConstitutionComponent,
 	],
 	imports: [
 		BrowserModule,
