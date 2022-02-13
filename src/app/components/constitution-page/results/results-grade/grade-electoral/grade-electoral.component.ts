@@ -3,6 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { PieData } from 'src/app/types/charts';
+import { mean } from 'src/app/types/math';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { getEmbedURL } from 'src/app/types/url';
 
@@ -40,6 +41,7 @@ export class GradeElectoralComponent implements OnChanges {
   currentRank: number = 0;
   currentSong: Song = EMPTY_SONG;
   currentSongSafeURL: SafeResourceUrl = "";
+  currentVoters: VoteData[] = [];
   iframeHeight: number = 0;
   iframeWidth: number = 0;
   pieData: PieData[] = [];
@@ -48,6 +50,7 @@ export class GradeElectoralComponent implements OnChanges {
     this.currentRank = this.songResults.length - 1;
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
+    this.currentVoters = this.getVotingUser();
     this.generatePieData();
   }
 
@@ -79,6 +82,11 @@ export class GradeElectoralComponent implements OnChanges {
     });
   }
 
+  meanOfVotes(): number {
+    const grades = this.currentVoters.map((v) => v.grade);
+    return mean(grades);
+  }
+
   previousResultExist(): boolean {
     return this.currentRank - 1 >= 0;
   }
@@ -91,6 +99,7 @@ export class GradeElectoralComponent implements OnChanges {
     this.currentRank += shift;
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
+    this.currentVoters = this.getVotingUser();
     this.generatePieData();
   }
 

@@ -30,11 +30,17 @@
         <th> Score </th>
         <th> Note </th>
       </tr>
-      <tr *ngFor="let votingUser of getVotingUser()">
+      <tr *ngFor="let votingUser of currentVoters">
         <td> <img class="picture" [src]="votingUser.user.photoURL"> </td>
         <td> {{ votingUser.user.displayName }} </td>
         <td> {{ votingUser.score.toFixed(3) }}</td>
         <td> {{ votingUser.grade }}</td>
+      </tr>
+      <tr>
+        <td> </td>
+        <td> <b> Total: </b> </td>
+        <td> <b> {{songResults[currentRank].score.toFixed(3)}} </b> </td>
+        <td> <b> {{meanOfVotes().toFixed(3)}} </b></td>
       </tr>
     </table>
     <br>
