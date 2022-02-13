@@ -21,6 +21,10 @@
 					(click)="setCurrentSection(gradeResultSection.RANKING)">
 					<mat-icon>reorder</mat-icon> Classement
 					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.ELECTORAL) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.ELECTORAL)">
+					<mat-icon>important_devices</mat-icon> Soirée Électorale
+					</button>
 					<button mat-button [ngClass]="isSectionActive(gradeResultSection.GRADES) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.GRADES)">
 					<mat-icon>poll</mat-icon> Notes
@@ -59,5 +63,8 @@
 			[users]="users" [songs]="songs" [favorites]="favorites"></app-results-favorites>
 		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"
 			[result]="getAuthResult()"> </app-grade-profile>
+		<app-grade-electoral *ngSwitchCase="gradeResultSection.ELECTORAL"
+		[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
+		</app-grade-electoral>	
 	</div>
 </ng-template>

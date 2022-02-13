@@ -13,7 +13,8 @@ enum GradeResultSection {
   AVERAGE,
   RANKS,
   FAVORITES,
-  PROFIL
+  PROFIL,
+  ELECTORAL
 }
 
 function compareScore(s1: SongGradeResult, s2: SongGradeResult): number {

@@ -1,0 +1,59 @@
+<br>
+<div class="page">
+  <div class="title">
+    <a href="{{currentSong.url}}" target="_blank">
+      <h1> {{currentRank+1}}. {{currentSong.title}} - {{currentSong.author}} </h1>
+    </a>
+    <span class="custom-br"></span>
+  </div>
+  <br>
+  <div class="left-column">
+    <br>
+    <iframe width="{{iframeWidth}}" height="{{iframeHeight}}" frameborder="0"
+      [src]="currentSongSafeURL"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+    <br>
+    <span *ngIf="getFavoriteForUser().length === 0"> No Data </span>
+    <div class="same-line" *ngFor="let fav of getFavoriteForUser()">
+      <img class="picture" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">
+      <mat-icon class="favorite love">favorite</mat-icon>
+    </div>
+    <br>
+    <br>
+  </div>
+  <div class="right-column">
+    <br>
+    <table id="t01">
+      <tr>
+        <th colspan="2"> Utilisateur </th>
+        <th> Score </th>
+        <th> Note </th>
+      </tr>
+      <tr *ngFor="let votingUser of getVotingUser()">
+        <td> <img class="picture" [src]="votingUser.user.photoURL"> </td>
+        <td> {{ votingUser.user.displayName }} </td>
+        <td> {{ votingUser.score.toFixed(3) }}</td>
+        <td> {{ votingUser.grade }}</td>
+      </tr>
+    </table>
+    <br>
+
+  </div>
+  <div class="title">
+    <br>
+    <br>
+    <span class="custom-br"></span>
+    <br>
+    Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
+    <br>
+    Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
+    <br>
+    <br>
+    <span class="custom-br"></span>
+    <br>
+    <button mat-button class="previous-button" [disabled]="!previousResultExist()" (click)="changeResult(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
+  <button mat-raised-button class="rank-button"> {{currentRank + 1}} </button>
+  <button mat-button class="next-button" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+  </div>
+</div>
