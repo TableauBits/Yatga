@@ -78,7 +78,7 @@ export class ResultsFavoritesComponent implements OnChanges {
       }
 
       this.pieData = Array.from(data.values()).map((v) => {
-        const name = this.getUser(v.name).displayName
+        const name = this.getUser(v.name).displayName;
         return {value: v.value, name: name }
       });
     }

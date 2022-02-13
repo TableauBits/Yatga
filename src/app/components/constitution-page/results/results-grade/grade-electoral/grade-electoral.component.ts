@@ -1,6 +1,8 @@
 import { Component, HostListener, Input, OnChanges } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
+import { isNil } from 'lodash';
+import { PieData } from 'src/app/types/charts';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { getEmbedURL } from 'src/app/types/url';
 
@@ -29,9 +31,6 @@ export class GradeElectoralComponent implements OnChanges {
     this.iframeHeight =  this.iframeWidth / 16 * 9;
   }
 
-  iframeHeight: number = 0;
-  iframeWidth: number = 0;
-
   @Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
   @Input() favorites: Map<string, UserFavorites> = new Map();
@@ -41,11 +40,15 @@ export class GradeElectoralComponent implements OnChanges {
   currentRank: number = 0;
   currentSong: Song = EMPTY_SONG;
   currentSongSafeURL: SafeResourceUrl = "";
+  iframeHeight: number = 0;
+  iframeWidth: number = 0;
+  pieData: PieData[] = [];
 
   ngOnChanges(): void {
     this.currentRank = this.songResults.length - 1;
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
+    this.generatePieData();
   }
 
   constructor(private sanitizer: DomSanitizer) {
@@ -88,6 +91,30 @@ export class GradeElectoralComponent implements OnChanges {
     this.currentRank += shift;
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
+    this.generatePieData();
+  }
+
+  generatePieData() {
+    this.pieData = [];
+    const data = new Map<string, PieData>();
+    const results = this.songResults.filter((_, index) => index >= this.currentRank);
+
+    for (const result of results) {
+      const user = this.songs.get(result.id)?.user;
+      if (isNil(user)) continue;
+        const count = data.get(user)?.value;
+        data.set(user, {name: user, value: count ? count + 1 : 1});
+      if (data.has(user)) {
+
+      } else {
+        data.set(user, {name: user, value: 1});
+      }
+    }
+
+    this.pieData = Array.from(data.values()).map((v) => {
+      const name = this.getUser(v.name).displayName;
+      return {value: v.value, name}
+    })
   }
 
 }

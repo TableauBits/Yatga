@@ -57,3 +57,7 @@
   <button mat-button class="next-button" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
   </div>
 </div>
+<br>
+<b> Répartition actuelle : </b>
+<br>
+<app-pie [data]="pieData"> </app-pie>
