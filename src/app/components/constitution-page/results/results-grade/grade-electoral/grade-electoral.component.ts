@@ -4,8 +4,6 @@ import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { getEmbedURL } from 'src/app/types/url';
 
-// TODO : https://stackoverflow.com/questions/39888768/how-to-get-height-and-width-of-device-display-in-angular2-using-typescript
-
 interface VoteData {
   user: User,
   grade: number,
@@ -60,18 +58,6 @@ export class GradeElectoralComponent implements OnChanges {
 
   getVotingUser(): VoteData[] {
     const users = [];
-    // for (let index = 0; index < 3; index++) {
-    //   for (const user of this.users.values()) {
-    //     if (user.uid === this.currentSong.user) continue;
-    //     const userData = this.userResults.get(user.uid);
-    //     users.push({
-    //       user,
-    //       grade: userData?.data.values.get(this.currentSong.id) ?? -1,
-    //       score: userData?.normalizeScores.get(this.currentSong.id) ?? 0
-    //     });
-    //   }
-      
-    // }
     for (const user of this.users.values()) {
       if (user.uid === this.currentSong.user) continue;
       const userData = this.userResults.get(user.uid);
@@ -88,13 +74,6 @@ export class GradeElectoralComponent implements OnChanges {
     return Array.from(this.users.values()).filter((user) => {
       return this.favorites.get(user.uid)?.favs.includes(this.currentSong.id);
     });
-    // let array: User[] = [];
-    // const test = Array.from(this.users.values())
-    // for (let index = 0; index < 7; index++) {
-    //   array = array.concat(test);
-    // }
-
-    // return array;
   }
 
   previousResultExist(): boolean {
