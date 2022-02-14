@@ -106,24 +106,25 @@ export class GradeElectoralComponent implements OnChanges {
   generatePieData() {
     this.pieData = [];
     const data = new Map<string, PieData>();
+    
+    for (const user of this.users.keys()) {
+      data.set(user, {name: user, value: 0})
+    }
+
     const results = this.songResults.filter((_, index) => index >= this.currentRank);
 
     for (const result of results) {
       const user = this.songs.get(result.id)?.user;
       if (isNil(user)) continue;
+
         const count = data.get(user)?.value;
         data.set(user, {name: user, value: count ? count + 1 : 1});
-      if (data.has(user)) {
-
-      } else {
-        data.set(user, {name: user, value: 1});
-      }
     }
 
     this.pieData = Array.from(data.values()).map((v) => {
       const name = this.getUser(v.name).displayName;
       return {value: v.value, name}
-    })
+    });
   }
 
 }
