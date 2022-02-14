@@ -1,4 +1,5 @@
 <br>
+<img *ngIf="isBestQuartert()" class="background blur" [src]="getImageURL()">
 <div class="page">
   <div class="title">
     <a href="{{currentSong.url}}" target="_blank">
@@ -7,7 +8,7 @@
     <span class="custom-br"></span>
   </div>
   <br>
-  <div class="left-column">
+  <div class="left-column box">
     <br>
     <iframe width="{{iframeWidth}}" height="{{iframeHeight}}" frameborder="0"
       [src]="currentSongSafeURL"
@@ -22,7 +23,7 @@
     <br>
     <br>
   </div>
-  <div class="right-column">
+  <div class="right-column box">
     <br>
     <table id="t01">
       <tr>
@@ -44,23 +45,29 @@
       </tr>
     </table>
     <br>
-
   </div>
   <div class="title">
     <br>
     <br>
     <span class="custom-br"></span>
     <br>
-    Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
-    <br>
-    Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
-    <br>
+    <div class="box">
+      <br>
+      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
+      <br>
+      Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
+      <br>
+      <span *ngIf="currentRank === 0">
+        "<i>{{getUser(currentSong.user).description}}</i>"
+      </span>
+      <br>
+    </div>
     <br>
     <span class="custom-br"></span>
     <br>
     <button mat-button class="previous-button" [disabled]="!previousResultExist()" (click)="changeResult(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
-  <button mat-raised-button class="rank-button"> {{currentRank + 1}} </button>
-  <button mat-button class="next-button" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+    <button mat-raised-button class="rank-button"> {{currentRank + 1}} </button>
+    <button mat-button class="next-button" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
   </div>
 </div>
 <br>

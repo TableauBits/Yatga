@@ -1,11 +1,11 @@
 import { Component, HostListener, Input, OnChanges } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
+import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { PieData } from 'src/app/types/charts';
 import { mean } from 'src/app/types/math';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
-import { getEmbedURL } from 'src/app/types/url';
+import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 
 interface VoteData {
   user: User,
@@ -82,6 +82,15 @@ export class GradeElectoralComponent implements OnChanges {
     });
   }
 
+  getImageURL(): string {
+		switch (this.currentSong.platform) {
+			case SongPlatform.YOUTUBE: {
+				const videoID = getIDFromURL(this.currentSong);
+				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
+			}
+		}
+	}
+
   meanOfVotes(): number {
     const grades = this.currentVoters.map((v) => v.grade);
     return mean(grades);
@@ -125,6 +134,10 @@ export class GradeElectoralComponent implements OnChanges {
       const name = this.getUser(v.name).displayName;
       return {value: v.value, name}
     });
+  }
+
+  isBestQuartert(): boolean {
+    return this.currentRank < this.songResults.length / 4;
   }
 
 }
