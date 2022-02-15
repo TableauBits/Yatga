@@ -1,7 +1,8 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { createMessage, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song } from 'chelys';
+import { createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites } from 'chelys';
+import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
 import { toMapNumber } from 'src/app/types/utils';
@@ -12,6 +13,7 @@ interface VoteNavigatorInjectedData {
 	songs: Song[],
 	currentVote: number,
 	votes: GradeUserData,
+	favorites: UserFavorites
 }
 
 @Component({
@@ -29,6 +31,7 @@ export class VoteNavigatorComponent implements OnDestroy {
 
 	songs: Song[];
 	votes: GradeUserData;
+	favorites: UserFavorites;
 
 	constructor(
 		private auth: AuthService,
@@ -41,6 +44,7 @@ export class VoteNavigatorComponent implements OnDestroy {
 		this.currentVote = data.currentVote;
 		this.songs = data.songs;
 		this.votes = data.votes;
+		this.favorites = data.favorites;
 		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
 
 		this.auth.pushEventHandler(this.handleEvent, this);
@@ -58,6 +62,10 @@ export class VoteNavigatorComponent implements OnDestroy {
 				const data = extractMessageData<GradeResUserDataUpdate>(message).userData;
 				this.votes = { uid: data.uid, values: toMapNumber<number>(data.values) };
 			} break;
+			case EventType.CST_FAV_update: {
+				const favorites = extractMessageData<CstFavResUpdate>(message).userFavorites;
+				if (favorites.uid === this.auth.uid) this.favorites = favorites;
+			}
 		}
 	}
 
@@ -95,6 +103,32 @@ export class VoteNavigatorComponent implements OnDestroy {
 
 	closeWindow(): void {
 		this.dialogRef.close();
+	}
+
+	isAFavorite(): boolean {
+		if (isNil(this.favorites)) return false;
+		return this.favorites.favs.includes(this.currentSong.id);
+	}
+
+	toggleFavorite(): void {
+		if (isNil(this.favorites)) return;
+
+		let message: string;
+
+		if (this.favorites.favs.includes(this.currentSong.id)) {
+			// remove the song from favorites
+			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.cstId, songId: this.currentSong.id});
+		} else {
+			// add the song to the favorites
+			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.cstId, songId: this.currentSong.id});
+		}
+
+		this.auth.ws.send(message);
+	}
+
+	noMoreFavorties(): boolean {
+		if (isNil(this.favorites)) return false;
+		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(this.currentSong.id);
 	}
 
 }

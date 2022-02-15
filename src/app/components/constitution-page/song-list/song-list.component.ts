@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites } from 'chelys';
+import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { compareSongASC, compareSongDSC } from 'src/app/types/song';
@@ -19,6 +20,8 @@ export class SongListComponent {
 	@Input() constitution: Constitution;
 	@Input() songs: Map<number, Song> = new Map();
 	@Input() users: Map<string, User> = new Map();
+	@Input() favorites: Map<string, UserFavorites> = new Map();
+
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
 	currentIframeSongID: number;
 
@@ -75,8 +78,8 @@ export class SongListComponent {
 		const config = new MatDialogConfig();
 
 		config.data = {
-			cstId: this.constitution.id,
-			song
+			song,
+			cstId: this.constitution.id
 		}
 
 		this.dialog.open(DeleteSongWarningComponent, config);
@@ -86,8 +89,10 @@ export class SongListComponent {
 		const config = new MatDialogConfig();
 
 		config.data = {
+			cstId: this.constitution.id,
 			currentSong: song,
 			songs: this.getSongs(),
+			favorites: this.favorites.get(this.auth.uid)
 		}
 
 		this.dialog.open(SongNavigatorComponent, config);
@@ -98,7 +103,40 @@ export class SongListComponent {
 		return canModifySongs(this.constitution);
 	}
 
+	canModifyFavorite(): boolean {
+		return areResultsPublic(this.constitution);
+	}
+
 	updateCurrentIframeSong(song: Song): void {
 		this.currentIframeSongID = song.id;
+	}
+
+	isAFavorite(song: Song): boolean {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return false;
+		return userFavorites.favs.includes(song.id);
+	}
+
+	toggleFavorite(song: Song): void {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return;
+
+		let message: string;
+
+		if (userFavorites.favs.includes(song.id)) {
+			// remove the song from favorites
+			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: song.id});
+		} else {
+			// add the song to the favorites
+			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: song.id});
+		}
+
+		this.auth.ws.send(message);
+	}
+
+	noMoreFavorties(song: Song): boolean {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return false;
+		return FAVORITES_MAX_LENGTH === userFavorites.favs.length && !userFavorites.favs.includes(song.id);
 	}
 }

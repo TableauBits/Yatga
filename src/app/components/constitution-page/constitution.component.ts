@@ -2,7 +2,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute} from '@angular/router';
-import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
+import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, CstFavResUpdate, CstFavReqGet, UserFavorites, CstSongReqUnsubscribe, CstFavReqUnsubscribe } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 
@@ -27,6 +27,7 @@ export class ConstitutionComponent implements OnDestroy {
 	users: Map<string, User>;
 	currentSection: ConstitutionSection;
 	songs: Map<number, Song>;
+	favorites: Map<string, UserFavorites>;
 
 	constructor(
 		private auth: AuthService,
@@ -38,6 +39,7 @@ export class ConstitutionComponent implements OnDestroy {
 		this.currentSection = ConstitutionSection.SONG_LIST;
 		this.users = new Map();
 		this.songs = new Map();
+		this.favorites = new Map();
 
 		this.auth.pushAuthFunction(this.onConnect, this);
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -46,6 +48,15 @@ export class ConstitutionComponent implements OnDestroy {
 	ngOnDestroy(): void {
 		this.auth.popEventHandler();
 		this.auth.popAuthCallback();
+
+		const userUnsubscribe = createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, {uids: Array.from(this.users.values()).map((user) => user.uid)});
+		this.auth.ws.send(userUnsubscribe);
+
+		const songsUnsubscribe = createMessage<CstSongReqUnsubscribe>(EventType.CST_SONG_unsubscribe, {cstId: this.cstID});
+		this.auth.ws.send(songsUnsubscribe);
+
+		const favsUnsubscribe = createMessage<CstFavReqUnsubscribe>(EventType.CST_FAV_unsubscribe, {cstId: this.cstID});
+		this.auth.ws.send(favsUnsubscribe);
 	}
 
 	// HTML can't access the ConstiutionSection enum directly
@@ -83,19 +94,24 @@ export class ConstitutionComponent implements OnDestroy {
 					this.auth.ws.send(unsubscribeUsersMessage);
 					const getAllSongsMessage = createMessage<CstSongReqGetAll>(EventType.CST_SONG_get_all, { cstId: this.cstID });
 					this.auth.ws.send(getAllSongsMessage);
+					const getFavorites = createMessage<CstFavReqGet>(EventType.CST_FAV_get, { cstId: this.cstID });
+					this.auth.ws.send(getFavorites);
 				}
-			}
-				break;
+			} break;
+
 			case EventType.USER_update: {
 				const data = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.users.set(data.uid, data)
-			}
-				break;
+			} break;
 			case EventType.CST_SONG_update: {
 				const data = extractMessageData<CstSongResUpdate>(message);
 				this.songUpdate(data);
-			}
-				break;
+			} break;
+
+			case EventType.CST_FAV_update: {
+				const favorites = extractMessageData<CstFavResUpdate>(message).userFavorites;
+				this.favorites.set(favorites.uid, favorites);
+			} break;
 		}
 	}
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from 'chelys';
 import { isEmpty } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,7 +18,10 @@ export class NewConstitutionComponent {
 	public errorStatus: Status;
 	public newConstitutionForm: FormGroup;
 
-	constructor(public auth: AuthService, public fb: FormBuilder) {
+	constructor(
+		public auth: AuthService,
+		public fb: FormBuilder,
+		private router: Router) {
 		this.newConstitutionForm = this.fb.group({
 			season: [, Validators.required],
 			part: [, Validators.required],
@@ -89,6 +93,8 @@ export class NewConstitutionComponent {
 
 			const newConstitutionMessage = createMessage(EventType.CST_create, { cstData: constitution });
 			this.auth.ws.send(newConstitutionMessage);
+
+			this.router.navigate(['current-constitutions']);
 		}
 
 	}

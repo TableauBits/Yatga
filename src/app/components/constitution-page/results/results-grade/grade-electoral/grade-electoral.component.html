@@ -1,0 +1,76 @@
+<br>
+<img *ngIf="isBestQuartert()" class="background blur" [src]="getImageURL()">
+<div class="page">
+  <div class="title">
+    <a href="{{currentSong.url}}" target="_blank">
+      <h1> {{currentRank+1}}. {{currentSong.title}} - {{currentSong.author}} </h1>
+    </a>
+    <span class="custom-br"></span>
+  </div>
+  <br>
+  <div class="left-column box">
+    <br>
+    <iframe class="round" width="{{iframeWidth}}" height="{{iframeHeight}}" frameborder="0"
+      [src]="currentSongSafeURL"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+    <br>
+    <span *ngIf="getFavoriteForUser().length === 0"> No Data </span>
+    <div class="same-line" *ngFor="let fav of getFavoriteForUser()">
+      <img class="picture" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">
+      <mat-icon class="favorite love">favorite</mat-icon>
+    </div>
+    <br>
+    <br>
+  </div>
+  <div class="right-column box">
+    <br>
+    <table id="t01">
+      <tr>
+        <th colspan="2"> Utilisateur </th>
+        <th> Score </th>
+        <th> Note </th>
+      </tr>
+      <tr *ngFor="let votingUser of currentVoters">
+        <td> <img class="picture" [src]="votingUser.user.photoURL"> </td>
+        <td> {{ votingUser.user.displayName }} </td>
+        <td> {{ votingUser.score.toFixed(3) }}</td>
+        <td> {{ votingUser.grade }}</td>
+      </tr>
+      <tr>
+        <td> </td>
+        <td> <b> Total: </b> </td>
+        <td> <b> {{songResults[currentRank].score.toFixed(3)}} </b> </td>
+        <td> <b> {{meanOfVotes().toFixed(3)}} </b></td>
+      </tr>
+    </table>
+    <br>
+  </div>
+  <div class="title">
+    <br>
+    <br>
+    <span class="custom-br"></span>
+    <br>
+    <div class="box">
+      <br>
+      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
+      <br>
+      Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
+      <br>
+      <span *ngIf="currentRank === 0">
+        "<i>{{getUser(currentSong.user).description}}</i>"
+      </span>
+      <br>
+    </div>
+    <br>
+    <span class="custom-br"></span>
+    <br>
+    <button mat-button class="previous-button" [disabled]="!previousResultExist()" (click)="changeResult(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
+    <button mat-raised-button class="rank-button"> {{currentRank + 1}} </button>
+    <button mat-button class="next-button" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+  </div>
+</div>
+<br>
+<b> Répartition actuelle : </b>
+<br>
+<app-pie [data]="pieData"> </app-pie>

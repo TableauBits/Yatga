@@ -1,0 +1,42 @@
+<mat-accordion multi class="panel">
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Notes </mat-panel-title>
+    </mat-expansion-panel-header>
+    Chanson sélectionnée :
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir une chanson </mat-label>
+      <mat-select [(value)]="selectedSong">
+        <mat-option *ngFor="let song of getSongList()" value="{{song.id}}"> {{song.title}} - {{song.author}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img *ngIf="selectedSong !== '-1'" class="image-de picture2" [src]="getImageURL()">
+    <br>
+    <br>
+    <table id="t01">
+      <tr >
+        <th *ngFor="let user of getUserList()"> <img class="picture" [src]="getUser(user.uid).photoURL"> {{user.displayName}} </th>
+      </tr>
+      <tr>
+        <td *ngFor="let user of getUserList()"> {{returnVote(user.uid)}} </td>
+      </tr>
+      <tr>
+        <td *ngFor="let user of getUserList()"> {{returnScore(user.uid)}}</td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Répartitions des participants </mat-panel-title>
+    </mat-expansion-panel-header>
+    Répartition de : 
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
+    <app-histogram [values]="histogramValues"> </app-histogram>
+  </mat-expansion-panel>
+</mat-accordion>
