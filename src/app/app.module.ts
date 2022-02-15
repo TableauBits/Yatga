@@ -103,17 +103,17 @@ import { GradeElectoralComponent } from './components/constitution-page/results/
     HistogramComponent,
     VoteNavigatorComponent,
     ResultsGradeComponent,
-    GradeProfileComponent,
+  	GradeProfileComponent,
     GradeRanksComponent,
     GradeGradesComponent,
     GradeAverageComponent,
 		GradeRankingComponent,
   	RadarComponent,
   	ScatterComponent,
-   GradeNavigatorComponent,
-   ResultsFavoritesComponent,
-   PieComponent,
-   GradeElectoralComponent
+		GradeNavigatorComponent,
+		ResultsFavoritesComponent,
+		PieComponent,
+		GradeElectoralComponent
 	],
 	imports: [
 		BrowserModule,
