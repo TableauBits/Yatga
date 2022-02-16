@@ -1,0 +1,51 @@
+<mat-accordion multi class="panel">
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Liste des favoris </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table id="t01">
+      <tr>
+        <th> Position </th>
+        <th> <mat-icon class="favorite"> favorite </mat-icon> </th>
+        <th> Titre - Auteur </th>
+        <th> URL </th>
+        <th> Ajouté par </th>
+        <th> Favoris de </th>
+      </tr>
+      <tr *ngFor="let info of tableInfo;let indexOfelement=index;">
+        <td> {{ indexOfelement + 1 }} </td>
+        <td> {{ info.users.length }} <mat-icon class="favorite"> favorite </mat-icon> </td>
+        <td> {{ getSong(info.song).title }} - {{ getSong(info.song).author }}  </td>
+        <td>
+          <a href="{{getSong(info.song).url}}" target="_blank">
+            <mat-icon>play_circle_outline</mat-icon>
+          </a>
+        </td>
+        <td> <img class="picture avatar" [src]="getUser(getSong(info.song).user).photoURL" matTooltip="{{ getUser(getSong(info.song).user).displayName }}"> </td>
+        <td>
+          <div class="same-line" *ngFor="let user of info.users">
+            <img class="picture" matTooltip="{{getUser(user).displayName}}" [src]="getUser(user).photoURL">
+            <mat-icon class="favorite love">favorite</mat-icon>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Favoris entre les participants </mat-panel-title>
+    </mat-expansion-panel-header>
+    Résumé des favoris de :
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img class="picture image-de" [src]="getSelectedUser().photoURL">
+    <br>
+    <b> Ses favoris sont dirigés vers : </b>
+    <br>
+    <app-pie [data]="pieData"> </app-pie>
+  </mat-expansion-panel>
+</mat-accordion>

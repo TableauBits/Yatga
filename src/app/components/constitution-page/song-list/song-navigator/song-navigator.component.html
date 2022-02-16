@@ -13,6 +13,9 @@
   <br>
   <br>
   <button mat-button class="previous-button" color="primary" [disabled]="!previousSongExist()" (click)="changeSong(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
+  <button mat-raised-button class="favorite-button" (click)="toggleFavorite()" [disabled]="noMoreFavorties()">
+    <mat-icon *ngIf="isAFavorite(); else normalSong" class="favorite">favorite</mat-icon>
+  </button>
   <button mat-button class="next-button" color="primary" [disabled]="!nextSongExist()" (click)="changeSong(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
   <br>
 </div>
@@ -21,3 +24,7 @@
 <button mat-raised-button color="primary" (click)="closeWindow()">
   Fermer
 </button>
+
+<ng-template #normalSong>
+	<mat-icon>favorite_border</mat-icon>
+</ng-template>

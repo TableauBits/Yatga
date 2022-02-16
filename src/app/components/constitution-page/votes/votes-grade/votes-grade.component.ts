@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
@@ -10,6 +10,7 @@ import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { toMap, toMapNumber } from 'src/app/types/utils';
+import { isNil } from 'lodash';
 
 @Component({
 	selector: 'app-votes-grade',
@@ -18,9 +19,10 @@ import { toMap, toMapNumber } from 'src/app/types/utils';
 })
 export class VotesGradeComponent implements OnDestroy {
 
-	@Input() constitution: Constitution = EMPTY_CONSTITUTION; // TODO : encore besoin ?
+	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
+	@Input() favorites: Map<string, UserFavorites> = new Map();
 
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
 	currentIframeSongID: number;
@@ -145,7 +147,8 @@ export class VotesGradeComponent implements OnDestroy {
 			currentSong: song,
 			currentVote: this.getVote(song),
 			songs: this.getSongsToVote(),
-			votes: this.votes
+			votes: this.votes,
+			favorites: this.favorites.get(this.auth.uid)
 		}
 
 		this.dialog.open(VoteNavigatorComponent, config);
@@ -165,6 +168,14 @@ export class VotesGradeComponent implements OnDestroy {
 		const currentUserIndex = users.findIndex((user) => user.uid === this.auth.uid);
 		users.splice(currentUserIndex, 1);
 		return users;
+	}
+
+	canModifySongs(): boolean {
+		return canModifySongs(this.constitution);
+	}
+
+	canModifyFavorite(): boolean {
+		return areResultsPublic(this.constitution);
 	}
 
 	// TODO : Duplication de code //
@@ -226,6 +237,36 @@ export class VotesGradeComponent implements OnDestroy {
 
 	setOrderByUser(order: boolean) {
 		this.orderByUser = order;
+	}
+	
+	// TODO : Implement class ?
+	isAFavorite(song: Song): boolean {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return false;
+		return userFavorites.favs.includes(song.id);
+	}
+
+	toggleFavorite(song: Song): void {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return;
+
+		let message: string;
+
+		if (userFavorites.favs.includes(song.id)) {
+			// remove the song from favorites
+			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: song.id});
+		} else {
+			// add the song to the favorites
+			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: song.id});
+		}
+
+		this.auth.ws.send(message);
+	}
+
+	noMoreFavorties(song: Song): boolean {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return false;
+		return FAVORITES_MAX_LENGTH === userFavorites.favs.length && !userFavorites.favs.includes(song.id);
 	}
 
 }

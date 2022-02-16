@@ -1,0 +1,31 @@
+<mat-accordion multi class="panel">
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Moyenne des participants entre eux </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table id="t01">
+      <tr>
+        <th> </th>
+        <th *ngFor="let user of getUserList()" matTooltip="Receveur"> {{ user.displayName }} </th>
+      </tr>
+      <tr *ngFor="let user of getUserList()">
+        <td matTooltip="Donneur" class="first"> <b> {{ user.displayName }} </b> </td>
+        <td *ngFor="let user2 of getUserList()"> {{getMean(user.uid, user2.uid)}}</td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Graphe des moyennes </mat-panel-title>
+    </mat-expansion-panel-header>
+    Moyennes des votes de : 
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img class="picture image-de" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
+    <app-radar [indicators]="radarIndicators" [data]="radarDatas"> </app-radar>
+  </mat-expansion-panel>
+</mat-accordion>

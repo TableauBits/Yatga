@@ -47,7 +47,8 @@ td, th {
 }
 
 .card {
-	width: 24rem;
+	width: 26rem;
+	height: 19.5rem;
 	overflow: hidden;
 	margin: auto;
 }
@@ -69,28 +70,27 @@ td, th {
     -moz-filter: blur($blur);
     -o-filter: blur($blur);
     -ms-filter: blur($blur);
+	user-select: none;
 }
 
 .card-body {
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 0;
+	user-select: none;
 }
 
 iframe {
 	width: 100%;
-	padding-top: 25px;
+	padding-top: 35px;
 }
 
 .iframe-image {
 	width: 100%;
-	padding-top: 25px;
+	padding-top: 35px;
 	padding-bottom: 5px;
 	cursor: pointer;
-}
-
-.image-de {
-	float: right;
+	user-select: none;
 }
 
 .centered {
