@@ -24,14 +24,14 @@
 	<br>
 	<br>
 	<span class="custom-br"></span>
-	<mat-list role="list" class="list-item" *ngFor="let user of getUsers()">
+	<mat-list role="list" *ngFor="let user of getUsers()">
 		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
 			<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
 			<ng-template #isNotOwner>
 				<mat-icon matTooltip="Membre">account_box</mat-icon>
 			</ng-template>
 			<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
-			{{user.displayName}}
+			<span class="list-item"> {{user.displayName}} </span>
 		</mat-list-item>
 	</mat-list>
 	<span class="custom-br custom-br2"></span>

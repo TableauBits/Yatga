@@ -5,7 +5,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
-import { compareSongASC, compareSongDSC } from 'src/app/types/song';
+import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
@@ -38,6 +38,9 @@ export class VotesGradeComponent implements OnDestroy {
 	showStats: boolean;
 	showAlreadyVoted: boolean;
 
+	selectedUsers: string[];
+	orderByUser: boolean;
+
 	constructor(
 		private auth: AuthService,
 		private sanitizer: DomSanitizer,
@@ -52,6 +55,8 @@ export class VotesGradeComponent implements OnDestroy {
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
 		this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
 		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
+		this.selectedUsers = Array.from(this.users.keys());
+		this.orderByUser = false;
 
 		this.auth.pushAuthFunction(this.onConnect, this);
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -102,13 +107,17 @@ export class VotesGradeComponent implements OnDestroy {
 	}
 
 	getSongsToVote(): Song[] {
-		const songsToVote = Array.from(this.songs.values()).filter(song => {
+		let songsToVote = Array.from(this.songs.values()).filter(song => {
 			const isNotUserSong = song.user !== this.auth.uid;
 			const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted
-			return isNotUserSong && !isAlreadyVoted;
+			return isNotUserSong && !isAlreadyVoted && this.isSelected(song.user);
 		});
-		if (this.cardsSortASC) return songsToVote.sort(compareSongASC)
-		else return songsToVote.sort(compareSongDSC);
+		if (this.cardsSortASC) songsToVote = songsToVote.sort(compareSongASC)
+		else songsToVote = songsToVote.sort(compareSongDSC);
+
+		if (this.orderByUser) songsToVote = songsToVote.sort(compareSongUser);
+
+		return songsToVote;
 	}
 
 	getGrades(): number[] {
@@ -154,6 +163,13 @@ export class VotesGradeComponent implements OnDestroy {
 		return this.summary.voteCount / this.numberOfVotes() * 100;
 	}
 
+	getOtherUsers(): User[] {
+		const users = Array.from(this.users.values());
+		const currentUserIndex = users.findIndex((user) => user.uid === this.auth.uid);
+		users.splice(currentUserIndex, 1);
+		return users;
+	}
+
 	canModifySongs(): boolean {
 		return canModifySongs(this.constitution);
 	}
@@ -193,6 +209,36 @@ export class VotesGradeComponent implements OnDestroy {
 		this.currentIframeSongID = song.id;
 	}
 
+	// FILTER FUNCTIONS
+	toggleUserFilter(uid: string): void {
+		const index = this.selectedUsers.findIndex((user) => {return user === uid});
+		if (index !== -1) {
+			this.selectedUsers.splice(index, 1);
+		} else {
+			this.selectedUsers.push(uid);
+		}
+	}
+	
+	isSelected(uid: string): boolean {
+		return !this.selectedUsers.includes(uid);
+	}
+	
+	select(mode: string): void {
+		// TODO : wtf
+		switch (mode) {
+			case 'all':
+				this.selectedUsers = [];
+				break;
+			case 'none':
+				this.selectedUsers = Array.from(this.users.keys());
+				break;
+		}
+	}
+
+	setOrderByUser(order: boolean) {
+		this.orderByUser = order;
+	}
+	
 	// TODO : Implement class ?
 	isAFavorite(song: Song): boolean {
 		const userFavorites = this.favorites.get(this.auth.uid);

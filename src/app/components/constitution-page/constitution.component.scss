@@ -7,7 +7,7 @@
 /* CSS  https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp */
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 16%; /* Set the width of the sidebar */
+  width: 18%; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 0; /* Stay on top */
   top: 0%; /* Stay at the top */
@@ -76,5 +76,6 @@
 }
 
 .list-item {
-  align-items: center;
+  text-align: left;
+  overflow-x: auto;
 }

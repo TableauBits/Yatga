@@ -85,6 +85,14 @@ body {
   float: right;
 }
 
+.black-and-white {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.clickable {
+	cursor: pointer;
+}
 .panel {
   mat-expansion-panel {
     background-color: $mineshaft;

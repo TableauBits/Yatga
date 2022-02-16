@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { isEmpty, isNil } from 'lodash';
 import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites } from 'chelys';
-import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
-import { compareSongASC, compareSongDSC } from 'src/app/types/song';
+import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
@@ -17,16 +17,23 @@ import { SongNavigatorComponent } from './song-navigator/song-navigator.componen
 })
 export class SongListComponent {
 
+	// Input
 	@Input() constitution: Constitution;
 	@Input() songs: Map<number, Song> = new Map();
 	@Input() users: Map<string, User> = new Map();
 	@Input() favorites: Map<string, UserFavorites> = new Map();
 
+	// Iframe
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
 	currentIframeSongID: number;
 
+	// Local Parameter
 	cardsViewEnabled: boolean;
 	cardsSortASC: boolean;
+
+	// Filter
+	selectedUsers: string[];
+	orderByUser: boolean;
 
 	constructor(
 		private sanitizer: DomSanitizer,
@@ -37,13 +44,25 @@ export class SongListComponent {
 		this.currentIframeSongID = -1;
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
+		this.selectedUsers = Array.from(this.users.keys());
+		this.orderByUser = false;
 	}
 
 	getSongs(): Song[] {
-		const songs = Array.from(this.songs.values());
+		let songs = Array.from(this.songs.values()).filter((song) => {
+			return this.isSelected(song.user);
+		});
 
-		if (this.cardsSortASC) return songs.sort(compareSongASC)
-		else return songs.sort(compareSongDSC);
+		if (this.cardsSortASC) songs = songs.sort(compareSongASC) 
+		else songs = songs.sort(compareSongDSC);
+
+		if (this.orderByUser) songs = songs.sort(compareSongUser);
+
+		return songs;
+	}
+
+	getUsers(): User[] {
+		return Array.from(this.users.values());
 	}
 
 	getUser(uid: string): User {
@@ -111,6 +130,35 @@ export class SongListComponent {
 		this.currentIframeSongID = song.id;
 	}
 
+	// FILTER FUNCTIONS
+	toggleUserFilter(uid: string): void {
+		const index = this.selectedUsers.findIndex((user) => {return user === uid});
+		if (index !== -1) {
+			this.selectedUsers.splice(index, 1);
+		} else {
+			this.selectedUsers.push(uid);
+		}
+	}
+
+	isSelected(uid: string): boolean {
+		return !this.selectedUsers.includes(uid);
+	}
+
+	select(mode: string): void {
+		// TODO : wtf
+		switch (mode) {
+			case 'all':
+				this.selectedUsers = [];
+				break;
+			case 'none':
+				this.selectedUsers = Array.from(this.users.keys());
+				break;
+		}
+	}
+
+	setOrderByUser(order: boolean) {
+		this.orderByUser = order;
+	}
 	isAFavorite(song: Song): boolean {
 		const userFavorites = this.favorites.get(this.auth.uid);
 		if (isNil(userFavorites)) return false;
