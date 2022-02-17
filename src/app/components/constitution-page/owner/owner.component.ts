@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Constitution, ConstitutionType, EMPTY_CONSTITUTION, Song, User } from 'chelys';
 
 @Component({
@@ -9,15 +10,26 @@ import { Constitution, ConstitutionType, EMPTY_CONSTITUTION, Song, User } from '
 export class OwnerComponent {
 
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
-	@Input() users: Map<string, User> = new Map(); // TODO utile la map ?
+	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
+
+	public constitutionParameterForm: FormGroup;
 
 	// HTML can't access the ConstiutionType enum directly
 	public get constitutionType(): typeof ConstitutionType {
 		return ConstitutionType;
 	}
 
-	constructor() { }
+	constructor(public fb: FormBuilder) {
+		this.constitutionParameterForm = this.fb.group({
+			name: [this.constitution.name, Validators.required], 
+			playlistLink: [this.constitution.playlistLink],
+
+			// required ?
+			isPublic: [this.constitution.isPublic, Validators.required],
+			anonymousLevel: [this.constitution.anonymousLevel, Validators.required],
+		})
+	}
 
 	numberOfSongs(): number {
 		return this.constitution.maxUserCount * this.constitution.numberOfSongsPerUser;

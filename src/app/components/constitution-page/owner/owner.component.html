@@ -20,6 +20,61 @@
       <mat-expansion-panel-header> 
           <mat-panel-title> Paramètres </mat-panel-title>
       </mat-expansion-panel-header>
+      <form [formGroup]="newConstitutionForm">
+        <mat-form-field appearance="outline" class="numberField">
+          <mat-label> Saison </mat-label>
+          <input matInput type="number" min="0" max="100" formControlName="season" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="numberField">
+          <mat-label> Partie </mat-label>
+          <input matInput type="number" min="0" max="100" formControlName="part" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="nameField">
+          <mat-label> Nom </mat-label>
+          <input matInput formControlName="name" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" class="typeField">
+          <mat-label> URL de la playlist </mat-label>
+          <input matInput formControlName="playlistLink">
+        </mat-form-field>
+        <br>
+        <span class="custom-br"></span>
+        <br>
+        <mat-form-field appearance="outline" class="typeField">
+          <mat-label> Type </mat-label>
+          <mat-select formControlName="type" required>
+            <mat-option *ngFor="let type of getTypes()" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <span class="custom-br"></span>
+        <br>
+        <mat-label> Nombre de participants : </mat-label>
+        <mat-slider thumbLabel min="4" max="10" step="1" formControlName="maxUserCount" required></mat-slider>
+        <mat-label> Nombre de chansons par participants : </mat-label>
+        <mat-slider thumbLabel min="1" max="25" step="1" formControlName="numberOfSongsPerUser" required></mat-slider>
+        <br>
+        <span class="warning"> Le nombre total de chanson ne peut dépasser 100 chansons. </span>
+        <br>
+        <br>
+        <span class="custom-br"></span>
+        <br>
+        <mat-form-field appearance="outline" class="typeField">
+          <mat-label> Niveau d'anonymat </mat-label>
+          <mat-select formControlName="anonymousLevel" required>
+            <mat-option *ngFor="let level of getAnonymityLevels()"
+              [value]="level">
+              {{level}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-checkbox color="primary" formControlName="isPublic"> </mat-checkbox>
+        <mat-label> La constitution est publique </mat-label>
+      </form>
     </mat-expansion-panel>
   </mat-accordion>
   <br>
