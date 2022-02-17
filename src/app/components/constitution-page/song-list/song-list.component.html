@@ -34,11 +34,11 @@
 					<h3 class="card-header front">
 						<div>
 							{{song.title}}
-							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
+							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
 						</div>
 						<i> {{song.author}} </i> 
 					</h3>
-					<img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
+					<img src="{{getImageURL(song)}}" class="card-img blur">
 					<div class="card-img-overlay">
 						<div class="card-body">
 							<iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
