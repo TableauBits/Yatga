@@ -108,7 +108,7 @@ export class SongListComponent {
 		const config = new MatDialogConfig();
 
 		config.data = {
-			cstId: this.constitution.id,
+			constitution: this.constitution,
 			currentSong: song,
 			songs: this.getSongs(),
 			favorites: this.favorites.get(this.auth.uid)
@@ -159,6 +159,7 @@ export class SongListComponent {
 	setOrderByUser(order: boolean) {
 		this.orderByUser = order;
 	}
+
 	isAFavorite(song: Song): boolean {
 		const userFavorites = this.favorites.get(this.auth.uid);
 		if (isNil(userFavorites)) return false;
@@ -182,7 +183,7 @@ export class SongListComponent {
 		this.auth.ws.send(message);
 	}
 
-	noMoreFavorties(song: Song): boolean {
+	noMoreFavorites(song: Song): boolean {
 		const userFavorites = this.favorites.get(this.auth.uid);
 		if (isNil(userFavorites)) return false;
 		return FAVORITES_MAX_LENGTH === userFavorites.favs.length && !userFavorites.favs.includes(song.id);

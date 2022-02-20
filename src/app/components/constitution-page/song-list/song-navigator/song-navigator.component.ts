@@ -1,13 +1,13 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites } from 'chelys';
+import { areResultsPublic, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
 
 interface SongNavigatorInjectedData {
-	cstId: string,
+	constitution: Constitution,
 	currentSong: Song,
 	songs: Song[],
 	favorites: UserFavorites
@@ -20,7 +20,7 @@ interface SongNavigatorInjectedData {
 })
 export class SongNavigatorComponent implements OnDestroy {
 
-	cstId: string;
+	constitution: Constitution;
 	currentSong: Song;
 	currentSongSafeURL: SafeResourceUrl;
 	songs: Song[];
@@ -32,7 +32,7 @@ export class SongNavigatorComponent implements OnDestroy {
 		private dialogRef: MatDialogRef<SongNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
 	) {
-		this.cstId = data.cstId;
+		this.constitution = data.constitution;
 		this.currentSong = data.currentSong;
 		this.songs = data.songs;
 		this.favorites = data.favorites;
@@ -89,10 +89,10 @@ export class SongNavigatorComponent implements OnDestroy {
 
 		if (this.favorites.favs.includes(this.currentSong.id)) {
 			// remove the song from favorites
-			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.cstId, songId: this.currentSong.id});
+			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: this.currentSong.id});
 		} else {
 			// add the song to the favorites
-			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.cstId, songId: this.currentSong.id});
+			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: this.currentSong.id});
 		}
 
 		this.auth.ws.send(message);
@@ -103,5 +103,8 @@ export class SongNavigatorComponent implements OnDestroy {
 		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(this.currentSong.id);
 	}
 
+	canModifyFavorite(): boolean {
+		return areResultsPublic(this.constitution);
+	}
 
 }
