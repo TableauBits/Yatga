@@ -42,7 +42,7 @@
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
       </mat-select>
     </mat-form-field>
-    <img class="picture image-de" [src]="getSelectedUser().photoURL">
+    <img class="picture image-de" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
     <br>
     <b> Ses favoris sont dirigés vers : </b>
     <br>
