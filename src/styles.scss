@@ -179,3 +179,8 @@ body {
 .round {
   border-radius: 25px;
 }
+
+.disable-click {
+  pointer-events: none;
+  cursor: default;
+}
