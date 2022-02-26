@@ -94,15 +94,15 @@
                   {{getVote(song)}}
                 </button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item class="menu-panel">
+                  <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(0)">
                     <mat-icon class="menu-panel">trending_up</mat-icon>
                     <span>Classer par ordre croissant</span>
                   </button>
-                  <button mat-menu-item class="menu-panel">
+                  <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(1)">
                     <mat-icon class="menu-panel">trending_down</mat-icon>
                     <span>Classer par ordre décroissant</span>
                   </button>
-                  <button mat-menu-item class="menu-panel">
+                  <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(2)">
                     <mat-icon class="menu-panel">replay</mat-icon>
                     <span>Réinitialiser</span>
                   </button>
