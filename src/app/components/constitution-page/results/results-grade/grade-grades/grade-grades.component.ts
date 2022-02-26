@@ -2,6 +2,7 @@ import { Component, Input, SimpleChanges} from '@angular/core';
 import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
 import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { mean, variance } from 'src/app/types/math';
 import { UserGradeResults } from 'src/app/types/results';
 import { getIDFromURL } from 'src/app/types/url';
 
@@ -20,6 +21,8 @@ export class GradeGradesComponent {
 
   histogramValues: number[] = [];
   selectedUser: string;
+  selecedUserMean: number = 0;
+  selectedUserVar: number = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.userResults = changes['userResults'].currentValue;
@@ -73,7 +76,10 @@ export class GradeGradesComponent {
   getUserHistogramValues(): number[] {
     const userResult = this.userResults.get(this.selectedUser);
     if (isNil(userResult)) return [];
-    return Array.from(userResult.data.values.values());
+    const values = Array.from(userResult.data.values.values());
+    this.selecedUserMean = mean(values);
+    this.selectedUserVar = variance(this.selecedUserMean, values);
+    return values;
   }
 
   newSelection(): void  {

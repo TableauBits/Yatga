@@ -65,7 +65,7 @@ td, th {
 .background {
   opacity: 35%;
   position: absolute;
-  width: 100%;
+  width: 80%;
   height: 100%;
   z-index: -1;
   filter: blur($blur);
@@ -74,4 +74,9 @@ td, th {
     -o-filter: blur($blur);
     -ms-filter: blur($blur);
 	user-select: none;
+}
+
+.no_data {
+  display: inline-block;
+  height: 45px;
 }

@@ -40,6 +40,20 @@
   pointer-events: none;
 }
 
-.navbar-z {
-  z-index: 5;
+.menu-panel {
+	color: whitesmoke;
+}
+
+::ng-deep {
+	.mat-menu-content {
+		background-color: $mineshaft  !important;
+	}
+
+	.mat-menu-item:hover {
+		background-color: $sasuke !important;
+	}
+
+	.mat-menu-panel {
+		background-color: unset !important;
+	}
 }

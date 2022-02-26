@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { isEmpty, isNil } from 'lodash';
+import { isNil } from 'lodash';
 import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
@@ -42,7 +42,7 @@ export class SongListComponent {
 	) {
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
+		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
@@ -108,7 +108,7 @@ export class SongListComponent {
 		const config = new MatDialogConfig();
 
 		config.data = {
-			cstId: this.constitution.id,
+			constitution: this.constitution,
 			currentSong: song,
 			songs: this.getSongs(),
 			favorites: this.favorites.get(this.auth.uid)
@@ -159,6 +159,7 @@ export class SongListComponent {
 	setOrderByUser(order: boolean) {
 		this.orderByUser = order;
 	}
+
 	isAFavorite(song: Song): boolean {
 		const userFavorites = this.favorites.get(this.auth.uid);
 		if (isNil(userFavorites)) return false;
@@ -182,7 +183,7 @@ export class SongListComponent {
 		this.auth.ws.send(message);
 	}
 
-	noMoreFavorties(song: Song): boolean {
+	noMoreFavorites(song: Song): boolean {
 		const userFavorites = this.favorites.get(this.auth.uid);
 		if (isNil(userFavorites)) return false;
 		return FAVORITES_MAX_LENGTH === userFavorites.favs.length && !userFavorites.favs.includes(song.id);

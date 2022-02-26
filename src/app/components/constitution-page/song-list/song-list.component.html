@@ -11,7 +11,7 @@
 	<button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu" matTooltip="Classer les chansons">
 		<mat-icon>filter_list</mat-icon>
 	</button>
-	<mat-menu #menu="matMenu" >
+	<mat-menu #menu="matMenu">
 		<button mat-menu-item class="menu-panel" (click)="setOrderByUser(true)">
 			<mat-icon class="menu-panel">list</mat-icon>
 			<span>Classer par utilisateur</span>
@@ -30,15 +30,15 @@
 	<div class="container">
 		<div class="row g-4">
 			<div class="col" *ngFor="let song of getSongs()">
-				<div class="card shadow-0 bg-dark">
+				<div class="card shadow-0 bg-dark z-card">
 					<h3 class="card-header front">
 						<div>
 							{{song.title}}
-							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
+							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
 						</div>
 						<i> {{song.author}} </i> 
 					</h3>
-					<img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
+					<img src="{{getImageURL(song)}}" class="card-img blur">
 					<div class="card-img-overlay">
 						<div class="card-body">
 							<iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
@@ -59,7 +59,7 @@
 							<button mat-raised-button color="primary" (click)="onNavigate(song)">
 								<mat-icon>play_circle_outline</mat-icon>
 							</button>
-							<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song) || canModifyFavorite()">
+							<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorites(song) || canModifyFavorite()">
 									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 							</button>
 							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)">

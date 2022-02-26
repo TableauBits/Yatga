@@ -36,7 +36,9 @@ export class RadarComponent implements AfterViewInit, OnChanges {
 
   private initChart(): EChartsOption {
     return {
-      // TODO : Legend ?
+      tooltip: {
+        trigger: 'item'
+      },
       color: '#673ab7',
       radar: {
         indicator: this.indicators

@@ -15,7 +15,7 @@
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
     </iframe>
     <br>
-    <span *ngIf="getFavoriteForUser().length === 0"> No Data </span>
+    <div *ngIf="getFavoriteForUser().length === 0" class="no_data"> Pas de favoris </div>
     <div class="same-line" *ngFor="let fav of getFavoriteForUser()">
       <img class="picture" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">
       <mat-icon class="favorite love">favorite</mat-icon>

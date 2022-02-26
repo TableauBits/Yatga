@@ -48,6 +48,9 @@ export class HistogramComponent implements AfterViewInit, OnInit, OnChanges {
 
   private initChart(): EChartsOption {
     return {
+      tooltip: {
+        trigger: 'item'
+      },
       color: '#673AB7',
       series: [
         {
