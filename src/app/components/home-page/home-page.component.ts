@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+const THEMES = ['saxo', 'specialist', 'sonic', '90s']
 
 @Component({
 	selector: 'app-home-page',
 	templateUrl: './home-page.component.html',
 	styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent  {
 
-	constructor() { }
+	theme: string;
 
-	ngOnInit(): void {
+	constructor() {
+		this.theme = `assets/${THEMES[Math.floor(Math.random() * THEMES.length)]}`;
 	}
 
 }
