@@ -147,7 +147,15 @@ mat-form-field {
 
 ::ng-deep {
 	.mat-menu-content {
+		background-color: $bg-dark  !important;
+	}
+
+	.mat-menu-item:hover {
 		background-color: $sasuke !important;
+	}
+
+	.mat-menu-panel {
+		background-color: unset !important;
 	}
 }
 
