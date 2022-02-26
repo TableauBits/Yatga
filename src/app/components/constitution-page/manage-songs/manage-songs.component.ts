@@ -1,10 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { createMessage, CstSongReqAdd, CstSongReqRemove, EventType, Song, SongPlatform } from 'chelys';
-import { isEmpty } from 'lodash';
+import { createMessage, CstSongReqAdd, CstSongReqRemove, EMPTY_SONG, EventType, Song, SongPlatform } from 'chelys';
+import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
+import { DEFAULT_ID_FROM_URL, getIDFromURL } from 'src/app/types/url';
+
+const SONG_NAME_LENGTH = 30;	// TODO : ADD TO CHELYS
+const SONG_AUTHOR_LENGTH = 30;
 
 interface ManageSongsInjectedData {
 	cstID: string;
@@ -88,4 +92,43 @@ export class ManageSongsComponent {
 		this.dialogRef.close();
 	}
 
+	// VERIFY DATA
+		// TODO : HTML faire un template ?
+		// TODO : Gérer le cas où le champ est vide ?
+
+	isNil(key: string): boolean {
+		return isNil(this.newSongForm.value[key])
+	}
+
+	respectLengthLimit(key: string): boolean {
+		if (isNil(this.newSongForm.value[key])) return false;
+		
+		switch (key) {
+			case 'title':
+				return this.newSongForm.value[key].length > SONG_NAME_LENGTH;
+			case 'author':
+				return this.newSongForm.value[key].length > SONG_AUTHOR_LENGTH;
+		}
+		return false;
+	}
+
+	showKalimbaValue(key: string): string {
+		switch (key) {
+			case 'title':
+				return this.newSongForm.value[key].substring(0, SONG_NAME_LENGTH);
+			case 'author':
+				return this.newSongForm.value[key].substring(0, SONG_AUTHOR_LENGTH);
+		}
+		return '';
+	}
+
+	isNotValidURL(): boolean {
+		if (isNil(this.newSongForm.value['url'])) return false;
+
+		const song = EMPTY_SONG;
+		song.platform = SongPlatform.YOUTUBE;
+		song.url = this.newSongForm.value['url']
+
+		return getIDFromURL(song) === DEFAULT_ID_FROM_URL;
+	}
 }

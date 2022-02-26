@@ -1,15 +1,16 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
-import { compareSongASC, compareSongDSC } from 'src/app/types/song';
+import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { toMap, toMapNumber } from 'src/app/types/utils';
+import { isNil } from 'lodash';
 
 @Component({
 	selector: 'app-votes-grade',
@@ -18,9 +19,10 @@ import { toMap, toMapNumber } from 'src/app/types/utils';
 })
 export class VotesGradeComponent implements OnDestroy {
 
-	@Input() constitution: Constitution = EMPTY_CONSTITUTION; // TODO : encore besoin ?
+	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
+	@Input() favorites: Map<string, UserFavorites> = new Map();
 
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
 	currentIframeSongID: number;
@@ -36,6 +38,9 @@ export class VotesGradeComponent implements OnDestroy {
 	showStats: boolean;
 	showAlreadyVoted: boolean;
 
+	selectedUsers: string[];
+	orderByUser: boolean;
+
 	constructor(
 		private auth: AuthService,
 		private sanitizer: DomSanitizer,
@@ -47,9 +52,11 @@ export class VotesGradeComponent implements OnDestroy {
 		this.summary = { voteCount: 0, userCount: new Map() };
 		this.histogramGrades = [];
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
+		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false"
 		this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
 		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
+		this.selectedUsers = Array.from(this.users.keys());
+		this.orderByUser = false;
 
 		this.auth.pushAuthFunction(this.onConnect, this);
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -100,13 +107,17 @@ export class VotesGradeComponent implements OnDestroy {
 	}
 
 	getSongsToVote(): Song[] {
-		const songsToVote = Array.from(this.songs.values()).filter(song => {
+		let songsToVote = Array.from(this.songs.values()).filter(song => {
 			const isNotUserSong = song.user !== this.auth.uid;
 			const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted
-			return isNotUserSong && !isAlreadyVoted;
+			return isNotUserSong && !isAlreadyVoted && this.isSelected(song.user);
 		});
-		if (this.cardsSortASC) return songsToVote.sort(compareSongASC)
-		else return songsToVote.sort(compareSongDSC);
+		if (this.cardsSortASC) songsToVote = songsToVote.sort(compareSongASC)
+		else songsToVote = songsToVote.sort(compareSongDSC);
+
+		if (this.orderByUser) songsToVote = songsToVote.sort(compareSongUser);
+
+		return songsToVote;
 	}
 
 	getGrades(): number[] {
@@ -136,7 +147,8 @@ export class VotesGradeComponent implements OnDestroy {
 			currentSong: song,
 			currentVote: this.getVote(song),
 			songs: this.getSongsToVote(),
-			votes: this.votes
+			votes: this.votes,
+			favorites: this.favorites.get(this.auth.uid)
 		}
 
 		this.dialog.open(VoteNavigatorComponent, config);
@@ -149,6 +161,21 @@ export class VotesGradeComponent implements OnDestroy {
 
 	totalVotesProgressBarValue(): number {
 		return this.summary.voteCount / this.numberOfVotes() * 100;
+	}
+
+	getOtherUsers(): User[] {
+		const users = Array.from(this.users.values());
+		const currentUserIndex = users.findIndex((user) => user.uid === this.auth.uid);
+		users.splice(currentUserIndex, 1);
+		return users;
+	}
+
+	canModifySongs(): boolean {
+		return canModifySongs(this.constitution);
+	}
+
+	canModifyFavorite(): boolean {
+		return areResultsPublic(this.constitution);
 	}
 
 	// TODO : Duplication de code //
@@ -180,6 +207,66 @@ export class VotesGradeComponent implements OnDestroy {
 
 	updateCurrentIframeSong(song: Song): void {
 		this.currentIframeSongID = song.id;
+	}
+
+	// FILTER FUNCTIONS
+	toggleUserFilter(uid: string): void {
+		const index = this.selectedUsers.findIndex((user) => {return user === uid});
+		if (index !== -1) {
+			this.selectedUsers.splice(index, 1);
+		} else {
+			this.selectedUsers.push(uid);
+		}
+	}
+	
+	isSelected(uid: string): boolean {
+		return !this.selectedUsers.includes(uid);
+	}
+	
+	select(mode: string): void {
+		// TODO : wtf
+		switch (mode) {
+			case 'all':
+				this.selectedUsers = [];
+				break;
+			case 'none':
+				this.selectedUsers = Array.from(this.users.keys());
+				break;
+		}
+	}
+
+	setOrderByUser(order: boolean) {
+		this.orderByUser = order;
+	}
+	
+	// TODO : Implement class ?
+	isAFavorite(song: Song): boolean {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return false;
+		return userFavorites.favs.includes(song.id);
+	}
+
+	toggleFavorite(song: Song): void {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return;
+
+		let message: string;
+
+		if (userFavorites.favs.includes(song.id)) {
+			// remove the song from favorites
+			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: song.id});
+		} else {
+			// add the song to the favorites
+			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: song.id});
+		}
+
+		this.auth.ws.send(message);
+	}
+
+	noMoreFavorties(song: Song): boolean {
+		const userFavorites = this.favorites.get(this.auth.uid);
+		if (isNil(userFavorites)) return false;
+		return FAVORITES_MAX_LENGTH === userFavorites.favs.length && !userFavorites.favs.includes(song.id);
 	}
 
 }

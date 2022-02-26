@@ -19,7 +19,7 @@ export class ParametersComponent {
 
   constructor() {
     this.localSettings = { 
-      cardsView: (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true",
+      cardsView: (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false",
       cardsSortDSC: (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "true",
       gradeShowAlreadyVoted: (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true",
       gradeShowStats: (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true"

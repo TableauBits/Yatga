@@ -7,6 +7,16 @@
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.vertical {
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
 .content {
   color: whitesmoke;
   background-color: $mineshaft;
@@ -28,4 +38,22 @@
 
 .noHover{
   pointer-events: none;
+}
+
+.menu-panel {
+	color: whitesmoke;
+}
+
+::ng-deep {
+	.mat-menu-content {
+		background-color: $mineshaft  !important;
+	}
+
+	.mat-menu-item:hover {
+		background-color: $sasuke !important;
+	}
+
+	.mat-menu-panel {
+		background-color: unset !important;
+	}
 }

@@ -9,21 +9,24 @@
 			<i class="fas fa-bars"></i>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
-			<div mdbDropdown class="dropdown navbar-button">
-				<button class="btn btn-primary purple dropdown-toggle" type="button" id="dropdownMenuButton"
-					data-mdb-toggle="dropdown" aria-expanded="false" mdbDropdownToggle>
-					Constitutions
+			<button mat-raised-button class="btn btn-primary purple dropdown-toggle navbar-button" [matMenuTriggerFor]="menu">
+				Constitutions
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item class="menu-panel" (click)="openJoinConstitution()">
+					<mat-icon class="menu-panel">open_in_browser</mat-icon>
+					<span>Rejoindre une Constitution</span>
 				</button>
-				<ul mdbDropdownMenu class="dropdown-menu bakamitai" aria-labelledby="dropdownMenuButton">
-					<li><a class="dropdown-item content" (click)="openJoinConstitution()">Rejoindre une Constitution</a></li>
-					<li>
-						<hr class="dropdown-divider" />
-					</li>
-					<li><a class="dropdown-item content" routerLink="/current-constitutions">Voir les Constitutions en
-							cours</a></li>
-					<li><a class="dropdown-item content">Voir l'Historique</a></li>
-				</ul>
-			</div>
+				<span class="custom-br"> </span>
+				<button mat-menu-item class="menu-panel" routerLink="/current-constitutions">
+					<mat-icon class="menu-panel">dvr</mat-icon>
+					<span>Voir les Constitutions en cours</span>
+				</button>
+				<button mat-menu-item class="menu-panel">
+					<mat-icon class="menu-panel">account_balance</mat-icon>
+					<span>Voir l'Historique</span>
+				</button>
+			</mat-menu>
 
 			<button mat-raised-button class="btn purple btn-primary navbar-button"
 				routerLink="/users">Utilisateurs</button>
@@ -38,16 +41,20 @@
 </nav>
 
 <ng-template #signedIn>
-	<div mdbDropdown class="dropdown ms-auto ">
-		<img src="{{auth.user.photoURL}}" class="dropdown-toggle d-flex align-items-center rounded-circle navbar-button"
-			href="#" id="dropdownMenuLink" mdbDropdownToggle role="button" data-mdb-toggle="dropdown" width="45"
-			height="45" alt="" loading="lazy" aria-expanded="false" />
+	<button mat-button class="ms-auto" [disableRipple]="true" [matMenuTriggerFor]="menu">
+		<img src="{{auth.user.photoURL}}" class="rounded-circle navbar-button" width="50"	height="50">
+	</button>
+	<mat-menu #menu="matMenu">
+		<button mat-menu-item class="menu-panel"  routerLink="/profile">
+			<mat-icon class="menu-panel">person</mat-icon>
+			<span>Profil</span>
+		</button>
+		<button mat-menu-item class="menu-panel" (click)="!!auth.signOut()">
+			<mat-icon class="menu-panel">keyboard_tab</mat-icon>
+			<span>Déconnexion</span>
+		</button>
+	</mat-menu>
 
-		<ul mdbDropdownMenu class="dropdown-menu navbar-dark content" aria-labelledby="dropdownMenuLink">
-			<li><a class="dropdown-item content" routerLink="/profile">Profil</a></li>
-			<li><a class="dropdown-item content" (click)="!!auth.signOut()">Déconnexion</a></li>
-		</ul>
-	</div>
 </ng-template>
 <ng-template #signedOut>
 	<button mat-raised-button class="ms-auto" color="primary" (click)="auth.signIn()">Connexion</button>

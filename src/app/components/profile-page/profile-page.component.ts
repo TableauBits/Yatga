@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { createMessage, EMPTY_USER, EventType, User } from 'chelys';
 import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { returnUserRoles, RoleData } from 'src/app/types/role';
 import { Status } from 'src/app/types/status';
 

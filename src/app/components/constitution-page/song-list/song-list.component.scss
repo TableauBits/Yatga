@@ -1,5 +1,25 @@
 @import "../../../../styles/variables.scss";
 
+.filter {
+	display: inline-block;
+	min-width: 75%;
+	margin-top: -5%;
+
+	background-color: $bg-dark;
+  border-radius: 25px;
+  border: 2px solid $sasuke;
+}
+
+.filter-text {
+	margin-left: 5%;
+	margin-top: 2%;
+	margin-right: 2%;
+}
+
+.filter-button {
+	margin-left: 2%;
+}
+
 table {
 	margin-left: auto;
 	margin-right: auto;
@@ -27,7 +47,8 @@ td, th {
 }
 
 .card {
-	width: 24rem;
+	width: 26rem;
+	height: 19.5rem;
 	overflow: hidden;
 	margin: auto;
 }
@@ -49,28 +70,27 @@ td, th {
     -moz-filter: blur($blur);
     -o-filter: blur($blur);
     -ms-filter: blur($blur);
+	user-select: none;
 }
 
 .card-body {
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 0;
+	user-select: none;
 }
 
 iframe {
 	width: 100%;
-	padding-top: 25px;
+	padding-top: 35px;
 }
 
 .iframe-image {
 	width: 100%;
-	padding-top: 25px;
+	padding-top: 35px;
 	padding-bottom: 5px;
 	cursor: pointer;
-}
-
-.image-de {
-	float: right;
+	user-select: none;
 }
 
 .centered {
@@ -87,4 +107,26 @@ button {
 
 .cancel {
 	float: right;
+}
+
+.menu-panel {
+	color: whitesmoke;
+}
+
+::ng-deep {
+	.mat-menu-content {
+		background-color: $bg-dark  !important;
+	}
+
+	.mat-menu-item:hover {
+		background-color: $sasuke !important;
+	}
+
+	.mat-menu-panel {
+		background-color: unset !important;
+	}
+}
+
+.z-card {
+	z-index: 0;
 }

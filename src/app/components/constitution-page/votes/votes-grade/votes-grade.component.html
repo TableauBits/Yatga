@@ -29,25 +29,51 @@
     </mat-expansion-panel>
   </mat-accordion>
   <br>
+  <div class="filter">
+    <span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
+    <img *ngFor="let user of getOtherUsers()" class="picture" matTooltip=" {{user.displayName}}" 
+      [src]="user.photoURL" (click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
+    <button mat-raised-button color="primary" (click)="select('all')" class="filter-button" matTooltip="Afficher tous les utilisateurs">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" (click)="select('none')" matTooltip="Cacher tous les utilisateurs">
+      <mat-icon>block</mat-icon>
+    </button>
+    <button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu" matTooltip="Classer les chansons">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" >
+      <button mat-menu-item class="menu-panel" (click)="setOrderByUser(true)">
+        <mat-icon class="menu-panel">list</mat-icon>
+        <span>Classer par utilisateur</span>
+      </button>
+      <button mat-menu-item class="menu-panel" (click)="setOrderByUser(false)">
+        <mat-icon class="menu-panel">replay</mat-icon>
+        <span>Réinitialiser</span>
+      </button>
+    </mat-menu>
+  </div>
+  <br>
+  <br>
   <div *ngIf="cardsViewEnabled; then cardsView; else compactView">
   </div>
   <ng-template #cardsView>
     <div class="container">
-      <div class="row g-5">
+      <div class="row g-4">
         <div class="col" *ngFor="let song of getSongsToVote()">
-          <div class="card shadow-0 bg-dark">
-            <h3 class="card-header">
+          <div class="card shadow-0 bg-dark z-card">
+            <h3 class="card-header front">
               <div>
                 {{song.title}}
-                <img src="{{getUser(song.user).photoURL}}" class="image-de picture" alt="...">
+                <img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
               </div>
               <i> {{song.author}} </i> 
             </h3>
-            <img src="{{getImageURL(song)}}" class="card-img blur" alt="...">
+            <img src="{{getImageURL(song)}}" class="card-img blur">
             <div class="card-img-overlay">
               <div class="card-body">
                 <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
-                height="200" frameborder="0" [src]="getSongSafeURL(song)" 
+                height="208" frameborder="0" [src]="getSongSafeURL(song)" 
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
                 </iframe>
@@ -61,9 +87,9 @@
                 <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
                   <mat-icon>how_to_vote</mat-icon>
                 </button>
-                <button mat-raised-button color="primary" [disabled]="true">
-                  <mat-icon>star_border</mat-icon>
-                </button>
+                <button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song) || canModifyFavorite()">
+									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+							  </button>
                 <button mat-raised-button color="primary" class="vote">
                   {{getVote(song)}}
                 </button>
@@ -100,4 +126,8 @@
       </tr>
     </table>
   </ng-template>
+</ng-template>
+
+<ng-template #normalSong>
+	<mat-icon>favorite_border</mat-icon>
 </ng-template>

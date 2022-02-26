@@ -37,8 +37,28 @@ body {
   border-radius: 25px;
 }
 
+.picture2 {
+  width: 105px;
+  height: 75px;
+}
+
+.picture3 {
+  width: 55px;
+  height: 55px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
+}
+
 .warning {
-  color: red
+  color: red;
+}
+
+.valid {
+  color:green;
+}
+
+.unknown {
+  color: yellow;
 }
 
 .role {
@@ -84,4 +104,84 @@ body {
   background-color: #2E2E2E;
   color: whitesmoke;
   float: right;
+}
+
+.black-and-white {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.clickable {
+	cursor: pointer;
+}
+.panel {
+  mat-expansion-panel {
+    background-color: $mineshaft;
+    color: whitesmoke;
+  }
+  
+  mat-panel-title {
+    color: whitesmoke;
+  }
+  
+  mat-form-field {
+    width: 35%;
+  }
+  
+  ::ng-deep {
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+       color: whitesmoke;
+    }
+    .mat-form-field.mat-focused .mat-form-field-label {
+        color: whitesmoke !important;
+    }
+    .mat-input-element {
+        caret-color: whitesmoke!important;
+    }
+    
+    mat-form-field {
+        .mat-hint, input, ::placeholder, .mat-form-field-label {
+            color: whitesmoke;
+        }
+    }
+  }
+}
+
+.front {
+	z-index: 1;
+}
+
+.same-line {
+  display: inline-block;
+}
+
+.image-de {
+	float: right;
+	user-select: none;
+}
+
+.favorite {
+	color:deeppink;
+}
+
+.love {
+	// position: absolute;
+  -ms-transform: translate(-55%, 60%);
+  transform: translate(-55%, 60%);
+	font-size: small;
+	margin-right: -15px;
+}
+
+.page {
+  display: block;
+  width: 100%;
+}
+
+.round {
+  border-radius: 25px;
+}
+
+.disable-click {
+  pointer-events: none;
+  cursor: default;
 }

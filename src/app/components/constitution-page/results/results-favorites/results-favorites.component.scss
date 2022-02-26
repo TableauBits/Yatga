@@ -1,0 +1,67 @@
+@import "../../../../../styles/variables.scss";
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	width: 95%;
+	overflow-x: auto;
+	font-size:medium;
+}
+
+td, th {
+	border: 1px solid $sasuke;
+	text-align: center;
+	padding: 8px;
+}
+
+#t01 th {
+	background-color: $mineshaft;
+	color: whitesmoke;
+}
+
+#t01 tr:nth-child(even) {
+	background-color: $sasuke;
+}
+#t01 tr:nth-child(odd) {
+	background-color: $cape-cod;
+}
+
+.picture {
+  width: 55px;
+  height: 55px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
+}
+
+mat-select {
+  color: whitesmoke;
+}
+
+mat-select-value {
+  color: whitesmoke !important;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+
+  .mat-select-value {
+    color: whitesmoke;
+  }
+  .mat-select-arrow-wrapper {
+      color: whitesmoke;
+  }
+
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
+}

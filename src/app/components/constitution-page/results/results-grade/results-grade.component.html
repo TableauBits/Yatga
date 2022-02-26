@@ -1,0 +1,67 @@
+<div *ngIf="constitution.state === 2; then showResults; else hideResults"> </div>
+
+<ng-template #hideResults>
+  La période de résultats n'est pas ouverte.
+</ng-template>
+
+<ng-template #showResults>
+	<div class="content soiree" mat-dialog-content>
+		<nav class="navbar round-navbard navbar-expand-lg content">
+			<div class="container-fluid">
+				<!-- Collapse button-->
+				<button class="navbar-toggler" type="button" (click)="basicNav.toggle()" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<i class="fas fa-bars"></i>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.RANKING) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.RANKING)">
+					<mat-icon>reorder</mat-icon> Classement
+					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.ELECTORAL) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.ELECTORAL)">
+					<mat-icon>important_devices</mat-icon> Soirée Électorale
+					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.GRADES) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.GRADES)">
+					<mat-icon>poll</mat-icon> Notes
+					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.AVERAGE) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.AVERAGE)">
+					<mat-icon>poll</mat-icon> Moyennes
+					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.RANKS) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.RANKS)">
+					<mat-icon>poll</mat-icon> Rangs
+					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.FAVORITES) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.FAVORITES)">
+					<mat-icon>favorite</mat-icon> Favoris
+					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.PROFIL) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.PROFIL)">
+					<mat-icon>account_box</mat-icon> Mon Profil
+					</button>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<br>
+	<div [ngSwitch]="currentSection">
+		<app-grade-ranking *ngSwitchCase="gradeResultSection.RANKING"
+			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranking>
+		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES"
+			[users]="users" [songs]="songs" [userResults]="userResults"> </app-grade-grades>
+		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE"
+			[users]="users" [userResults]="userResults" [songs]="songs" [numberOfSongsByUser]="constitution.numberOfSongsPerUser"> </app-grade-average>
+		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"
+			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranks>
+		<app-results-favorites *ngSwitchCase="gradeResultSection.FAVORITES"
+			[users]="users" [songs]="songs" [favorites]="favorites"></app-results-favorites>
+		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"
+			[result]="getAuthResult()"> </app-grade-profile>
+		<app-grade-electoral *ngSwitchCase="gradeResultSection.ELECTORAL"
+		[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
+		</app-grade-electoral>	
+	</div>
+</ng-template>

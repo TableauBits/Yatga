@@ -29,11 +29,23 @@ import { ManageSongsComponent } from './components/constitution-page/manage-song
 import { ParametersComponent } from './components/constitution-page/parameters/parameters.component';
 import { DeleteSongWarningComponent } from './components/delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
-import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
-import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
-import { HistogramComponent } from './components/template/histogram/histogram.component';
 import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
 import { JoinConstitutionComponent } from './components/join-constitution/join-constitution.component';
+
+// Charts Component
+import { HistogramComponent } from './components/template/histogram/histogram.component';
+import { RadarComponent } from './components/template/radar/radar.component';
+import { ScatterComponent } from './components/template/scatter/scatter.component';
+
+// Grade Component
+import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
+import { VotesGradeComponent } from './components/constitution-page/votes/votes-grade/votes-grade.component';
+import { ResultsGradeComponent } from './components/constitution-page/results/results-grade/results-grade.component';
+import { GradeProfileComponent } from './components/constitution-page/results/results-grade/grade-profile/grade-profile.component';
+import { GradeRankingComponent } from './components/constitution-page/results/results-grade/grade-ranking/grade-ranking.component';
+import { GradeRanksComponent } from './components/constitution-page/results/results-grade/grade-ranks/grade-ranks.component';
+import { GradeGradesComponent } from './components/constitution-page/results/results-grade/grade-grades/grade-grades.component';
+import { GradeAverageComponent } from './components/constitution-page/results/results-grade/grade-average/grade-average.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -50,7 +62,8 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from "@angular/material/expansion";
-import { MatProgressBarModule } from "@angular/material/progress-bar"
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatMenuModule} from '@angular/material/menu';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -61,6 +74,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { GradeNavigatorComponent } from './components/constitution-page/results/results-grade/grade-navigator/grade-navigator.component';
+import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
+import { PieComponent } from './components/template/pie/pie.component';
+import { GradeElectoralComponent } from './components/constitution-page/results/results-grade/grade-electoral/grade-electoral.component';
+
 
 @NgModule({
 	declarations: [
@@ -87,6 +105,18 @@ import { AuthService } from './services/auth.service';
     HistogramComponent,
     VoteNavigatorComponent,
     JoinConstitutionComponent,
+    ResultsGradeComponent,
+  	GradeProfileComponent,
+    GradeRanksComponent,
+    GradeGradesComponent,
+    GradeAverageComponent,
+		GradeRankingComponent,
+  	RadarComponent,
+  	ScatterComponent,
+		GradeNavigatorComponent,
+		ResultsFavoritesComponent,
+		PieComponent,
+		GradeElectoralComponent
 	],
 	imports: [
 		BrowserModule,
@@ -109,6 +139,7 @@ import { AuthService } from './services/auth.service';
 		MatSlideToggleModule,
 		MatListModule,
 		MatTabsModule,
+		MatMenuModule,
 		MatDialogModule,
 		MatExpansionModule,
 		MatProgressBarModule,
