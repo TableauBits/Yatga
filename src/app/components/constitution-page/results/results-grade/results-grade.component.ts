@@ -5,7 +5,6 @@ import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMess
 import { AuthService } from 'src/app/services/auth.service';
 import { EMPTY_USER_GRADE_RESULTS, generateUserGradeResults, SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { toMapNumber } from 'src/app/types/utils';
-import { GradeNavigatorComponent } from './grade-navigator/grade-navigator.component';
 
 enum GradeResultSection {
   RANKING,
@@ -79,23 +78,6 @@ export class ResultsGradeComponent implements OnDestroy {
     if (this.constitution.maxUserCount === this.userResults.size) {
       this.generateSongResults();
     }
-  }
-
-  openResultNavigator(): void {
-    const config = new MatDialogConfig();
-
-    config.data = {
-      userResults: this.userResults,
-      songResults: this.songResults,
-      users: this.users,
-      songs: this.songs,
-      favorites: this.favorites
-    }
-
-    config.maxHeight = "50%";
-    config.width = "45%";
-
-    this.dialog.open(GradeNavigatorComponent, config);
   }
 
   // HTML can't access the ConstiutionSection enum directly

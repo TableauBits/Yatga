@@ -4,6 +4,7 @@ import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { mean, variance } from 'src/app/types/math';
 import { UserGradeResults } from 'src/app/types/results';
+import { compareSongDSC } from 'src/app/types/song';
 import { getIDFromURL } from 'src/app/types/url';
 
 @Component({
@@ -35,7 +36,7 @@ export class GradeGradesComponent {
   }
 
   getSongList(): Song[] {
-    return Array.from(this.songs.values());
+    return Array.from(this.songs.values()).sort(compareSongDSC);
   }
 
   getSelectedSong(): Song {
