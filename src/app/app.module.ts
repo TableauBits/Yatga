@@ -30,6 +30,7 @@ import { ParametersComponent } from './components/constitution-page/parameters/p
 import { DeleteSongWarningComponent } from './components/delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
 import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
+import { JoinConstitutionComponent } from './components/join-constitution/join-constitution.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -103,6 +104,7 @@ import { GradeElectoralComponent } from './components/constitution-page/results/
     VotesGradeComponent,
     HistogramComponent,
     VoteNavigatorComponent,
+    JoinConstitutionComponent,
     ResultsGradeComponent,
   	GradeProfileComponent,
     GradeRanksComponent,
