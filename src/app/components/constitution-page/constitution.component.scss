@@ -79,3 +79,12 @@
   text-align: left;
   overflow-x: auto;
 }
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 65%;
+  overflow-x: auto;
+  align-items: center;
+  border: 2px solid $sasuke;
+}
