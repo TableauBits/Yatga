@@ -73,7 +73,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { GradeNavigatorComponent } from './components/constitution-page/results/results-grade/grade-navigator/grade-navigator.component';
 import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
 import { PieComponent } from './components/template/pie/pie.component';
 import { GradeElectoralComponent } from './components/constitution-page/results/results-grade/grade-electoral/grade-electoral.component';
@@ -111,7 +110,6 @@ import { GradeElectoralComponent } from './components/constitution-page/results/
 		GradeRankingComponent,
   	RadarComponent,
   	ScatterComponent,
-		GradeNavigatorComponent,
 		ResultsFavoritesComponent,
 		PieComponent,
 		GradeElectoralComponent
