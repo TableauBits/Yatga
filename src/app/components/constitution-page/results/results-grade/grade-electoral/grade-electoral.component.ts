@@ -50,9 +50,13 @@ export class GradeElectoralComponent implements OnChanges {
   iframeWidth: number = 0;
   shouldLaunchFireworks: boolean = true;
   pieData: PieData[] = [];
+  selected: number = 0;
+  range: number[] = [];
 
   ngOnChanges(): void {
     this.currentRank = this.songResults.length - 1;
+    this.selected = this.currentRank;
+    this.range = this.songResults.map((_, index) => index);
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
     this.currentVoters = this.getVotingUser();
@@ -148,6 +152,10 @@ export class GradeElectoralComponent implements OnChanges {
   goToLastResult(): void {
     this.currentRank = this.songResults.length - 1;
     this.changeResult(0);
+  }
+
+  goToResult(): void {
+    this.changeResult(this.selected - this.currentRank);
   }
 
   changeResult(shift: number): void {

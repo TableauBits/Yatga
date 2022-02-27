@@ -71,6 +71,15 @@
     <button mat-raised-button class="rank-button purple"> {{currentRank + 1}} </button>
     <button mat-button class="next-button purple left" [disabled]="isLastResult()" (click)="goToLastResult()"> <mat-icon>fast_forward</mat-icon> </button>
     <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+    <br>
+    <br>
+    <br>
+    <mat-form-field appearance="fill" class="rank-button">
+      <mat-label>Aller au rang</mat-label>
+      <mat-select [(value)]="selected" (selectionChange)="goToResult()">
+        <mat-option *ngFor="let i of range" value="{{i}}"> {{i+1}}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </div>
 <br>
