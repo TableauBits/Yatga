@@ -66,11 +66,11 @@
     <br>
     <span class="custom-br"></span>
     <br>
-    <button mat-button class="previous-button" [disabled]="isFirstResult()" (click)="goToFirstResult()"> <mat-icon>fast_rewind</mat-icon> </button>
-    <button mat-button class="previous-button" [disabled]="!previousResultExist()" (click)="changeResult(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
-    <button mat-raised-button class="rank-button"> {{currentRank + 1}} </button>
-    <button mat-button class="next-button" [disabled]="isLastResult()" (click)="goToLastResult()"> <mat-icon>fast_forward</mat-icon> </button>
-    <button mat-button class="next-button" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+    <button mat-button class="previous-button purple" [disabled]="isFirstResult()" (click)="goToFirstResult()"> <mat-icon>fast_rewind</mat-icon> </button>
+    <button mat-button class="previous-button purple" [disabled]="!previousResultExist()" (click)="changeResult(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
+    <button mat-raised-button class="rank-button purple"> {{currentRank + 1}} </button>
+    <button mat-button class="next-button purple" [disabled]="isLastResult()" (click)="goToLastResult()"> <mat-icon>fast_forward</mat-icon> </button>
+    <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
   </div>
 </div>
 <br>
