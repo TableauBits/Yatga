@@ -1,11 +1,13 @@
-import { Component, HostListener, Input, OnChanges } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { PieData } from 'src/app/types/charts';
-import { mean } from 'src/app/types/math';
+import { mean, randomInRange } from 'src/app/types/math';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
+import * as confetti from 'canvas-confetti';
+import { FIREWORK_DEFAULTS, FIREWORK_DURATION } from 'src/app/types/firework';
 
 interface VoteData {
   user: User,
@@ -32,6 +34,8 @@ export class GradeElectoralComponent implements OnChanges {
     this.iframeHeight =  this.iframeWidth / 16 * 9;
   }
 
+  @ViewChild("fireworks") fireworksCanvas!: ElementRef<HTMLCanvasElement>;
+
   @Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
   @Input() favorites: Map<string, UserFavorites> = new Map();
@@ -44,6 +48,7 @@ export class GradeElectoralComponent implements OnChanges {
   currentVoters: VoteData[] = [];
   iframeHeight: number = 0;
   iframeWidth: number = 0;
+  shouldLaunchFireworks: boolean = true;
   pieData: PieData[] = [];
 
   ngOnChanges(): void {
@@ -56,6 +61,29 @@ export class GradeElectoralComponent implements OnChanges {
 
   constructor(private sanitizer: DomSanitizer) {
     this.onWindowResize();
+  }
+
+  launchFireworks() {
+    const myConfetti = confetti.create(this.fireworksCanvas.nativeElement, {
+      resize: true, // will fit all screen sizes
+    });
+
+    const animationEnd = Date.now() + FIREWORK_DURATION;
+
+    const interval: any = setInterval(function(){
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / FIREWORK_DURATION);
+      myConfetti(Object.assign({}, FIREWORK_DEFAULTS, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+      myConfetti(Object.assign({}, FIREWORK_DEFAULTS, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+      
+    }, 250);
+
+    this.shouldLaunchFireworks = !this.shouldLaunchFireworks
   }
 
   getUser(uid: string): User {
@@ -104,8 +132,27 @@ export class GradeElectoralComponent implements OnChanges {
     return this.currentRank + 1 < this.songResults.length;
   }
 
+  isFirstResult(): boolean {
+    return this.currentRank === 0;
+  }
+
+  isLastResult(): boolean {
+    return this.currentRank === this.songResults.length - 1;
+  }
+
+  goToFirstResult(): void {
+    this.currentRank = 0;
+    this.changeResult(0);
+  }
+
+  goToLastResult(): void {
+    this.currentRank = this.songResults.length - 1;
+    this.changeResult(0);
+  }
+
   changeResult(shift: number): void {
     this.currentRank += shift;
+    if (this.currentRank === 0) this.launchFireworks();
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
     this.currentVoters = this.getVotingUser();

@@ -1,5 +1,6 @@
 <br>
 <img *ngIf="isBestQuartert()" class="background blur" [src]="getImageURL()">
+<canvas class="fireworks fire" #fireworks> </canvas>
 <div class="page">
   <div class="title">
     <a href="{{currentSong.url}}" target="_blank">
@@ -65,12 +66,14 @@
     <br>
     <span class="custom-br"></span>
     <br>
+    <button mat-button class="previous-button" [disabled]="isFirstResult()" (click)="goToFirstResult()"> <mat-icon>fast_rewind</mat-icon> </button>
     <button mat-button class="previous-button" [disabled]="!previousResultExist()" (click)="changeResult(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
     <button mat-raised-button class="rank-button"> {{currentRank + 1}} </button>
+    <button mat-button class="next-button" [disabled]="isLastResult()" (click)="goToLastResult()"> <mat-icon>fast_forward</mat-icon> </button>
     <button mat-button class="next-button" [disabled]="!nextResultExist()" (click)="changeResult(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
   </div>
 </div>
 <br>
-<b> Répartition actuelle : </b>
+<b> Répartition actuelle des chansons déjà passées des utilisateurs : </b>
 <br>
 <app-pie [data]="pieData"> </app-pie>
