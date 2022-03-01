@@ -200,7 +200,7 @@ export class VotesGradeComponent implements OnDestroy {
 	}
 
 	canModifyFavorite(): boolean {
-		return areResultsPublic(this.constitution);
+		return !canModifySongs(this.constitution) && !areResultsPublic(this.constitution);
 	}
 
 	// TODO : Duplication de code //

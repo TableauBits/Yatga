@@ -59,7 +59,7 @@
 							<button mat-raised-button color="primary" (click)="onNavigate(song)">
 								<mat-icon>play_circle_outline</mat-icon>
 							</button>
-							<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorites(song) || canModifyFavorite()">
+							<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorites(song) || !canModifyFavorite()">
 									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 							</button>
 							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)">

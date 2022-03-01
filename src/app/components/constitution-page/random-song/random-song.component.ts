@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
@@ -93,7 +93,7 @@ export class RandomSongComponent implements OnDestroy {
 	}
 
 	canModifyFavorite(): boolean {
-		return areResultsPublic(this.constitution);
+		return !canModifySongs(this.constitution) && !areResultsPublic(this.constitution);
 	}
 
 }

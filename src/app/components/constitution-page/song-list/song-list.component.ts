@@ -123,7 +123,7 @@ export class SongListComponent {
 	}
 
 	canModifyFavorite(): boolean {
-		return areResultsPublic(this.constitution);
+		return !canModifySongs(this.constitution) && !areResultsPublic(this.constitution);
 	}
 
 	updateCurrentIframeSong(song: Song): void {
