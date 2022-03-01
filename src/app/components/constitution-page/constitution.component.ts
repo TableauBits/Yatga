@@ -5,6 +5,7 @@ import { ActivatedRoute} from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, CstFavResUpdate, CstFavReqGet, UserFavorites, CstSongReqUnsubscribe, CstFavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
+import { RandomSongComponent } from './random-song/random-song.component';
 
 enum ConstitutionSection {
 	SONG_LIST,
@@ -136,6 +137,18 @@ export class ConstitutionComponent implements OnDestroy {
 		}
 
 		this.dialog.open(ManageSongsComponent, config);
+	}
+
+	openDialogRandomSong(): void {
+		const config = new MatDialogConfig();
+
+		config.data = {
+			constitution: this.constitution,
+			songs: Array.from(this.songs.values()),
+			favorites: this.favorites.get(this.auth.uid),
+		}
+
+		this.dialog.open(RandomSongComponent, config);
 	}
 
 	setCurrentSection(newSection: ConstitutionSection): void {
