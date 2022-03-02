@@ -116,7 +116,7 @@ import { RandomSongComponent } from './components/constitution-page/random-song/
 		ResultsFavoritesComponent,
 		PieComponent,
 		GradeElectoralComponent,
-  RandomSongComponent
+  	RandomSongComponent
 	],
 	imports: [
 		BrowserModule,
