@@ -46,7 +46,7 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
   private initChart(): EChartsOption {
     return {
       tooltip: {
-        position: 'top'
+        // position: 'top'
       },
       grid: {
         height: '50%',
@@ -72,7 +72,10 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
         calculable: true,
         orient: 'horizontal',
         left: 'center',
-        bottom: '15%'
+        bottom: '15%',
+        textStyle:  {
+          color: '#f4f4f4'
+        }
       },
       series: [
         {

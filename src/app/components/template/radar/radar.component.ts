@@ -39,14 +39,17 @@ export class RadarComponent implements AfterViewInit, OnChanges {
       tooltip: {
         trigger: 'item'
       },
-      color: '#673ab7',
+      color: '#FF0000',
       radar: {
         indicator: this.indicators
       },
       series: [
         {
           type: 'radar',
-          data: this.data
+          data: this.data,
+          areaStyle: {
+            opacity: 0.25
+          }
         }
       ]
     }
