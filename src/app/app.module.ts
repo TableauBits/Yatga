@@ -39,6 +39,7 @@ import { HistogramComponent } from './components/template/histogram/histogram.co
 import { RadarComponent } from './components/template/radar/radar.component';
 import { ScatterComponent } from './components/template/scatter/scatter.component';
 import { PieComponent } from './components/template/pie/pie.component';
+import { HeatmapComponent } from './components/template/heatmap/heatmap.component';
 
 // Grade Component
 import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
@@ -119,7 +120,8 @@ import { AuthService } from './services/auth.service';
 		PieComponent,
 		GradeElectoralComponent,
   	RandomSongComponent,
-   GradeRelationshipComponent
+   	GradeRelationshipComponent,
+   	HeatmapComponent
 	],
 	imports: [
 		BrowserModule,
