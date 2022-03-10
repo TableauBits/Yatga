@@ -78,6 +78,7 @@ import { ResultsFavoritesComponent } from './components/constitution-page/result
 import { PieComponent } from './components/template/pie/pie.component';
 import { GradeElectoralComponent } from './components/constitution-page/results/results-grade/grade-electoral/grade-electoral.component';
 import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
+import { ManageInvitesComponent } from './components/admin-page/manage-invites/manage-invites.component';
 
 
 @NgModule({
@@ -116,7 +117,8 @@ import { RandomSongComponent } from './components/constitution-page/random-song/
 		ResultsFavoritesComponent,
 		PieComponent,
 		GradeElectoralComponent,
-  	RandomSongComponent
+  	RandomSongComponent,
+   ManageInvitesComponent
 	],
 	imports: [
 		BrowserModule,
