@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, Message, Song, User, UserFavorites } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +13,8 @@ enum GradeResultSection {
   RANKS,
   FAVORITES,
   PROFIL,
-  ELECTORAL
+  ELECTORAL,
+  RELATIONSHIP
 }
 
 function compareScore(s1: SongGradeResult, s2: SongGradeResult): number {

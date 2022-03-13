@@ -1,0 +1,13 @@
+<mat-accordion multi class="panel">
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Carte de chaleur entre les participants </mat-panel-title>
+    </mat-expansion-panel-header>
+    <i>
+      La ligne note la colonne.
+      Plus le chiffre est grand, plus l'utilisateur de la ligne apprécie l'utilisateur de la colonne.
+      Donne un point lorsqu'une chanson est notée au-dessus de sa moyenne ou si elle est un favori.
+    </i>
+    <app-heatmap [data]="heatmapData" [xAxis]="xAxisNames" [yAxis]="yAxisNames"> </app-heatmap>
+  </mat-expansion-panel>
+</mat-accordion>

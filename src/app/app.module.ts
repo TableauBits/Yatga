@@ -31,11 +31,15 @@ import { DeleteSongWarningComponent } from './components/delete-song-warning/del
 import { SongNavigatorComponent } from './components/constitution-page/song-list/song-navigator/song-navigator.component';
 import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
 import { JoinConstitutionComponent } from './components/join-constitution/join-constitution.component';
+import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
+import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
 import { RadarComponent } from './components/template/radar/radar.component';
 import { ScatterComponent } from './components/template/scatter/scatter.component';
+import { PieComponent } from './components/template/pie/pie.component';
+import { HeatmapComponent } from './components/template/heatmap/heatmap.component';
 
 // Grade Component
 import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
@@ -46,6 +50,8 @@ import { GradeRankingComponent } from './components/constitution-page/results/re
 import { GradeRanksComponent } from './components/constitution-page/results/results-grade/grade-ranks/grade-ranks.component';
 import { GradeGradesComponent } from './components/constitution-page/results/results-grade/grade-grades/grade-grades.component';
 import { GradeAverageComponent } from './components/constitution-page/results/results-grade/grade-average/grade-average.component';
+import { GradeElectoralComponent } from './components/constitution-page/results/results-grade/grade-electoral/grade-electoral.component';
+import { GradeRelationshipComponent } from './components/constitution-page/results/results-grade/grade-relationship/grade-relationship.component';
 
 // Material
 import { MatButtonModule } from "@angular/material/button";
@@ -74,10 +80,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
-import { PieComponent } from './components/template/pie/pie.component';
-import { GradeElectoralComponent } from './components/constitution-page/results/results-grade/grade-electoral/grade-electoral.component';
-import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
+
 
 
 @NgModule({
@@ -116,7 +119,9 @@ import { RandomSongComponent } from './components/constitution-page/random-song/
 		ResultsFavoritesComponent,
 		PieComponent,
 		GradeElectoralComponent,
-  	RandomSongComponent
+  	RandomSongComponent,
+   	GradeRelationshipComponent,
+   	HeatmapComponent
 	],
 	imports: [
 		BrowserModule,
