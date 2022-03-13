@@ -1,16 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Song, Invite } from 'chelys';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-manage-invites',
   templateUrl: './manage-invites.component.html',
   styleUrls: ['./manage-invites.component.scss']
 })
-export class ManageInvitesComponent {
+export class ManageInvitesComponent implements OnDestroy {
 
-  constructor() { 
-    console.log(this.test > this.test2);
+  public invites: Invites[] = [];
+
+  constructor(private auth: AuthService) {
+    this.auth.pushAuthFunction(this.onConnect, this);
+		this.auth.pushEventHandler(this.handleEvents, this);
   }
 
-  test: Date = new Date();
-  test2: Date = new Date();
+  ngOnDestroy() {
+    this.auth.popEventHandler();
+		this.auth.popAuthCallback();
+  }
+
+  private handleEvents(event: MessageEvent<any>): void {}
+
+  private onConnect(): void {}
+
 }
