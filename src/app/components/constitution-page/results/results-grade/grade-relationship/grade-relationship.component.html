@@ -10,4 +10,10 @@
     </i>
     <app-heatmap [data]="heatmapData" [xAxis]="xAxisNames" [yAxis]="yAxisNames"> </app-heatmap>
   </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> ??? </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-chord [nodes]="nodes" [links]="links" [categories]="categories"> </app-chord>
+  </mat-expansion-panel>
 </mat-accordion>

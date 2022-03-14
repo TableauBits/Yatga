@@ -80,6 +80,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { ChordComponent } from './components/template/chord/chord.component';
 
 
 
@@ -121,7 +122,8 @@ import { AuthService } from './services/auth.service';
 		GradeElectoralComponent,
   	RandomSongComponent,
    	GradeRelationshipComponent,
-   	HeatmapComponent
+   	HeatmapComponent,
+    ChordComponent
 	],
 	imports: [
 		BrowserModule,
