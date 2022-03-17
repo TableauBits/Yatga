@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GradeNavigatorComponent } from './grade-navigator.component';
+import { RandomSongComponent } from './random-song.component';
 
-describe('GradeNavigatorComponent', () => {
-  let component: GradeNavigatorComponent;
-  let fixture: ComponentFixture<GradeNavigatorComponent>;
+describe('RandomSongComponent', () => {
+  let component: RandomSongComponent;
+  let fixture: ComponentFixture<RandomSongComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GradeNavigatorComponent ]
+      declarations: [ RandomSongComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GradeNavigatorComponent);
+    fixture = TestBed.createComponent(RandomSongComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

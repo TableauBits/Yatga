@@ -6,19 +6,28 @@
 		</a>
 	</ng-template>
 	<span class="custom-br"></span>
-	Nombre de chansons : <br>
-	Constitution : {{songs.size}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}}
-	<br>
-	Vous : {{numberOfSongsOfCurrentUser()}} / {{constitution.numberOfSongsPerUser}}
-	<br>
-	<span class="custom-br"></span>
+	<table class="custom-br2">
+		<tr>
+			<td> Constitution </td>
+			<td> {{songs.size}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}} </td>
+		</tr>
+		<tr>
+			<td> Mes chansons </td>
+			<td> {{numberOfSongsOfCurrentUser()}} / {{constitution.numberOfSongsPerUser}} </td>
+		</tr>
+		<tr>
+			<td> Mes favoris </td>
+			<td> {{numberOfCurrentUserFavorites()}} / {{numberOfMaxFavorites()}} </td>
+		</tr>
+	</table>
+	<span class="custom-br custom-br2"></span>
 	<br>
 	<button mat-raised-button color="primary" [disabled]="!updateSongs()" (click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes chansons
 	</button>
 	<br>
 	<br>
-	<button mat-raised-button [disabled]="true" color="primary">
+	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
 		<mat-icon>shuffle</mat-icon> Sélection Aléatoire
 	</button>
 	<br>

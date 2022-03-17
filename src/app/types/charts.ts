@@ -4,6 +4,13 @@ export const CHARTS_ID_LENGTH = 12;
 
 export type EChartsOption = echarts.EChartsOption;
 
+// Heatmap
+export type HeatmapData = [
+  number, // y
+  number, // x
+  number, // Value
+]
+
 // Pie
 export type PieData = {
   value: number;

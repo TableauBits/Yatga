@@ -6,46 +6,45 @@ import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
 
-interface SongNavigatorInjectedData {
+interface RandomSongInjectedData {
 	constitution: Constitution,
-	currentSong: Song,
 	songs: Song[],
 	favorites: UserFavorites
 }
 
 @Component({
-	selector: 'app-song-navigator',
-	templateUrl: './song-navigator.component.html',
-	styleUrls: ['./song-navigator.component.scss']
+  selector: 'app-random-song',
+  templateUrl: './random-song.component.html',
+  styleUrls: ['./random-song.component.scss']
 })
-export class SongNavigatorComponent implements OnDestroy {
+export class RandomSongComponent implements OnDestroy {
 
-	constitution: Constitution;
+  constitution: Constitution;
 	currentSong: Song;
 	currentSongSafeURL: SafeResourceUrl;
 	songs: Song[];
 	favorites: UserFavorites;
 
-	constructor(
-		private auth: AuthService,
-		private sanitizer: DomSanitizer,
-		private dialogRef: MatDialogRef<SongNavigatorComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
-	) {
-		this.constitution = data.constitution;
-		this.currentSong = data.currentSong;
-		this.songs = data.songs;
-		this.favorites = data.favorites;
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+  constructor(
+    private auth: AuthService,
+    private sanitizer: DomSanitizer,
+		private dialogRef: MatDialogRef<RandomSongComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: RandomSongInjectedData
+    ) {
+      this.constitution = data.constitution;
+      this.songs = data.songs;
+      this.favorites = data.favorites;
+      this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
+      this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
 
-		this.auth.pushEventHandler(this.handleEvent, this);
-	}
+      this.auth.pushEventHandler(this.handleEvent, this);
+    }
 
-	ngOnDestroy(): void {
+  ngOnDestroy(): void {
 		this.auth.popEventHandler();
 	}
 
-	handleEvent(event: MessageEvent<any>): void {
+  handleEvent(event: MessageEvent<any>): void {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 
 		switch (message.event) {
@@ -56,26 +55,16 @@ export class SongNavigatorComponent implements OnDestroy {
 		}
 	}
 
-	previousSongExist(): boolean {
-		const index = this.songs.lastIndexOf(this.currentSong);
-		return index - 1 >= 0;
-	}
-
-  nextSongExist(): boolean {
-    const index = this.songs.lastIndexOf(this.currentSong);
-    return index + 1 < this.songs.length;
-  }
-
-	changeSong(shift: number): void {
-		const currentIndex = this.songs.lastIndexOf(this.currentSong);
-
-		this.currentSong = this.songs[currentIndex + shift];
+	changeSong(): void {
+		this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
 		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
 	}
 
-	closeWindow(): void {
+  closeWindow(): void {
 		this.dialogRef.close();
 	}
+
+	// TODO : DUPLICATION DE CODE
 
 	isAFavorite(): boolean {
 		if (isNil(this.favorites)) return false;

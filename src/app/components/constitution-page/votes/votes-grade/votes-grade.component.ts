@@ -12,6 +12,12 @@ import { ActivatedRoute } from '@angular/router';
 import { toMap, toMapNumber } from 'src/app/types/utils';
 import { isNil } from 'lodash';
 
+enum GradeOrder {
+	INCREASE,
+	DECREASE,
+	NONE
+}
+
 @Component({
 	selector: 'app-votes-grade',
 	templateUrl: './votes-grade.component.html',
@@ -40,6 +46,7 @@ export class VotesGradeComponent implements OnDestroy {
 
 	selectedUsers: string[];
 	orderByUser: boolean;
+	orderByGrade: GradeOrder;
 
 	constructor(
 		private auth: AuthService,
@@ -52,11 +59,12 @@ export class VotesGradeComponent implements OnDestroy {
 		this.summary = { voteCount: 0, userCount: new Map() };
 		this.histogramGrades = [];
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) === "true";
+		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false"
 		this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
 		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
+		this.orderByGrade = GradeOrder.NONE;
 
 		this.auth.pushAuthFunction(this.onConnect, this);
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -106,16 +114,33 @@ export class VotesGradeComponent implements OnDestroy {
 		localStorage.setItem(GRADE_ALREADY_VOTES_KEY, this.showAlreadyVoted.toString());
 	}
 
+	setOrderByGrade(order: GradeOrder | number): void {
+		this.orderByGrade = order;
+	}
+
 	getSongsToVote(): Song[] {
 		let songsToVote = Array.from(this.songs.values()).filter(song => {
 			const isNotUserSong = song.user !== this.auth.uid;
 			const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted
 			return isNotUserSong && !isAlreadyVoted && this.isSelected(song.user);
 		});
+
 		if (this.cardsSortASC) songsToVote = songsToVote.sort(compareSongASC)
 		else songsToVote = songsToVote.sort(compareSongDSC);
 
 		if (this.orderByUser) songsToVote = songsToVote.sort(compareSongUser);
+
+		if (this.orderByGrade !== GradeOrder.NONE) songsToVote = songsToVote.sort((s1, s2) => {
+			const order = this.orderByGrade === GradeOrder.INCREASE ? 1 : -1;
+
+			const g1 = this.getVote(s1) || 0;
+			const g2 = this.getVote(s2) || 0;
+		
+			if (g1 > g2) return order;
+			if (g1 < g2) return -order;
+
+			return 0;
+		})
 
 		return songsToVote;
 	}
@@ -175,7 +200,7 @@ export class VotesGradeComponent implements OnDestroy {
 	}
 
 	canModifyFavorite(): boolean {
-		return areResultsPublic(this.constitution);
+		return !canModifySongs(this.constitution) && !areResultsPublic(this.constitution);
 	}
 
 	// TODO : Duplication de code //

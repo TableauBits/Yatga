@@ -37,8 +37,28 @@ body {
   border-radius: 25px;
 }
 
+.picture2 {
+  width: 105px;
+  height: 75px;
+}
+
+.picture3 {
+  width: 55px;
+  height: 55px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
+}
+
 .warning {
-  color: red
+  color: red;
+}
+
+.valid {
+  color:green;
+}
+
+.unknown {
+  color: yellow;
 }
 
 .role {
@@ -53,7 +73,7 @@ body {
   justify-self: center;
   display: flex;
   align-items: center;
-  margin-top: 2rem;
+  // margin-top: 2rem;
   text-align: center;
 }
 
@@ -66,6 +86,7 @@ body {
   background-color: lightcoral;
   text-align: center;
   margin: auto;
+  margin-bottom: 15px;
 }
 
 .title {
@@ -158,4 +179,9 @@ body {
 
 .round {
   border-radius: 25px;
+}
+
+.disable-click {
+  pointer-events: none;
+  cursor: default;
 }

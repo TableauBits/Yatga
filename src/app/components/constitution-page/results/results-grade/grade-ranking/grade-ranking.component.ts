@@ -6,9 +6,7 @@ import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import * as confetti from 'canvas-confetti';
 import { randomInRange } from 'src/app/types/math';
 import { isNil } from 'lodash';
-
-const FIREWORK_DURATION = 10000;
-const FIREWORK_DEFAULTS = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 99999999999 };
+import { FIREWORK_DEFAULTS, FIREWORK_DURATION } from 'src/app/types/firework';
 
 @Component({
   selector: 'app-grade-ranking',

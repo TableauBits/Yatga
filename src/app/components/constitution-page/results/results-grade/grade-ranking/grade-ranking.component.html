@@ -8,14 +8,11 @@
         <h3 class="card-header front">
           <div>
             {{winner.title}}
-            <span class="image-de"> 
-              {{getUser(winner.user).displayName}} 
-              <img src="{{getUser(winner.user).photoURL}}" class="picture" alt="...">
-            </span>
+            <img src="{{getUser(winner.user).photoURL}}" class="image-de picture3" matTooltip="{{getUser(winner.user).displayName}}">
           </div>
           <i> {{winner.author}} </i> 
         </h3>
-        <img src="{{getImageURL(winner)}}" class="card-img blur" alt="...">
+        <img src="{{getImageURL(winner)}}" class="card-img blur">
         <div class="card-img-overlay">
           <div class="card-body">
             <iframe id="video1" *ngIf="winner !== empty()"
@@ -33,7 +30,7 @@
             <button mat-raised-button color="primary" (click)="onNavigate(winner)">
               <mat-icon>play_circle_outline</mat-icon>
             </button>
-            <span class="image-de"> <b> Score : {{getWinnerScore()}} </b>  </span>
+            <span class="image-de front"> <b> Score : {{getWinnerScore()}} </b>  </span>
           </div>
         </div>
       </div>

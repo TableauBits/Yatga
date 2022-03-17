@@ -37,27 +37,25 @@ export class ScatterComponent implements AfterViewInit {
     this.option = {};
   }
 
-
   private initChart(): EChartsOption {
 
     const title: echarts.TitleComponentOption[] = [];
     const singleAxis: echarts.SingleAxisComponentOption[] = [];
     const series: echarts.ScatterSeriesOption[] = [];
-
-
     const array: number[] = [];
+
+
     for (let index = 0; index < this.axisMax; index++) {
       array.push(index)
     }
 
     this.names.forEach(function(name, idx) {
       title.push({
-        textVerticalAlign: 'middle',
         top: ((idx + 0.5) * 100) / 7 + '%', // TODO : Nombres magique
         text: name,
         textStyle: {
-          fontSize: 17,
-          color: '#f4f4f4',
+          fontSize: 15,
+          color: '#f4f4f4'
         },
       });
       singleAxis.push({

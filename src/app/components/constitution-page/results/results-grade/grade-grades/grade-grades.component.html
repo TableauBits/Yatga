@@ -37,6 +37,10 @@
       </mat-select>
     </mat-form-field>
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
+    <br>
+    Moyenne : {{selecedUserMean.toFixed(3)}}
+    <br>
+    Variance : {{selectedUserVar.toFixed(3)}}
     <app-histogram [values]="histogramValues"> </app-histogram>
   </mat-expansion-panel>
 </mat-accordion>

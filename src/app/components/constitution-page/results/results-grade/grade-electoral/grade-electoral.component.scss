@@ -65,7 +65,7 @@ td, th {
 .background {
   opacity: 35%;
   position: absolute;
-  width: 100%;
+  width: 80%;
   height: 100%;
   z-index: -1;
   filter: blur($blur);
@@ -74,4 +74,48 @@ td, th {
     -o-filter: blur($blur);
     -ms-filter: blur($blur);
 	user-select: none;
+}
+
+.no_data {
+  display: inline-block;
+  height: 45px;
+}
+
+.fire {
+  position: absolute;
+  width: 80%;
+  height: 100%;
+}
+
+.left {
+  margin-left: 1%;
+}
+
+.purple {
+  background-color: $angular-purple;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+
+  .mat-select-value {
+    color: whitesmoke;
+  }
+  .mat-select-arrow-wrapper {
+      color: whitesmoke;
+  }
+
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
 }
