@@ -23,10 +23,13 @@ export class GradeRelationshipComponent {
   xAxisNames: string[] = [];
   yAxisNames: string[] = [];
 
-  // Chord
+  // Graph
   categories: ChordCategory[] = [];
   links: ChordLink[] = [];
   nodes: ChordNode[] = [];
+  useForce: boolean = false;
+  sliderValue: number = 0;
+  maxSliderValue: number = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
@@ -61,26 +64,30 @@ export class GradeRelationshipComponent {
         if (user1.uid === user2.uid) continue;
         const count = this.countRelations(user1.uid, user2.uid);
         if (count === 0) continue;
+        if (this.maxSliderValue < count) this.maxSliderValue = count;
         totalCount += count;
-        this.links.push({
-          source: user1.uid, 
-          target: user2.uid,
-          value: count,
-          lineStyle: {
-            width: count,
-            curveness: 0.5,
-            opacity: 0.7
-          }
-        });
+        if (count > this.sliderValue) {
+          this.links.push({
+            source: user1.uid, 
+            target: user2.uid,
+            value: count,
+            lineStyle: {
+              width: count,
+              curveness: 0.5,
+              opacity: 0.7
+            }
+          });
+        }
+
       }
       this.nodes.push({
         id: user1.uid,
         name: user1.displayName,
         symbolSize: 5 + totalCount,
         value: totalCount,
-        x: Math.random() * 100,   // TODO
-        y: Math.random() * 100,   // TODO
-        category: this.nodes.length,
+        x: Math.random() * 80,   // TODO
+        y: Math.random() * 80,   // TODO
+        category: this.nodes.length, // Math.round(Math.random() * this.categories.length), // this.nodes.length,
         label: {
           show: true
         }
@@ -107,6 +114,10 @@ export class GradeRelationshipComponent {
         this.heatmapData.push([i, j, user1 === user2 ? 0 : this.countRelations(user1, user2)])
       }
     }
+  }
+
+  updateForce(): void {
+    this.useForce = !this.useForce;
   }
 
 }

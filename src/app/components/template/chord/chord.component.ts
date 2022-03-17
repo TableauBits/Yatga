@@ -14,6 +14,7 @@ export class ChordComponent implements AfterViewInit, OnChanges {
   @Input() categories: ChordCategory[] = [];
   @Input() links: ChordLink[] = [];
   @Input() nodes: ChordNode[] = [];
+  @Input() useForce: boolean = false;
 
   private chart: echarts.ECharts | undefined;
   private option: EChartsOption;
@@ -26,9 +27,11 @@ export class ChordComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.categories = changes['categories'].currentValue;
-    this.links = changes['links'].currentValue;
-    this.nodes = changes['nodes'].currentValue;
+    if (changes['categories']) this.categories = changes['categories'].currentValue;
+    if (changes['links']) this.links = changes['links'].currentValue;
+    if (changes['nodes']) this.nodes = changes['nodes'].currentValue;
+    if (changes['useForce']) this.useForce = changes['useForce'].currentValue;
+    
     this.ngAfterViewInit();
   }
 
@@ -38,45 +41,6 @@ export class ChordComponent implements AfterViewInit, OnChanges {
   }
 
   private initChart(): EChartsOption {
-    // return {
-    //   tooltip: {},
-    //   // legend: [
-    //   //   {
-    //   //     data: this.categories.map(function (a: { name: string }) {
-    //   //       return a.name;
-    //   //     }),
-    //   //     orient: 'vertical',
-    //   //     left: 'left',
-    //   //     textStyle: {
-    //   //       color: '#f4f4f4',
-    //   //     }
-    //   //   }
-    //   // ],
-    //   animationDurationUpdate: 1500,
-    //   animationEasingUpdate: 'quinticInOut',
-    //   series: [
-    //     {
-    //       type: 'graph',
-    //       layout: 'circular',
-    //       circular: {
-    //         rotateLabel: true
-    //       },
-    //       data: this.nodes,
-    //       links: this.links,
-    //       roam: true,
-    //       label: {
-    //         position: 'right',
-    //         formatter: '{b}'
-    //       },
-    //       lineStyle: {
-    //         color: 'source',
-    //         curveness: 0.3,
-    //         width: 3
-    //       }
-    //     }
-    //   ]
-    // };
-
     return {
       tooltip: {},
       legend: [
@@ -93,13 +57,13 @@ export class ChordComponent implements AfterViewInit, OnChanges {
       ],
       series: [
         {
-          // name: 'Les Miserables',
           type: 'graph',
-          layout: 'force',
+          layout: this.useForce ? 'force' : 'none',
           data: this.nodes,
-          links: this.links,
+          edges: this.links,
           categories: this.categories,
-          roam: true,
+          // roam: true,
+          draggable: true,
           label: {
             show: true,
             position: 'right',
@@ -116,9 +80,12 @@ export class ChordComponent implements AfterViewInit, OnChanges {
           lineStyle: {
             color: 'source'
           },
-          // force: {
-             // repulsion: 10
-          // }
+          force: {
+            // repulsion: 50,
+            // edgeLength: 5,
+            // repulsion: 20,
+            // gravity: 0.2
+          }
         }
       ]
     };

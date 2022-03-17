@@ -24,8 +24,8 @@ export type ChordNode = {
   id: string;
   name: string;
   symbolSize: number;
-  x: number;
-  y: number;
+  x: number | undefined;
+  y: number | undefined;
   value: number;
   category: number;
   label: {
