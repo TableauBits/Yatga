@@ -3,11 +3,24 @@
   <h1 class="title"> GÉRER LES INVITATIONS </h1>
   <span class="custom-br"></span>
 	<br>
-  <button mat-raised-button [disabled]="true" color="primary">
+  <button mat-raised-button color="primary" (click)="newInvite()">
     <mat-icon>fiber_new</mat-icon> Générer une nouvelle invitation
   </button>
   <br>
   <br>
   <span class="custom-br"></span>
+  <p> Liste d'invitation en cours : </p>
+  <mat-list *ngFor="let invite of invites.values()">
+		<mat-list-item role="listitem" class="item">
+			<mat-icon class="margin">mail</mat-icon>
+      <span class="margin"> {{formatDate(invite.date)}} </span>
+			<span class="margin"> ID: <span class="id"> {{invite.id}} </span>  </span>
+      <span  class="delete"> Créé par: </span> <img class="picture avatar margin" [src]="getUser(invite.createdBy).photoURL" matTooltip="{{getUser(invite.createdBy).displayName}}">
+      <button mat-raised-button class="delete" color="warn" (click)="deleteInvite(invite)">
+        <mat-icon>cancel</mat-icon>
+      </button>
+		</mat-list-item>
+	</mat-list>
+  <br>
   <br>
 </div>

@@ -15,7 +15,7 @@
 		</button>
 		<br>
 		<br>
-		<button mat-raised-button class="button" color="primary" (click)="changeSection(adminSection.MANAGE_INVITES)">
+		<button mat-raised-button [disabled]="!isDev" class="button" color="primary" (click)="changeSection(adminSection.MANAGE_INVITES)">
 			<mat-icon>mail</mat-icon> Gérer les invitations
 		</button>
 		<br>
