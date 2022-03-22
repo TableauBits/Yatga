@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Song, Invite, User, createMessage, EventType, Message, extractMessageData, InvResUpdate, InvReqNew, InvReqGetAll, UsrResUpdate, UsrReqGet, EMPTY_USER, InvReqDelete } from 'chelys';
+import { Invite, User, createMessage, EventType, Message, extractMessageData, InvResUpdate, InvReqNew, InvReqGetAll, UsrResUpdate, UsrReqGet, EMPTY_USER, InvReqDelete } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,8 +8,6 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./manage-invites.component.scss']
 })
 export class ManageInvitesComponent implements OnDestroy {
-
-  // public invites: Map<string,Invite> = new Map;
   public invites: Invite[] = [];
   public users: Map<string, User> = new Map();
 
@@ -29,7 +27,6 @@ export class ManageInvitesComponent implements OnDestroy {
       case EventType.INVITE_update: {
         const {invite, status} = extractMessageData<InvResUpdate>(message);
         
-        // this.invites.set(invite.id, invite);
         if (status === "added") {
           this.invites.push(invite);
         } else if (status === "removed") {

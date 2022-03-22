@@ -10,7 +10,7 @@
   <br>
   <span class="custom-br"></span>
   <p> Liste d'invitation en cours : </p>
-  <mat-list *ngFor="let invite of invites.values()">
+  <mat-list *ngFor="let invite of invites">
 		<mat-list-item role="listitem" class="item">
 			<mat-icon class="margin">mail</mat-icon>
       <span class="margin"> {{formatDate(invite.date)}} </span>
