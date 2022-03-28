@@ -1,6 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Constitution, ConstitutionType, EMPTY_CONSTITUTION, Song, User } from 'chelys';
+import { Constitution, ConstitutionType, createMessage, CstReqNameURL, EMPTY_CONSTITUTION, EventType, Song, User } from 'chelys';
+import { isNil } from 'lodash';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
 	selector: 'app-owner',
@@ -27,11 +29,11 @@ export class OwnerComponent implements OnChanges {
 		})
 	}
 
-	constructor(public fb: FormBuilder) {
+	constructor(public fb: FormBuilder, private auth: AuthService) {
 		this.constitutionParameterForm = this.fb.group({
 			name: [this.constitution.name, Validators.required], 
 			playlistLink: [this.constitution.playlistLink],
-		})
+		});
 	}
 
 	numberOfSongs(): number {
@@ -44,6 +46,23 @@ export class OwnerComponent implements OnChanges {
 
 	songsProgressBarValue(): number {
 		return this.songs.size / this.numberOfSongs() * 100;
+	}
+
+	updateNameURL(): void {
+		if (isNil(this.constitutionParameterForm.get("name")?.value) || 
+			isNil(this.constitutionParameterForm.get("playlistLink")?.value)) return;
+
+		if (this.constitutionParameterForm.get("name")?.value === this.constitution.name &&
+		this.constitutionParameterForm.get("playlistLink")?.value === this.constitution.playlistLink) return;
+
+
+		const message = createMessage<CstReqNameURL>(EventType.CST_name_url, {
+			id: this.constitution.id,
+			name: this.constitutionParameterForm.get("name")?.value,
+			url: this.constitutionParameterForm.get("playlistLink")?.value
+		});
+
+		this.auth.ws.send(message);
 	}
 
 }
