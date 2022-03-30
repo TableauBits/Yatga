@@ -45,9 +45,7 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
 
   private initChart(): EChartsOption {
     return {
-      tooltip: {
-        // position: 'top'
-      },
+      tooltip: {},
       grid: {
         height: '50%',
         top: '10%'
@@ -79,7 +77,6 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
       },
       series: [
         {
-          name: 'Punch Card',
           type: 'heatmap',
           data: this.data,
           label: {

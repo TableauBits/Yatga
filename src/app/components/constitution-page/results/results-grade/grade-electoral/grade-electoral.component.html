@@ -28,19 +28,19 @@
     <br>
     <table id="t01">
       <tr>
-        <th colspan="2"> Utilisateur </th>
-        <th> Score </th>
-        <th> Note </th>
+        <th colspan="2" style="width: 70%;"> Utilisateur </th>
+        <th style="width: 15%;"> Score </th>
+        <th style="width: 15%;"> Note </th>
       </tr>
       <tr *ngFor="let votingUser of currentVoters">
-        <td> <img class="picture" [src]="votingUser.user.photoURL"> </td>
-        <td> {{ votingUser.user.displayName }} </td>
-        <td> {{ votingUser.score.toFixed(3) }}</td>
-        <td> {{ votingUser.grade }}</td>
+        <td style="width: 15%;"> <img class="picture" [src]="votingUser.user.photoURL"> </td>
+        <td style="width: 55%;"> {{ votingUser.user.displayName }} </td>
+        <td style="width: 15%;"> {{ votingUser.score.toFixed(3) }}</td>
+        <td style="width: 15%;"> {{ votingUser.grade }}</td>
       </tr>
       <tr>
         <td> </td>
-        <td> <b> Total: </b> </td>
+        <td> <b> Total/Moyenne: </b> </td>
         <td> <b> {{songResults[currentRank].score.toFixed(3)}} </b> </td>
         <td> <b> {{meanOfVotes().toFixed(3)}} </b></td>
       </tr>
