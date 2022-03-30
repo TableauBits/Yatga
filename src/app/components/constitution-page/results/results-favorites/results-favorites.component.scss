@@ -33,6 +33,11 @@ td, th {
   border-radius: 28px;
 }
 
+.no-button-color {
+  background-color: $mineshaft;
+  color: whitesmoke;
+}
+
 mat-select {
   color: whitesmoke;
 }
