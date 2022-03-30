@@ -20,6 +20,21 @@
       <mat-expansion-panel-header> 
           <mat-panel-title> Paramètres </mat-panel-title>
       </mat-expansion-panel-header>
+      <form class="title" [formGroup]="constitutionParameterForm">
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label> Nom de la constitution
+          </mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+          <mat-label> URL de la constitution
+          </mat-label>
+          <input matInput formControlName="playlistLink">
+        </mat-form-field>
+      </form>
+      <button mat-raised-button color="primary" (click)="updateNameURL()"> Mettre à jour </button>
     </mat-expansion-panel>
   </mat-accordion>
   <br>
