@@ -1,0 +1,32 @@
+@import "../../../../styles/variables.scss";
+
+p {
+  text-align: left;
+  margin-left: 3%;
+  margin-top: 1%;
+}
+
+.margin {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.item {
+  background-color: $bg-dark;
+  margin-left: 3%;
+  border-radius: 25px;
+  text-align: center;
+  border: 2px solid $sasuke;
+  color: whitesmoke;
+  min-width: fit-content;
+  max-width: 95%;
+}
+
+.id {
+  font-family:  monospace;
+  background-color: $mineshaft;
+}
+
+.delete {
+  margin-left:auto;
+}
