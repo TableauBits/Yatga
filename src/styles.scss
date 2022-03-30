@@ -185,3 +185,10 @@ body {
   pointer-events: none;
   cursor: default;
 }
+
+.admin-background {
+  border: 2px solid $sasuke;
+  background-color: $mineshaft;
+  border-radius: 25px;
+  font-size:medium;
+}

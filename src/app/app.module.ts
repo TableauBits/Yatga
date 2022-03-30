@@ -33,6 +33,7 @@ import { VoteNavigatorComponent } from './components/constitution-page/votes/vot
 import { JoinConstitutionComponent } from './components/join-constitution/join-constitution.component';
 import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
 import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
+import { ManageInvitesComponent } from './components/admin-page/manage-invites/manage-invites.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -40,6 +41,7 @@ import { RadarComponent } from './components/template/radar/radar.component';
 import { ScatterComponent } from './components/template/scatter/scatter.component';
 import { PieComponent } from './components/template/pie/pie.component';
 import { HeatmapComponent } from './components/template/heatmap/heatmap.component';
+import { ChordComponent } from './components/template/chord/chord.component';
 
 // Grade Component
 import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
@@ -80,9 +82,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { ChordComponent } from './components/template/chord/chord.component';
-
-
 
 @NgModule({
 	declarations: [
@@ -121,9 +120,10 @@ import { ChordComponent } from './components/template/chord/chord.component';
 		PieComponent,
 		GradeElectoralComponent,
   	RandomSongComponent,
-   	GradeRelationshipComponent,
-   	HeatmapComponent,
-    ChordComponent
+		GradeRelationshipComponent,
+		HeatmapComponent,
+	 	ChordComponent,
+	 	ManageInvitesComponent
 	],
 	imports: [
 		BrowserModule,

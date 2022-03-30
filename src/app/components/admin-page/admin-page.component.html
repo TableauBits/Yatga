@@ -5,38 +5,39 @@
 	<br>
 	<div class="button-column">
 		<br>
-		<button mat-raised-button color="primary" (click)="changeSection(0)">
+		<button mat-raised-button  class="button" color="primary" (click)="changeSection(adminSection.NEW_CONSTITUTION)">
 			<mat-icon>add_to_queue</mat-icon> Créer une constitution
 		</button>
 		<br>
 		<br>
-		<button mat-raised-button [disabled]="true" color="primary">
+		<button mat-raised-button [disabled]="true" class="button" color="primary">
 			<mat-icon>supervised_user_circle</mat-icon> Gérer les utilisateurs
 		</button>
 		<br>
 		<br>
-		<button mat-raised-button [disabled]="true" color="primary">
+		<button mat-raised-button [disabled]="!isDev" class="button" color="primary" (click)="changeSection(adminSection.MANAGE_INVITES)">
 			<mat-icon>mail</mat-icon> Gérer les invitations
 		</button>
 		<br>
 		<br>
-		<button mat-raised-button [disabled]="true" color="primary">
+		<button mat-raised-button [disabled]="true"  class="button" color="primary">
 			<mat-icon>control_point_duplicate</mat-icon> Cloner une constitution
 		</button>
 		<br>
 		<br>
-		<button mat-raised-button [disabled]="true" color="primary">
+		<button mat-raised-button [disabled]="true"  class="button" color="primary">
 			<mat-icon>forward</mat-icon> Importer une constitution
 		</button>
 		<br>
 		<br>
-		<button mat-raised-button color="warn" (click)="changeSection(1)">
+		<button mat-raised-button color="warn" (click)="changeSection(adminSection.NO_SECTION)">
 			<mat-icon>cancel</mat-icon>
 		</button>
 		<br>
 		<br>
 	</div>
 	<div [ngSwitch]="currentSection" class="option-column ">
-		<app-new-constitution *ngSwitchCase="0"></app-new-constitution>
+		<app-new-constitution *ngSwitchCase="adminSection.NEW_CONSTITUTION"></app-new-constitution>
+		<app-manage-invites *ngSwitchCase="adminSection.MANAGE_INVITES"></app-manage-invites>
 	</div>
 </div>
