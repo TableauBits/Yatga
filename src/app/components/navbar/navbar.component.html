@@ -41,9 +41,14 @@
 </nav>
 
 <ng-template #signedIn>
-	<button mat-button class="ms-auto" [disableRipple]="true" [matMenuTriggerFor]="menu">
-		<img src="{{auth.user.photoURL}}" class="rounded-circle navbar-button" width="50"	height="50">
-	</button>
+	<div class="ms-auto">
+		<mat-icon *ngIf="!auth.isConnected" class="warning vertical image-de" matTooltip="Vous êtes déconnecté de Kalimba. Essayez de recharger la page. Si le problème persiste, contactez un administrateur.">cloud_off</mat-icon>
+
+		<button mat-button  [disableRipple]="true" [matMenuTriggerFor]="menu">
+			<img src="{{auth.user.photoURL}}" class="rounded-circle navbar-button" width="50"	height="50">
+		</button>
+	</div>
+
 	<mat-menu #menu="matMenu">
 		<button mat-menu-item class="menu-panel"  routerLink="/profile">
 			<mat-icon class="menu-panel">person</mat-icon>
