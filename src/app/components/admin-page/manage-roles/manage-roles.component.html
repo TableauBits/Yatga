@@ -10,7 +10,7 @@
       <th> Gérer les rôles </th>
     </tr>
     <tr *ngFor="let user of getUsers()">
-      <td> <img class="picture avatar margin" [src]="user.photoURL" matTooltip="{{user.displayName}}"> </td>
+      <td> <img class="picture3 avatar" [src]="user.photoURL" matTooltip="{{user.displayName}}"> </td>
       <td> {{user.displayName}}  </td>
       <td>
         <div class="icons-container">
@@ -32,3 +32,4 @@
   <br>
   <br>
 </div>
+<br>
