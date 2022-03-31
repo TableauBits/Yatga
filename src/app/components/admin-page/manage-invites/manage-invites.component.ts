@@ -65,7 +65,9 @@ export class ManageInvitesComponent implements OnDestroy {
 
   formatDate(d: string): string {
     const date = new Date(d);
-    return `(${d.substring(0, 10)} à ${date.getHours()}:${date.getMinutes()})`
+    const hours = date.getHours().toString().length != 2 ? '0' + date.getHours() : date.getHours();
+    const minutes = date.getMinutes().toString().length != 2 ? '0' + date.getMinutes() : date.getMinutes();
+    return `(${d.substring(0, 10)} à ${hours}:${minutes})`;
   }
 
   getUser(uid: string): User {
