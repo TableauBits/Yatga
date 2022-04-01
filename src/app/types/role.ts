@@ -6,7 +6,24 @@ export interface RoleData {
 
 export function returnUserRoles(roles: string[]): RoleData[] | undefined {
 	if (roles === undefined) return undefined;
-	return roles.map(role => USER_ROLES[role]);
+	return roles.map(role => USER_ROLES[role]).sort((r1, r2) => {
+		return r1.importance - r2.importance;
+	});
+}
+
+export function findMostImportantRole(roles: string[]): number {
+	// let init = Infinity;
+
+	// for (const role of roles) {
+	// 	const data = USER_ROLES[role];
+	// 	if (data.importance < init) {
+	// 		init = data.importance;
+	// 	}
+	// }
+
+	// return init;
+
+	return Math.min(...roles.map((role) => USER_ROLES[role].importance));
 }
 
 export const USER_ROLES: Record<string, RoleData> = {

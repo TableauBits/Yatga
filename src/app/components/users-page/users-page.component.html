@@ -6,7 +6,7 @@
 <br>
 <div class="container">
 	<div class="row g-4">
-		<div class="col" *ngFor="let user of getUsers('admin')">
+		<div class="col" *ngFor="let user of getStaff()">
 			<div class="card user-card border border-danger shadow-0 bg-dark">
 				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
 				<div class="card-body">
@@ -32,7 +32,7 @@
 <br>
 <div class="container">
 	<div class="row g-4">
-		<div class="col" *ngFor="let user of getUsers('member')">
+		<div class="col" *ngFor="let user of getMember()">
 			<div class="card user-card bg-dark border border-warning shadow-0">
 				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
 				<div class="card-body">
@@ -58,7 +58,7 @@
 <br>
 <div class="container">
 	<div class="row g-4">
-		<div class="col" *ngFor="let user of getUsers('test')">
+		<div class="col" *ngFor="let user of getTest()">
 			<div class="card user-card bg-dark shadow-0">
 				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
 				<div class="card-body">

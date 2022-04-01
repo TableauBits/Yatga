@@ -1,6 +1,7 @@
 import { Component, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { createMessage, EventType, extractMessageData, Message, User, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
+import { createMessage, EventType, extractMessageData, Message, User, UsrReqEditRoles, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
+import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { returnUserRoles, RoleData, USER_ROLES } from 'src/app/types/role';
 
@@ -12,9 +13,8 @@ import { returnUserRoles, RoleData, USER_ROLES } from 'src/app/types/role';
 export class ManageRolesComponent implements OnDestroy, OnChanges {
 
   public users: Map<string, User> = new Map();
-  public roles2: Map<string, FormControl> = new Map();
+  public roles: Map<string, FormControl> = new Map();
 
-  roles = new FormControl();
   rolesList: string[];
 
   constructor(private auth: AuthService) {
@@ -45,7 +45,7 @@ export class ManageRolesComponent implements OnDestroy, OnChanges {
       this.users.set(data.uid, data)
       const userRole = new FormControl();
       userRole.setValue(data.roles);
-      this.roles2.set(data.uid, userRole);
+      this.roles.set(data.uid, userRole);
     }
 
   }
@@ -64,11 +64,15 @@ export class ManageRolesComponent implements OnDestroy, OnChanges {
 	}
 
   getUserForm(uid: string): FormControl {
-    return this.roles2.get(uid) || new FormControl();
+    return this.roles.get(uid) || new FormControl();
   }
 
-  newSelection(uid: string) {
-    console.log(this.roles2.get(uid));
+  newSelection(uid: string): void {
+    const roles = this.roles.get(uid)?.value;
+    if (isNil(roles)) return;
+
+    const editRolesMessage = createMessage<UsrReqEditRoles>(EventType.USER_edit_roles, {uid: uid, roles: roles});
+    this.auth.ws.send(editRolesMessage);
   }
 
 }

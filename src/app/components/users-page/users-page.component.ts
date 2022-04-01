@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { createMessage, EventType, extractMessageData, Message, User, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
+import { createMessage, EventType, extractMessageData, Message, Role, User, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { returnUserRoles, RoleData } from 'src/app/types/role';
+import { findMostImportantRole, returnUserRoles, RoleData, USER_ROLES } from 'src/app/types/role';
 
 @Component({
 	selector: 'app-users-page',
@@ -41,13 +41,17 @@ export class UsersPageComponent implements OnDestroy {
 		this.auth.ws.send(createMessage(EventType.USER_get_all, {}));
 	}
 
-	getUsers(filter?: string | undefined): User[] {
-		const users = [];
-		for (const user of this.users.values()) {
-			if (isNil(filter)) users.push(user);
-			else if (user.roles[0] === filter) users.push(user);
-		}
-		return users;
+	// TODO : À revoir si ajout de d'autres rôles
+	getStaff(): User[] {
+		return Array.from(this.users.values()).filter((user) => user.roles.includes((Role.ADMIN)));
+	}
+
+	getMember(): User[] {
+		return Array.from(this.users.values()).filter((user) => !user.roles.includes((Role.ADMIN)) && user.roles.includes((Role.MEMBER)));
+	}
+
+	getTest(): User[] {
+		return Array.from(this.users.values()).filter((user) => user.roles.includes((Role.TEST)));
 	}
 
 	getRoles(user: User): RoleData[] {
