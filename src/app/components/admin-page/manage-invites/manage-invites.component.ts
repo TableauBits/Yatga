@@ -34,6 +34,12 @@ export class ManageInvitesComponent implements OnDestroy {
           this.invites.splice(index, 1);
         }
 
+        this.invites.sort((i1, i2) => {
+          if (i1.date > i2.date) return 1;
+          if (i1.date < i2.date) return -1;
+          return 0;
+        })
+
         if (!this.users.has(invite.createdBy)) {
           const getUserMessage = createMessage<UsrReqGet>(EventType.USER_get, {uids: [invite.createdBy]});
           this.auth.ws.send(getUserMessage);
