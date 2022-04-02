@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { createMessage, EventType, extractMessageData, Message, User, UsrReqEditRoles, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
@@ -10,7 +10,7 @@ import { returnUserRoles, RoleData, USER_ROLES } from 'src/app/types/role';
   templateUrl: './manage-roles.component.html',
   styleUrls: ['./manage-roles.component.scss']
 })
-export class ManageRolesComponent implements OnDestroy, OnChanges {
+export class ManageRolesComponent implements OnDestroy {
 
   public users: Map<string, User> = new Map();
   public roles: Map<string, FormControl> = new Map();
@@ -24,14 +24,10 @@ export class ManageRolesComponent implements OnDestroy, OnChanges {
     this.rolesList = Object.keys(USER_ROLES);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
-
   ngOnDestroy() {
     // Unsubscribe from all user updates except the user himself
-		// const uids: string[] = [...this.users.keys()].filter((uid) => uid !== this.auth.uid);
-		// this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: uids }));
+		const uids: string[] = [...this.users.keys()].filter((uid) => uid !== this.auth.uid);
+		this.auth.ws.send(createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: uids }));
 
     this.auth.popEventHandler();
 		this.auth.popAuthCallback();
