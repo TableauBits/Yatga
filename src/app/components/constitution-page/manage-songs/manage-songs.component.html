@@ -13,7 +13,7 @@
 			<span class="custom-br"></span>
 			<form [formGroup]="newSongForm">
 				<br>
-				<mat-icon *ngIf="isNil('title')" class="icon">radio_button_unchecked</mat-icon>
+				<mat-icon *ngIf="isNil('title')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
 				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')" class="valid icon">check_circle_outline</mat-icon> 
 				<mat-icon *ngIf="respectLengthLimit('title')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (30). Kalimba n'enregistra que : {{showKalimbaValue('title')}}.">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
@@ -21,7 +21,7 @@
 					<input matInput formControlName="title" required>
 				</mat-form-field>
 				<br>
-				<mat-icon *ngIf="isNil('author')" class="icon">radio_button_unchecked</mat-icon>
+				<mat-icon *ngIf="isNil('author')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
 				<mat-icon *ngIf="!respectLengthLimit('author') && !isNil('author')" class="valid icon">check_circle_outline</mat-icon> 
 				<mat-icon *ngIf="respectLengthLimit('author')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (30). Kalimba n'enregistra que : {{showKalimbaValue('author')}}. ">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
@@ -29,7 +29,7 @@
 					<input matInput formControlName="author" required>
 				</mat-form-field>
 				<br>
-				<mat-icon *ngIf="isNil('url')" class="icon">radio_button_unchecked</mat-icon> 
+				<mat-icon *ngIf="isNil('url')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon> 
 				<mat-icon *ngIf="!isNotValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon> 
 				<mat-icon *ngIf="isNotValidURL()" class="warning icon" matTooltip="Attention, l'URL entrée ne semble pas valide.">error_outline</mat-icon>
 				<mat-form-field appearance="outline">

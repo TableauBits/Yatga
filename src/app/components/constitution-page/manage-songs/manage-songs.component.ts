@@ -94,10 +94,9 @@ export class ManageSongsComponent {
 
 	// VERIFY DATA
 		// TODO : HTML faire un template ?
-		// TODO : Gérer le cas où le champ est vide ?
 
 	isNil(key: string): boolean {
-		return isNil(this.newSongForm.value[key])
+		return isNil(this.newSongForm.value[key]) || this.newSongForm.value[key] === '';
 	}
 
 	respectLengthLimit(key: string): boolean {
