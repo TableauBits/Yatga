@@ -123,7 +123,7 @@ mat-form-field {
 
 .filter {
 	display: inline-block;
-	min-width: 75%;
+	width: 100%;
 
 	background-color: $bg-dark;
   border-radius: 25px;
@@ -131,7 +131,7 @@ mat-form-field {
 }
 
 .filter-text {
-	margin-left: 5%;
+	margin-left: 2%;
 	margin-top: 2%;
 	margin-right: 2%;
 }
