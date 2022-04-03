@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { createMessage, EventType, extractMessageData, Message, Role, User, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
-import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { findMostImportantRole, returnUserRoles, RoleData, USER_ROLES } from 'src/app/types/role';
+import { returnUserRoles, RoleData } from 'src/app/types/role';
 
 @Component({
 	selector: 'app-users-page',

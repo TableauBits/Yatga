@@ -11,21 +11,6 @@ export function returnUserRoles(roles: string[]): RoleData[] | undefined {
 	});
 }
 
-export function findMostImportantRole(roles: string[]): number {
-	// let init = Infinity;
-
-	// for (const role of roles) {
-	// 	const data = USER_ROLES[role];
-	// 	if (data.importance < init) {
-	// 		init = data.importance;
-	// 	}
-	// }
-
-	// return init;
-
-	return Math.min(...roles.map((role) => USER_ROLES[role].importance));
-}
-
 export const USER_ROLES: Record<string, RoleData> = {
 	dev: { name: 'Dev',  importance: 0, icon: 'build' },
 	admin: { name: 'Admin', importance: 1, icon: 'verified_user' },
