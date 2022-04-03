@@ -34,6 +34,7 @@ import { JoinConstitutionComponent } from './components/join-constitution/join-c
 import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
 import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
 import { ManageInvitesComponent } from './components/admin-page/manage-invites/manage-invites.component';
+import { ManageRolesComponent } from './components/admin-page/manage-roles/manage-roles.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -123,7 +124,8 @@ import { AuthService } from './services/auth.service';
 		GradeRelationshipComponent,
 		HeatmapComponent,
 	 	ChordComponent,
-	 	ManageInvitesComponent
+	 	ManageInvitesComponent,
+   ManageRolesComponent
 	],
 	imports: [
 		BrowserModule,

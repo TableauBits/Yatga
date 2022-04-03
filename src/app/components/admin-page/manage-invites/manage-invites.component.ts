@@ -34,6 +34,12 @@ export class ManageInvitesComponent implements OnDestroy {
           this.invites.splice(index, 1);
         }
 
+        this.invites.sort((i1, i2) => {
+          if (i1.date > i2.date) return 1;
+          if (i1.date < i2.date) return -1;
+          return 0;
+        })
+
         if (!this.users.has(invite.createdBy)) {
           const getUserMessage = createMessage<UsrReqGet>(EventType.USER_get, {uids: [invite.createdBy]});
           this.auth.ws.send(getUserMessage);
@@ -65,7 +71,9 @@ export class ManageInvitesComponent implements OnDestroy {
 
   formatDate(d: string): string {
     const date = new Date(d);
-    return `(${d.substring(0, 10)} à ${date.getHours()}:${date.getMinutes()})`
+    const hours = date.getHours().toString().length != 2 ? '0' + date.getHours() : date.getHours();
+    const minutes = date.getMinutes().toString().length != 2 ? '0' + date.getMinutes() : date.getMinutes();
+    return `(${d.substring(0, 10)} à ${hours}:${minutes})`;
   }
 
   getUser(uid: string): User {

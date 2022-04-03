@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 export enum AdminSection {
 	NEW_CONSTITUTION,
+	MANAGE_ROLES,
 	MANAGE_INVITES,
 	NO_SECTION
 }

@@ -1,0 +1,35 @@
+<div class="admin-background">
+  <br>
+  <h1 class="title"> GÉRER LES RÔLES </h1>
+  <span class="custom-br"></span>
+  <p> Liste des utilisateurs et leurs rôles : </p>
+  <table id="t01">
+    <tr>
+      <th colspan="2"> Utilisateur </th>
+      <th> Rôles </th>
+      <th> Gérer les rôles </th>
+    </tr>
+    <tr *ngFor="let user of getUsers()">
+      <td> <img class="picture3 avatar" [src]="user.photoURL" matTooltip="{{user.displayName}}"> </td>
+      <td> {{user.displayName}}  </td>
+      <td>
+        <div class="icons-container">
+          <span *ngFor="let role of getRoles(user)">
+            <mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
+          </span>
+        </div>
+      </td>
+      <td>
+        <mat-form-field appearance="fill">
+          <mat-label>Rôles</mat-label>
+          <mat-select [formControl]="getUserForm(user.uid)" multiple (selectionChange)="newSelection(user.uid)">
+            <mat-option *ngFor="let role of rolesList" [disabled]='role === "dev"' [value]="role">{{role}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <br>
+</div>
+<br>
