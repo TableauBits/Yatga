@@ -60,8 +60,8 @@
 					<th> Retirer </th>
 				</tr>
 				<tr *ngFor="let song of getUserSongs()">
-					<td>{{song.title}}</td>
-					<td>{{song.author}}</td>
+					<td class="text-overflowable">{{song.author}}</td>
+					<td class="text-overflowable">{{song.title}}</td>
 					<td>
 						<button mat-raised-button color="primary" (click)="removeSong(song.id)">
 							<mat-icon>delete</mat-icon>

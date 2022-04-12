@@ -15,7 +15,7 @@
       <tr *ngFor="let info of tableInfo;let indexOfelement=index;">
         <td> {{ indexOfelement + 1 }} </td>
         <td> <button mat-raised-button class="disable-click no-button-color"> <span> {{ info.users.length }} </span>  <mat-icon class="favorite"> favorite </mat-icon> </button> </td>
-        <td> {{ getSong(info.song).title }} - {{ getSong(info.song).author }}  </td>
+        <td> {{ getSong(info.song).author }} - {{ getSong(info.song).title }}</td>
         <td>
           <a href="{{getSong(info.song).url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>
