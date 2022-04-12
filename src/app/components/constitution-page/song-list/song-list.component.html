@@ -32,11 +32,11 @@
 			<div class="col" *ngFor="let song of getSongs()">
 				<div class="card shadow-0 bg-dark z-card">
 					<h3 class="card-header front">
-						<i> {{song.author}} </i> 
-						<div class="text-overflowable">
+						<div>
 							{{song.title}}
 							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
 						</div>
+						<i> {{song.author}} </i> 
 					</h3>
 					<img src="{{getImageURL(song)}}" class="card-img blur">
 					<div class="card-img-overlay">
@@ -76,19 +76,19 @@
 	<table id="t01">
 		<tr>
 			<th> ID </th>
-			<th> Auteur </th>
 			<th> Titre </th>
+			<th> Auteur </th>
 			<th> URL </th>
 			<th> Ajouté par </th>
 		</tr>
 		<tr *ngFor="let song of getSongs()">
+			<td> {{ song.id }} </td>
 			<td> 
-				<button mat-raised-button color="primary" (click)="openSongNavigator(song)" class="text-overflowable">
+				<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
 					{{ song.title }} 
 				</button>
 			</td>
-			<td> {{ song.id }} </td>
-			<td class="text-overflowable"> {{ song.author }} </td>
+			<td> {{ song.author }} </td>
 			<td>
 				<a href="{{song.url}}" target="_blank">
 					<mat-icon>play_circle_outline</mat-icon>
