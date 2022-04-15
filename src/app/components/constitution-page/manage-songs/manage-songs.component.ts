@@ -7,8 +7,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 import { DEFAULT_ID_FROM_URL, getIDFromURL } from 'src/app/types/url';
 
-const SONG_NAME_LENGTH = 30;	// TODO : ADD TO CHELYS
-const SONG_AUTHOR_LENGTH = 30;
+const SONG_NAME_LENGTH = 100;	// TODO : ADD TO CHELYS
+const SONG_AUTHOR_LENGTH = 100;
 
 interface ManageSongsInjectedData {
 	cstID: string;
