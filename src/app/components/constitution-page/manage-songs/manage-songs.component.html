@@ -15,7 +15,7 @@
 				<br>
 				<mat-icon *ngIf="isNil('title')" class="icon">radio_button_unchecked</mat-icon>
 				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')" class="valid icon">check_circle_outline</mat-icon> 
-				<mat-icon *ngIf="respectLengthLimit('title')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (30). Kalimba n'enregistra que : {{showKalimbaValue('title')}}.">error_outline</mat-icon> 
+				<mat-icon *ngIf="respectLengthLimit('title')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('title')}}.">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
 					<mat-label> Titre </mat-label>
 					<input matInput formControlName="title" required>
@@ -23,7 +23,7 @@
 				<br>
 				<mat-icon *ngIf="isNil('author')" class="icon">radio_button_unchecked</mat-icon>
 				<mat-icon *ngIf="!respectLengthLimit('author') && !isNil('author')" class="valid icon">check_circle_outline</mat-icon> 
-				<mat-icon *ngIf="respectLengthLimit('author')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (30). Kalimba n'enregistra que : {{showKalimbaValue('author')}}. ">error_outline</mat-icon> 
+				<mat-icon *ngIf="respectLengthLimit('author')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('author')}}. ">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
 					<mat-label> Auteur </mat-label>
 					<input matInput formControlName="author" required>
@@ -60,8 +60,8 @@
 					<th> Retirer </th>
 				</tr>
 				<tr *ngFor="let song of getUserSongs()">
-					<td>{{song.title}}</td>
-					<td>{{song.author}}</td>
+					<td class="text-overflowable">{{song.author}}</td>
+					<td class="text-overflowable">{{song.title}}</td>
 					<td>
 						<button mat-raised-button color="primary" (click)="removeSong(song.id)">
 							<mat-icon>delete</mat-icon>

@@ -7,7 +7,7 @@
     <mat-form-field appearance="fill">
       <mat-label> Choisir une chanson </mat-label>
       <mat-select [(value)]="selectedSong">
-        <mat-option *ngFor="let song of getSongList()" value="{{song.id}}"> {{song.title}} - {{song.author}} </mat-option>
+        <mat-option *ngFor="let song of getSongList()" value="{{song.id}}" class="text-overflowable"> {{song.author}} - {{song.title}} </mat-option>
       </mat-select>
     </mat-form-field>
     <img *ngIf="selectedSong !== '-1'" class="image-de picture2" [src]="getImageURL()">

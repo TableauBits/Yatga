@@ -62,7 +62,7 @@
       <div class="row g-4">
         <div class="col" *ngFor="let song of getSongsToVote()">
           <div class="card shadow-0 bg-dark z-card">
-            <h3 class="card-header front">
+            <h3 class="card-header front" class="text-overflowable">
               <div>
                 {{song.title}}
                 <img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">

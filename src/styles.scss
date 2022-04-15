@@ -192,3 +192,9 @@ body {
   border-radius: 25px;
   font-size:medium;
 }
+
+.text-overflowable {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
