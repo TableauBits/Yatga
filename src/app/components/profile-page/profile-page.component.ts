@@ -79,7 +79,7 @@ export class ProfilePageComponent implements OnDestroy {
 		if (isEqual(this.auth.user, newUser)) { return; }
 
 		if (this.errorStatus.hidden) {
-			const editProfileMessage = createMessage(EventType.USER_edit, { userData: newUser });
+			const editProfileMessage = createMessage(EventType.USER_edit_profile, { userData: newUser });
 			this.auth.ws.send(editProfileMessage);
 		}
 	}

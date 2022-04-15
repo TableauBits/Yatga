@@ -25,7 +25,7 @@ export class NewConstitutionComponent {
 		this.newConstitutionForm = this.fb.group({
 			season: [, Validators.required],
 			part: [, Validators.required],
-			name: [, [Validators.required, Validators.maxLength(30)]],
+			name: [, [Validators.required, Validators.maxLength(100)]],
 			isPublic: [true, Validators.required],
 			anonymousLevel: [, Validators.required],
 			type: [, Validators.required],
