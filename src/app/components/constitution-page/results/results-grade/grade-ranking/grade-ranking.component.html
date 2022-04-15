@@ -52,8 +52,8 @@
       </tr>
       <tr *ngFor="let result of songResults;let indexOfelement=index;">
         <td> {{ indexOfelement + 1 }} </td>
-        <td> {{ getSong(result.id).author }} </td>
-        <td> {{ getSong(result.id).title }}  </td>
+        <td class="text-overflowable"> {{ getSong(result.id).author }} </td>
+        <td class="text-overflowable"> {{ getSong(result.id).title }}  </td>
         <td>
           <a href="{{getSong(result.id).url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>
