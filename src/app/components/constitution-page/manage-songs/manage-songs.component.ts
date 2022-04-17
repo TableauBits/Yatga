@@ -7,8 +7,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 import { DEFAULT_ID_FROM_URL, getIDFromURL } from 'src/app/types/url';
 
-const SONG_NAME_LENGTH = 30;	// TODO : ADD TO CHELYS
-const SONG_AUTHOR_LENGTH = 30;
+const SONG_NAME_LENGTH = 100;	// TODO : ADD TO CHELYS
+const SONG_AUTHOR_LENGTH = 100;
 
 interface ManageSongsInjectedData {
 	cstID: string;
@@ -94,10 +94,9 @@ export class ManageSongsComponent {
 
 	// VERIFY DATA
 		// TODO : HTML faire un template ?
-		// TODO : Gérer le cas où le champ est vide ?
 
 	isNil(key: string): boolean {
-		return isNil(this.newSongForm.value[key])
+		return isNil(this.newSongForm.value[key]) || this.newSongForm.value[key] === '';
 	}
 
 	respectLengthLimit(key: string): boolean {

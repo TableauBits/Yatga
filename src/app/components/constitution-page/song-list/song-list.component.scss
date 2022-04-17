@@ -2,8 +2,8 @@
 
 .filter {
 	display: inline-block;
-	min-width: 75%;
 	margin-top: -5%;
+	width: 100%;
 
 	background-color: $bg-dark;
   border-radius: 25px;
@@ -11,7 +11,7 @@
 }
 
 .filter-text {
-	margin-left: 5%;
+	margin-left: 2%;
 	margin-top: 2%;
 	margin-right: 2%;
 }
