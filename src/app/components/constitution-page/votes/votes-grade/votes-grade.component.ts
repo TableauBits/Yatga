@@ -44,8 +44,10 @@ export class VotesGradeComponent implements OnDestroy {
 	showStats: boolean;
 	showAlreadyVoted: boolean;
 
-	selectedUsers: string[];
+	// Filter
+	selectedUsers: string[];	// TODO : Meilleur manière de filtrer ?
 	orderByUser: boolean;
+	orderByFavs: boolean;
 	orderByGrade: GradeOrder;
 
 	constructor(
@@ -64,6 +66,7 @@ export class VotesGradeComponent implements OnDestroy {
 		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
+		this.orderByFavs = false;
 		this.orderByGrade = GradeOrder.NONE;
 
 		this.auth.pushAuthFunction(this.onConnect, this);
@@ -140,6 +143,12 @@ export class VotesGradeComponent implements OnDestroy {
 			if (g1 < g2) return -order;
 
 			return 0;
+		})
+
+		if (this.orderByFavs) songsToVote = songsToVote.sort((a, b) => {
+			if (this.isAFavorite(a)) return -1;
+			if (this.isAFavorite(b)) return 1;
+			return 0; 
 		})
 
 		return songsToVote;
@@ -262,6 +271,15 @@ export class VotesGradeComponent implements OnDestroy {
 
 	setOrderByUser(order: boolean) {
 		this.orderByUser = order;
+	}
+
+	setOrderByFavs(order: boolean) {
+		this.orderByFavs = order;
+	}
+
+	resetOrder() {
+		this.setOrderByUser(false);
+		this.setOrderByFavs(false);
 	}
 	
 	// TODO : Implement class ?

@@ -47,6 +47,10 @@
         <mat-icon class="menu-panel">list</mat-icon>
         <span>Classer par utilisateur</span>
       </button>
+      <button mat-menu-item class="menu-panel" (click)="setOrderByFavs(true)">
+        <mat-icon class="menu-panel">favorite</mat-icon>
+        <span>Classer par favori</span>
+      </button>
       <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(0)">
         <mat-icon class="menu-panel">trending_up</mat-icon>
         <span>Classer par ordre croissant</span>
@@ -55,7 +59,7 @@
         <mat-icon class="menu-panel">trending_down</mat-icon>
         <span>Classer par ordre décroissant</span>
       </button>
-      <button mat-menu-item class="menu-panel" (click)="setOrderByUser(false)">
+      <button mat-menu-item class="menu-panel" (click)="resetOrder()">
         <mat-icon class="menu-panel">replay</mat-icon>
         <span>Réinitialiser</span>
       </button>
