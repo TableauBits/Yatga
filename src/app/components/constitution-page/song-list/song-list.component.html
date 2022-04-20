@@ -76,6 +76,7 @@
 	<table id="t01">
 		<tr>
 			<th> ID </th>
+			<th> Favoris </th>
 			<th> Titre </th>
 			<th> Auteur </th>
 			<th> URL </th>
@@ -83,6 +84,11 @@
 		</tr>
 		<tr *ngFor="let song of getSongs()">
 			<td> {{ song.id }} </td>
+			<td>
+				<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+			</button>
+			</td>
 			<td> 
 				<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
 					{{ song.title }} 
