@@ -34,6 +34,7 @@ export class SongListComponent {
 	// Filter
 	selectedUsers: string[];
 	orderByUser: boolean;
+	orderByFavs: boolean;
 
 	constructor(
 		private sanitizer: DomSanitizer,
@@ -46,6 +47,7 @@ export class SongListComponent {
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
+		this.orderByFavs = false;
 	}
 
 	getSongs(): Song[] {
@@ -57,6 +59,12 @@ export class SongListComponent {
 		else songs = songs.sort(compareSongDSC);
 
 		if (this.orderByUser) songs = songs.sort(compareSongUser);
+
+		if (this.orderByFavs) songs = songs.sort((a, b) => {
+			if (this.isAFavorite(a)) return -1;
+			if (this.isAFavorite(b)) return 1;
+			return 0; 
+		})
 
 		return songs;
 	}
@@ -158,6 +166,15 @@ export class SongListComponent {
 
 	setOrderByUser(order: boolean) {
 		this.orderByUser = order;
+	}
+
+	setOrderByFavs(order: boolean) {
+		this.orderByFavs = order;
+	}
+
+	resetOrder() {
+		this.setOrderByUser(false);
+		this.setOrderByFavs(false);
 	}
 
 	isAFavorite(song: Song): boolean {
