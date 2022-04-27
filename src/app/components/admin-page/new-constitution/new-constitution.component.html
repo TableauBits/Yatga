@@ -1,4 +1,4 @@
-<div class="background">
+<div class="admin-background">
 	<br>
 	<h1 class="title"> CRÉER UNE CONSTITUTION </h1>
 	<span class="custom-br"></span>
@@ -59,13 +59,13 @@
 		<mat-label> La constitution est publique </mat-label>
 	</form>
 	<br>
-	<button mat-raised-button color="primary" (click)="createConstitution()">
-		Créer
-	</button>
-	<br>
 	<div *ngIf="!errorStatus.hidden" class="status">
 		<div class="status-message"> {{ errorStatus.message }} </div>
 	</div>
+	<br>
+	<button mat-raised-button color="primary" (click)="createConstitution()">
+		Créer
+	</button>
 	<br>
 	<br>
 </div>

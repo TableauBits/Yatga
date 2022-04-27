@@ -1,0 +1,18 @@
+<div class="title">
+  <h1> REJOINDRE UNE CONSTITUTION </h1>
+  <span class="custom-br"></span>
+  <br>
+  Entrez l'ID de la constitution que vous voulez rejoindre :
+  <br>
+  <form [formGroup]="joinForm">
+    <mat-form-field appearance="outline" class="nameField">
+			<mat-label> ID </mat-label>
+			<input matInput formControlName="id" required>
+		</mat-form-field>
+  </form>
+  <span *ngIf="!errorStatus.hidden" class="status">
+    <span class="status-message"> {{ errorStatus.message }} </span>
+  </span>
+  <button mat-raised-button color="primary" (click)="sendRequest()"> Rejoindre </button>
+  <button mat-raised-button color="primary" (click)="closeWindow()"> Annuler </button>
+</div>

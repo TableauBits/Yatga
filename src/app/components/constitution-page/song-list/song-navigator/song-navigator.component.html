@@ -1,6 +1,6 @@
 <div class="title">
     <a href="{{currentSong.url}}" target="_blank">
-      <h1> {{currentSong.title}} - {{currentSong.author}} </h1>
+      <h1 class="text-overflowable"> {{currentSong.author}} - {{currentSong.title}} </h1>
     </a>
   <span class="custom-br"></span>
 </div>
@@ -13,7 +13,7 @@
   <br>
   <br>
   <button mat-button class="previous-button" color="primary" [disabled]="!previousSongExist()" (click)="changeSong(-1)"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
-  <button mat-raised-button class="favorite-button" (click)="toggleFavorite()" [disabled]="noMoreFavorties() || canModifyFavorite()">
+  <button mat-raised-button class="favorite-button" (click)="toggleFavorite()" [disabled]="noMoreFavorties() || !canModifyFavorite()">
     <mat-icon *ngIf="isAFavorite(); else normalSong" class="favorite">favorite</mat-icon>
   </button>
   <button mat-button class="next-button" color="primary" [disabled]="!nextSongExist()" (click)="changeSong(1)"> <mat-icon>keyboard_arrow_right</mat-icon> </button>

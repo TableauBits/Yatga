@@ -16,7 +16,11 @@
 			<mat-icon class="menu-panel">list</mat-icon>
 			<span>Classer par utilisateur</span>
 		</button>
-		<button mat-menu-item class="menu-panel" (click)="setOrderByUser(false)">
+		<button mat-menu-item class="menu-panel" (click)="setOrderByFavs(true)">
+			<mat-icon class="menu-panel">favorite</mat-icon>
+			<span>Classer par favori</span>
+		</button>
+		<button mat-menu-item class="menu-panel" (click)="resetOrder()">
 			<mat-icon class="menu-panel">replay</mat-icon>
 			<span>Réinitialiser</span>
 		</button>
@@ -33,10 +37,10 @@
 				<div class="card shadow-0 bg-dark z-card">
 					<h3 class="card-header front">
 						<div>
-							{{song.title}}
+							<span class="text-overflowable"> {{song.title}} </span>
 							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
 						</div>
-						<i> {{song.author}} </i> 
+						<i class="text-overflowable"> {{song.author}} </i> 
 					</h3>
 					<img src="{{getImageURL(song)}}" class="card-img blur">
 					<div class="card-img-overlay">
@@ -59,7 +63,7 @@
 							<button mat-raised-button color="primary" (click)="onNavigate(song)">
 								<mat-icon>play_circle_outline</mat-icon>
 							</button>
-							<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorites(song) || canModifyFavorite()">
+							<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorites(song) || !canModifyFavorite()">
 									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 							</button>
 							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)">
@@ -76,6 +80,7 @@
 	<table id="t01">
 		<tr>
 			<th> ID </th>
+			<th> Favoris </th>
 			<th> Titre </th>
 			<th> Auteur </th>
 			<th> URL </th>
@@ -83,6 +88,11 @@
 		</tr>
 		<tr *ngFor="let song of getSongs()">
 			<td> {{ song.id }} </td>
+			<td>
+				<button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+			</button>
+			</td>
 			<td> 
 				<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
 					{{ song.title }} 

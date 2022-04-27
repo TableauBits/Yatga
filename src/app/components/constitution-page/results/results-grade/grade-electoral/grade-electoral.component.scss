@@ -80,3 +80,43 @@ td, th {
   display: inline-block;
   height: 45px;
 }
+
+.fire {
+  position: absolute;
+  width: 80%;
+  height: 100%;
+  z-index: -1;
+}
+
+.left {
+  margin-left: 1%;
+}
+
+.purple {
+  background-color: $angular-purple;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+
+  .mat-select-value {
+    color: whitesmoke;
+  }
+  .mat-select-arrow-wrapper {
+      color: whitesmoke;
+  }
+
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
+}

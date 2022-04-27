@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GradeNavigatorComponent } from './grade-navigator.component';
+import { ManageInvitesComponent } from './manage-invites.component';
 
-describe('GradeNavigatorComponent', () => {
-  let component: GradeNavigatorComponent;
-  let fixture: ComponentFixture<GradeNavigatorComponent>;
+describe('ManageInvitesComponent', () => {
+  let component: ManageInvitesComponent;
+  let fixture: ComponentFixture<ManageInvitesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GradeNavigatorComponent ]
+      declarations: [ ManageInvitesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GradeNavigatorComponent);
+    fixture = TestBed.createComponent(ManageInvitesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/services/auth.service';
 
 export enum AdminSection {
 	NEW_CONSTITUTION,
+	MANAGE_ROLES,
+	MANAGE_INVITES,
 	NO_SECTION
 }
 
@@ -25,6 +27,11 @@ export class AdminPageComponent implements OnDestroy {
 		this.currentSection = AdminSection.NO_SECTION;
 
 		this.auth.pushAuthFunction(this.onConnect, this);
+	}
+
+	// HTML can't access the AdminSection enum directly
+	public get adminSection(): typeof AdminSection {
+		return AdminSection;
 	}
 
 	ngOnDestroy(): void {

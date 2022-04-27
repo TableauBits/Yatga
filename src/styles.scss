@@ -73,7 +73,7 @@ body {
   justify-self: center;
   display: flex;
   align-items: center;
-  margin-top: 2rem;
+  // margin-top: 2rem;
   text-align: center;
 }
 
@@ -86,6 +86,7 @@ body {
   background-color: lightcoral;
   text-align: center;
   margin: auto;
+  margin-bottom: 15px;
 }
 
 .title {
@@ -183,4 +184,17 @@ body {
 .disable-click {
   pointer-events: none;
   cursor: default;
+}
+
+.admin-background {
+  border: 2px solid $sasuke;
+  background-color: $mineshaft;
+  border-radius: 25px;
+  font-size:medium;
+}
+
+.text-overflowable {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

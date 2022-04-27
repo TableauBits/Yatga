@@ -34,6 +34,10 @@
 					(click)="setCurrentSection(gradeResultSection.RANKS)">
 					<mat-icon>poll</mat-icon> Rangs
 					</button>
+					<button mat-button [ngClass]="isSectionActive(gradeResultSection.RELATIONSHIP) ? 'active' : ''" 
+					(click)="setCurrentSection(gradeResultSection.RELATIONSHIP)">
+					<mat-icon>share</mat-icon> Relations
+					</button>
 					<button mat-button [ngClass]="isSectionActive(gradeResultSection.FAVORITES) ? 'active' : ''" 
 					(click)="setCurrentSection(gradeResultSection.FAVORITES)">
 					<mat-icon>favorite</mat-icon> Favoris
@@ -61,7 +65,11 @@
 		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"
 			[result]="getAuthResult()"> </app-grade-profile>
 		<app-grade-electoral *ngSwitchCase="gradeResultSection.ELECTORAL"
+			[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
+		</app-grade-electoral> 
+		<app-grade-relationship *ngSwitchCase="gradeResultSection.RELATIONSHIP"
 		[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
-		</app-grade-electoral>	
+
+		</app-grade-relationship>
 	</div>
 </ng-template>
