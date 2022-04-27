@@ -7,10 +7,10 @@ import { ProfilePageComponent } from "../components/profile-page/profile-page.co
 import { UsersPageComponent } from "../components/users-page/users-page.component";
 
 export const ROUTES: Routes = [
-	{ path: '', 											component: HomePageComponent },
-	{ path: 'admin-page', 						component: AdminPageComponent },
-	{ path: 'constitution/:cstID', 		component: ConstitutionComponent},
-	{ path: 'current-constitutions', 	component: CurrentConstitutionPageComponent },
-	{ path: 'profile', 								component: ProfilePageComponent },
-	{ path: 'users', 									component: UsersPageComponent },
+	{ path: '', 																component: HomePageComponent },
+	{ path: 'admin-page', 											component: AdminPageComponent },
+	{ path: 'constitution/:cstID/:section', 		component: ConstitutionComponent},
+	{ path: 'current-constitutions', 						component: CurrentConstitutionPageComponent },
+	{ path: 'profile', 													component: ProfilePageComponent },
+	{ path: 'users', 														component: UsersPageComponent },
 ]

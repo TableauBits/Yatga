@@ -1,19 +1,19 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, CstFavResUpdate, CstFavReqGet, UserFavorites, CstSongReqUnsubscribe, CstFavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 import { RandomSongComponent } from './random-song/random-song.component';
 
 enum ConstitutionSection {
-	SONG_LIST,
-	VOTES,
-	OWNER,
-	RESULTS,
-	EXPORT,
-	PARAMETERS
+	SONG_LIST = "songList",
+	VOTES = "votes",
+	OWNER = "owner",
+	RESULTS = "results",
+	EXPORT = "export",
+	PARAMETERS = "parameters"
 }
 
 @Component({
@@ -33,6 +33,7 @@ export class ConstitutionComponent implements OnDestroy {
 	constructor(
 		private auth: AuthService,
 		private route: ActivatedRoute,
+		private router: Router,
 		private dialog: MatDialog,
 	) {
 		this.cstID = "";
@@ -68,6 +69,7 @@ export class ConstitutionComponent implements OnDestroy {
 	private onConnect(): void {
 		this.route.params.subscribe((params) => {
 			this.cstID = params.cstID;
+			this.setCurrentSection(params.section)
 
 			const getCSTMessage = createMessage<CstReqGet>(EventType.CST_get, { ids: [this.cstID] })
 			this.auth.ws.send(getCSTMessage);
@@ -153,6 +155,7 @@ export class ConstitutionComponent implements OnDestroy {
 
 	setCurrentSection(newSection: ConstitutionSection): void {
 		this.currentSection = newSection;
+		this.router.navigate(['constitution', this.cstID, this.currentSection])
 	}
 
 	isSectionActive(section: ConstitutionSection): boolean {
