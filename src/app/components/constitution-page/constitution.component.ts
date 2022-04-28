@@ -23,10 +23,14 @@ enum ConstitutionSection {
 })
 export class ConstitutionComponent implements OnDestroy {
 
-	private cstID;
+	// Page
+	private cstID: string;
+	private pageIsInit: boolean;
+	currentSection: ConstitutionSection;
+
+	// Firebase data
 	constitution: Constitution;
 	users: Map<string, User>;
-	currentSection: ConstitutionSection;
 	songs: Map<number, Song>;
 	favorites: Map<string, UserFavorites>;
 
@@ -37,6 +41,7 @@ export class ConstitutionComponent implements OnDestroy {
 		private dialog: MatDialog,
 	) {
 		this.cstID = "";
+		this.pageIsInit = false;
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentSection = ConstitutionSection.SONG_LIST;
 		this.users = new Map();
@@ -69,7 +74,6 @@ export class ConstitutionComponent implements OnDestroy {
 	private onConnect(): void {
 		this.route.params.subscribe((params) => {
 			this.cstID = params.cstID;
-			this.setCurrentSection(params.section)
 
 			const getCSTMessage = createMessage<CstReqGet>(EventType.CST_get, { ids: [this.cstID] })
 			this.auth.ws.send(getCSTMessage);
@@ -100,6 +104,16 @@ export class ConstitutionComponent implements OnDestroy {
 					const getFavorites = createMessage<CstFavReqGet>(EventType.CST_FAV_get, { cstId: this.cstID });
 					this.auth.ws.send(getFavorites);
 				}
+
+				if (!this.pageIsInit) {
+					this.route.params.subscribe((params) => {
+						const section = params.section === ConstitutionSection.OWNER && this.auth.uid !== this.constitution.users[OWNER_INDEX] ? ConstitutionSection.SONG_LIST : params.section; 
+						this.setCurrentSection(section);
+					})
+
+					this.pageIsInit = true;
+				}
+
 			} break;
 
 			case EventType.USER_update: {
