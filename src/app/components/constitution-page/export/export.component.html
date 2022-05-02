@@ -1,1 +1,17 @@
-<p>export works!</p>
+<div>
+  <h1 class="title"> EXPORT </h1>
+  <span class="custom-br"></span>
+  <br>
+  <span class="left"> Choisissez le format d'export : </span>
+  <mat-form-field appearance="outline" class="typeField">
+    <mat-select [(value)]="selectedFormat">
+      <mat-option *ngFor="let format of availableFormat" value="{{format.format}}"> {{format.name}} </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button class="left" color="primary" (click)="download()">
+    <mat-icon>get_app</mat-icon> Télécharger
+  </button>
+  <br> <br>
+  <span class="custom-br"></span>
+</div>

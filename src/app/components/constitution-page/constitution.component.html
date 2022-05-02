@@ -74,7 +74,7 @@
 							(click)="setCurrentSection(constitutionSection.RESULTS)">
 				<mat-icon>equalizer</mat-icon> Résultats
 			</button>
-			<button mat-button [disabled]="true" [ngClass]="isSectionActive(constitutionSection.EXPORT) ? 'active' : ''" 
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.EXPORT) ? 'active' : ''" 
 							(click)="setCurrentSection(constitutionSection.EXPORT)">
 				<mat-icon>get_app</mat-icon> Exporter
 			</button>
@@ -98,6 +98,8 @@
 	<app-results *ngSwitchCase="constitutionSection.RESULTS"
 		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="favorites">
 	</app-results>
-	<app-export *ngSwitchCase="constitutionSection.EXPORT"> </app-export>
+	<app-export *ngSwitchCase="constitutionSection.EXPORT"
+		[songs]="songs" [users]="users" [constitution]="constitution">
+	</app-export>
 	<app-parameters *ngSwitchCase="constitutionSection.PARAMETERS"> </app-parameters>
 </div>
