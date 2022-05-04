@@ -4,6 +4,8 @@ import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
 import firebase from 'firebase/app';
 import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from 'chelys';
+import { Title } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 const WS_PING_INTERVAL = 30000;
 
@@ -44,6 +46,7 @@ function ping(ws: WebSocket): void {
 		console.log(lyric);
 	}
 	setTimeout(ping, WS_PING_INTERVAL, ws);
+	
 }
 
 type EventHandlerFunction = (event: MessageEvent<any>) => void;
@@ -69,7 +72,11 @@ export class AuthService {
 	private eventHandlers: [EventHandlerFunction, any][];
 	private authCallbacks: [AuthCallbackFunction, any][];
 
-	constructor(private fireAuth: AngularFireAuth) {
+	constructor(
+		private fireAuth: AngularFireAuth,
+		private title: Title,
+		private http: HttpClient
+	) {
 		this.isAuthenticate = false;
 		this.isConnected = false;
 		this.uid = '';
@@ -187,9 +194,17 @@ export class AuthService {
 				this.isConnected = true;
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
-				this.ws.onclose = () => {this.isConnected = false};
+				this.ws.onclose = () => {
+					this.isConnected = false;
+					this.title.setTitle(this.title.getTitle() + " [OFFLINE]")
+				};
 				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
 				ping(this.ws);
+				// https://genicsblog.com/gouravkhunger/8-ways-to-keep-your-heroku-app-awake
+				setInterval(() => {
+					this.http.get('https://matbay-kalimba.herokuapp.com/dashboard'); //'https://matbay-kalimba.herokuapp.com'
+					console.log('GET')
+				}, 1000); // every 1s or 10 * 60 * 1000);	// Every 10 minutes
 				break;
 
 			default:
