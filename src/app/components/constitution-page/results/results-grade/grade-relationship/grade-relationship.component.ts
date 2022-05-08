@@ -1,7 +1,8 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { ChordCategory, ChordLink, ChordNode, HeatmapData } from 'src/app/types/charts';
+import { buildHeatmap } from 'src/app/types/d3/heatmap';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 
 @Component({
@@ -9,7 +10,7 @@ import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
   templateUrl: './grade-relationship.component.html',
   styleUrls: ['./grade-relationship.component.scss']
 })
-export class GradeRelationshipComponent {
+export class GradeRelationshipComponent implements OnInit {
 
   // Input
   @Input() users: Map<string, User> = new Map();
@@ -30,6 +31,10 @@ export class GradeRelationshipComponent {
   useForce: boolean = false;
   sliderValue: number = 0;
   maxSliderValue: number = 0;
+
+  ngOnInit(): void {
+    buildHeatmap('figure#heatmap', Array.from(this.users.values()), this.heatmapData);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
