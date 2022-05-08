@@ -43,7 +43,7 @@ export class ScatterComponent implements AfterViewInit {
     const singleAxis: echarts.SingleAxisComponentOption[] = [];
     const series: echarts.ScatterSeriesOption[] = [];
     const array: number[] = [];
-
+    const numberOfUsers = this.names.length;
 
     for (let index = 0; index < this.axisMax; index++) {
       array.push(index)
@@ -51,7 +51,7 @@ export class ScatterComponent implements AfterViewInit {
 
     this.names.forEach(function(name, idx) {
       title.push({
-        top: ((idx + 0.5) * 100) / 7 + '%', // TODO : Nombres magique
+        top: ((idx + 0.5) * 100) / numberOfUsers + '%', // TODO : Nombres magique
         text: name,
         textStyle: {
           fontSize: 15,
@@ -63,8 +63,8 @@ export class ScatterComponent implements AfterViewInit {
         type: 'category',
         boundaryGap: false,
         data: array,
-        top: (idx * 100) / 7 + 5 + '%',
-        height: 100 / 7 - 10 + '%',
+        top: (idx * 100) / numberOfUsers + 5 + '%',
+        height: 100 / numberOfUsers - 10 + '%',
         axisLabel: {
           interval: 2
         }
@@ -81,19 +81,18 @@ export class ScatterComponent implements AfterViewInit {
     });
 
     this.data.forEach(function(dataItem) {
+      if (isNil((series as any)[dataItem[0]])) return;
       (series as any)[dataItem[0]].data.push([dataItem[1], dataItem[2]]);
     });
 
     return {
       tooltip: {
         position: 'top'
-        
       },
       title: title,
       singleAxis: singleAxis,
       series: series
     };
   }
-
 
 }
