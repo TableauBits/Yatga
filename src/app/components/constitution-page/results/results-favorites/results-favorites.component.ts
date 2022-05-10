@@ -100,6 +100,13 @@ export class ResultsFavoritesComponent implements OnChanges {
     return this.users.get(this.selectedUser) || EMPTY_USER;
   }
 
+  getSelectedUserFavorites(): Song[] {
+    const favIds = this.favorites.get(this.selectedUser);
+    if (isNil(favIds)) return [];
+
+    return favIds.favs.map((id) => this.songs.get(id) || EMPTY_SONG);
+  }
+
   newSelection(): void  {
     this.generatePieData();
   }
