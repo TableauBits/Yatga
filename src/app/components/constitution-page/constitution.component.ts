@@ -1,7 +1,8 @@
 
 import { Component, OnDestroy } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, CstFavResUpdate, CstFavReqGet, UserFavorites, CstSongReqUnsubscribe, CstFavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
@@ -33,7 +34,9 @@ export class ConstitutionComponent implements OnDestroy {
 	constructor(
 		private auth: AuthService,
 		private route: ActivatedRoute,
+		private router: Router,
 		private dialog: MatDialog,
+		private _snackBar: MatSnackBar
 	) {
 		this.cstID = "";
 		this.constitution = EMPTY_CONSTITUTION;
@@ -113,8 +116,19 @@ export class ConstitutionComponent implements OnDestroy {
 				const favorites = extractMessageData<CstFavResUpdate>(message).userFavorites;
 				this.favorites.set(favorites.uid, favorites);
 			} break;
+
+			case EventType.CST_delete: {
+				this.router.navigateByUrl('current-constitutions');
+				this.openSnackBar(`La constitution ${this.constitution.name} a été supprimée`, 'OK');
+			} break;
 		}
 	}
+
+	openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+			horizontalPosition: 'right'
+		});
+  }
 
 	private songUpdate(response: CstSongResUpdate) {
 		const songInfo = response.songInfo;
