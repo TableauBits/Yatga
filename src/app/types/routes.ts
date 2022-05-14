@@ -3,6 +3,7 @@ import { AdminPageComponent } from "../components/admin-page/admin-page.componen
 import { ConstitutionComponent } from "../components/constitution-page/constitution.component";
 import { CurrentConstitutionPageComponent } from "../components/current-constitution-page/current-constitution-page.component";
 import { HomePageComponent } from "../components/home-page/home-page.component";
+import { PantheonPageComponent } from "../components/pantheon-page/pantheon-page.component";
 import { ProfilePageComponent } from "../components/profile-page/profile-page.component";
 import { UsersPageComponent } from "../components/users-page/users-page.component";
 
@@ -11,6 +12,7 @@ export const ROUTES: Routes = [
 	{ path: 'admin-page', 						component: AdminPageComponent },
 	{ path: 'constitution/:cstID', 		component: ConstitutionComponent},
 	{ path: 'current-constitutions', 	component: CurrentConstitutionPageComponent },
+	{	path:	'pantheon',								component: PantheonPageComponent},
 	{ path: 'profile', 								component: ProfilePageComponent },
 	{ path: 'users', 									component: UsersPageComponent },
 ]

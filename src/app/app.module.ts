@@ -83,6 +83,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { PantheonPageComponent } from './components/pantheon-page/pantheon-page.component';
 
 @NgModule({
 	declarations: [
@@ -125,7 +126,8 @@ import { AuthService } from './services/auth.service';
 		HeatmapComponent,
 	 	ChordComponent,
 	 	ManageInvitesComponent,
-   ManageRolesComponent
+   ManageRolesComponent,
+   PantheonPageComponent
 	],
 	imports: [
 		BrowserModule,
