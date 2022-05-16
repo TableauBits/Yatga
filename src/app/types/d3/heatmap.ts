@@ -1,13 +1,20 @@
+import { tick } from "@angular/core/testing";
 import { User } from "chelys";
 import * as d3 from "d3"
+import { max } from "lodash";
 import { HeatmapData } from "../charts";
 
 export function buildHeatmap(div: string, users: User[], data: HeatmapData[]): void {
   // set dimensions and margins
-  const bounds = (d3.select(div) as any).node().offsetWidth;
-  const margin = { top: 50, right: 80, bottom: 100, left: 130 };
+  const offsetWidth = (d3.select(div) as any).node().offsetWidth;
+  const margin = { 
+    top: 50, 
+    bottom: 100, 
+    left: offsetWidth*0.1, // 80
+    right: offsetWidth*0.1 // 130
+  };
 
-  const width = bounds - margin.left - margin.right;
+  const width = offsetWidth - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
 
   // create the svg area
@@ -26,17 +33,17 @@ export function buildHeatmap(div: string, users: User[], data: HeatmapData[]): v
     .range([ 0, width ])
     .domain(labels)
     .padding(0.01)
+  
   svg.append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(x))
     .selectAll('text')
-    .attr('transform', 'translate(-20,20)rotate(-45)')
 
   // Add X axis label:
   svg.append("text")
     .attr("text-anchor", "end")
-    .attr("x", width)
-    .attr("y", height+20 )
+    .attr("x", width+20)
+    .attr("y", height+20)
     .style("fill", "white")
     .text("Receveur")
 
@@ -52,13 +59,14 @@ export function buildHeatmap(div: string, users: User[], data: HeatmapData[]): v
   svg.append("text")
     .attr("text-anchor", "end")
     .attr("x", -55)
-    .attr("y", -10 )
+    .attr("y", -5 )
     .style("fill", "white")
     .text("Donneur")
     .attr("text-anchor", "start")
 
   // build color scale
-  const myColor = d3.scaleLinear(["white", "#673ab7"]).domain([0, 6])  // TODO : find max
+  const maxValue = max(data.map((d) => d[2])) || 0;
+  const myColor = d3.scaleLinear(["white", "#673ab7"]).domain([0, maxValue]);
 
   // add squares and interaction
   svg.selectAll()
@@ -73,8 +81,6 @@ export function buildHeatmap(div: string, users: User[], data: HeatmapData[]): v
     .attr("y", function(d) {return y(labels[d[0]]) || 0})
     .attr("width", x.bandwidth())
     .attr("height", y.bandwidth())
-    .attr("rx", 10)
-    .attr("ry", 10)
     .style("fill", function(d) { return myColor(d[2]) })
 }
 
