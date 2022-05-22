@@ -1,0 +1,70 @@
+@import "../../../styles/variables.scss";
+
+.card {
+	width: 35rem;
+	height: 22rem;
+	overflow: hidden;
+	margin: auto;
+}
+
+.card-body {
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	user-select: none;
+}
+
+.no-overflow {
+	overflow: hidden;
+}
+
+iframe {
+	width: 100%;
+	padding-top: 35px;
+}
+
+.iframe-image {
+	width: 100%;
+	padding-top: 35px;
+	padding-bottom: 5px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.centered {
+	cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button {
+	overflow: hidden;
+}
+
+.menu-panel {
+	color: whitesmoke;
+}
+
+::ng-deep {
+	.mat-menu-content {
+		background-color: $bg-dark  !important;
+	}
+
+	.mat-menu-item:hover {
+		background-color: $sasuke !important;
+	}
+
+	.mat-menu-panel {
+		background-color: unset !important;
+	}
+}
+
+.z-card {
+	z-index: 0;
+}
+
+.title {
+	font-size: large;
+}

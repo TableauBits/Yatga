@@ -1,10 +1,10 @@
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
-import { Song, SongPlatform } from "chelys";
+import { PantheonSong, Song, SongPlatform } from "chelys";
 import * as URLParse from "url-parse";
 
 export const DEFAULT_ID_FROM_URL = "i2-a5itIPy4";	// "X_dkdW3EG5Q" // "LmMfALLf1jo" // "dQw4w9WgXcQ";
 
-export function getIDFromURL(song: Song): string {
+export function getIDFromURL(song: Song | PantheonSong): string {
 	switch (song.platform) {
 		case SongPlatform.YOUTUBE: {
 			const parsedURL = new URLParse(song.url, true);

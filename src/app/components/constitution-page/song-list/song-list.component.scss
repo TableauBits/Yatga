@@ -64,15 +64,6 @@ td, th {
 	border-radius: 6%;
 }
 
-.blur {
-	filter: blur($blur);
-	-webkit-filter: blur($blur);
-    -moz-filter: blur($blur);
-    -o-filter: blur($blur);
-    -ms-filter: blur($blur);
-	user-select: none;
-}
-
 .card-body {
 	padding-left: 0;
 	padding-right: 0;
