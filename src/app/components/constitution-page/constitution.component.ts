@@ -1,19 +1,19 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, CstFavResUpdate, CstFavReqGet, UserFavorites, CstSongReqUnsubscribe, CstFavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 import { RandomSongComponent } from './random-song/random-song.component';
 
 enum ConstitutionSection {
-	SONG_LIST,
-	VOTES,
-	OWNER,
-	RESULTS,
-	EXPORT,
-	PARAMETERS
+	SONG_LIST = "songList",
+	VOTES = "votes",
+	OWNER = "owner",
+	RESULTS = "results",
+	EXPORT = "export",
+	PARAMETERS = "parameters"
 }
 
 @Component({
@@ -23,19 +23,25 @@ enum ConstitutionSection {
 })
 export class ConstitutionComponent implements OnDestroy {
 
-	private cstID;
+	// Page
+	private cstID: string;
+	private pageIsInit: boolean;
+	currentSection: ConstitutionSection;
+
+	// Firebase data
 	constitution: Constitution;
 	users: Map<string, User>;
-	currentSection: ConstitutionSection;
 	songs: Map<number, Song>;
 	favorites: Map<string, UserFavorites>;
 
 	constructor(
 		private auth: AuthService,
 		private route: ActivatedRoute,
+		private router: Router,
 		private dialog: MatDialog,
 	) {
 		this.cstID = "";
+		this.pageIsInit = false;
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentSection = ConstitutionSection.SONG_LIST;
 		this.users = new Map();
@@ -98,6 +104,16 @@ export class ConstitutionComponent implements OnDestroy {
 					const getFavorites = createMessage<CstFavReqGet>(EventType.CST_FAV_get, { cstId: this.cstID });
 					this.auth.ws.send(getFavorites);
 				}
+
+				if (!this.pageIsInit) {
+					this.route.params.subscribe((params) => {
+						const section = params.section === ConstitutionSection.OWNER && this.auth.uid !== this.constitution.users[OWNER_INDEX] ? ConstitutionSection.SONG_LIST : params.section; 
+						this.setCurrentSection(section);
+					})
+
+					this.pageIsInit = true;
+				}
+
 			} break;
 
 			case EventType.USER_update: {
@@ -153,6 +169,7 @@ export class ConstitutionComponent implements OnDestroy {
 
 	setCurrentSection(newSection: ConstitutionSection): void {
 		this.currentSection = newSection;
+		this.router.navigate(['constitution', this.cstID, this.currentSection])
 	}
 
 	isSectionActive(section: ConstitutionSection): boolean {
