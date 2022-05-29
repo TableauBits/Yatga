@@ -14,7 +14,7 @@
     <br>
     <br>
     <table id="t01">
-      <tr >
+      <tr>
         <th *ngFor="let user of getUserList()"> <img class="picture" [src]="getUser(user.uid).photoURL"> {{user.displayName}} </th>
       </tr>
       <tr>
@@ -42,5 +42,39 @@
     <br>
     Variance : {{selectedUserVar.toFixed(3)}}
     <app-histogram [values]="histogramValues"> </app-histogram>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Notes des participants </mat-panel-title>
+    </mat-expansion-panel-header>
+    Notes de : 
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
+    <br>
+    <table id="t01">
+      <tr>
+        <th> Titre - Utilisateur </th>
+        <th> URL </th>
+        <th> Ajouté par </th>
+        <th> Note </th>
+      </tr>
+      <tr *ngFor="let song of getSelectedUserSong()">
+        <td> {{song.song.title}} - {{song.song.author}} </td>
+        <td>
+          <a href="{{song.song.url}}" target="_blank">
+            <mat-icon>play_circle_outline</mat-icon>
+          </a>
+        </td>
+        <td>
+          <img class="picture avatar" [src]="getUser(song.song.user).photoURL" matTooltip="{{ getUser(song.song.user).displayName }}">
+        </td>
+        <td> {{song.grade}}</td>
+      </tr>
+    </table>
   </mat-expansion-panel>
 </mat-accordion>

@@ -39,7 +39,7 @@ export class JoinConstitutionComponent {
       const data = extractMessageData<CstResJoin>(message).status;
       if (data.success) {
         this.errorStatus.clearStatus();
-        this.router.navigateByUrl(`/constitution/${this.joinForm.get('id')?.value}`);
+        this.router.navigateByUrl(`/constitution/${this.joinForm.get('id')?.value}/songList`);
         this.closeWindow()
       } else {
         switch (data.status) {
