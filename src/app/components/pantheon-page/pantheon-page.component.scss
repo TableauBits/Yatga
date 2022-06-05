@@ -1,7 +1,7 @@
 @import "../../../styles/variables.scss";
 
 .card {
-	width: 35rem;
+	width: 25rem;
 	height: 22rem;
 	overflow: hidden;
 	margin: auto;
@@ -65,6 +65,14 @@ button {
 	z-index: 0;
 }
 
-.title {
+.title-font {
 	font-size: large;
+}
+
+.date {
+	float: right;
+}
+
+.disabled {
+	opacity: 0.5;
 }

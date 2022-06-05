@@ -18,7 +18,7 @@ export function getIDFromURL(song: Song | PantheonSong): string {
 	}
 }
 
-export function getEmbedURL(song: Song, sanitizer: DomSanitizer): SafeResourceUrl {
+export function getEmbedURL(song: Song | PantheonSong, sanitizer: DomSanitizer): SafeResourceUrl {
 	switch (song.platform) {
 		case SongPlatform.YOUTUBE: {
 			const videoID = getIDFromURL(song);
