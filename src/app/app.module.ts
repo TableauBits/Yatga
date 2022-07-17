@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TextFieldModule } from '@angular/cdk/text-field'
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Fire
 import { AngularFireModule } from '@angular/fire';
@@ -137,6 +138,7 @@ import { AuthService } from './services/auth.service';
 		FormsModule,
 		ReactiveFormsModule,
 		TextFieldModule,
+		HttpClientModule,
 		MatButtonModule,
 		MatFormFieldModule,
 		MatIconModule,
