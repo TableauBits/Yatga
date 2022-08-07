@@ -20,4 +20,8 @@ export class NavbarComponent {
 	openJoinConstitution(): void {
 		this.dialog.open(JoinConstitutionComponent);
 	}
+
+	navigateTo(url: string) {
+		window.open(url, "_blank");
+	}
 }
