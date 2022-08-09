@@ -68,7 +68,7 @@
 			[users]="users" [songs]="songs" [favorites]="favorites">
 		</app-results-favorites>
 		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"
-			[users]="users" [songs]="songs" [favorites]="favorites" [result]="getAuthResult()">
+			[users]="users" [songs]="songs" [favorites]="favorites" [result]="getAuthResult()" [songResults]="songResults" [userResults]="userResults" [constitution]="constitution">
 		</app-grade-profile>
 		<app-grade-electoral *ngSwitchCase="gradeResultSection.ELECTORAL"
 			[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">

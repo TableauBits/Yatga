@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
+import { Constitution, EMPTY_CONSTITUTION, EMPTY_SONG, EMPTY_USER, Role, Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { EMPTY_USER_GRADE_RESULTS, SongGrade, UserGradeResults } from 'src/app/types/results';
+import { DownloadService } from 'src/app/services/download.service';
+import { EMPTY_USER_GRADE_RESULTS, SongGrade, SongGradeResult, UserGradeResults } from 'src/app/types/results';
 
 @Component({
   selector: 'app-grade-profile',
@@ -15,6 +16,9 @@ export class GradeProfileComponent implements OnChanges {
   @Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
   @Input() favorites: Map<string, UserFavorites> = new Map();
+  @Input() constitution: Constitution = EMPTY_CONSTITUTION;
+  @Input() userResults: Map<string, UserGradeResults> = new Map();
+  @Input() songResults: SongGradeResult[] = [];
 
   histogramValues: number[] = []
 
@@ -22,7 +26,7 @@ export class GradeProfileComponent implements OnChanges {
     this.histogramValues = Array.from(changes['result'].currentValue.data.values.values());
   }
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private dwl: DownloadService) { }
 
   getUser(uid: string): User {
     return this.users.get(uid) || EMPTY_USER;
@@ -47,5 +51,40 @@ export class GradeProfileComponent implements OnChanges {
     });
    
     return songs.sort((a, b) => b.grade - a.grade);
+  }
+
+  downloadResults(): void {
+    const data = JSON.stringify({
+      name: this.constitution.name,
+      favorites: Array.from(this.favorites.values()),
+      users: Array.from(this.users.values()).map((user) => {
+        return {
+          description: user.description,
+          displayName: user.displayName,
+          uid: user.uid,
+          photoURL: user.photoURL
+        }
+      }),
+      userResults: Array.from(this.userResults.values()).map((result) => {
+        return {
+          ...result,
+          data: {
+            ...result.data,
+            values: Array.from(result.data.values.entries()),
+          },
+          normalizeScores: Array.from(result.normalizeScores.entries()),
+        }
+      }),
+      songResults: this.songResults
+    });
+
+    this.dwl.dyanmicDownloadByHtmlTag({
+      fileName: this.constitution.name + ".json",
+      text: data,
+    });
+  }
+
+  isAdmin(): boolean {
+    return this.auth.user.roles.includes(Role.ADMIN);
   }
 }
