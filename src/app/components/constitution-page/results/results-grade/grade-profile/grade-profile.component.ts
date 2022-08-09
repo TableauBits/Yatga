@@ -57,6 +57,8 @@ export class GradeProfileComponent implements OnChanges {
     const data = JSON.stringify({
       name: this.constitution.name,
       favorites: Array.from(this.favorites.values()),
+      songs: Array.from(this.songs.values()),
+      songResults: this.songResults,
       users: Array.from(this.users.values()).map((user) => {
         return {
           description: user.description,
@@ -75,7 +77,6 @@ export class GradeProfileComponent implements OnChanges {
           normalizeScores: Array.from(result.normalizeScores.entries()),
         }
       }),
-      songResults: this.songResults
     });
 
     this.dwl.dyanmicDownloadByHtmlTag({
