@@ -34,6 +34,15 @@
 			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
 				routerLink="/admin-page">Administrateur</button>
 
+			<button mat-raised-button class="btn btn-primary purple dropdown-toggle navbar-button" [matMenuTriggerFor]="ressourceMenu">
+				Ressources
+			</button>
+			<mat-menu #ressourceMenu="matMenu">
+				<button mat-menu-item class="menu-panel" (click)="navigateTo('https://mellotron.pages.dev')">
+					<img src="assets/mellotron.png" class="ressource-icon">
+						<span>Mellotron - Archive Matbay</span>
+				</button>
+			</mat-menu>
 			<!-- Dropdown Menu -->
 			<div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
 		</div>

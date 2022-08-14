@@ -4,6 +4,12 @@ import { Constitution, EMPTY_CONSTITUTION, Role, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { compareSongASC } from 'src/app/types/song';
 
+type ExportJSON = {
+  cstName: string;
+  date: string;
+  songs: Song[];
+}
+
 type ExportFormat = {
   format: ExportValue;
   name: string;
@@ -14,6 +20,8 @@ enum ExportValue {
   NO_FORMAT,
   CSV,
   CSV_DEV,
+  JSON,
+  JSON_DEV,
   GOOGLE_SHEETS,
 }
 
@@ -32,6 +40,16 @@ const FORMATS: ExportFormat[] = [
     format: ExportValue.GOOGLE_SHEETS,
     name: 'Google Sheets',
     isDev: false
+  },
+  {
+    format: ExportValue.JSON,
+    name: 'JSON',
+    isDev: false
+  },
+  {
+    format: ExportValue.JSON_DEV,
+    name: 'JSON (dev)',
+    isDev: true
   }
 ]
 
@@ -91,6 +109,18 @@ export class ExportComponent {
     }
   }
 
+  toJSON(obj: ExportJSON, devFormat: boolean): string {
+    if (!devFormat) {
+      obj.songs = obj.songs.map((s) => {
+        return {
+          ...s,
+          user: this.getUsername(s.user)
+        }
+      });
+    }
+    return JSON.stringify(obj);
+  }
+
   download() {
     const songs = Array.from(this.songs.values()).sort(compareSongASC);
     switch (Number(this.selectedFormat)) {
@@ -99,6 +129,18 @@ export class ExportComponent {
         this.dyanmicDownloadByHtmlTag({
           fileName: this.constitution.name + ".csv",
           text: this.toCSV(songs, Number(this.selectedFormat) === ExportValue.CSV_DEV)
+        })
+        break;
+      case ExportValue.JSON:
+      case ExportValue.JSON_DEV:
+        const obj = {
+          cstName: this.constitution.name,
+          date: new Date().toISOString(),
+          songs
+        };
+        this.dyanmicDownloadByHtmlTag({
+          fileName: this.constitution.name + ".json",
+          text: this.toJSON(obj, Number(this.selectedFormat) === ExportValue.JSON_DEV)
         })
         break;
       case ExportValue.GOOGLE_SHEETS:

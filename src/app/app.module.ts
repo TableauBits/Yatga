@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TextFieldModule } from '@angular/cdk/text-field'
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Fire
 import { AngularFireModule } from '@angular/fire';
@@ -73,6 +74,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatMenuModule} from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -125,7 +127,7 @@ import { AuthService } from './services/auth.service';
 		HeatmapComponent,
 	 	ChordComponent,
 	 	ManageInvitesComponent,
-   ManageRolesComponent
+    ManageRolesComponent
 	],
 	imports: [
 		BrowserModule,
@@ -136,6 +138,7 @@ import { AuthService } from './services/auth.service';
 		FormsModule,
 		ReactiveFormsModule,
 		TextFieldModule,
+		HttpClientModule,
 		MatButtonModule,
 		MatFormFieldModule,
 		MatIconModule,
@@ -152,6 +155,7 @@ import { AuthService } from './services/auth.service';
 		MatDialogModule,
 		MatExpansionModule,
 		MatProgressBarModule,
+		MatSnackBarModule,
 		MdbDropdownModule,
 		MdbCollapseModule
 	],

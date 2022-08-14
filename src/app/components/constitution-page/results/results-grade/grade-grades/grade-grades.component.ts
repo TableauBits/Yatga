@@ -3,7 +3,7 @@ import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
 import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { mean, variance } from 'src/app/types/math';
-import { UserGradeResults } from 'src/app/types/results';
+import { SongGrade, UserGradeResults } from 'src/app/types/results';
 import { compareSongDSC } from 'src/app/types/song';
 import { getIDFromURL } from 'src/app/types/url';
 
@@ -68,6 +68,20 @@ export class GradeGradesComponent {
 
   getSelectedUser(): User {
     return this.users.get(this.selectedUser) || EMPTY_USER;
+  }
+
+  getSelectedUserSong(): SongGrade[] {
+    const userResult = this.userResults.get(this.selectedUser);
+    if (isNil(userResult)) return [];
+    let songs: SongGrade[] = [];
+    userResult.data.values.forEach((value, key) => {
+      songs.push({
+        song: this.songs.get(key) || EMPTY_SONG,
+        grade: value
+      })
+    });
+   
+    return songs.sort((a, b) => b.grade - a.grade);
   }
 
   getUserList(): User[] {

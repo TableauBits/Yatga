@@ -36,7 +36,15 @@
       </form>
       <button mat-raised-button color="primary" (click)="updateNameURL()"> Mettre à jour </button>
     </mat-expansion-panel>
-  </mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Danger Zone </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-slide-toggle [checked]="security" (change)="updateSecurity()"> Garder la sécurité </mat-slide-toggle>
+    <br> <br>
+    <button mat-raised-button [disabled]="security" color="warn" (click)="deleteConstitution()"> Supprimer la constitution </button>
+  </mat-expansion-panel>
+</mat-accordion>
   <br>
   <h1 class="title"> TYPE </h1>
   <span class="custom-br"> </span>

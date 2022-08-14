@@ -53,23 +53,28 @@
 	<br>
 	<div [ngSwitch]="currentSection">
 		<app-grade-ranking *ngSwitchCase="gradeResultSection.RANKING"
-			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranking>
+			[users]="users" [songs]="songs" [songResults]="songResults">
+		</app-grade-ranking>
 		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES"
-			[users]="users" [songs]="songs" [userResults]="userResults"> </app-grade-grades>
+			[users]="users" [songs]="songs" [userResults]="userResults">
+		</app-grade-grades>
 		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE"
-			[users]="users" [userResults]="userResults" [songs]="songs" [numberOfSongsByUser]="constitution.numberOfSongsPerUser"> </app-grade-average>
+			[users]="users" [userResults]="userResults" [songs]="songs" [numberOfSongsByUser]="constitution.numberOfSongsPerUser">
+		</app-grade-average>
 		<app-grade-ranks *ngSwitchCase="gradeResultSection.RANKS"
-			[users]="users" [songs]="songs" [songResults]="songResults"> </app-grade-ranks>
+			[users]="users" [songs]="songs" [songResults]="songResults">
+		</app-grade-ranks>
 		<app-results-favorites *ngSwitchCase="gradeResultSection.FAVORITES"
-			[users]="users" [songs]="songs" [favorites]="favorites"></app-results-favorites>
+			[users]="users" [songs]="songs" [favorites]="favorites">
+		</app-results-favorites>
 		<app-grade-profile *ngSwitchCase="gradeResultSection.PROFIL"
-			[result]="getAuthResult()"> </app-grade-profile>
+			[users]="users" [songs]="songs" [favorites]="favorites" [result]="getAuthResult()">
+		</app-grade-profile>
 		<app-grade-electoral *ngSwitchCase="gradeResultSection.ELECTORAL"
 			[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
 		</app-grade-electoral> 
 		<app-grade-relationship *ngSwitchCase="gradeResultSection.RELATIONSHIP"
-		[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
-
+			[users]="users" [songs]="songs" [favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
 		</app-grade-relationship>
 	</div>
 </ng-template>

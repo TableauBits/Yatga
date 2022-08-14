@@ -1,4 +1,4 @@
-import { GradeUserData } from "chelys";
+import { GradeUserData, Song } from "chelys";
 import { mean, normalize, variance } from "./math";
 
 export interface UserGradeResults {
@@ -18,6 +18,11 @@ export const EMPTY_USER_GRADE_RESULTS: UserGradeResults = {
 export interface SongGradeResult {
   id: number;
   score: number;
+}
+
+export interface SongGrade {
+  song: Song;
+  grade: number;
 }
 
 export function generateUserGradeResults(data: GradeUserData): UserGradeResults {
