@@ -85,6 +85,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { InvitePageComponent } from './components/invite-page/invite-page.component';
 
 @NgModule({
 	declarations: [
@@ -127,7 +128,8 @@ import { AuthService } from './services/auth.service';
 		HeatmapComponent,
 	 	ChordComponent,
 	 	ManageInvitesComponent,
-    ManageRolesComponent
+    ManageRolesComponent,
+    InvitePageComponent
 	],
 	imports: [
 		BrowserModule,
