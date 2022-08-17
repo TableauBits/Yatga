@@ -39,6 +39,10 @@
 					<img src="assets/mellotron.png" class="ressource-icon">
 						<span>Mellotron - Archive Matbay</span>
 				</button>
+				<button mat-menu-item class="menu-panel" (click)="navigateTo('invite')">
+					<img src="assets/yatga.png" class="ressource-icon">
+						<span> Yatga - Inscription </span>
+				</button>
 			</mat-menu>
 
 			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"

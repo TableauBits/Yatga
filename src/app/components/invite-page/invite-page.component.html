@@ -1,1 +1,18 @@
-<p>invite-page works!</p>
+<br>
+<h1 class="title"> REJOINDRE MATBAY </h1>
+<span class="custom-br"></span>
+<br>
+<div class="content">
+  Utilisez le code d'invitation qui vous a été donné pour vous créez un compte : <br><br>
+  <form [formGroup]="inviteForm">
+    <mat-form-field appearance="outline" class="nameField">
+			<mat-label> Code d'invitation </mat-label>
+			<input matInput formControlName="inviteID" required>
+		</mat-form-field>
+  </form>
+  <button mat-raised-button  class="button" color="primary">
+    Créer mon compte
+  </button>
+</div>
+<br>
+<span class="custom-br"></span>
