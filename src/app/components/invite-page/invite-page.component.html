@@ -10,9 +10,15 @@
 			<input matInput formControlName="inviteID" required>
 		</mat-form-field>
   </form>
-  <button mat-raised-button  class="button" color="primary">
-    Créer mon compte
+  <button mat-raised-button class="button" color="primary" (click)="findInvite()">
+    Trouver mon invitaton
+  </button>
+  <br>
+  <br>
+  <span class="custom-br"></span>
+  <br>
+  <button mat-raised-button class="button" color="primary" (click)="createAccount()">
+    Me connecter avec Google
   </button>
 </div>
-<br>
-<span class="custom-br"></span>
+
