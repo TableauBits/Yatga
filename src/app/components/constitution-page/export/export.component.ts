@@ -1,7 +1,7 @@
-// Source : https://stackblitz.com/edit/httpsstackoverflowcomquestions51806464how-to-create-and-downloa?file=src%2Fapp%2Fapp.component.ts
 import { Component, Input } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, Role, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
+import { DownloadService } from 'src/app/services/download.service';
 import { compareSongASC } from 'src/app/types/song';
 
 type ExportJSON = {
@@ -67,13 +67,7 @@ export class ExportComponent {
   availableFormat: ExportFormat[];
   selectedFormat: ExportValue;
 
-  private setting = {
-    element: {
-      dynamicDownload: null as unknown as HTMLElement
-    }
-  }
-
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private dwl: DownloadService) {
     this.selectedFormat = ExportValue.NO_FORMAT;
 
     if (!this.auth.user.roles.includes(Role.DEV)) {
@@ -126,7 +120,7 @@ export class ExportComponent {
     switch (Number(this.selectedFormat)) {
       case ExportValue.CSV:
       case ExportValue.CSV_DEV:
-        this.dyanmicDownloadByHtmlTag({
+        this.dwl.dyanmicDownloadByHtmlTag({
           fileName: this.constitution.name + ".csv",
           text: this.toCSV(songs, Number(this.selectedFormat) === ExportValue.CSV_DEV)
         })
@@ -138,34 +132,18 @@ export class ExportComponent {
           date: new Date().toISOString(),
           songs
         };
-        this.dyanmicDownloadByHtmlTag({
+        this.dwl.dyanmicDownloadByHtmlTag({
           fileName: this.constitution.name + ".json",
           text: this.toJSON(obj, Number(this.selectedFormat) === ExportValue.JSON_DEV)
         })
         break;
       case ExportValue.GOOGLE_SHEETS:
-        this.dyanmicDownloadByHtmlTag({
+        this.dwl.dyanmicDownloadByHtmlTag({
           fileName: this.constitution.name + ".txt",
           text: this.toGoogleSheets(songs)
         })
         break;
     }
-  }
-
-  private dyanmicDownloadByHtmlTag(arg: {
-    fileName: string,
-    text: string
-  }) {
-    if (!this.setting.element.dynamicDownload) {
-      this.setting.element.dynamicDownload = document.createElement('a');
-    }
-    const element = this.setting.element.dynamicDownload;
-    const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
-    element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
-    element.setAttribute('download', arg.fileName);
-
-    var event = new MouseEvent("click");
-    element.dispatchEvent(event);
   }
 
 }

@@ -1,0 +1,11 @@
+@import "../../../styles/variables.scss";
+
+h1 {
+  font-size: xx-large;
+}
+
+.wip {
+  border: 5px solid $angular-purple;
+  -moz-border-radius: 28px;
+  border-radius: 28px;  
+}
