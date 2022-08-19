@@ -1,5 +1,8 @@
+@import "../../../styles/variables.scss";
+
 .content {
   margin-left: 2.5%;
+  margin-right: 2.5%;
 }
 
 ::ng-deep {
@@ -26,4 +29,22 @@
           color: whitesmoke;
       }
   }
+
+  .mat-horizontal-content-container {
+    background-color: $mineshaft;
+  }
+
+  .mat-horizontal-stepper-header-container {
+    background-color: $mineshaft;
+    
+  }
+
+  .mat-step-text-label {
+    color: whitesmoke;
+  }
+
+  .mat-stepper-horizontal-line {
+    background-color: whitesmoke;
+  }
+  
 }

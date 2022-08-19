@@ -5,7 +5,7 @@ import { isNil } from 'lodash';
 import { environment } from 'src/environments/environment';
 
 import firebase from 'firebase/app';
-import { NewAccount } from 'chelys';
+import { EMPTY_USER, Inviter, InvResGET, NewAccount } from 'chelys';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 const NO_INVITE = "";
@@ -18,6 +18,7 @@ const NO_INVITE = "";
 export class InvitePageComponent {
 
   public inviteForm: FormGroup;
+  public inviteGETResponse: InvResGET;
   public HTTPconnectionURL: string;
 
   constructor(
@@ -28,6 +29,7 @@ export class InvitePageComponent {
     this.inviteForm = this.fb.group({
       inviteID: [, Validators.required]
     });
+    this.inviteGETResponse = {isValid: false, inviter: EMPTY_USER};
 
     this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}`;
     if (!environment.production) {
@@ -46,6 +48,7 @@ export class InvitePageComponent {
 
     this.http.get(`${this.HTTPconnectionURL}/invite/${inviteID}`).subscribe((response) => {
       console.log(response);
+      this.inviteGETResponse = response as InvResGET;
     });
   }
 

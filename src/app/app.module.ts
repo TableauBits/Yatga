@@ -75,6 +75,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatMenuModule} from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -158,6 +159,7 @@ import { InvitePageComponent } from './components/invite-page/invite-page.compon
 		MatExpansionModule,
 		MatProgressBarModule,
 		MatSnackBarModule,
+		MatStepperModule,
 		MdbDropdownModule,
 		MdbCollapseModule
 	],

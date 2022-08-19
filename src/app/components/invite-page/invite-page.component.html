@@ -3,22 +3,46 @@
 <span class="custom-br"></span>
 <br>
 <div class="content">
-  Utilisez le code d'invitation qui vous a été donné pour vous créez un compte : <br><br>
-  <form [formGroup]="inviteForm">
-    <mat-form-field appearance="outline" class="nameField">
-			<mat-label> Code d'invitation </mat-label>
-			<input matInput formControlName="inviteID" required>
-		</mat-form-field>
-  </form>
-  <button mat-raised-button class="button" color="primary" (click)="findInvite()">
-    Trouver mon invitaton
-  </button>
-  <br>
-  <br>
-  <span class="custom-br"></span>
-  <br>
-  <button mat-raised-button class="button" color="primary" (click)="createAccount()">
-    Me connecter avec Google
-  </button>
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="inviteForm" label="Code d'invitation">
+      <form [formGroup]="inviteForm">
+        <mat-form-field appearance="outline" class="nameField">
+          <mat-label> Code d'invitation </mat-label>
+          <input matInput formControlName="inviteID" required>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button class="button" color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step label="Validation de l'invitation">
+      <button mat-raised-button class="button" color="primary" (click)="findInvite()">
+        Trouver mon invitaton
+      </button>
+      <div *ngIf="inviteGETResponse.isValid"> Vous avez été invité par <img class="picture" [src]="inviteGETResponse.inviter.photoURL"> {{inviteGETResponse.inviter.displayName}}! </div>
+      <br> <br>
+      <div>
+        <button mat-raised-button class="button" color="primary" matStepperPrevious>Back</button>
+        <button mat-raised-button class="button" color="primary" [disabled]="!inviteGETResponse.isValid" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step label="Création du compte">
+      <button mat-raised-button class="button" color="primary" (click)="createAccount()">
+        Me connecter avec Google
+      </button>
+      <br> <br>
+      <div>
+        <button mat-raised-button class="button" color="primary" matStepperPrevious>Back</button>
+        <button mat-raised-button class="button" color="primary" matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Fin</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-raised-button class="button" color="primary" matStepperPrevious>Back</button>
+        <button mat-raised-button class="button" color="primary" (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>  
 </div>
-
