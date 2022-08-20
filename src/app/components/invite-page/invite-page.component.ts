@@ -98,7 +98,7 @@ export class InvitePageComponent {
   getPOSTStatus(): string {
     if (this.hasReceivedPOSTResponse) {
       const success = "Votre compte Matbay a été créé";
-      const error = `Une erreur est survenu: ${this.invitePOSTResponse.response.status}`;
+      const error = `Une erreur est survenue: ${this.invitePOSTResponse.response.status}`;
 
       return this.invitePOSTResponse.response.success? success : error;
     }
