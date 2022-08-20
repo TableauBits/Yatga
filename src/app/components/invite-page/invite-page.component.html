@@ -2,8 +2,11 @@
 <h1 class="title"> REJOINDRE MATBAY </h1>
 <span class="custom-br"></span>
 <br>
-<div class="content">
-  <mat-horizontal-stepper [linear]="true" #stepper>
+<div *ngIf="auth.isAuthenticate" class="content">
+  Vous avez déjà un compte Matbay.
+</div>
+<div *ngIf="!auth.isAuthenticate" class="content">
+  <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step [stepControl]="inviteForm" label="Code d'invitation">
       <form [formGroup]="inviteForm">
         <mat-form-field appearance="outline" class="nameField">
@@ -11,38 +14,41 @@
           <input matInput formControlName="inviteID" required>
         </mat-form-field>
         <div>
-          <button mat-raised-button class="button" color="primary" matStepperNext>Next</button>
+          <button mat-raised-button class="button" color="primary" (click)="findInvite()" matStepperNext>Trouver mon invitation</button>
         </div>
       </form>
     </mat-step>
     <mat-step label="Validation de l'invitation">
-      <button mat-raised-button class="button" color="primary" (click)="findInvite()">
-        Trouver mon invitaton
-      </button>
-      <div *ngIf="inviteGETResponse.isValid"> Vous avez été invité par <img class="picture" [src]="inviteGETResponse.inviter.photoURL"> {{inviteGETResponse.inviter.displayName}}! </div>
-      <br> <br>
+      <div *ngIf="!hasReceivedGETResponse">
+        <mat-spinner></mat-spinner> <br> <p>Recherche de votre invitation en cours...</p>
+      </div> 
+      <div *ngIf="hasReceivedGETResponse">
+        <p *ngIf="inviteGETResponse.isValid"> Invitation trouvée! Vous avez été invité par <img class="picture" [src]="inviteGETResponse.inviter.photoURL"> <b>{{inviteGETResponse.inviter.displayName}}</b>. </p>
+        <p *ngIf="!inviteGETResponse.isValid"> Aucune invitation trouvée pour "{{getInviteID()}}". Veuillez recommencer. </p>
+      </div>
       <div>
-        <button mat-raised-button class="button" color="primary" matStepperPrevious>Back</button>
-        <button mat-raised-button class="button" color="primary" [disabled]="!inviteGETResponse.isValid" matStepperNext>Next</button>
+        <button mat-raised-button class="button" color="primary" matStepperPrevious>Retour</button>
+        <button mat-raised-button class="button" color="primary" [disabled]="!inviteGETResponse.isValid" matStepperNext>Suivant</button>
       </div>
     </mat-step>
     <mat-step label="Création du compte">
+      <p>Pour se créer un compte Matbay, il est nécessaire de posséder un compte Google valide. Cela permettra de valider votre identité lors de futur connexion. Vous devez donc vous connecter une première fois avec un compte Google pour lui créer un compte correspondant:</p>
       <button mat-raised-button class="button" color="primary" (click)="createAccount()">
         Me connecter avec Google
       </button>
       <br> <br>
+      <p> Status actuel : {{getPOSTStatus()}}</p>
       <div>
-        <button mat-raised-button class="button" color="primary" matStepperPrevious>Back</button>
-        <button mat-raised-button class="button" color="primary" matStepperNext>Next</button>
+        <button mat-raised-button class="button" color="primary" matStepperPrevious>Retour</button>
+        <button mat-raised-button class="button" color="primary" [disabled]="!invitePOSTResponse.response.success" matStepperNext>Suivant</button>
       </div>
     </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Fin</ng-template>
-      <p>You are now done.</p>
+    <mat-step label="Fin">
+      <p>Votre compte Matbay a été créé! Merci rejoindre Matbay. Vous pouvez désormais recharger la page et vous connectez.</p>
       <div>
-        <button mat-raised-button class="button" color="primary" matStepperPrevious>Back</button>
-        <button mat-raised-button class="button" color="primary" (click)="stepper.reset()">Reset</button>
+        <button mat-raised-button class="button" color="primary" matStepperPrevious>Retour</button>
+        <button mat-raised-button class="button" color="primary" (click)="reloadPage()">Recharger la page</button>
       </div>
     </mat-step>
-  </mat-horizontal-stepper>  
+  </mat-vertical-stepper>  
 </div>

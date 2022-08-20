@@ -5,8 +5,9 @@ import { isNil } from 'lodash';
 import { environment } from 'src/environments/environment';
 
 import firebase from 'firebase/app';
-import { EMPTY_USER, Inviter, InvResGET, NewAccount } from 'chelys';
+import { EMPTY_USER, InvResGET, InvResPOST, NewAccount } from 'chelys';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from 'src/app/services/auth.service';
 
 const NO_INVITE = "";
 
@@ -18,18 +19,25 @@ const NO_INVITE = "";
 export class InvitePageComponent {
 
   public inviteForm: FormGroup;
+  public hasReceivedGETResponse: boolean;
   public inviteGETResponse: InvResGET;
+  public hasReceivedPOSTResponse: boolean;
+  public invitePOSTResponse: InvResPOST;
   public HTTPconnectionURL: string;
 
   constructor(
     public fb: FormBuilder, 
     private http: HttpClient,
-    private fireAuth: AngularFireAuth
+    private fireAuth: AngularFireAuth,
+    public auth: AuthService
   ) {
     this.inviteForm = this.fb.group({
       inviteID: [, Validators.required]
     });
+    this.hasReceivedGETResponse = false;
     this.inviteGETResponse = {isValid: false, inviter: EMPTY_USER};
+    this.hasReceivedPOSTResponse = false;
+    this.invitePOSTResponse = {response: {success: false, status: ""}};
 
     this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}`;
     if (!environment.production) {
@@ -48,6 +56,7 @@ export class InvitePageComponent {
 
     this.http.get(`${this.HTTPconnectionURL}/invite/${inviteID}`).subscribe((response) => {
       console.log(response);
+      this.hasReceivedGETResponse = true;
       this.inviteGETResponse = response as InvResGET;
     });
   }
@@ -57,7 +66,7 @@ export class InvitePageComponent {
 		const user = (await this.fireAuth.signInWithPopup(provider)).user;
 
     if (isNil(user)) {
-      throw new Error("sucks 2 b u");
+      throw new Error("User Google Credentials are nil");
     }
 
     return {
@@ -65,18 +74,36 @@ export class InvitePageComponent {
       displayName: user.displayName ?? "",
       email: user.email ?? "",
       photoURL: user.photoURL ?? "",
-    }
+    };
   }
 
   async createAccount(): Promise<void> {
     try {
       const accountInfo = await this.getGoogleCredentials();
       const inviteID = this.getInviteID();
-      this.http.post(`${this.HTTPconnectionURL}/invite/${inviteID}`, {newAccount: accountInfo}).subscribe((response) => console.log(response));
+      this.http.post(`${this.HTTPconnectionURL}/invite/${inviteID}`, {newAccount: accountInfo}).subscribe((response) => {
+        console.log(response)
+        this.hasReceivedPOSTResponse = true;
+        this.invitePOSTResponse = response as InvResPOST;
+      });
     } catch (error) {
-      //TODO: afficher la fin du monde
-      console.log("get REKT");
+      console.error("createAccount: ", error);
     }
+  }
+
+  reloadPage(): void {
+    window.location.reload();
+  }
+
+  getPOSTStatus(): string {
+    if (this.hasReceivedPOSTResponse) {
+      const success = "Votre compte Matbay a été créé";
+      const error = `Une erreur est survenu: ${this.invitePOSTResponse.response.status}`;
+
+      return this.invitePOSTResponse.response.success? success : error;
+    }
+
+    return "Votre compte n'a pas encore été créé."
   }
 
 }

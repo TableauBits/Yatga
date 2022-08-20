@@ -5,6 +5,11 @@
   margin-right: 2.5%;
 }
 
+img {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
      color: whitesmoke;
@@ -30,21 +35,28 @@
       }
   }
 
-  .mat-horizontal-content-container {
+  .mat-step-header {
     background-color: $mineshaft;
   }
 
-  .mat-horizontal-stepper-header-container {
+  .mat-vertical-content {
     background-color: $mineshaft;
-    
+  }
+
+  .mat-stepper-vertical{
+    background-color: $mineshaft;
   }
 
   .mat-step-text-label {
     color: whitesmoke;
   }
 
-  .mat-stepper-horizontal-line {
+  .mat-step-header {
+    background-color: $mineshaft;
+  }
+
+  .mat-stepper-vertical-line::before {
     background-color: whitesmoke;
   }
-  
+
 }
