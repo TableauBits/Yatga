@@ -39,10 +39,6 @@
 					<img src="assets/mellotron.png" class="ressource-icon">
 						<span>Mellotron - Archive Matbay</span>
 				</button>
-				<button mat-menu-item class="menu-panel" (click)="navigateTo('invite')">
-					<img src="assets/yatga.png" class="ressource-icon">
-						<span> Yatga - Inscription </span>
-				</button>
 			</mat-menu>
 
 			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
@@ -77,5 +73,8 @@
 
 </ng-template>
 <ng-template #signedOut>
-	<button mat-raised-button class="ms-auto" color="primary" (click)="auth.signIn()">Connexion</button>
+	<div class="ms-auto">
+		<button mat-raised-button class="navbar-button" color="primary" (click)="navigateTo('invite')">Inscription</button>
+		<button mat-raised-button color="primary" (click)="auth.signIn()">Connexion</button>
+	</div>
 </ng-template>
