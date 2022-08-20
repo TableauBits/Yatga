@@ -30,6 +30,7 @@ export class GradeRelationshipComponent {
   useForce: boolean = false;
   sliderValue: number = 0;
   maxSliderValue: number = 0;
+  coordinates: Map<string, {x: number, y: number}> = new Map();
 
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
@@ -51,7 +52,7 @@ export class GradeRelationshipComponent {
     return songs2.filter((song) => favorites1.includes(song)).length + songs2.filter((song) => results1.mean < (results1.data.values.get(song) || -1)).length;
   }
 
-  generateChord(): void {
+  generateChord(keepCoordinates?: boolean): void {
     this.categories = Array.from(this.users.values()).map((value) => {
       return { name: value.displayName };
     });
@@ -78,15 +79,25 @@ export class GradeRelationshipComponent {
             }
           });
         }
-
       }
+      let x, y;
+      if (keepCoordinates) {
+        const coordinates = this.coordinates.get(user1.uid);
+        x = coordinates?.x;
+        y = coordinates?.y;
+      } else {
+        x = Math.random() * 80;
+        y = Math.random() * 80;
+        this.coordinates.set(user1.uid, {x, y});
+      }
+
       this.nodes.push({
         id: user1.uid,
         name: user1.displayName,
         symbolSize: 5 + totalCount,
         value: totalCount,
-        x: Math.random() * 80,   // TODO
-        y: Math.random() * 80,   // TODO
+        x: x,
+        y: y,
         category: this.nodes.length, // Math.round(Math.random() * this.categories.length), // this.nodes.length,
         label: {
           show: true

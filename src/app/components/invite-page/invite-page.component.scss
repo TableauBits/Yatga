@@ -1,0 +1,62 @@
+@import "../../../styles/variables.scss";
+
+.content {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+img {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+     color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+      color: whitesmoke !important;
+  }
+  .mat-input-element {
+      caret-color: whitesmoke!important;
+  }
+
+  .mat-select-value {
+    color: whitesmoke;
+  }
+  .mat-select-arrow-wrapper {
+      color: whitesmoke;
+      background-color: whitesmoke;
+  }
+
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
+  }
+
+  .mat-step-header {
+    background-color: $mineshaft;
+  }
+
+  .mat-vertical-content {
+    background-color: $mineshaft;
+  }
+
+  .mat-stepper-vertical{
+    background-color: $mineshaft;
+  }
+
+  .mat-step-text-label {
+    color: whitesmoke;
+  }
+
+  .mat-step-header {
+    background-color: $mineshaft;
+  }
+
+  .mat-stepper-vertical-line::before {
+    background-color: whitesmoke;
+  }
+
+}

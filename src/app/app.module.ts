@@ -75,6 +75,8 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatMenuModule} from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -85,6 +87,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { InvitePageComponent } from './components/invite-page/invite-page.component';
 
 @NgModule({
 	declarations: [
@@ -127,7 +130,8 @@ import { AuthService } from './services/auth.service';
 		HeatmapComponent,
 	 	ChordComponent,
 	 	ManageInvitesComponent,
-    ManageRolesComponent
+    ManageRolesComponent,
+    InvitePageComponent
 	],
 	imports: [
 		BrowserModule,
@@ -156,6 +160,8 @@ import { AuthService } from './services/auth.service';
 		MatExpansionModule,
 		MatProgressBarModule,
 		MatSnackBarModule,
+		MatStepperModule,
+		MatProgressSpinnerModule,
 		MdbDropdownModule,
 		MdbCollapseModule
 	],

@@ -31,9 +31,6 @@
 			<button mat-raised-button class="btn purple btn-primary navbar-button"
 				routerLink="/users">Utilisateurs</button>
 
-			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
-				routerLink="/admin-page">Administrateur</button>
-
 			<button mat-raised-button class="btn btn-primary purple dropdown-toggle navbar-button" [matMenuTriggerFor]="ressourceMenu">
 				Ressources
 			</button>
@@ -43,6 +40,11 @@
 						<span>Mellotron - Archive Matbay</span>
 				</button>
 			</mat-menu>
+
+			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
+				routerLink="/admin-page">Administrateur</button>
+
+
 			<!-- Dropdown Menu -->
 			<div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
 		</div>
@@ -71,5 +73,8 @@
 
 </ng-template>
 <ng-template #signedOut>
-	<button mat-raised-button class="ms-auto" color="primary" (click)="auth.signIn()">Connexion</button>
+	<div class="ms-auto">
+		<button mat-raised-button class="navbar-button" color="primary" (click)="navigateTo('invite')">Inscription</button>
+		<button mat-raised-button color="primary" (click)="auth.signIn()">Connexion</button>
+	</div>
 </ng-template>
