@@ -63,7 +63,7 @@ export class InvitePageComponent {
 
   async getGoogleCredentials(): Promise<NewAccount> {
     const provider = new firebase.auth.GoogleAuthProvider();
-		const user = (await this.fireAuth.signInWithPopup(provider)).user;
+	const user = (await this.fireAuth.signInWithPopup(provider)).user;
 
     if (isNil(user)) {
       throw new Error("User Google Credentials are nil");
