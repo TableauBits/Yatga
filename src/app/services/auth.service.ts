@@ -4,8 +4,11 @@ import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
 import firebase from 'firebase/app';
 import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from 'chelys';
+import { Title } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
-const WS_PING_INTERVAL = 30000;
+const WS_PING_INTERVAL = 30 * 1000; // Every 30 seconds
+const HTTP_PING_INTERVAL = 10 * 60 * 1000;	// Every 10 minutes
 
 function* lyrics() {
 	while (true) {
@@ -37,13 +40,19 @@ function* lyrics() {
 }
 const lyricGenerator = lyrics();
 
-function ping(ws: WebSocket): void {
+function pingWS(ws: WebSocket): void {
 	const lyric = lyricGenerator.next().value;
 	ws.send(createMessage<CltReqPing>(EventType.CLIENT_ping, { data: lyric || "You'll never see it coming" }));
 	if (!environment.production) {
 		console.log(lyric);
 	}
-	setTimeout(ping, WS_PING_INTERVAL, ws);
+	setTimeout(pingWS, WS_PING_INTERVAL, ws);	
+}
+
+function pingHTTP(http: HttpClient, url: string): void {
+	http.get(url).subscribe();
+
+	setTimeout(pingHTTP, HTTP_PING_INTERVAL, http, url);
 }
 
 type EventHandlerFunction = (event: MessageEvent<any>) => void;
@@ -55,7 +64,8 @@ type AuthCallbackFunction = () => void;
 export class AuthService {
 
 	// Communication and Events
-	public connectionURL: string;
+	public WSconnectionURL: string;
+	public HTTPconnectionURL: string;
 	public ws: WebSocket;
 	public emitter: EventEmitter;
 	public isConnected: boolean;
@@ -69,7 +79,11 @@ export class AuthService {
 	private eventHandlers: [EventHandlerFunction, any][];
 	private authCallbacks: [AuthCallbackFunction, any][];
 
-	constructor(private fireAuth: AngularFireAuth) {
+	constructor(
+		private fireAuth: AngularFireAuth,
+		private title: Title,
+		private http: HttpClient
+	) {
 		this.isAuthenticate = false;
 		this.isConnected = false;
 		this.uid = '';
@@ -79,12 +93,15 @@ export class AuthService {
 		this.eventHandlers = [[this.updateUserData, this]];
 		this.authCallbacks = [];
 
-		this.connectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
+		this.WSconnectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
+		this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}`;
 		if (!environment.production) {
-			this.connectionURL += `:${environment.portWebSocket}`;
-			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.connectionURL);
+			this.WSconnectionURL += `:${environment.portWebSocket}`;
+			this.HTTPconnectionURL += `:${environment.portWebSocket}`;
+			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
 		}
-		this.ws = new WebSocket(this.connectionURL)
+		
+		this.ws = new WebSocket(this.WSconnectionURL)
 		this.ws.onopen = () => {
 			this.fireAuth.authState.subscribe(async user => {
 				if (user) {
@@ -108,7 +125,7 @@ export class AuthService {
 		this.uid = '';
 		this.user = EMPTY_USER;
 
-		this.ws = new WebSocket(this.connectionURL)
+		this.ws = new WebSocket(this.WSconnectionURL)
 
 		this.ws.onmessage = (event) => {
 			this.handleEvents(event);
@@ -187,9 +204,13 @@ export class AuthService {
 				this.isConnected = true;
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
 				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
-				this.ws.onclose = () => {this.isConnected = false};
+				this.ws.onclose = () => {
+					this.isConnected = false;
+					this.title.setTitle(this.title.getTitle() + " [OFFLINE]")
+				};
 				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
-				ping(this.ws);
+				pingWS(this.ws);
+				pingHTTP(this.http, `${this.HTTPconnectionURL}/keep-alive`);
 				break;
 
 			default:

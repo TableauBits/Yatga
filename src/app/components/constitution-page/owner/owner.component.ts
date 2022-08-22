@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Constitution, ConstitutionType, createMessage, CstReqNameURL, EMPTY_CONSTITUTION, EventType, Song, User } from 'chelys';
+import { Constitution, ConstitutionType, createMessage, CstReqDelete, CstReqNameURL, EMPTY_CONSTITUTION, EventType, Song, User } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -15,6 +15,7 @@ export class OwnerComponent implements OnChanges {
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
 
+	public security: boolean;
 	public constitutionParameterForm: FormGroup;
 
 	// HTML can't access the ConstiutionType enum directly
@@ -34,6 +35,7 @@ export class OwnerComponent implements OnChanges {
 			name: [this.constitution.name, Validators.required], 
 			playlistLink: [this.constitution.playlistLink],
 		});
+		this.security = true;
 	}
 
 	numberOfSongs(): number {
@@ -63,6 +65,14 @@ export class OwnerComponent implements OnChanges {
 		});
 
 		this.auth.ws.send(message);
+	}
+
+	updateSecurity(): void {
+		this.security = !this.security;
+	}
+
+	deleteConstitution(): void {
+		this.auth.ws.send(createMessage<CstReqDelete>(EventType.CST_delete, { id: this.constitution.id }));
 	}
 
 }

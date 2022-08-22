@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TextFieldModule } from '@angular/cdk/text-field'
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Fire
 import { AngularFireModule } from '@angular/fire';
@@ -35,6 +36,8 @@ import { ResultsFavoritesComponent } from './components/constitution-page/result
 import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
 import { ManageInvitesComponent } from './components/admin-page/manage-invites/manage-invites.component';
 import { ManageRolesComponent } from './components/admin-page/manage-roles/manage-roles.component';
+import { InvitePageComponent } from './components/invite-page/invite-page.component';
+import { PantheonPageComponent } from './components/pantheon-page/pantheon-page.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -73,6 +76,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatMenuModule} from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -83,7 +89,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { PantheonPageComponent } from './components/pantheon-page/pantheon-page.component';
 
 @NgModule({
 	declarations: [
@@ -126,8 +131,9 @@ import { PantheonPageComponent } from './components/pantheon-page/pantheon-page.
 		HeatmapComponent,
 	 	ChordComponent,
 	 	ManageInvitesComponent,
-   ManageRolesComponent,
-   PantheonPageComponent
+   	ManageRolesComponent,
+		InvitePageComponent,
+		PantheonPageComponent
 	],
 	imports: [
 		BrowserModule,
@@ -138,6 +144,7 @@ import { PantheonPageComponent } from './components/pantheon-page/pantheon-page.
 		FormsModule,
 		ReactiveFormsModule,
 		TextFieldModule,
+		HttpClientModule,
 		MatButtonModule,
 		MatFormFieldModule,
 		MatIconModule,
@@ -154,6 +161,9 @@ import { PantheonPageComponent } from './components/pantheon-page/pantheon-page.
 		MatDialogModule,
 		MatExpansionModule,
 		MatProgressBarModule,
+		MatSnackBarModule,
+		MatStepperModule,
+		MatProgressSpinnerModule,
 		MdbDropdownModule,
 		MdbCollapseModule
 	],
