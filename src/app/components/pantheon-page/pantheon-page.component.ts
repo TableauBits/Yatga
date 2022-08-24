@@ -84,6 +84,10 @@ export class PantheonPageComponent implements OnDestroy {
     return Array.from(this.pantheon.values()).sort(comparePantheonDSC);
   }
 
+  getPantheonFromSeason(season: number): PantheonSong[] {
+    return Array.from(this.pantheon.values()).filter((song) => song.season === season).sort(comparePantheonDSC);
+  }
+
   getImageURL(song: PantheonSong): string {
 		switch (song.platform) {
 			case SongPlatform.YOUTUBE: {

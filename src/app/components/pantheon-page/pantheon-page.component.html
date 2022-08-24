@@ -3,52 +3,56 @@
 <span class="custom-br"></span>
 <br>
 <div *ngFor="let season of getSeasons()">
-  {{season}}
-</div>
-<div class="container">
-  <div class="row g-4">
-    <div class="col" *ngFor="let song of getPantheon()">
-      <div class="card shadow-0 bg-dark z-card">
-        <h3 class="card-header front">
-          <div>
-            <span class="text-overflowable title-font"> [{{song.season}} - {{song.part}}] {{song.name}} </span>
-            <img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
-          </div>
-          <b class="text-overflowable"> <u> {{song.title}} </u>  </b> <br>
-          <i class="text-overflowable"> {{song.author}} </i> 
-        </h3>
-        <img src="{{getImageURL(song)}}" class="card-img blur">
-        <div class="card-img-overlay">
-          <div class="card-body">
-            <br> <br>
-            <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
-            height="208" width="104" frameborder="0" [src]="getSongSafeURL(song)" 
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-            </iframe>
-            <ng-template #loadImage>
-              <img src="{{getImageURL(song)}}" height="208" width="104" class="iframe-image" (click)="updateCurrentIframeSong(song)">
-              <div class="centered">
-                <br> <br>
-                <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
-              </div>
-            </ng-template>
-            <br>
-            <button mat-raised-button color="primary" (click)="onNavigate(song)">
-              <mat-icon>play_circle_outline</mat-icon>
-            </button>
-            <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" matTooltip="Liste des participants ({{song.users.length}})">
-              <mat-icon>supervisor_account</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <div class="same-line" *ngFor="let user of song.users"> 
-                <img src="{{getUser(user).photoURL}}" class="picture" matTooltip="{{getUser(user).displayName}}">
-              </div>
-            </mat-menu>
-            <span class="date"> {{song.date}} </span>
+  <h2 class="title seasonSeparator"> Saison {{season}} </h2>
+  <br>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col" *ngFor="let song of getPantheonFromSeason(season)">
+        <div class="card shadow-0 bg-dark z-card">
+          <h3 class="card-header front">
+            <div>
+              <span class="text-overflowable title-font"> [{{song.part}}] "{{song.name}}" </span>
+              <img src="{{getUser(song.user).photoURL}}" class="image-de picture3" matTooltip="{{getUser(song.user).displayName}}">
+            </div>
+            <b class="text-overflowable"> <u> {{song.title}} </u>  </b> <br>
+            <i class="text-overflowable"> {{song.author}} </i> 
+          </h3>
+          <img src="{{getImageURL(song)}}" class="card-img blur">
+          <div class="card-img-overlay">
+            <div class="card-body">
+              <br> <br>
+              <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
+              height="208" width="104" frameborder="0" [src]="getSongSafeURL(song)" 
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+              </iframe>
+              <ng-template #loadImage>
+                <img src="{{getImageURL(song)}}" height="208" width="104" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+                <div class="centered">
+                  <br> <br>
+                  <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
+                </div>
+              </ng-template>
+              <br>
+              <button mat-raised-button color="primary" (click)="onNavigate(song)" matTooltip="Voir la vidéo sur le site d'origine">
+                <mat-icon>play_circle_outline</mat-icon>
+              </button>
+              <button mat-raised-button color="primary" [matMenuTriggerFor]="menu" matTooltip="Liste des participants ({{song.users.length}})">
+                <mat-icon>supervisor_account</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <div class="same-line" *ngFor="let user of song.users"> 
+                  <img src="{{getUser(user).photoURL}}" class="picture" matTooltip="{{getUser(user).displayName}}" alt="{{getUser(user).displayName}}">
+                </div>
+              </mat-menu>
+              <span class="date"> {{song.date}} </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <br>
 </div>
+<br>
+<br>

@@ -76,3 +76,12 @@ button {
 .disabled {
 	opacity: 0.5;
 }
+
+.seasonSeparator {
+	margin:auto;
+	background-color: $mineshaft;
+  border-radius: 25px;
+  border: 2px solid $sasuke;
+  color: whitesmoke;
+	width: 75%;
+}
