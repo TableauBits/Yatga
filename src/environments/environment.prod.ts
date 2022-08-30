@@ -12,6 +12,6 @@ export const environment = {
 	},
 	protocolHTTP: "https://",
 	protocolWebSocket: "wss://",
-	serverAPI: "matbay-kalimba.herokuapp.com",
-	portWebSocket: "", // in production, we can let ws figure out the port automagically
+	serverAPI: "kalimba.fly.dev",
+	portWebSocket: "3000",
 };
