@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites } from 'chelys';
+import { createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
@@ -62,8 +62,8 @@ export class VoteNavigatorComponent implements OnDestroy {
 				const data = extractMessageData<GradeResUserDataUpdate>(message).userData;
 				this.votes = { uid: data.uid, values: toMapNumber<number>(data.values) };
 			} break;
-			case EventType.CST_FAV_update: {
-				const favorites = extractMessageData<CstFavResUpdate>(message).userFavorites;
+			case EventType.CST_SONG_FAV_update: {
+				const favorites = extractMessageData<FavResUpdate>(message).userFavorites;
 				if (favorites.uid === this.auth.uid) this.favorites = favorites;
 			}
 		}
@@ -117,10 +117,10 @@ export class VoteNavigatorComponent implements OnDestroy {
 
 		if (this.favorites.favs.includes(this.currentSong.id)) {
 			// remove the song from favorites
-			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.cstId, songId: this.currentSong.id});
+			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.cstId, songId: this.currentSong.id });
 		} else {
 			// add the song to the favorites
-			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.cstId, songId: this.currentSong.id});
+			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.cstId, songId: this.currentSong.id });
 		}
 
 		this.auth.ws.send(message);

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
@@ -138,7 +138,7 @@ export class VotesGradeComponent implements OnDestroy {
 
 			const g1 = this.getVote(s1) || 0;
 			const g2 = this.getVote(s2) || 0;
-		
+
 			if (g1 > g2) return order;
 			if (g1 < g2) return -order;
 
@@ -148,7 +148,7 @@ export class VotesGradeComponent implements OnDestroy {
 		if (this.orderByFavs) songsToVote = songsToVote.sort((a, b) => {
 			if (this.isAFavorite(a)) return -1;
 			if (this.isAFavorite(b)) return 1;
-			return 0; 
+			return 0;
 		})
 
 		return songsToVote;
@@ -208,8 +208,8 @@ export class VotesGradeComponent implements OnDestroy {
 		return canModifySongs(this.constitution);
 	}
 
-	canModifyFavorite(): boolean {
-		return !canModifySongs(this.constitution) && !areResultsPublic(this.constitution);
+	canVote(): boolean {
+		return canModifyVotes(this.constitution);
 	}
 
 	// TODO : Duplication de code //
@@ -245,18 +245,18 @@ export class VotesGradeComponent implements OnDestroy {
 
 	// FILTER FUNCTIONS
 	toggleUserFilter(uid: string): void {
-		const index = this.selectedUsers.findIndex((user) => {return user === uid});
+		const index = this.selectedUsers.findIndex((user) => { return user === uid });
 		if (index !== -1) {
 			this.selectedUsers.splice(index, 1);
 		} else {
 			this.selectedUsers.push(uid);
 		}
 	}
-	
+
 	isSelected(uid: string): boolean {
 		return !this.selectedUsers.includes(uid);
 	}
-	
+
 	select(mode: string): void {
 		// TODO : wtf
 		switch (mode) {
@@ -281,7 +281,7 @@ export class VotesGradeComponent implements OnDestroy {
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
 	}
-	
+
 	// TODO : Implement class ?
 	isAFavorite(song: Song): boolean {
 		const userFavorites = this.favorites.get(this.auth.uid);
@@ -297,10 +297,10 @@ export class VotesGradeComponent implements OnDestroy {
 
 		if (userFavorites.favs.includes(song.id)) {
 			// remove the song from favorites
-			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: song.id});
+			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: song.id });
 		} else {
 			// add the song to the favorites
-			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: song.id});
+			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: song.id });
 		}
 
 		this.auth.ws.send(message);
