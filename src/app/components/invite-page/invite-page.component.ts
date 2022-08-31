@@ -26,7 +26,7 @@ export class InvitePageComponent {
   public HTTPconnectionURL: string;
 
   constructor(
-    public fb: FormBuilder, 
+    public fb: FormBuilder,
     private http: HttpClient,
     private fireAuth: AngularFireAuth,
     public auth: AuthService
@@ -35,14 +35,11 @@ export class InvitePageComponent {
       inviteID: [, Validators.required]
     });
     this.hasReceivedGETResponse = false;
-    this.inviteGETResponse = {isValid: false, inviter: EMPTY_USER};
+    this.inviteGETResponse = { isValid: false, inviter: EMPTY_USER };
     this.hasReceivedPOSTResponse = false;
-    this.invitePOSTResponse = {response: {success: false, status: ""}};
+    this.invitePOSTResponse = { response: { success: false, status: "" } };
 
-    this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}`;
-    if (!environment.production) {
-      this.HTTPconnectionURL += `:${environment.portWebSocket}`;
-    }
+    this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}:${environment.portWebSocket}`;
   }
 
   getInviteID(): string {
@@ -63,7 +60,7 @@ export class InvitePageComponent {
 
   async getGoogleCredentials(): Promise<NewAccount> {
     const provider = new firebase.auth.GoogleAuthProvider();
-	const user = (await this.fireAuth.signInWithPopup(provider)).user;
+    const user = (await this.fireAuth.signInWithPopup(provider)).user;
 
     if (isNil(user)) {
       throw new Error("User Google Credentials are nil");
@@ -81,7 +78,7 @@ export class InvitePageComponent {
     try {
       const accountInfo = await this.getGoogleCredentials();
       const inviteID = this.getInviteID();
-      this.http.post(`${this.HTTPconnectionURL}/invite/${inviteID}`, {newAccount: accountInfo}).subscribe((response) => {
+      this.http.post(`${this.HTTPconnectionURL}/invite/${inviteID}`, { newAccount: accountInfo }).subscribe((response) => {
         console.log(response)
         this.hasReceivedPOSTResponse = true;
         this.invitePOSTResponse = response as InvResPOST;
@@ -100,7 +97,7 @@ export class InvitePageComponent {
       const success = "Votre compte Matbay a été créé";
       const error = `Une erreur est survenue: ${this.invitePOSTResponse.response.status}`;
 
-      return this.invitePOSTResponse.response.success? success : error;
+      return this.invitePOSTResponse.response.success ? success : error;
     }
 
     return "Votre compte n'a pas encore été créé."

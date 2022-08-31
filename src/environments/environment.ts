@@ -17,7 +17,7 @@ export const environment = {
 	protocolHTTP: "http://",
 	protocolWebSocket: "ws://",
 	serverAPI: "localhost",
-	portWebSocket: "3000", // in developpement, we need to give a port, otherwise ws is going to assume 4200 (used by angular)
+	portWebSocket: "3000",
 };
 
 /*

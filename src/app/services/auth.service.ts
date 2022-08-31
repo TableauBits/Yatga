@@ -46,7 +46,7 @@ function pingWS(ws: WebSocket): void {
 	if (!environment.production) {
 		console.log(lyric);
 	}
-	setTimeout(pingWS, WS_PING_INTERVAL, ws);	
+	setTimeout(pingWS, WS_PING_INTERVAL, ws);
 }
 
 function pingHTTP(http: HttpClient, url: string): void {
@@ -93,14 +93,10 @@ export class AuthService {
 		this.eventHandlers = [[this.updateUserData, this]];
 		this.authCallbacks = [];
 
-		this.WSconnectionURL = `${environment.protocolWebSocket}${environment.serverAPI}`;
-		this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}`;
-		if (!environment.production) {
-			this.WSconnectionURL += `:${environment.portWebSocket}`;
-			this.HTTPconnectionURL += `:${environment.portWebSocket}`;
-			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
-		}
-		
+		this.WSconnectionURL = `${environment.protocolWebSocket}${environment.serverAPI}:${environment.portWebSocket}`;
+		this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}:${environment.portWebSocket}`;
+		console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
+
 		this.ws = new WebSocket(this.WSconnectionURL)
 		this.ws.onopen = () => {
 			this.fireAuth.authState.subscribe(async user => {
