@@ -59,6 +59,10 @@ button {
 	.mat-menu-panel {
 		background-color: unset !important;
 	}
+
+	.mat-menu-content {
+		text-align: center !important;
+	}
 }
 
 .z-card {
@@ -84,4 +88,12 @@ button {
   border: 2px solid $sasuke;
   color: whitesmoke;
 	width: 75%;
+}
+
+.users {
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 4px;
+	border-radius: 25px;
+  border: 2px solid $angular-purple;
 }

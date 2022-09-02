@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { createMessage, EMPTY_USER, EventType, extractMessageData, Message, PantheonReqGetAll, PantheonResUpdate, PantheonSong, SongPlatform, User, UsrReqGet, UsrResUpdate } from 'chelys';
+import { createMessage, EMPTY_USER, EventType, extractMessageData, Message, PantheonReqGetAll, PantheonReqUnsubscribe, PantheonResUpdate, PantheonSong, SongPlatform, User, UsrReqGet, UsrResUpdate } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 
@@ -30,6 +30,8 @@ export class PantheonPageComponent implements OnDestroy {
 	currentIframeSongID: string;
 
   ngOnDestroy(): void {
+    this.auth.ws.send(createMessage<PantheonReqUnsubscribe>(EventType.PANTHEON_unsubscribe, {}));
+
     this.auth.popEventHandler();
 		this.auth.popAuthCallback();
   }

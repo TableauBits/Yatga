@@ -41,9 +41,7 @@
                 <mat-icon>supervisor_account</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <div class="same-line" *ngFor="let user of song.users"> 
-                  <img src="{{getUser(user).photoURL}}" class="picture" matTooltip="{{getUser(user).displayName}}" alt="{{getUser(user).displayName}}">
-                </div>
+                  <img *ngFor="let user of song.users" src="{{getUser(user).photoURL}}" class="picture users" matTooltip="{{getUser(user).displayName}}" alt="{{getUser(user).displayName}}">
               </mat-menu>
               <span class="date"> {{song.date}} </span>
             </div>
