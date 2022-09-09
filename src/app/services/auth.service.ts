@@ -99,6 +99,7 @@ export class AuthService {
 			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
 		}
 
+
 		this.ws = new WebSocket(this.WSconnectionURL)
 		this.ws.onopen = () => {
 			this.fireAuth.authState.subscribe(async user => {
