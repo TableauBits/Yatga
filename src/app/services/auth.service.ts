@@ -95,7 +95,9 @@ export class AuthService {
 
 		this.WSconnectionURL = `${environment.protocolWebSocket}${environment.serverAPI}:${environment.portWebSocket}`;
 		this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}:${environment.portWebSocket}`;
-		console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
+		if (!environment.production) {
+			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
+		}
 
 		this.ws = new WebSocket(this.WSconnectionURL)
 		this.ws.onopen = () => {
