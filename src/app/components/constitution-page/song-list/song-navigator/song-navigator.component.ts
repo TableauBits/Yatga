@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
@@ -49,8 +49,8 @@ export class SongNavigatorComponent implements OnDestroy {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 
 		switch (message.event) {
-			case EventType.CST_FAV_update: {
-				const favorites = extractMessageData<CstFavResUpdate>(message).userFavorites;
+			case EventType.CST_SONG_FAV_update: {
+				const favorites = extractMessageData<FavResUpdate>(message).userFavorites;
 				if (favorites.uid === this.auth.uid) this.favorites = favorites;
 			}
 		}
@@ -61,10 +61,10 @@ export class SongNavigatorComponent implements OnDestroy {
 		return index - 1 >= 0;
 	}
 
-  nextSongExist(): boolean {
-    const index = this.songs.lastIndexOf(this.currentSong);
-    return index + 1 < this.songs.length;
-  }
+	nextSongExist(): boolean {
+		const index = this.songs.lastIndexOf(this.currentSong);
+		return index + 1 < this.songs.length;
+	}
 
 	changeSong(shift: number): void {
 		const currentIndex = this.songs.lastIndexOf(this.currentSong);
@@ -89,10 +89,10 @@ export class SongNavigatorComponent implements OnDestroy {
 
 		if (this.favorites.favs.includes(this.currentSong.id)) {
 			// remove the song from favorites
-			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: this.currentSong.id});
+			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: this.currentSong.id });
 		} else {
 			// add the song to the favorites
-			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: this.currentSong.id});
+			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: this.currentSong.id });
 		}
 
 		this.auth.ws.send(message);

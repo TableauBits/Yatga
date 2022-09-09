@@ -2,8 +2,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router} from '@angular/router';
-import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, CstFavResUpdate, CstFavReqGet, UserFavorites, CstSongReqUnsubscribe, CstFavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
+import { ActivatedRoute, Router } from '@angular/router';
+import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, FavResUpdate, FavReqGet, UserFavorites, CstSongReqUnsubscribe, FavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 import { RandomSongComponent } from './random-song/random-song.component';
@@ -58,13 +58,13 @@ export class ConstitutionComponent implements OnDestroy {
 		this.auth.popEventHandler();
 		this.auth.popAuthCallback();
 
-		const userUnsubscribe = createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, {uids: Array.from(this.users.values()).map((user) => user.uid)});
+		const userUnsubscribe = createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: Array.from(this.users.values()).map((user) => user.uid) });
 		this.auth.ws.send(userUnsubscribe);
 
-		const songsUnsubscribe = createMessage<CstSongReqUnsubscribe>(EventType.CST_SONG_unsubscribe, {cstId: this.cstID});
+		const songsUnsubscribe = createMessage<CstSongReqUnsubscribe>(EventType.CST_SONG_unsubscribe, { cstId: this.cstID });
 		this.auth.ws.send(songsUnsubscribe);
 
-		const favsUnsubscribe = createMessage<CstFavReqUnsubscribe>(EventType.CST_FAV_unsubscribe, {cstId: this.cstID});
+		const favsUnsubscribe = createMessage<FavReqUnsubscribe>(EventType.CST_SONG_FAV_unsubscribe, { cstId: this.cstID });
 		this.auth.ws.send(favsUnsubscribe);
 	}
 
@@ -103,13 +103,13 @@ export class ConstitutionComponent implements OnDestroy {
 					this.auth.ws.send(unsubscribeUsersMessage);
 					const getAllSongsMessage = createMessage<CstSongReqGetAll>(EventType.CST_SONG_get_all, { cstId: this.cstID });
 					this.auth.ws.send(getAllSongsMessage);
-					const getFavorites = createMessage<CstFavReqGet>(EventType.CST_FAV_get, { cstId: this.cstID });
+					const getFavorites = createMessage<FavReqGet>(EventType.CST_SONG_FAV_get, { cstId: this.cstID });
 					this.auth.ws.send(getFavorites);
 				}
 
 				if (!this.pageIsInit) {
 					this.route.params.subscribe((params) => {
-						const section = params.section === ConstitutionSection.OWNER && this.auth.uid !== this.constitution.users[OWNER_INDEX] ? ConstitutionSection.SONG_LIST : params.section; 
+						const section = params.section === ConstitutionSection.OWNER && this.auth.uid !== this.constitution.users[OWNER_INDEX] ? ConstitutionSection.SONG_LIST : params.section;
 						this.setCurrentSection(section);
 					})
 
@@ -127,8 +127,8 @@ export class ConstitutionComponent implements OnDestroy {
 				this.songUpdate(data);
 			} break;
 
-			case EventType.CST_FAV_update: {
-				const favorites = extractMessageData<CstFavResUpdate>(message).userFavorites;
+			case EventType.CST_SONG_FAV_update: {
+				const favorites = extractMessageData<FavResUpdate>(message).userFavorites;
 				this.favorites.set(favorites.uid, favorites);
 			} break;
 
@@ -140,10 +140,10 @@ export class ConstitutionComponent implements OnDestroy {
 	}
 
 	openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
+		this._snackBar.open(message, action, {
 			horizontalPosition: 'right'
 		});
-  }
+	}
 
 	private songUpdate(response: CstSongResUpdate) {
 		const songInfo = response.songInfo;

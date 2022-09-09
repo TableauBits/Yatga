@@ -1,4 +1,4 @@
-<div *ngIf="constitution.state === 1; then allowVotes; else hideVotes"> </div>
+<div *ngIf="canVote(); then allowVotes; else hideVotes"> </div>
 
 <ng-template #hideVotes>
   La période de votes n'est pas ouverte.
@@ -7,10 +7,11 @@
 <ng-template #allowVotes>
   <mat-accordion multi>
     <mat-expansion-panel [expanded]="showStats">
-      <mat-expansion-panel-header> 
-          <mat-panel-title> Statistiques </mat-panel-title>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Statistiques </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-checkbox color="primary" [checked]="showAlreadyVoted" (change)="updateGradeAlreadyVoted()"> Cacher les chansons déjà votées  </mat-checkbox> 
+      <mat-checkbox color="primary" [checked]="showAlreadyVoted" (change)="updateGradeAlreadyVoted()"> Cacher les
+        chansons déjà votées </mat-checkbox>
       <br>
       <br>
       Mes votes : {{this.votes.values.size}} / {{constitution.numberOfSongsPerUser * (constitution.maxUserCount - 1)}}
@@ -31,15 +32,17 @@
   <br>
   <div class="filter">
     <span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
-    <img *ngFor="let user of getOtherUsers()" class="picture" matTooltip=" {{user.displayName}}" 
-      [src]="user.photoURL" (click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
-    <button mat-raised-button color="primary" (click)="select('all')" class="filter-button" matTooltip="Afficher tous les utilisateurs">
+    <img *ngFor="let user of getOtherUsers()" class="picture" matTooltip=" {{user.displayName}}" [src]="user.photoURL"
+      (click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
+    <button mat-raised-button color="primary" (click)="select('all')" class="filter-button"
+      matTooltip="Afficher tous les utilisateurs">
       <mat-icon>add_circle_outline</mat-icon>
     </button>
     <button mat-raised-button color="primary" (click)="select('none')" matTooltip="Cacher tous les utilisateurs">
       <mat-icon>block</mat-icon>
     </button>
-    <button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu" matTooltip="Classer les chansons">
+    <button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu"
+      matTooltip="Classer les chansons">
       <mat-icon>filter_list</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
@@ -77,32 +80,37 @@
             <h3 class="card-header front">
               <div>
                 <span class="text-overflowable"> {{song.title}} </span>
-                <img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
+                <img src="{{getUser(song.user).photoURL}}" class="image-de picture"
+                  matTooltip="{{getUser(song.user).displayName}}">
               </div>
-              <i class="text-overflowable"> {{song.author}} </i> 
+              <i class="text-overflowable"> {{song.author}} </i>
             </h3>
             <img src="{{getImageURL(song)}}" class="card-img blur">
             <div class="card-img-overlay">
               <div class="card-body">
-                <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage"
-                height="208" frameborder="0" [src]="getSongSafeURL(song)" 
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
+                <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage" height="208" frameborder="0"
+                  [src]="getSongSafeURL(song)"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
                 <ng-template #loadImage>
-                  <img src="{{getImageURL(song)}}" height="208" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+                  <img src="{{getImageURL(song)}}" height="208" class="iframe-image"
+                    (click)="updateCurrentIframeSong(song)">
                   <div class="centered">
-                    <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
+                    <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
+                      <mat-icon>play_arrow</mat-icon>
+                    </button>
                   </div>
                 </ng-template>
                 <br>
                 <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
                   <mat-icon>how_to_vote</mat-icon>
                 </button>
-                <button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song) || !canModifyFavorite()">
-									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
-							  </button>
-                <button mat-raised-button color="primary" class="vote" [matMenuTriggerFor]="menu" matTooltip="Classer les votes">
+                <button mat-raised-button color="primary" (click)="toggleFavorite(song)"
+                  [disabled]="noMoreFavorties(song) || !canVote()">
+                  <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" class="vote" [matMenuTriggerFor]="menu"
+                  matTooltip="Classer les votes">
                   {{getVote(song)}}
                 </button>
                 <mat-menu #menu="matMenu">
@@ -139,13 +147,14 @@
       <tr *ngFor="let song of getSongsToVote()">
         <td> {{ song.id }} </td>
         <td>
-          <button mat-raised-button color="primary" (click)="toggleFavorite(song)" [disabled]="noMoreFavorties(song) || !canModifyFavorite()">
+          <button mat-raised-button color="primary" (click)="toggleFavorite(song)"
+            [disabled]="noMoreFavorties(song) || !canVote()">
             <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
           </button>
         </td>
-        <td> 
+        <td>
           <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
-            {{ song.title }} 
+            {{ song.title }}
           </button>
         </td>
         <td> {{ song.author }} </td>
@@ -161,5 +170,5 @@
 </ng-template>
 
 <ng-template #normalSong>
-	<mat-icon>favorite_border</mat-icon>
+  <mat-icon>favorite_border</mat-icon>
 </ng-template>
