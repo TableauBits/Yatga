@@ -162,7 +162,7 @@ export class ConstitutionComponent implements OnDestroy {
 
 		config.data = {
 			cstID: this.cstID,
-			songs: Array.from(this.songs.values())
+			songs: this.songs
 		}
 
 		this.dialog.open(ManageSongsComponent, config);
