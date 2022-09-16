@@ -98,20 +98,14 @@ td, th {
 
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
-     color: whitesmoke;
+    color: whitesmoke;
   }
   .mat-form-field.mat-focused .mat-form-field-label {
-      color: whitesmoke !important;
-  }
-  .mat-input-element {
-      caret-color: whitesmoke!important;
+    color: whitesmoke !important;
   }
 
   .mat-select-value {
     color: whitesmoke;
-  }
-  .mat-select-arrow-wrapper {
-      color: whitesmoke;
   }
 
   mat-form-field {
@@ -119,4 +113,22 @@ td, th {
           color: whitesmoke;
       }
   }
+
+  .mat-primary .mat-option:hover {
+    background-color: $sasuke;
+  }
+
+  .mat-option.mat-active {
+    color: whitesmoke;
+    background-color: $cape-cod;
+  }
+
+  .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+    color: whitesmoke;
+    background-color: slateblue;
+  }
+}
+mat-option {
+  color: whitesmoke;
+  background-color: $cape-cod;
 }
