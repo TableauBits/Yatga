@@ -88,7 +88,7 @@
             <img src="{{getImageURL(song)}}" class="card-img blur">
             <div class="card-img-overlay">
               <div class="card-body">
-                <iframe id="video1" *ngIf="currentIframeSongID === song.id; else loadImage" height="208" frameborder="0"
+                <iframe *ngIf="currentIframeSongID === song.id; else loadImage" height="208" frameborder="0"
                   [src]="getSongSafeURL(song)"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>

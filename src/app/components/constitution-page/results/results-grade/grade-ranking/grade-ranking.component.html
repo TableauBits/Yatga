@@ -15,7 +15,7 @@
         <img src="{{getImageURL(winner)}}" class="card-img blur">
         <div class="card-img-overlay">
           <div class="card-body">
-            <iframe id="video1" *ngIf="winner !== empty()"
+            <iframe *ngIf="winner !== empty()"
             height="350" frameborder="0" [src]="getSongSafeURL(winner)" 
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>

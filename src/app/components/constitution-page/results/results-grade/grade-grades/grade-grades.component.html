@@ -15,7 +15,7 @@
     <br>
     <table id="t01">
       <tr>
-        <th *ngFor="let user of getUserList()"> <img class="picture" [src]="getUser(user.uid).photoURL"> {{user.displayName}} </th>
+        <th *ngFor="let user of getUserList()"> <img class="picture" [src]="getUser(user.uid).photoURL" matTooltip="{{user.displayName}}"> </th>
       </tr>
       <tr>
         <td *ngFor="let user of getUserList()"> {{returnVote(user.uid)}} </td>
