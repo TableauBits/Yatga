@@ -63,7 +63,7 @@ export class GradeAverageComponent implements OnChanges {
       }
     });
 
-    return mean / this.numberOfSongsByUser;
+    return Number((mean / this.numberOfSongsByUser).toPrecision(3));
   }
 
   getSelectedUser(): User {
