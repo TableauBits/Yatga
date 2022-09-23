@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { createMessage, CstSongReqAdd, CstSongReqRemove, EMPTY_SONG, EventType, Song, SongPlatform } from 'chelys';
+import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EMPTY_SONG, EventType, extractMessageData, Message, Song, SongPlatform } from 'chelys';
 import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
@@ -41,6 +41,33 @@ export class ManageSongsComponent {
 			url: [, Validators.required] // TODO : check if is a correct link
 		});
 		this.errorStatus = new Status();
+		this.auth.pushEventHandler(this.handleEvents, this);
+	}
+
+	ngOnDestroy(): void {
+		this.auth.popEventHandler();
+	}
+
+	private handleEvents(event: MessageEvent<any>): void {
+		let message = JSON.parse(event.data.toString()) as Message<unknown>;
+		switch (message.event) {
+			case EventType.CST_SONG_update:
+				const data = extractMessageData<CstSongResUpdate>(message);
+				this.songUpdate(data);
+				break;
+		}
+	}
+
+	private songUpdate(response: CstSongResUpdate) {
+		const songInfo = response.songInfo;
+		switch (response.status) {
+			case "added" || "modified":
+				this.songs.set(songInfo.id, songInfo);
+				break;
+			case "removed":
+				this.songs.delete(songInfo.id);
+				break;
+		}
 	}
 
 	public checkFormValidity(): string[] {

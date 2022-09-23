@@ -28,7 +28,7 @@
 	<br>
 	<br>
 	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
-		<mat-icon>shuffle</mat-icon> Sélection Aléatoire
+		<mat-icon>shuffle</mat-icon> Sélection aléatoire
 	</button>
 	<br>
 	<br>
@@ -59,7 +59,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
 			<button mat-button [ngClass]="isSectionActive(constitutionSection.SONG_LIST) ? 'active' : ''" 
 							(click)="setCurrentSection(constitutionSection.SONG_LIST)">
-				<mat-icon>queue_music</mat-icon> Liste Chansons
+				<mat-icon>queue_music</mat-icon> Liste des Chansons
 			</button>
 			<button mat-button [ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''" 
 							(click)="setCurrentSection(constitutionSection.VOTES)">

@@ -25,7 +25,7 @@ body {
 .custom-br {
   width: 95%;
   height: 2px;
-  background-color: #434647;
+  background-color: $sasuke;
   margin:auto;
   display:table;
 }
@@ -35,11 +35,13 @@ body {
   height: 45px;
   -moz-border-radius: 25px;
   border-radius: 25px;
+  border: 2px solid $sasuke;
 }
 
 .picture2 {
   width: 105px;
   height: 75px;
+  border: 2px solid $sasuke;
 }
 
 .picture3 {
@@ -47,6 +49,7 @@ body {
   height: 55px;
   -moz-border-radius: 28px;
   border-radius: 28px;
+  border: 2px solid $sasuke;
 }
 
 .warning {
@@ -95,13 +98,13 @@ body {
 }
 
 .previous-button {
-  background-color: #2E2E2E;
+  background-color: $mineshaft;
   color: whitesmoke;
   float: left;
 }
 
 .next-button {
-  background-color: #2E2E2E;
+  background-color: $mineshaft;
   color: whitesmoke;
   float: right;
 }
@@ -114,6 +117,7 @@ body {
 .clickable {
 	cursor: pointer;
 }
+
 .panel {
   mat-expansion-panel {
     background-color: $mineshaft;
@@ -127,23 +131,23 @@ body {
   mat-form-field {
     width: 35%;
   }
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: whitesmoke;
+  }
+  .mat-form-field.mat-focused .mat-form-field-label {
+    color: whitesmoke !important;
+  }
+  .mat-input-element {
+    caret-color: whitesmoke!important;
+  }
   
-  ::ng-deep {
-    .mat-form-field-appearance-outline .mat-form-field-outline {
-       color: whitesmoke;
-    }
-    .mat-form-field.mat-focused .mat-form-field-label {
-        color: whitesmoke !important;
-    }
-    .mat-input-element {
-        caret-color: whitesmoke!important;
-    }
-    
-    mat-form-field {
-        .mat-hint, input, ::placeholder, .mat-form-field-label {
-            color: whitesmoke;
-        }
-    }
+  mat-form-field {
+      .mat-hint, input, ::placeholder, .mat-form-field-label {
+          color: whitesmoke;
+      }
   }
 }
 

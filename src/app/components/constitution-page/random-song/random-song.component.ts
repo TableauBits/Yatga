@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, CstFavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites, canModifyVotes } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { getEmbedURL } from 'src/app/types/url';
@@ -13,43 +13,43 @@ interface RandomSongInjectedData {
 }
 
 @Component({
-  selector: 'app-random-song',
-  templateUrl: './random-song.component.html',
-  styleUrls: ['./random-song.component.scss']
+	selector: 'app-random-song',
+	templateUrl: './random-song.component.html',
+	styleUrls: ['./random-song.component.scss']
 })
 export class RandomSongComponent implements OnDestroy {
 
-  constitution: Constitution;
+	constitution: Constitution;
 	currentSong: Song;
 	currentSongSafeURL: SafeResourceUrl;
 	songs: Song[];
 	favorites: UserFavorites;
 
-  constructor(
-    private auth: AuthService,
-    private sanitizer: DomSanitizer,
+	constructor(
+		private auth: AuthService,
+		private sanitizer: DomSanitizer,
 		private dialogRef: MatDialogRef<RandomSongComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: RandomSongInjectedData
-    ) {
-      this.constitution = data.constitution;
-      this.songs = data.songs;
-      this.favorites = data.favorites;
-      this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
-      this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+	) {
+		this.constitution = data.constitution;
+		this.songs = data.songs;
+		this.favorites = data.favorites;
+		this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
+		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
 
-      this.auth.pushEventHandler(this.handleEvent, this);
-    }
+		this.auth.pushEventHandler(this.handleEvent, this);
+	}
 
-  ngOnDestroy(): void {
+	ngOnDestroy(): void {
 		this.auth.popEventHandler();
 	}
 
-  handleEvent(event: MessageEvent<any>): void {
+	handleEvent(event: MessageEvent<any>): void {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 
 		switch (message.event) {
-			case EventType.CST_FAV_update: {
-				const favorites = extractMessageData<CstFavResUpdate>(message).userFavorites;
+			case EventType.CST_SONG_FAV_update: {
+				const favorites = extractMessageData<FavResUpdate>(message).userFavorites;
 				if (favorites.uid === this.auth.uid) this.favorites = favorites;
 			}
 		}
@@ -60,7 +60,7 @@ export class RandomSongComponent implements OnDestroy {
 		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
 	}
 
-  closeWindow(): void {
+	closeWindow(): void {
 		this.dialogRef.close();
 	}
 
@@ -78,10 +78,10 @@ export class RandomSongComponent implements OnDestroy {
 
 		if (this.favorites.favs.includes(this.currentSong.id)) {
 			// remove the song from favorites
-			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: this.currentSong.id});
+			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: this.currentSong.id });
 		} else {
 			// add the song to the favorites
-			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: this.currentSong.id});
+			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: this.currentSong.id });
 		}
 
 		this.auth.ws.send(message);
@@ -93,7 +93,7 @@ export class RandomSongComponent implements OnDestroy {
 	}
 
 	canModifyFavorite(): boolean {
-		return !canModifySongs(this.constitution) && !areResultsPublic(this.constitution);
+		return canModifyVotes(this.constitution);
 	}
 
 }

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { isNil } from 'lodash';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, CstFavReqAdd, CstFavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
@@ -55,7 +55,7 @@ export class SongListComponent {
 			return this.isSelected(song.user);
 		});
 
-		if (this.cardsSortASC) songs = songs.sort(compareSongASC) 
+		if (this.cardsSortASC) songs = songs.sort(compareSongASC)
 		else songs = songs.sort(compareSongDSC);
 
 		if (this.orderByUser) songs = songs.sort(compareSongUser);
@@ -63,7 +63,7 @@ export class SongListComponent {
 		if (this.orderByFavs) songs = songs.sort((a, b) => {
 			if (this.isAFavorite(a)) return -1;
 			if (this.isAFavorite(b)) return 1;
-			return 0; 
+			return 0;
 		})
 
 		return songs;
@@ -131,7 +131,7 @@ export class SongListComponent {
 	}
 
 	canModifyFavorite(): boolean {
-		return !canModifySongs(this.constitution) && !areResultsPublic(this.constitution);
+		return canModifyVotes(this.constitution);
 	}
 
 	updateCurrentIframeSong(song: Song): void {
@@ -140,7 +140,7 @@ export class SongListComponent {
 
 	// FILTER FUNCTIONS
 	toggleUserFilter(uid: string): void {
-		const index = this.selectedUsers.findIndex((user) => {return user === uid});
+		const index = this.selectedUsers.findIndex((user) => { return user === uid });
 		if (index !== -1) {
 			this.selectedUsers.splice(index, 1);
 		} else {
@@ -191,10 +191,10 @@ export class SongListComponent {
 
 		if (userFavorites.favs.includes(song.id)) {
 			// remove the song from favorites
-			message = createMessage<CstFavReqRemove>(EventType.CST_FAV_remove, {cstId: this.constitution.id, songId: song.id});
+			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: song.id });
 		} else {
 			// add the song to the favorites
-			message= createMessage<CstFavReqAdd>(EventType.CST_FAV_add, {cstId: this.constitution.id, songId: song.id});
+			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: song.id });
 		}
 
 		this.auth.ws.send(message);
