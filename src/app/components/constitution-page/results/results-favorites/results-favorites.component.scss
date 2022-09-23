@@ -75,7 +75,7 @@ mat-select-value {
 
   .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
     color: whitesmoke;
-    background-color: slateblue;
+    background-color: $angular-purple;
   }
 }
 mat-option {
