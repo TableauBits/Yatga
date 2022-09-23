@@ -58,13 +58,13 @@
     <br>
     <table id="t01">
       <tr>
-        <th> Titre - Auteur </th>
+        <th> Auteur - Titre </th>
         <th> URL </th>
         <th> Ajouté par </th>
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSelectedUserSong()">
-        <td> {{song.song.title}} - {{song.song.author}} </td>
+        <td> {{song.song.author}} - {{song.song.title}} </td>
         <td>
           <a href="{{song.song.url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>
