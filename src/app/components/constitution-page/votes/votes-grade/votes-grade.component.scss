@@ -125,7 +125,7 @@ mat-form-field {
 	display: inline-block;
 	width: 100%;
 
-	background-color: $bg-dark;
+	background-color: $mineshaft;
   border-radius: 25px;
   border: 2px solid $sasuke;
 }
@@ -138,8 +138,9 @@ mat-form-field {
 
 .filter-button {
 	margin-left: 2%;
+	margin-top: 8px;
+	margin-bottom: 8px;
 }
-
 
 .menu-panel {
 	color: whitesmoke;
