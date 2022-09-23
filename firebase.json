@@ -1,17 +1,17 @@
 {
-	"hosting": {
-		"site": "matdactivity",
-		"public": "dist/Yatga",
-		"ignore": [
-			"firebase.json",
-			"**/.*",
-			"**/node_modules/**"
-		],
-		"rewrites": [
-			{
-				"source": "**",
-				"destination": "/index.html"
-			}
-		]
-	}
+  "hosting": {
+    "site": "matdactivity",
+    "public": "dist/Yatga",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }
