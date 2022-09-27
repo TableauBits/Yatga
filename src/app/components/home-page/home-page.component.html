@@ -2,7 +2,28 @@
 <div class="title">
   <h1> <b> MATBAY </b> </h1>
   <h2> Le site des constitutions </h2>
+  <span class="custom-br"></span>
   <h3> Travaux en cours. </h3> 
   <img class="wip" src="assets/wip.gif">
+  <br> <br>
+  <span class="custom-br"></span>
+  <h3> Releases : </h3>
+  <mat-accordion multi class="panel">
+    <mat-expansion-panel *ngFor="let release of releases">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{release.tag_name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          <b> {{release.name}} </b>
+          <a href="{{release.html_url}}" target="_blank" matTooltip="Voir depuis Github">
+            <mat-icon>link</mat-icon> 
+          </a>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>Publié le : {{release.published_at}}</p> <br>
+      <p>{{release.body}}</p>
+    </mat-expansion-panel>
+  </mat-accordion>
   <br> <br> App by TableauBits
 </div>

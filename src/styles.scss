@@ -131,6 +131,10 @@ body {
   mat-form-field {
     width: 35%;
   }
+
+  .mat-expansion-panel-header-description, .mat-expansion-indicator::after {
+    color: whitesmoke;
+  }
 }
 
 ::ng-deep {
