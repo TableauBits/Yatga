@@ -1,10 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { getEmbedURL } from 'src/app/types/url';
+import { GetUrlService } from 'src/app/services/get-url.service';
 import { toMapNumber } from 'src/app/types/utils';
 
 interface VoteNavigatorInjectedData {
@@ -35,7 +35,7 @@ export class VoteNavigatorComponent implements OnDestroy {
 
 	constructor(
 		private auth: AuthService,
-		private sanitizer: DomSanitizer,
+		public urlGetter: GetUrlService,
 		private dialogRef: MatDialogRef<VoteNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: VoteNavigatorInjectedData
 	) {
@@ -45,7 +45,7 @@ export class VoteNavigatorComponent implements OnDestroy {
 		this.songs = data.songs;
 		this.votes = data.votes;
 		this.favorites = data.favorites;
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 
 		this.auth.pushEventHandler(this.handleEvent, this);
 	}
@@ -98,7 +98,7 @@ export class VoteNavigatorComponent implements OnDestroy {
 
 		this.currentSong = this.songs[currentIndex + shift];
 		this.currentVote = this.votes.values.get(this.currentSong.id);
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 	}
 
 	closeWindow(): void {

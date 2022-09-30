@@ -2,11 +2,10 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
-import { getEmbedURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { toMap, toMapNumber } from 'src/app/types/utils';
@@ -53,7 +52,6 @@ export class VotesGradeComponent implements OnDestroy {
 
 	constructor(
 		private auth: AuthService,
-		private sanitizer: DomSanitizer,
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
 		public urlGetter: GetUrlService
@@ -226,7 +224,7 @@ export class VotesGradeComponent implements OnDestroy {
 
 	getSongSafeURL(song: Song): SafeResourceUrl {
 		if (!this.safeUrls.has(song.id)) {
-			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
+			this.safeUrls.set(song.id, this.urlGetter.getEmbedURL(song));
 		}
 
 		return this.safeUrls.get(song.id) || '';

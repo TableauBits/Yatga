@@ -1,10 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites, canModifyVotes } from 'chelys';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites, canModifyVotes } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { getEmbedURL } from 'src/app/types/url';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 interface SongNavigatorInjectedData {
 	constitution: Constitution,
@@ -28,7 +28,7 @@ export class SongNavigatorComponent implements OnDestroy {
 
 	constructor(
 		private auth: AuthService,
-		private sanitizer: DomSanitizer,
+		public urlGetter: GetUrlService,
 		private dialogRef: MatDialogRef<SongNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
 	) {
@@ -36,7 +36,7 @@ export class SongNavigatorComponent implements OnDestroy {
 		this.currentSong = data.currentSong;
 		this.songs = data.songs;
 		this.favorites = data.favorites;
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 
 		this.auth.pushEventHandler(this.handleEvent, this);
 	}
@@ -70,7 +70,7 @@ export class SongNavigatorComponent implements OnDestroy {
 		const currentIndex = this.songs.lastIndexOf(this.currentSong);
 
 		this.currentSong = this.songs[currentIndex + shift];
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 	}
 
 	closeWindow(): void {

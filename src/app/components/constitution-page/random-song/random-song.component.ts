@@ -1,10 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites, canModifyVotes } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { getEmbedURL } from 'src/app/types/url';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 interface RandomSongInjectedData {
 	constitution: Constitution,
@@ -27,7 +27,7 @@ export class RandomSongComponent implements OnDestroy {
 
 	constructor(
 		private auth: AuthService,
-		private sanitizer: DomSanitizer,
+		public urlGetter: GetUrlService,
 		private dialogRef: MatDialogRef<RandomSongComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: RandomSongInjectedData
 	) {
@@ -35,7 +35,7 @@ export class RandomSongComponent implements OnDestroy {
 		this.songs = data.songs;
 		this.favorites = data.favorites;
 		this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 
 		this.auth.pushEventHandler(this.handleEvent, this);
 	}
@@ -57,7 +57,7 @@ export class RandomSongComponent implements OnDestroy {
 
 	changeSong(): void {
 		this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 	}
 
 	closeWindow(): void {

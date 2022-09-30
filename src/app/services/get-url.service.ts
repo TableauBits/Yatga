@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Song, SongPlatform } from 'chelys';
 import { getIDFromURL } from '../types/url';
 
@@ -7,7 +8,19 @@ import { getIDFromURL } from '../types/url';
 })
 export class GetUrlService {
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
+
+  getEmbedURL(song: Song): SafeResourceUrl {
+    switch (song.platform) {
+      case SongPlatform.YOUTUBE: {
+        const videoID = getIDFromURL(song);
+        return this.sanitizer.bypassSecurityTrustResourceUrl(`https://youtube.com/embed/${videoID}`);
+      }
+  
+      default:
+        return "";
+    }
+  }
 
   getImageURL(song: Song): string {
     switch (song.platform) {

@@ -1,11 +1,10 @@
 import { Component, ElementRef, HostListener, Input, OnChanges, ViewChild } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { PieData } from 'src/app/types/charts';
 import { mean, randomInRange } from 'src/app/types/math';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
-import { getEmbedURL } from 'src/app/types/url';
 import * as confetti from 'canvas-confetti';
 import { FIREWORK_DEFAULTS, FIREWORK_DURATION } from 'src/app/types/firework';
 import { GetUrlService } from 'src/app/services/get-url.service';
@@ -59,12 +58,12 @@ export class GradeElectoralComponent implements OnChanges {
     this.selected = this.currentRank;
     this.range = this.songResults.map((_, index) => index);
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
-    this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
+    this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG);
     this.currentVoters = this.getVotingUser();
     this.generatePieData();
   }
 
-  constructor(private sanitizer: DomSanitizer, public urlGetter: GetUrlService) {
+  constructor(public urlGetter: GetUrlService) {
     this.onWindowResize();
   }
 
@@ -154,7 +153,7 @@ export class GradeElectoralComponent implements OnChanges {
     this.currentRank += shift;
     if (this.currentRank === 0) this.launchFireworks();
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
-    this.currentSongSafeURL = getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG, this.sanitizer);
+    this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG);
     this.currentVoters = this.getVotingUser();
     this.generatePieData();
   }

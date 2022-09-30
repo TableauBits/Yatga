@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { isNil } from 'lodash';
 import { canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
-import { getEmbedURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
 import { GetUrlService } from 'src/app/services/get-url.service';
@@ -38,7 +37,6 @@ export class SongListComponent {
 	orderByFavs: boolean;
 
 	constructor(
-		private sanitizer: DomSanitizer,
 		private auth: AuthService,
 		private dialog: MatDialog,
 		public urlGetter: GetUrlService
@@ -81,7 +79,7 @@ export class SongListComponent {
 
 	getSongSafeURL(song: Song): SafeResourceUrl {
 		if (!this.safeUrls.has(song.id)) {
-			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
+			this.safeUrls.set(song.id, this.urlGetter.getEmbedURL(song));
 		}
 		return this.safeUrls.get(song.id) || '';
 	}

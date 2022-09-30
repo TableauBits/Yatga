@@ -1,8 +1,7 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_SONG, EMPTY_USER, Song, User } from 'chelys';
 import { SongGradeResult } from 'src/app/types/results';
-import { getEmbedURL } from 'src/app/types/url';
 import * as confetti from 'canvas-confetti';
 import { randomInRange } from 'src/app/types/math';
 import { isNil } from 'lodash';
@@ -31,7 +30,7 @@ export class GradeRankingComponent implements OnChanges {
     this.winner = this.getSongWinner();
   }
 
-  constructor(private sanitizer: DomSanitizer, public urlGetter: GetUrlService) {}
+  constructor(public urlGetter: GetUrlService) {}
 
   launchFireworks() {
     const myConfetti = confetti.create(this.fireworksCanvas.nativeElement, {
@@ -77,7 +76,7 @@ export class GradeRankingComponent implements OnChanges {
 
   getSongSafeURL(song: Song): SafeResourceUrl {
 		if (!this.safeUrls.has(song.id)) {
-			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
+			this.safeUrls.set(song.id, this.urlGetter.getEmbedURL(song));
 		}
 		return this.safeUrls.get(song.id) || '';
 	}

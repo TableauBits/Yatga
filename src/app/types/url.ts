@@ -1,4 +1,3 @@
-import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Song, SongPlatform } from "chelys";
 import * as URLParse from "url-parse";
 
@@ -15,17 +14,5 @@ export function getIDFromURL(song: Song): string {
 		}
 
 		default: return "";
-	}
-}
-
-export function getEmbedURL(song: Song, sanitizer: DomSanitizer): SafeResourceUrl {
-	switch (song.platform) {
-		case SongPlatform.YOUTUBE: {
-			const videoID = getIDFromURL(song);
-			return sanitizer.bypassSecurityTrustResourceUrl(`https://youtube.com/embed/${videoID}`);
-		}
-
-		default:
-			return "";
 	}
 }
