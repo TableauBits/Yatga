@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { EventEmitter } from 'events';
 import { environment } from 'src/environments/environment';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { CltReqAuthenticate, CltReqPing, createMessage, EMPTY_USER, EventType, extractMessageData, Message, ResponseStatus, User, UsrReqGet, UsrResUpdate } from 'chelys';
 import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';

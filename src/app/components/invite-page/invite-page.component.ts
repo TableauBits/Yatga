@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { isNil } from 'lodash';
 import { environment } from 'src/environments/environment';
 
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { EMPTY_USER, InvResGET, InvResPOST, NewAccount } from 'chelys';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/services/auth.service';
 
 const NO_INVITE = "";
