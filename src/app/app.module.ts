@@ -7,8 +7,8 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { HttpClientModule } from '@angular/common/http';
 
 // Angular Fire
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule, PERSISTENCE } from "@angular/fire/auth";
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule, PERSISTENCE } from "@angular/fire/compat/auth";
 import { environment } from '../environments/environment';
 
 // Components
