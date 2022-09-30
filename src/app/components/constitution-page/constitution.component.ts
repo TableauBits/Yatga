@@ -148,7 +148,8 @@ export class ConstitutionComponent implements OnDestroy {
 	private songUpdate(response: CstSongResUpdate) {
 		const songInfo = response.songInfo;
 		switch (response.status) {
-			case "added" || "modified":
+			case "added": 
+			case "modified":
 				this.songs.set(songInfo.id, songInfo);
 				break;
 			case "removed":
