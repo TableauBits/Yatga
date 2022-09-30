@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, Role, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { DownloadService } from 'src/app/services/download.service';
-import { compareSongASC } from 'src/app/types/song';
+import { compareObjectsFactory } from 'src/app/types/song';
 
 type ExportJSON = {
   cstName: string;
@@ -116,7 +116,7 @@ export class ExportComponent {
   }
 
   download() {
-    const songs = Array.from(this.songs.values()).sort(compareSongASC);
+    const songs = Array.from(this.songs.values()).sort(compareObjectsFactory("id", false));
     switch (Number(this.selectedFormat)) {
       case ExportValue.CSV:
       case ExportValue.CSV_DEV:

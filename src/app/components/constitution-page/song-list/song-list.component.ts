@@ -5,10 +5,10 @@ import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, Son
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
-import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
+import { compareObjectsFactory } from 'src/app/types/song';
 
 @Component({
 	selector: 'app-song-list',
@@ -53,20 +53,15 @@ export class SongListComponent extends YatgaUserFavorites {
 	}
 
 	getSongs(): Song[] {
-		let songs = Array.from(this.songs.values()).filter((song) => {
-			return this.isSelected(song.user);
-		});
+		let songs = Array.from(this.songs.values());
+		
+		songs = songs.filter(song => this.isSelected(song.user));
 
-		if (this.cardsSortASC) songs = songs.sort(compareSongASC);
-		else songs = songs.sort(compareSongDSC);
-
-		if (this.orderByUser) songs = songs.sort(compareSongUser);
-
-		if (this.orderByFavs) songs = songs.sort((a, b) => {
-			if (this.isAFavorite(a)) return -1;
-			if (this.isAFavorite(b)) return 1;
-			return 0;
-		});
+		songs.sort(compareObjectsFactory("id", !this.cardsSortASC));
+		if (this.orderByUser) 
+			songs = songs.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
+		if (this.orderByFavs)
+			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
 
 		return songs;
 	}
