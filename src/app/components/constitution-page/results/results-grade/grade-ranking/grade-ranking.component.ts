@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
+import { EMPTY_SONG, EMPTY_USER, Song, User } from 'chelys';
 import { SongGradeResult } from 'src/app/types/results';
-import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
+import { getEmbedURL } from 'src/app/types/url';
 import * as confetti from 'canvas-confetti';
 import { randomInRange } from 'src/app/types/math';
 import { isNil } from 'lodash';
 import { FIREWORK_DEFAULTS, FIREWORK_DURATION } from 'src/app/types/firework';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 @Component({
   selector: 'app-grade-ranking',
@@ -30,7 +31,7 @@ export class GradeRankingComponent implements OnChanges {
     this.winner = this.getSongWinner();
   }
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer, public urlGetter: GetUrlService) {}
 
   launchFireworks() {
     const myConfetti = confetti.create(this.fireworksCanvas.nativeElement, {
@@ -73,15 +74,6 @@ export class GradeRankingComponent implements OnChanges {
   getSong(id: number): Song {
     return this.songs.get(id) || EMPTY_SONG;
   }
-
-  getImageURL(song: Song): string {
-		switch (song.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(song);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
-	}
 
   getSongSafeURL(song: Song): SafeResourceUrl {
 		if (!this.safeUrls.has(song.id)) {

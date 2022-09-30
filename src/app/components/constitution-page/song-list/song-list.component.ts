@@ -2,13 +2,14 @@ import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { isNil } from 'lodash';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import { canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
-import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
+import { getEmbedURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 @Component({
 	selector: 'app-song-list',
@@ -39,7 +40,8 @@ export class SongListComponent {
 	constructor(
 		private sanitizer: DomSanitizer,
 		private auth: AuthService,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		public urlGetter: GetUrlService
 	) {
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
@@ -75,15 +77,6 @@ export class SongListComponent {
 
 	getUser(uid: string): User {
 		return this.users.get(uid) || EMPTY_USER;
-	}
-
-	getImageURL(song: Song): string {
-		switch (song.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(song);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
 	}
 
 	getSongSafeURL(song: Song): SafeResourceUrl {

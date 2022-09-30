@@ -36,6 +36,7 @@ import { ResultsFavoritesComponent } from './components/constitution-page/result
 import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
 import { ManageInvitesComponent } from './components/admin-page/manage-invites/manage-invites.component';
 import { ManageRolesComponent } from './components/admin-page/manage-roles/manage-roles.component';
+import { InvitePageComponent } from './components/invite-page/invite-page.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -87,7 +88,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
-import { InvitePageComponent } from './components/invite-page/invite-page.component';
 
 @NgModule({
 	declarations: [

@@ -1,13 +1,14 @@
 import { Component, ElementRef, HostListener, Input, OnChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User, UserFavorites } from 'chelys';
+import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { PieData } from 'src/app/types/charts';
 import { mean, randomInRange } from 'src/app/types/math';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
-import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
+import { getEmbedURL } from 'src/app/types/url';
 import * as confetti from 'canvas-confetti';
 import { FIREWORK_DEFAULTS, FIREWORK_DURATION } from 'src/app/types/firework';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 interface VoteData {
   user: User,
@@ -63,7 +64,7 @@ export class GradeElectoralComponent implements OnChanges {
     this.generatePieData();
   }
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer, public urlGetter: GetUrlService) {
     this.onWindowResize();
   }
 
@@ -113,15 +114,6 @@ export class GradeElectoralComponent implements OnChanges {
       return this.favorites.get(user.uid)?.favs.includes(this.currentSong.id);
     });
   }
-
-  getImageURL(): string {
-		switch (this.currentSong.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(this.currentSong);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
-	}
 
   meanOfVotes(): number {
     const grades = this.currentVoters.map((v) => v.grade);

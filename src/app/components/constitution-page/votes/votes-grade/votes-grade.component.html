@@ -85,7 +85,7 @@
               </div>
               <i class="text-overflowable"> {{song.author}} </i>
             </h3>
-            <img src="{{getImageURL(song)}}" class="card-img blur">
+            <img src="{{urlGetter.getImageURL(song)}}" class="card-img blur">
             <div class="card-img-overlay">
               <div class="card-body">
                 <iframe *ngIf="currentIframeSongID === song.id; else loadImage" height="208" frameborder="0"
@@ -93,7 +93,7 @@
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
                 <ng-template #loadImage>
-                  <img src="{{getImageURL(song)}}" height="208" class="iframe-image"
+                  <img src="{{urlGetter.getImageURL(song)}}" height="208" class="iframe-image"
                     (click)="updateCurrentIframeSong(song)">
                   <div class="centered">
                     <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">

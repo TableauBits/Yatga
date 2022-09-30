@@ -12,7 +12,7 @@
           </div>
           <i> {{winner.author}} </i> 
         </h3>
-        <img src="{{getImageURL(winner)}}" class="card-img blur">
+        <img src="{{urlGetter.getImageURL(winner)}}" class="card-img blur">
         <div class="card-img-overlay">
           <div class="card-body">
             <iframe *ngIf="winner !== empty()"
@@ -20,12 +20,6 @@
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
             </iframe>
-            <ng-template #loadImage>
-              <img src="{{getImageURL(winner)}}" height="208" class="iframe-image">
-              <div class="centered">
-                <button mat-raised-button color="primary"> <mat-icon>play_arrow</mat-icon></button>
-              </div>
-            </ng-template>
             <br>
             <button mat-raised-button color="primary" (click)="onNavigate(winner)" matTooltip="Regarder la vidéo sur le site d'origine">
               <mat-icon>play_circle_outline</mat-icon>

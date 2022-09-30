@@ -1,16 +1,17 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import { canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
-import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
+import { getEmbedURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { toMap, toMapNumber } from 'src/app/types/utils';
 import { isNil } from 'lodash';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 enum GradeOrder {
 	INCREASE,
@@ -55,6 +56,7 @@ export class VotesGradeComponent implements OnDestroy {
 		private sanitizer: DomSanitizer,
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
+		public urlGetter: GetUrlService
 	) {
 		this.currentIframeSongID = -1;
 		this.votes = { uid: this.auth.uid, values: new Map() };
@@ -220,15 +222,6 @@ export class VotesGradeComponent implements OnDestroy {
 
 	getUser(uid: string): User {
 		return this.users.get(uid) || EMPTY_USER;
-	}
-
-	getImageURL(song: Song): string {
-		switch (song.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(song);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
 	}
 
 	getSongSafeURL(song: Song): SafeResourceUrl {
