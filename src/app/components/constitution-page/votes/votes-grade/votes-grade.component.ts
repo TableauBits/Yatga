@@ -280,6 +280,7 @@ export class VotesGradeComponent implements OnDestroy {
 	resetOrder() {
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
+		this.setOrderByGrade(GradeOrder.NONE)
 	}
 
 	// TODO : Implement class ?

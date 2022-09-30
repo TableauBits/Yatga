@@ -1,8 +1,43 @@
 <br>
 <div class="title">
   <h1> <b> MATBAY </b> </h1>
-  <h2> Le site des constitutions </h2>
-  <h3> Travaux en cours. </h3> 
+  <h2> Le site des Constitutions </h2>
+  <span class="custom-br"></span>
+  <h2> Releases : </h2>
+  <mat-accordion multi class="panel">
+    <mat-expansion-panel *ngFor="let release of releases; index as i">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{release.tag}}
+        </mat-panel-title>
+        <mat-panel-description>
+          <b> {{release.name}} </b>
+          <mat-icon *ngIf="i==0">fiber_new</mat-icon>
+          <a href="{{release.url}}" target="_blank" matTooltip="Voir depuis Github">
+            <mat-icon>link</mat-icon> 
+          </a>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p class="text">
+        <b> Publié le : </b> {{release.date}} <br> <br>
+        <b> Changements : </b> 
+        <span *ngFor="let change of release.body.changes">
+          <br> * {{change.title}}
+          (<a href="{{change.url}}" target="_blank">
+            {{change.url}}
+          </a>)
+        </span> <br> <br>
+        <b> Changements Complet: </b> <br>
+        <a href="{{release.body.full}}" target="_blank">
+          {{release.body.full}}
+        </a>
+      </p>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br> <br>
+  <span class="custom-br"></span>
+  <h2> Travaux en cours... </h2> 
   <img class="wip" src="assets/wip.gif">
-  <br> <br> App by TableauBits
+  <br> <br> App by TableauBits <br> <br>
 </div>
+<br>
