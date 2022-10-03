@@ -218,4 +218,8 @@ export class ConstitutionComponent implements OnDestroy {
 	updateSongs(): boolean {
 		return canModifySongs(this.constitution);
 	}
+
+	getCurrentUserFavs(): UserFavorites {
+		return this.favorites.get(this.auth.uid) || {uid: "", favs: []};
+	}
 }

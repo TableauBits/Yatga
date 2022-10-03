@@ -10,7 +10,6 @@ import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { toMap, toMapNumber } from 'src/app/types/utils';
-import { isNil } from 'lodash';
 
 enum GradeOrder {
 	INCREASE,
@@ -28,7 +27,7 @@ export class VotesGradeComponent implements OnDestroy {
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
-	@Input() favorites: Map<string, UserFavorites> = new Map();
+	@Input() favorites: UserFavorites;
 
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
 	currentIframeSongID: number;
@@ -59,6 +58,7 @@ export class VotesGradeComponent implements OnDestroy {
 		this.currentIframeSongID = -1;
 		this.votes = { uid: this.auth.uid, values: new Map() };
 		this.summary = { voteCount: 0, userCount: new Map() };
+		this.favorites = {uid: "", favs: []};
 		this.histogramGrades = [];
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false"
@@ -182,7 +182,7 @@ export class VotesGradeComponent implements OnDestroy {
 			currentVote: this.getVote(song),
 			songs: this.getSongsToVote(),
 			votes: this.votes,
-			favorites: this.favorites.get(this.auth.uid)
+			favorites: this.favorites
 		}
 
 		this.dialog.open(VoteNavigatorComponent, config);
@@ -285,18 +285,13 @@ export class VotesGradeComponent implements OnDestroy {
 
 	// TODO : Implement class ?
 	isAFavorite(song: Song): boolean {
-		const userFavorites = this.favorites.get(this.auth.uid);
-		if (isNil(userFavorites)) return false;
-		return userFavorites.favs.includes(song.id);
+		return this.favorites.favs.includes(song.id);
 	}
 
 	toggleFavorite(song: Song): void {
-		const userFavorites = this.favorites.get(this.auth.uid);
-		if (isNil(userFavorites)) return;
-
 		let message: string;
 
-		if (userFavorites.favs.includes(song.id)) {
+		if (this.favorites.favs.includes(song.id)) {
 			// remove the song from favorites
 			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: song.id });
 		} else {
@@ -308,9 +303,7 @@ export class VotesGradeComponent implements OnDestroy {
 	}
 
 	noMoreFavorties(song: Song): boolean {
-		const userFavorites = this.favorites.get(this.auth.uid);
-		if (isNil(userFavorites)) return false;
-		return FAVORITES_MAX_LENGTH === userFavorites.favs.length && !userFavorites.favs.includes(song.id);
+		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(song.id);
 	}
 
 }
