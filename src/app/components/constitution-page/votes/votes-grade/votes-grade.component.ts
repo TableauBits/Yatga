@@ -10,6 +10,7 @@ import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { toMap, toMapNumber } from 'src/app/types/utils';
+import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 
 enum GradeOrder {
 	INCREASE,
@@ -22,7 +23,7 @@ enum GradeOrder {
 	templateUrl: './votes-grade.component.html',
 	styleUrls: ['./votes-grade.component.scss']
 })
-export class VotesGradeComponent implements OnDestroy {
+export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy {
 
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
@@ -55,6 +56,8 @@ export class VotesGradeComponent implements OnDestroy {
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
 	) {
+		super();
+
 		this.currentIframeSongID = -1;
 		this.votes = { uid: this.auth.uid, values: new Map() };
 		this.summary = { voteCount: 0, userCount: new Map() };
@@ -284,10 +287,6 @@ export class VotesGradeComponent implements OnDestroy {
 	}
 
 	// TODO : Implement class ?
-	isAFavorite(song: Song): boolean {
-		return this.favorites.favs.includes(song.id);
-	}
-
 	toggleFavorite(song: Song): void {
 		let message: string;
 
@@ -300,10 +299,6 @@ export class VotesGradeComponent implements OnDestroy {
 		}
 
 		this.auth.ws.send(message);
-	}
-
-	noMoreFavorties(song: Song): boolean {
-		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(song.id);
 	}
 
 }

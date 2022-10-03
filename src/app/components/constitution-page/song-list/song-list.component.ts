@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
+import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
@@ -14,7 +15,7 @@ import { SongNavigatorComponent } from './song-navigator/song-navigator.componen
 	templateUrl: './song-list.component.html',
 	styleUrls: ['./song-list.component.scss']
 })
-export class SongListComponent {
+export class SongListComponent extends YatgaUserFavorites {
 
 	// Input
 	@Input() constitution: Constitution;
@@ -40,6 +41,7 @@ export class SongListComponent {
 		private auth: AuthService,
 		private dialog: MatDialog
 	) {
+		super();
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
 		this.favorites = {uid: "", favs: []};
@@ -177,10 +179,6 @@ export class SongListComponent {
 		this.setOrderByFavs(false);
 	}
 
-	isAFavorite(song: Song): boolean {
-		return this.favorites.favs.includes(song.id);
-	}
-
 	toggleFavorite(song: Song): void {
 		let message: string;
 
@@ -193,9 +191,5 @@ export class SongListComponent {
 		}
 
 		this.auth.ws.send(message);
-	}
-
-	noMoreFavorites(song: Song): boolean {
-		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(song.id);
 	}
 }
