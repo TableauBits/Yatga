@@ -1,9 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites } from 'chelys';
+import { createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { getEmbedURL } from 'src/app/types/url';
 import { toMapNumber } from 'src/app/types/utils';
 
@@ -21,7 +22,7 @@ interface VoteNavigatorInjectedData {
 	templateUrl: './vote-navigator.component.html',
 	styleUrls: ['./vote-navigator.component.scss']
 })
-export class VoteNavigatorComponent implements OnDestroy {
+export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDestroy {
 
 	cstId: string;
 
@@ -39,6 +40,8 @@ export class VoteNavigatorComponent implements OnDestroy {
 		private dialogRef: MatDialogRef<VoteNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: VoteNavigatorInjectedData
 	) {
+		super();
+
 		this.cstId = data.cstId;
 		this.currentSong = data.currentSong;
 		this.currentVote = data.currentVote;
@@ -105,11 +108,6 @@ export class VoteNavigatorComponent implements OnDestroy {
 		this.dialogRef.close();
 	}
 
-	isAFavorite(): boolean {
-		if (isNil(this.favorites)) return false;
-		return this.favorites.favs.includes(this.currentSong.id);
-	}
-
 	toggleFavorite(): void {
 		if (isNil(this.favorites)) return;
 
@@ -124,11 +122,6 @@ export class VoteNavigatorComponent implements OnDestroy {
 		}
 
 		this.auth.ws.send(message);
-	}
-
-	noMoreFavorties(): boolean {
-		if (isNil(this.favorites)) return false;
-		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(this.currentSong.id);
 	}
 
 }

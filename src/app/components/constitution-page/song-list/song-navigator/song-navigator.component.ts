@@ -1,9 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites, canModifyVotes } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { getEmbedURL } from 'src/app/types/url';
 
 interface SongNavigatorInjectedData {
@@ -18,7 +19,7 @@ interface SongNavigatorInjectedData {
 	templateUrl: './song-navigator.component.html',
 	styleUrls: ['./song-navigator.component.scss']
 })
-export class SongNavigatorComponent implements OnDestroy {
+export class SongNavigatorComponent extends YatgaUserFavorites implements OnDestroy {
 
 	constitution: Constitution;
 	currentSong: Song;
@@ -32,6 +33,8 @@ export class SongNavigatorComponent implements OnDestroy {
 		private dialogRef: MatDialogRef<SongNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
 	) {
+		super();
+
 		this.constitution = data.constitution;
 		this.currentSong = data.currentSong;
 		this.songs = data.songs;
@@ -77,11 +80,6 @@ export class SongNavigatorComponent implements OnDestroy {
 		this.dialogRef.close();
 	}
 
-	isAFavorite(): boolean {
-		if (isNil(this.favorites)) return false;
-		return this.favorites.favs.includes(this.currentSong.id);
-	}
-
 	toggleFavorite(): void {
 		if (isNil(this.favorites)) return;
 
@@ -96,15 +94,6 @@ export class SongNavigatorComponent implements OnDestroy {
 		}
 
 		this.auth.ws.send(message);
-	}
-
-	noMoreFavorties(): boolean {
-		if (isNil(this.favorites)) return false;
-		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(this.currentSong.id);
-	}
-
-	canModifyFavorite(): boolean {
-		return canModifyVotes(this.constitution);
 	}
 
 }

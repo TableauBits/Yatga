@@ -1,9 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, FAVORITES_MAX_LENGTH, Message, Song, UserFavorites, canModifyVotes } from 'chelys';
+import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { getEmbedURL } from 'src/app/types/url';
 
 interface RandomSongInjectedData {
@@ -17,7 +18,7 @@ interface RandomSongInjectedData {
 	templateUrl: './random-song.component.html',
 	styleUrls: ['./random-song.component.scss']
 })
-export class RandomSongComponent implements OnDestroy {
+export class RandomSongComponent extends YatgaUserFavorites implements OnDestroy  {
 
 	constitution: Constitution;
 	currentSong: Song;
@@ -31,6 +32,7 @@ export class RandomSongComponent implements OnDestroy {
 		private dialogRef: MatDialogRef<RandomSongComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: RandomSongInjectedData
 	) {
+		super();
 		this.constitution = data.constitution;
 		this.songs = data.songs;
 		this.favorites = data.favorites;
@@ -66,11 +68,6 @@ export class RandomSongComponent implements OnDestroy {
 
 	// TODO : DUPLICATION DE CODE
 
-	isAFavorite(): boolean {
-		if (isNil(this.favorites)) return false;
-		return this.favorites.favs.includes(this.currentSong.id);
-	}
-
 	toggleFavorite(): void {
 		if (isNil(this.favorites)) return;
 
@@ -85,15 +82,6 @@ export class RandomSongComponent implements OnDestroy {
 		}
 
 		this.auth.ws.send(message);
-	}
-
-	noMoreFavorties(): boolean {
-		if (isNil(this.favorites)) return false;
-		return FAVORITES_MAX_LENGTH === this.favorites.favs.length && !this.favorites.favs.includes(this.currentSong.id);
-	}
-
-	canModifyFavorite(): boolean {
-		return canModifyVotes(this.constitution);
 	}
 
 }
