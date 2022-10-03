@@ -1,15 +1,14 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites } from 'chelys';
-import { isNil } from 'lodash';
+import { createMessage, FavResUpdate, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites, Constitution } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { getEmbedURL } from 'src/app/types/url';
 import { toMapNumber } from 'src/app/types/utils';
 
 interface VoteNavigatorInjectedData {
-	cstId: string,
+	constitution: Constitution,
 	currentSong: Song,
 	songs: Song[],
 	currentVote: number,
@@ -24,7 +23,7 @@ interface VoteNavigatorInjectedData {
 })
 export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDestroy {
 
-	cstId: string;
+	constitution: Constitution;
 
 	currentSong: Song;
 	currentSongSafeURL: SafeResourceUrl;
@@ -35,14 +34,14 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 	favorites: UserFavorites;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		private sanitizer: DomSanitizer,
 		private dialogRef: MatDialogRef<VoteNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: VoteNavigatorInjectedData
 	) {
 		super();
 
-		this.cstId = data.cstId;
+		this.constitution = data.constitution;
 		this.currentSong = data.currentSong;
 		this.currentVote = data.currentVote;
 		this.songs = data.songs;
@@ -73,7 +72,7 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 	}
 
 	vote(grade: number) {
-		const message = createMessage<GradeReqEdit>(EventType.CST_SONG_GRADE_edit, { cstId: this.cstId, voteData: { grade: grade, songId: this.currentSong.id } });
+		const message = createMessage<GradeReqEdit>(EventType.CST_SONG_GRADE_edit, { cstId: this.constitution.id, voteData: { grade: grade, songId: this.currentSong.id } });
 		this.auth.ws.send(message);
 		this.currentVote = grade; // TODO : Necessary ?
 	}
@@ -106,22 +105,6 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 	closeWindow(): void {
 		this.dialogRef.close();
-	}
-
-	toggleFavorite(): void {
-		if (isNil(this.favorites)) return;
-
-		let message: string;
-
-		if (this.favorites.favs.includes(this.currentSong.id)) {
-			// remove the song from favorites
-			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.cstId, songId: this.currentSong.id });
-		} else {
-			// add the song to the favorites
-			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.cstId, songId: this.currentSong.id });
-		}
-
-		this.auth.ws.send(message);
 	}
 
 }

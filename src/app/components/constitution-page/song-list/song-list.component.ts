@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
@@ -38,7 +38,7 @@ export class SongListComponent extends YatgaUserFavorites {
 
 	constructor(
 		private sanitizer: DomSanitizer,
-		private auth: AuthService,
+		public auth: AuthService,
 		private dialog: MatDialog
 	) {
 		super();
@@ -177,19 +177,5 @@ export class SongListComponent extends YatgaUserFavorites {
 	resetOrder() {
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
-	}
-
-	toggleFavorite(song: Song): void {
-		let message: string;
-
-		if (this.favorites.favs.includes(song.id)) {
-			// remove the song from favorites
-			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: song.id });
-		} else {
-			// add the song to the favorites
-			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: song.id });
-		}
-
-		this.auth.ws.send(message);
 	}
 }

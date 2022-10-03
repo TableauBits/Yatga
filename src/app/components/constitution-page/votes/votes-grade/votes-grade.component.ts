@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, FAVORITES_MAX_LENGTH, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import { canModifySongs, Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
@@ -51,7 +51,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	orderByGrade: GradeOrder;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		private sanitizer: DomSanitizer,
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
@@ -180,7 +180,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		const config = new MatDialogConfig();
 
 		config.data = {
-			cstId: this.constitution.id,
+			constitution: this.constitution,
 			currentSong: song,
 			currentVote: this.getVote(song),
 			songs: this.getSongsToVote(),
@@ -284,21 +284,6 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
 		this.setOrderByGrade(GradeOrder.NONE)
-	}
-
-	// TODO : Implement class ?
-	toggleFavorite(song: Song): void {
-		let message: string;
-
-		if (this.favorites.favs.includes(song.id)) {
-			// remove the song from favorites
-			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: song.id });
-		} else {
-			// add the song to the favorites
-			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: song.id });
-		}
-
-		this.auth.ws.send(message);
 	}
 
 }

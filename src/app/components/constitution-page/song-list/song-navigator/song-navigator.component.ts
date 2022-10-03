@@ -1,8 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { areResultsPublic, canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
-import { isNil } from 'lodash';
+import { Constitution, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { getEmbedURL } from 'src/app/types/url';
@@ -28,7 +27,7 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 	favorites: UserFavorites;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		private sanitizer: DomSanitizer,
 		private dialogRef: MatDialogRef<SongNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
@@ -78,22 +77,6 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 	closeWindow(): void {
 		this.dialogRef.close();
-	}
-
-	toggleFavorite(): void {
-		if (isNil(this.favorites)) return;
-
-		let message: string;
-
-		if (this.favorites.favs.includes(this.currentSong.id)) {
-			// remove the song from favorites
-			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: this.currentSong.id });
-		} else {
-			// add the song to the favorites
-			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: this.currentSong.id });
-		}
-
-		this.auth.ws.send(message);
 	}
 
 }
