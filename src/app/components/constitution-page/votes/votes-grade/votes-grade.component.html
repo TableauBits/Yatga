@@ -105,8 +105,8 @@
                 <button mat-raised-button color="primary" (click)="openVoteNavigator(song)" matTooltip="Voter pour cette chanson">
                   <mat-icon>how_to_vote</mat-icon>
                 </button>
-                <button mat-raised-button color="primary" (click)="toggleFavorite(song)"
-                  [disabled]="noMoreFavorties(song) || !canVote()">
+                <button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+                  [disabled]="noMoreFavorites(song) || !canVote()">
                   <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
                 </button>
                 <button mat-raised-button color="primary" class="vote" [matMenuTriggerFor]="menu"
@@ -147,8 +147,8 @@
       <tr *ngFor="let song of getSongsToVote()">
         <td> {{ song.id }} </td>
         <td>
-          <button mat-raised-button color="primary" (click)="toggleFavorite(song)"
-            [disabled]="noMoreFavorties(song) || !canVote()">
+          <button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+            [disabled]="noMoreFavorites(song) || !canVote()">
             <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
           </button>
         </td>
