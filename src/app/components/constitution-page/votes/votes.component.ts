@@ -11,7 +11,7 @@ export class VotesComponent {
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
-	@Input() favorites: Map<string, UserFavorites> = new Map();
+	@Input() favorites: UserFavorites = { uid: "", favs: []};
 
 	// HTML can't access the ConstiutionType enum directly
 	public get constitutionType(): typeof ConstitutionType {
@@ -19,6 +19,4 @@ export class VotesComponent {
 	}
 
 	constructor() { }
-
-
 }

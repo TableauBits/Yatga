@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EMPTY_SONG, EventType, extractMessageData, Message, Song, SongPlatform } from 'chelys';
@@ -20,7 +20,7 @@ interface ManageSongsInjectedData {
 	templateUrl: './manage-songs.component.html',
 	styleUrls: ['./manage-songs.component.scss']
 })
-export class ManageSongsComponent {
+export class ManageSongsComponent implements OnDestroy {
 
 	public songs: Map<number, Song>;
 	public newSongForm: FormGroup;

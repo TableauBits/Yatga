@@ -87,10 +87,10 @@
 </nav>
 <div [ngSwitch]="currentSection" class="content">
 	<app-song-list *ngSwitchCase="constitutionSection.SONG_LIST"
-		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="favorites">
+		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="getCurrentUserFavs()">
 	</app-song-list>
 	<app-votes *ngSwitchCase="constitutionSection.VOTES"
-		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="favorites">
+		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="getCurrentUserFavs()">
 	</app-votes>
 	<app-owner *ngSwitchCase="constitutionSection.OWNER" 
 		[songs]="songs" [users]="users" [constitution]="constitution">

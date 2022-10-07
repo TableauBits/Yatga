@@ -15,9 +15,9 @@
     (click)="changeSong(-1)">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
-  <button mat-raised-button color="primary" class="favorite-button" (click)="toggleFavorite()"
-    [disabled]="noMoreFavorties()">
-    <mat-icon *ngIf="isAFavorite(); else normalSong" class="favorite">favorite</mat-icon>
+  <button mat-raised-button color="primary" class="favorite-button" (click)="toggleFavorite(currentSong, auth)"
+    [disabled]="noMoreFavorites(currentSong)">
+    <mat-icon *ngIf="isAFavorite(currentSong); else normalSong" class="favorite">favorite</mat-icon>
   </button>
   <button mat-raised-button color="primary" class="next-button" [disabled]="!nextSongExist()" (click)="changeSong(1)">
     <mat-icon>keyboard_arrow_right</mat-icon>

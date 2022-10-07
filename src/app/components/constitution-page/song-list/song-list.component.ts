@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { isNil } from 'lodash';
-import { canModifySongs, Constitution, createMessage, FavReqAdd, FavReqRemove, EMPTY_CONSTITUTION, EMPTY_USER, EventType, FAVORITES_MAX_LENGTH, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
+import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
@@ -15,13 +15,13 @@ import { GetUrlService } from 'src/app/services/get-url.service';
 	templateUrl: './song-list.component.html',
 	styleUrls: ['./song-list.component.scss']
 })
-export class SongListComponent {
+export class SongListComponent extends YatgaUserFavorites {
 
 	// Input
 	@Input() constitution: Constitution;
 	@Input() songs: Map<number, Song> = new Map();
 	@Input() users: Map<string, User> = new Map();
-	@Input() favorites: Map<string, UserFavorites> = new Map();
+	@Input() favorites: UserFavorites;
 
 	// Iframe
 	safeUrls: Map<number, SafeResourceUrl> = new Map();
@@ -41,8 +41,10 @@ export class SongListComponent {
 		private dialog: MatDialog,
 		public urlGetter: GetUrlService
 	) {
+		super();
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
+		this.favorites = {uid: "", favs: []};
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
@@ -110,7 +112,7 @@ export class SongListComponent {
 			constitution: this.constitution,
 			currentSong: song,
 			songs: this.getSongs(),
-			favorites: this.favorites.get(this.auth.uid)
+			favorites: this.favorites,
 		}
 
 		this.dialog.open(SongNavigatorComponent, config);
@@ -166,34 +168,5 @@ export class SongListComponent {
 	resetOrder() {
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
-	}
-
-	isAFavorite(song: Song): boolean {
-		const userFavorites = this.favorites.get(this.auth.uid);
-		if (isNil(userFavorites)) return false;
-		return userFavorites.favs.includes(song.id);
-	}
-
-	toggleFavorite(song: Song): void {
-		const userFavorites = this.favorites.get(this.auth.uid);
-		if (isNil(userFavorites)) return;
-
-		let message: string;
-
-		if (userFavorites.favs.includes(song.id)) {
-			// remove the song from favorites
-			message = createMessage<FavReqRemove>(EventType.CST_SONG_FAV_remove, { cstId: this.constitution.id, songId: song.id });
-		} else {
-			// add the song to the favorites
-			message = createMessage<FavReqAdd>(EventType.CST_SONG_FAV_add, { cstId: this.constitution.id, songId: song.id });
-		}
-
-		this.auth.ws.send(message);
-	}
-
-	noMoreFavorites(song: Song): boolean {
-		const userFavorites = this.favorites.get(this.auth.uid);
-		if (isNil(userFavorites)) return false;
-		return FAVORITES_MAX_LENGTH === userFavorites.favs.length && !userFavorites.favs.includes(song.id);
 	}
 }
