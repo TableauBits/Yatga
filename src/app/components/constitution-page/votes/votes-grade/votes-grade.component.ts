@@ -51,7 +51,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	orderByGrade: GradeOrder;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
 		public urlGetter: GetUrlService

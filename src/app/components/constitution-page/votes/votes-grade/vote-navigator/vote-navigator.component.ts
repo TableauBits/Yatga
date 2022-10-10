@@ -34,7 +34,7 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 	favorites: UserFavorites;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		public urlGetter: GetUrlService,
 		private dialogRef: MatDialogRef<VoteNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: VoteNavigatorInjectedData

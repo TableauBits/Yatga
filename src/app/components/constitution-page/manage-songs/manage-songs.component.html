@@ -35,6 +35,7 @@
 				<mat-form-field appearance="outline">
 					<mat-label> URL </mat-label>
 					<input matInput formControlName="url" required>
+					<img matSuffix class="platform-img" [src]="songPlatformFromIcon()">
 				</mat-form-field>
 			</form>
 			<button mat-raised-button color="primary" class="icon" (click)="addSong()">

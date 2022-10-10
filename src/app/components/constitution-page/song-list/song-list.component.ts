@@ -37,7 +37,7 @@ export class SongListComponent extends YatgaUserFavorites {
 	orderByFavs: boolean;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		private dialog: MatDialog,
 		public urlGetter: GetUrlService
 	) {

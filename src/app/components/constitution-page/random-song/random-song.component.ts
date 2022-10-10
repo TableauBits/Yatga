@@ -27,7 +27,7 @@ export class RandomSongComponent extends YatgaUserFavorites implements OnDestroy
 	favorites: UserFavorites;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		public urlGetter: GetUrlService,
 		private dialogRef: MatDialogRef<RandomSongComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: RandomSongInjectedData

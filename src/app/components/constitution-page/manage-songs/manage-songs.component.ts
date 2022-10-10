@@ -1,14 +1,16 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EMPTY_SONG, EventType, extractMessageData, Message, Song, SongPlatform } from 'chelys';
+import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EventType, extractMessageData, Message, Song, SongPlatform } from 'chelys';
 import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
-import { DEFAULT_ID_FROM_URL, getIDFromURL } from 'src/app/types/url';
+import { URLToSongPlatform } from 'src/app/types/url';
 
 const SONG_NAME_LENGTH = 100;	// TODO : ADD TO CHELYS
 const SONG_AUTHOR_LENGTH = 100;
+
+const ICONS_PATH = "assets/icons"
 
 interface ManageSongsInjectedData {
 	cstID: string;
@@ -103,7 +105,7 @@ export class ManageSongsComponent implements OnDestroy {
 			const song: Song = {
 				id: -1,
 				user: '',
-				platform: SongPlatform.YOUTUBE,
+				platform: URLToSongPlatform(this.newSongForm.value['url']), // SongPlatform.SOUNDCLOUD, // SongPlatform.YOUTUBE,
 				title: this.newSongForm.value['title'],
 				author: this.newSongForm.value['author'],
 				url: this.newSongForm.value['url']
@@ -150,12 +152,20 @@ export class ManageSongsComponent implements OnDestroy {
 	}
 
 	isNotValidURL(): boolean {
-		if (isNil(this.newSongForm.value['url'])) return false;
+		const url = this.newSongForm.value['url']
+		if (isNil(url)) return false;
 
-		const song = EMPTY_SONG;
-		song.platform = SongPlatform.YOUTUBE;
-		song.url = this.newSongForm.value['url']
+		return URLToSongPlatform(url) === SongPlatform.INVALID_PLATFORM;
+	}
 
-		return getIDFromURL(song) === DEFAULT_ID_FROM_URL;
+	songPlatformFromIcon(): string {
+		const url = this.newSongForm.value['url']
+		if (isNil(url)) return "";
+		switch (URLToSongPlatform(url)) {
+			case SongPlatform.SOUNDCLOUD: return `${ICONS_PATH}/soundcloud.png`;
+			case SongPlatform.YOUTUBE: return `${ICONS_PATH}/youtube.png`;
+			default:
+				return "";
+		}
 	}
 }
