@@ -6,7 +6,6 @@ import { GetUrlService } from 'src/app/services/get-url.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { Constitution, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
 
-
 interface RandomSongInjectedData {
 	constitution: Constitution,
 	songs: Song[],

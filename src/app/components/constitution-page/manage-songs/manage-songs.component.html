@@ -13,29 +13,29 @@
 			<span class="custom-br"></span>
 			<form [formGroup]="newSongForm">
 				<br>
-				<mat-icon *ngIf="isNil('title')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
 				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')" class="valid icon">check_circle_outline</mat-icon> 
+				<mat-icon *ngIf="isNil('title')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
 				<mat-icon *ngIf="respectLengthLimit('title')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('title')}}.">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
 					<mat-label> Titre </mat-label>
 					<input matInput formControlName="title" required>
 				</mat-form-field>
 				<br>
-				<mat-icon *ngIf="isNil('author')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
 				<mat-icon *ngIf="!respectLengthLimit('author') && !isNil('author')" class="valid icon">check_circle_outline</mat-icon> 
+				<mat-icon *ngIf="isNil('author')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
 				<mat-icon *ngIf="respectLengthLimit('author')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('author')}}. ">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
 					<mat-label> Auteur </mat-label>
 					<input matInput formControlName="author" required>
 				</mat-form-field>
 				<br>
+				<mat-icon *ngIf="isValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon> 
 				<mat-icon *ngIf="isNil('url')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon> 
-				<mat-icon *ngIf="!isNotValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon> 
-				<mat-icon *ngIf="isNotValidURL()" class="warning icon" matTooltip="Attention, l'URL entrée ne semble pas valide.">error_outline</mat-icon>
+				<mat-icon *ngIf="!isValidURL() && !isNil('url')" class="warning icon" matTooltip="Attention, l'URL entrée ne semble pas valide.">error_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label> URL </mat-label>
 					<input matInput formControlName="url" required>
-					<img matSuffix class="platform-img" [src]="songPlatformFromIcon()">
+					<img *ngIf="!isNil('url')" matSuffix class="platform-img" [src]="songPlatformFromIcon()">
 				</mat-form-field>
 			</form>
 			<button mat-raised-button color="primary" class="icon" (click)="addSong()">

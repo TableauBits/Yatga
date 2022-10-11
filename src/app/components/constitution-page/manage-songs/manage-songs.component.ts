@@ -1,16 +1,13 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EventType, extractMessageData, Message, Song, SongPlatform } from 'chelys';
+import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EventType, extractMessageData, Message, Song, SongPlatform, SONG_AUTHOR_LENGTH, SONG_NAME_LENGTH } from 'chelys';
 import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 import { URLToSongPlatform } from 'src/app/types/url';
 
-const SONG_NAME_LENGTH = 100;	// TODO : ADD TO CHELYS
-const SONG_AUTHOR_LENGTH = 100;
-
-const ICONS_PATH = "assets/icons"
+const ICONS_PATH = "assets/icons";
 
 interface ManageSongsInjectedData {
 	cstID: string;
@@ -40,7 +37,7 @@ export class ManageSongsComponent implements OnDestroy {
 		this.newSongForm = this.fb.group({
 			title: [, Validators.required],
 			author: [, Validators.required],
-			url: [, Validators.required] // TODO : check if is a correct link
+			url: [, Validators.required]
 		});
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -105,7 +102,7 @@ export class ManageSongsComponent implements OnDestroy {
 			const song: Song = {
 				id: -1,
 				user: '',
-				platform: URLToSongPlatform(this.newSongForm.value['url']), // SongPlatform.SOUNDCLOUD, // SongPlatform.YOUTUBE,
+				platform: URLToSongPlatform(this.newSongForm.value['url']),
 				title: this.newSongForm.value['title'],
 				author: this.newSongForm.value['author'],
 				url: this.newSongForm.value['url']
@@ -151,21 +148,17 @@ export class ManageSongsComponent implements OnDestroy {
 		return '';
 	}
 
-	isNotValidURL(): boolean {
-		const url = this.newSongForm.value['url']
-		if (isNil(url)) return false;
-
-		return URLToSongPlatform(url) === SongPlatform.INVALID_PLATFORM;
+	isValidURL(): boolean {
+		const url = this.newSongForm.value['url'];
+		return URLToSongPlatform(url) !== SongPlatform.INVALID_PLATFORM;
 	}
 
 	songPlatformFromIcon(): string {
 		const url = this.newSongForm.value['url']
-		if (isNil(url)) return "";
 		switch (URLToSongPlatform(url)) {
 			case SongPlatform.SOUNDCLOUD: return `${ICONS_PATH}/soundcloud.png`;
 			case SongPlatform.YOUTUBE: return `${ICONS_PATH}/youtube.png`;
-			default:
-				return "";
 		}
+		return `${ICONS_PATH}/invalid.png`;
 	}
 }
