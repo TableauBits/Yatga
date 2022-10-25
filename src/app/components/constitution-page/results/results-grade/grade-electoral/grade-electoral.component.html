@@ -23,6 +23,18 @@
     </div>
     <br>
     <br>
+    <div>
+      <span class="custom-br"></span>
+      <br>
+      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
+      <br>
+      Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
+      <br>
+      <span *ngIf="currentRank === 0">
+        "<i>{{getUser(currentSong.user).description}}</i>"
+      </span>
+      <br>
+    </div>
   </div>
   <div class="right-column box">
     <br>
@@ -52,20 +64,6 @@
     <br>
     <span class="custom-br"></span>
     <br>
-    <div class="box">
-      <br>
-      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
-      <br>
-      Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
-      <br>
-      <span *ngIf="currentRank === 0">
-        "<i>{{getUser(currentSong.user).description}}</i>"
-      </span>
-      <br>
-    </div>
-    <br>
-    <span class="custom-br"></span>
-    <br>
     <button mat-button class="previous-button purple" [disabled]="isFirstResult()" (click)="goToFirstResult()" matTooltip="Première chanson"> <mat-icon>fast_rewind</mat-icon> </button>
     <button mat-button class="previous-button purple left" [disabled]="!previousResultExist()" (click)="changeResult(-1)" matTooltip="Suivant"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
     <button mat-raised-button class="rank-button purple"> {{currentRank + 1}} </button>
@@ -73,6 +71,7 @@
     <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)" matTooltip="Précédant"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
     <br>
     <br>
+    <span class="custom-br"></span>
     <br>
     <mat-form-field appearance="fill" class="rank-button">
       <mat-label>Aller au rang</mat-label>
