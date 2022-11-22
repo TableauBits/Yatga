@@ -1,7 +1,7 @@
 <br>
 <img *ngIf="isBestQuartert()" class="background blur" [src]="getImageURL()">
 <canvas class="fireworks fire" #fireworks> </canvas>
-<div class="page">
+<div class="page" (window:keydown)="keyPressed($event)">
   <div class="title">
     <a href="{{currentSong.url}}" target="_blank">
       <h1 class="text-overflowable"> {{currentRank+1}}. {{currentSong.author}} - {{currentSong.title}} </h1>
