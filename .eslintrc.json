@@ -10,6 +10,7 @@
       ],
       "parserOptions": {
         "project": [
+          "Yatga/tsconfig.json",
           "tsconfig.json",
           "e2e/tsconfig.json"
         ],
