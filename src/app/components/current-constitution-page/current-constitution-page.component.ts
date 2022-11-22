@@ -6,6 +6,7 @@ import {
 	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate
 } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 const OWNER_INDEX = 0;
 
@@ -33,7 +34,11 @@ function compareConstitutionASC(c1: DisplayData, c2: DisplayData): number {
 @Component({
 	selector: 'app-current-constitution-page',
 	templateUrl: './current-constitution-page.component.html',
-	styleUrls: ['./current-constitution-page.component.scss']
+	styleUrls: ['./current-constitution-page.component.scss'],
+	animations: [
+		fadeInOnEnterAnimation(),
+		fadeOutOnLeaveAnimation()
+	] 
 })
 export class CurrentConstitutionPageComponent implements OnDestroy {
 

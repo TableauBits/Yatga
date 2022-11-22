@@ -9,11 +9,16 @@ import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/s
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 @Component({
 	selector: 'app-song-list',
 	templateUrl: './song-list.component.html',
-	styleUrls: ['./song-list.component.scss']
+	styleUrls: ['./song-list.component.scss'],
+	animations: [
+		fadeInOnEnterAnimation({duration: 300}), 
+		fadeOutOnLeaveAnimation({duration: 300}),
+	]
 })
 export class SongListComponent extends YatgaUserFavorites {
 

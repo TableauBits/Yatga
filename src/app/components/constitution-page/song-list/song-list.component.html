@@ -33,7 +33,7 @@
 <ng-template #cardsView>
 	<div class="container">
 		<div class="row g-4">
-			<div class="col" *ngFor="let song of getSongs()">
+			<div class="col" *ngFor="let song of getSongs()" [@fadeInOnEnter] [@fadeOutOnLeave]>
 				<div class="card shadow-0 bg-dark z-card">
 					<h3 class="card-header front">
 						<div>
@@ -44,7 +44,7 @@
 					</h3>
 					<img src="{{getImageURL(song)}}" class="card-img blur">
 					<div class="card-img-overlay">
-						<div class="card-body">
+						<div class="card-body" >
 							<iframe *ngIf="currentIframeSongID === song.id; else loadImage"
 							height="208" frameborder="0" [src]="getSongSafeURL(song)" 
 							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
