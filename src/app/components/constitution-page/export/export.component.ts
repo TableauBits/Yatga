@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, Role, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { DownloadService } from 'src/app/services/download.service';
-import { compareSongASC } from 'src/app/types/song';
+import { compareObjectsFactory } from 'src/app/types/utils';
 
 type ExportJSON = {
   cstName: string;
@@ -51,7 +51,7 @@ const FORMATS: ExportFormat[] = [
     name: 'JSON (dev)',
     isDev: true
   }
-]
+];
 
 @Component({
   selector: 'app-export',
@@ -85,7 +85,7 @@ export class ExportComponent {
   }
 
   toGoogleSheets(songs: Song[]): string {
-    return songs.map((song) => `=HYPERLINK("${song.url}"; "${song.title}")`).join("\n")
+    return songs.map((song) => `=HYPERLINK("${song.url}"; "${song.title}")`).join("\n");
   }
 
   toCSV(songs: Song[], devFormat: boolean): string {
@@ -94,12 +94,12 @@ export class ExportComponent {
         return Object.entries(song)
           .sort()
           .map((v) => this.correctCSVField(String(v[1])))
-          .join(",")
+          .join(",");
       }).join("\n");
     } else {
       return "author,title,url,user\n" + songs.map((song) => {
         return `${this.correctCSVField(song.author)},${this.correctCSVField(song.title)},${this.correctCSVField(song.url)},${this.correctCSVField(this.getUsername(song.user))}`;
-      }).join("\n")
+      }).join("\n");
     }
   }
 
@@ -109,21 +109,21 @@ export class ExportComponent {
         return {
           ...s,
           user: this.getUsername(s.user)
-        }
+        };
       });
     }
     return JSON.stringify(obj);
   }
 
   download() {
-    const songs = Array.from(this.songs.values()).sort(compareSongASC);
+    const songs = Array.from(this.songs.values()).sort(compareObjectsFactory("id", false));
     switch (Number(this.selectedFormat)) {
       case ExportValue.CSV:
       case ExportValue.CSV_DEV:
         this.dwl.dyanmicDownloadByHtmlTag({
           fileName: this.constitution.name + ".csv",
           text: this.toCSV(songs, Number(this.selectedFormat) === ExportValue.CSV_DEV)
-        })
+        });
         break;
       case ExportValue.JSON:
       case ExportValue.JSON_DEV:
@@ -135,13 +135,13 @@ export class ExportComponent {
         this.dwl.dyanmicDownloadByHtmlTag({
           fileName: this.constitution.name + ".json",
           text: this.toJSON(obj, Number(this.selectedFormat) === ExportValue.JSON_DEV)
-        })
+        });
         break;
       case ExportValue.GOOGLE_SHEETS:
         this.dwl.dyanmicDownloadByHtmlTag({
           fileName: this.constitution.name + ".txt",
           text: this.toGoogleSheets(songs)
-        })
+        });
         break;
     }
   }

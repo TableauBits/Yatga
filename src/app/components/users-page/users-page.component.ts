@@ -33,7 +33,7 @@ export class UsersPageComponent implements OnDestroy {
 
 		const data = extractMessageData<UsrResUpdate>(message).userInfo;
 
-		this.users.set(data.uid, data)
+		this.users.set(data.uid, data);
 	}
 
 	private onConnect(): void {
@@ -54,7 +54,7 @@ export class UsersPageComponent implements OnDestroy {
 	}
 
 	getRoles(user: User): RoleData[] {
-		const roles = returnUserRoles(user.roles)
+		const roles = returnUserRoles(user.roles);
 		return roles ? roles : [];
 	}
 }

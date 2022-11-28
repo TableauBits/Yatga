@@ -65,7 +65,7 @@ export class HistogramComponent implements AfterViewInit, OnInit, OnChanges {
       yAxis: {
         type: 'value'
       }
-    }
+    };
   }
 
   private count(grade: number): number {

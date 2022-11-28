@@ -3,7 +3,7 @@ export function mean(values: number[]): number {
 }
 
 export function variance(mean: number, values: number[]): number {
-  return values.reduce((prev:number, current:number) => {return prev + Math.pow(current - mean, 2) }, 0) / (values.length-1);
+  return values.reduce((prev:number, current:number) => {return prev + Math.pow(current - mean, 2); }, 0) / (values.length-1);
 }
 
 export function normalize(mean: number, variance: number, value: number): number {

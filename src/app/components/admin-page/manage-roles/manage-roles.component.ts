@@ -38,7 +38,7 @@ export class ManageRolesComponent implements OnDestroy {
 
     if (message.event === EventType.USER_update) {
       const data = extractMessageData<UsrResUpdate>(message).userInfo;
-      this.users.set(data.uid, data)
+      this.users.set(data.uid, data);
       const userRole = new FormControl();
       userRole.setValue(data.roles);
       this.roles.set(data.uid, userRole);
@@ -55,7 +55,7 @@ export class ManageRolesComponent implements OnDestroy {
   }
 
   getRoles(user: User): RoleData[] {
-		const roles = returnUserRoles(user.roles)
+		const roles = returnUserRoles(user.roles);
 		return roles ? roles : [];
 	}
 

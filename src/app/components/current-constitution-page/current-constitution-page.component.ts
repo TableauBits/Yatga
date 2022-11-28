@@ -71,9 +71,9 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 				const refConstitution = this.constitutions.get(data.id);
 
 				if (refConstitution?.constitution.users !== data.users && data.users.length > 0) {
-					this.auth.ws.send(createMessage<UsrReqGet>(EventType.USER_get, { uids: [data.users[OWNER_INDEX]] }))
+					this.auth.ws.send(createMessage<UsrReqGet>(EventType.USER_get, { uids: [data.users[OWNER_INDEX]] }));
 				}
-				this.constitutions.set(data.id, { constitution: data, owner: refConstitution ? refConstitution.owner : EMPTY_USER })
+				this.constitutions.set(data.id, { constitution: data, owner: refConstitution ? refConstitution.owner : EMPTY_USER });
 			} break;
 
 			case EventType.USER_update: {
@@ -82,7 +82,7 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 					if (data.constitution.users[OWNER_INDEX] === user.uid) {
 						data.owner = user;
 					}
-				})
+				});
 			} break;
 
 			default: { } break;
@@ -103,10 +103,10 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 			return ConstitutionStatus.JOINED;
 		if (constitution.users.length < constitution.maxUserCount)
 			return ConstitutionStatus.JOINABLE;
-		return ConstitutionStatus.FULL
+		return ConstitutionStatus.FULL;
 	}
 
 	joinConstitution(data: DisplayData) {
-		this.auth.ws.send(createMessage<CstReqJoin>(EventType.CST_join, { id: data.constitution.id }))
+		this.auth.ws.send(createMessage<CstReqJoin>(EventType.CST_join, { id: data.constitution.id }));
 	}
 }

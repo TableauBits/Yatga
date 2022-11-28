@@ -87,7 +87,7 @@ export class GradeElectoralComponent implements OnChanges {
       
     }, 250);
 
-    this.shouldLaunchFireworks = !this.shouldLaunchFireworks
+    this.shouldLaunchFireworks = !this.shouldLaunchFireworks;
   }
 
   getUser(uid: string): User {
@@ -172,7 +172,7 @@ export class GradeElectoralComponent implements OnChanges {
     const data = new Map<string, PieData>();
     
     for (const user of this.users.keys()) {
-      data.set(user, {name: user, value: 0})
+      data.set(user, {name: user, value: 0});
     }
 
     const results = this.songResults.filter((_, index) => index >= this.currentRank);
@@ -187,7 +187,7 @@ export class GradeElectoralComponent implements OnChanges {
 
     this.pieData = Array.from(data.values()).map((v) => {
       const name = this.getUser(v.name).displayName;
-      return {value: v.value, name}
+      return {value: v.value, name};
     });
   }
 

@@ -4,7 +4,7 @@ import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
-import { compareSongDSC } from 'src/app/types/song';
+import { compareObjectsFactory } from 'src/app/types/utils';
 import { getIDFromURL } from 'src/app/types/url';
 
 @Component({
@@ -36,11 +36,11 @@ export class GradeGradesComponent {
   }
 
   getSongList(): Song[] {
-    return Array.from(this.songs.values()).sort(compareSongDSC);
+    return Array.from(this.songs.values()).sort(compareObjectsFactory("id", false));
   }
 
   getSelectedSong(): Song {
-    const id = toNumber(this.selectedSong)
+    const id = toNumber(this.selectedSong);
     return this.songs.get(id) || EMPTY_SONG;
   }
 
@@ -78,7 +78,7 @@ export class GradeGradesComponent {
       songs.push({
         song: this.songs.get(key) || EMPTY_SONG,
         grade: value
-      })
+      });
     });
    
     return songs.sort((a, b) => b.grade - a.grade);

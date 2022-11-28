@@ -100,7 +100,7 @@ export class AuthService {
 		}
 
 
-		this.ws = new WebSocket(this.WSconnectionURL)
+		this.ws = new WebSocket(this.WSconnectionURL);
 		this.ws.onopen = () => {
 			this.fireAuth.authState.subscribe(async user => {
 				if (user) {
@@ -109,14 +109,14 @@ export class AuthService {
 					this.emitter.once('authenticate', () => {
 						const getCurrentUserMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: [user.uid] });
 						this.ws.send(getCurrentUserMessage);
-					})
+					});
 				}
 			});
 		};
 
 		this.ws.onmessage = (event) => {
 			this.handleEvents(event);
-		}
+		};
 	}
 
 	private resetState(): void {
@@ -124,11 +124,11 @@ export class AuthService {
 		this.uid = '';
 		this.user = EMPTY_USER;
 
-		this.ws = new WebSocket(this.WSconnectionURL)
+		this.ws = new WebSocket(this.WSconnectionURL);
 
 		this.ws.onmessage = (event) => {
 			this.handleEvents(event);
-		}
+		};
 	}
 
 	async signIn(): Promise<void> {
@@ -138,7 +138,7 @@ export class AuthService {
 		this.emitter.once('authenticate', () => {
 			const getCurrentUserMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: [this.uid] });
 			this.ws.send(getCurrentUserMessage);
-		})
+		});
 	}
 
 	async signOut(): Promise<void> {
@@ -202,18 +202,18 @@ export class AuthService {
 				this.isAuthenticate = true;
 				this.isConnected = true;
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
-				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
+				this.ws.onmessage = (event): any => { this.eventHandlers.forEach((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
 				this.ws.onclose = () => {
 					this.isConnected = false;
-					this.title.setTitle(this.title.getTitle() + " [OFFLINE]")
+					this.title.setTitle(this.title.getTitle() + " [OFFLINE]");
 				};
-				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
+				this.authCallbacks.forEach((callback) => callback[0].call(callback[1]));
 				pingWS(this.ws);
 				pingHTTP(this.http, `${this.HTTPconnectionURL}/keep-alive`);
 				break;
 
 			default:
-				console.log(`Receive an unknown event : ${message.event}`)
+				console.log(`Receive an unknown event : ${message.event}`);
 				break;
 		}
 	}

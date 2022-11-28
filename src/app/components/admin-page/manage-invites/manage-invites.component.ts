@@ -38,7 +38,7 @@ export class ManageInvitesComponent implements OnDestroy {
           if (i1.date > i2.date) return 1;
           if (i1.date < i2.date) return -1;
           return 0;
-        })
+        });
 
         if (!this.users.has(invite.createdBy)) {
           const getUserMessage = createMessage<UsrReqGet>(EventType.USER_get, {uids: [invite.createdBy]});
@@ -55,7 +55,7 @@ export class ManageInvitesComponent implements OnDestroy {
   }
 
   private onConnect(): void {
-    const getAllInvitesMessage = createMessage<InvReqGetAll>(EventType.INVITE_get_all, {})
+    const getAllInvitesMessage = createMessage<InvReqGetAll>(EventType.INVITE_get_all, {});
     this.auth.ws.send(getAllInvitesMessage);
   }
 

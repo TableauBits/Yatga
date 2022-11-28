@@ -27,7 +27,7 @@ export class OwnerComponent implements OnChanges {
 		this.constitutionParameterForm = this.fb.group({
 			name: [this.constitution.name, Validators.required], 
 			playlistLink: [this.constitution.playlistLink],
-		})
+		});
 	}
 
 	constructor(public fb: FormBuilder, private auth: AuthService) {
