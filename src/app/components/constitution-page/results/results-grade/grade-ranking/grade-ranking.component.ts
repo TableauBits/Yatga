@@ -52,7 +52,7 @@ export class GradeRankingComponent implements OnChanges {
       
     }, 250);
 
-    this.shouldLaunchFireworks = !this.shouldLaunchFireworks
+    this.shouldLaunchFireworks = !this.shouldLaunchFireworks;
   }
 
   getSongWinner(): Song {

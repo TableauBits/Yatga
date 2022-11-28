@@ -46,7 +46,7 @@ export class ScatterComponent implements AfterViewInit {
     const numberOfUsers = this.names.length;
 
     for (let index = 0; index < this.axisMax; index++) {
-      array.push(index)
+      array.push(index);
     }
 
     this.names.forEach(function(name, idx) {

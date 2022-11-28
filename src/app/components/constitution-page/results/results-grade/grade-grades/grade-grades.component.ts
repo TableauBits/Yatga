@@ -40,7 +40,7 @@ export class GradeGradesComponent {
   }
 
   getSelectedSong(): Song {
-    const id = toNumber(this.selectedSong)
+    const id = toNumber(this.selectedSong);
     return this.songs.get(id) || EMPTY_SONG;
   }
 
@@ -78,7 +78,7 @@ export class GradeGradesComponent {
       songs.push({
         song: this.songs.get(key) || EMPTY_SONG,
         grade: value
-      })
+      });
     });
    
     return songs.sort((a, b) => b.grade - a.grade);

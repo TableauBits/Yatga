@@ -57,7 +57,7 @@ export class SongListComponent extends YatgaUserFavorites {
 			return this.isSelected(song.user);
 		});
 
-		if (this.cardsSortASC) songs = songs.sort(compareSongASC)
+		if (this.cardsSortASC) songs = songs.sort(compareSongASC);
 		else songs = songs.sort(compareSongDSC);
 
 		if (this.orderByUser) songs = songs.sort(compareSongUser);
@@ -66,7 +66,7 @@ export class SongListComponent extends YatgaUserFavorites {
 			if (this.isAFavorite(a)) return -1;
 			if (this.isAFavorite(b)) return 1;
 			return 0;
-		})
+		});
 
 		return songs;
 	}
@@ -109,7 +109,7 @@ export class SongListComponent extends YatgaUserFavorites {
 		config.data = {
 			song,
 			cstId: this.constitution.id
-		}
+		};
 
 		this.dialog.open(DeleteSongWarningComponent, config);
 	}
@@ -122,7 +122,7 @@ export class SongListComponent extends YatgaUserFavorites {
 			currentSong: song,
 			songs: this.getSongs(),
 			favorites: this.favorites,
-		}
+		};
 
 		this.dialog.open(SongNavigatorComponent, config);
 		this.currentIframeSongID = -1;
@@ -142,7 +142,7 @@ export class SongListComponent extends YatgaUserFavorites {
 
 	// FILTER FUNCTIONS
 	toggleUserFilter(uid: string): void {
-		const index = this.selectedUsers.findIndex((user) => { return user === uid });
+		const index = this.selectedUsers.findIndex((user) => { return user === uid; });
 		if (index !== -1) {
 			this.selectedUsers.splice(index, 1);
 		} else {

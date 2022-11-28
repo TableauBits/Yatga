@@ -16,4 +16,4 @@ export const USER_ROLES: Record<string, RoleData> = {
 	admin: { name: 'Admin', importance: 1, icon: 'verified_user' },
 	member: { name: 'Membre', importance: 2, icon: 'headset' },
 	test: { name: 'Cobaye', importance: 3, icon: 'adb' }
-}
+};

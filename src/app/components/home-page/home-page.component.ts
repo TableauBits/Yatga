@@ -52,14 +52,14 @@ export class HomePageComponent {
 					name: d.name,
 					url: d.html_url,
 					tag: d.tag_name,
-				}
-			})
+				};
+			});
 		});
 	}
 
 	cleanBody(body: string): BodyRelease {
 		let full = "";
-		let changes: Changes[] = []
+		let changes: Changes[] = [];
 		for(let sentence of body.split('\n')) {
 			if (sentence.includes("**Full Changelog**:")) {
 				const index = sentence.indexOf('https://github.com/TableauBits/Yatga');
@@ -72,13 +72,13 @@ export class HomePageComponent {
 					author: result[2],
 					title: result[1],
 					url: result[3],
-				})
+				});
 			}
 		}
 		return {
 			body,
 			changes,
 			full,
-		}
+		};
 	}
 }

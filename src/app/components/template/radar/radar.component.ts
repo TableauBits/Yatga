@@ -52,7 +52,7 @@ export class RadarComponent implements AfterViewInit, OnChanges {
           }
         }
       ]
-    }
+    };
   }
 
 }

@@ -97,7 +97,7 @@ export class ManageSongsComponent {
 	addSong(): void {
 		const invalidValues = this.checkFormValidity();
 		if (!isEmpty(invalidValues)) {
-			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`
+			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`;
 			this.errorStatus.notify(text, true);
 		} else {
 			const song: Song = {
@@ -154,7 +154,7 @@ export class ManageSongsComponent {
 
 		const song = EMPTY_SONG;
 		song.platform = SongPlatform.YOUTUBE;
-		song.url = this.newSongForm.value['url']
+		song.url = this.newSongForm.value['url'];
 
 		return getIDFromURL(song) === DEFAULT_ID_FROM_URL;
 	}

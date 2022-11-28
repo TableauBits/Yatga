@@ -20,7 +20,7 @@ export class GradeProfileComponent implements OnChanges {
   @Input() userResults: Map<string, UserGradeResults> = new Map();
   @Input() songResults: SongGradeResult[] = [];
 
-  histogramValues: number[] = []
+  histogramValues: number[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     this.histogramValues = Array.from(changes['result'].currentValue.data.values.values());
@@ -47,7 +47,7 @@ export class GradeProfileComponent implements OnChanges {
       songs.push({
         song: this.songs.get(key) || EMPTY_SONG,
         grade: value
-      })
+      });
     });
    
     return songs.sort((a, b) => b.grade - a.grade);
@@ -65,7 +65,7 @@ export class GradeProfileComponent implements OnChanges {
           displayName: user.displayName,
           uid: user.uid,
           photoURL: user.photoURL
-        }
+        };
       }),
       userResults: Array.from(this.userResults.values()).map((result) => {
         return {
@@ -75,7 +75,7 @@ export class GradeProfileComponent implements OnChanges {
             values: Array.from(result.data.values.entries()),
           },
           normalizeScores: Array.from(result.normalizeScores.entries()),
-        }
+        };
       }),
     });
 
