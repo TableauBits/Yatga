@@ -1,10 +1,10 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Constitution, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
+import { GetUrlService } from 'src/app/services/get-url.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
-import { getEmbedURL } from 'src/app/types/url';
+import { Constitution, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
 
 interface RandomSongInjectedData {
 	constitution: Constitution,
@@ -27,7 +27,7 @@ export class RandomSongComponent extends YatgaUserFavorites implements OnDestroy
 
 	constructor(
 		public auth: AuthService,
-		private sanitizer: DomSanitizer,
+		public urlGetter: GetUrlService,
 		private dialogRef: MatDialogRef<RandomSongComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: RandomSongInjectedData
 	) {
@@ -36,7 +36,7 @@ export class RandomSongComponent extends YatgaUserFavorites implements OnDestroy
 		this.songs = data.songs;
 		this.favorites = data.favorites;
 		this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 
 		this.auth.pushEventHandler(this.handleEvent, this);
 	}
@@ -58,7 +58,7 @@ export class RandomSongComponent extends YatgaUserFavorites implements OnDestroy
 
 	changeSong(): void {
 		this.currentSong = this.songs[Math.floor(Math.random() * this.songs.length)];
-		this.currentSongSafeURL = getEmbedURL(this.currentSong, this.sanitizer);
+		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 	}
 
 	closeWindow(): void {

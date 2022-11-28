@@ -2,14 +2,14 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { canModifySongs, Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareObjectsFactory, toMap, toMapNumber } from 'src/app/types/utils';
-import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 enum GradeOrder {
 	INCREASE,
@@ -51,9 +51,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	constructor(
 		public auth: AuthService,
-		private sanitizer: DomSanitizer,
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
+		public urlGetter: GetUrlService
 	) {
 		super();
 
@@ -209,18 +209,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		return this.users.get(uid) || EMPTY_USER;
 	}
 
-	getImageURL(song: Song): string {
-		switch (song.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(song);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
-	}
-
 	getSongSafeURL(song: Song): SafeResourceUrl {
 		if (!this.safeUrls.has(song.id)) {
-			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
+			this.safeUrls.set(song.id, this.urlGetter.getEmbedURL(song));
 		}
 
 		return this.safeUrls.get(song.id) || '';
