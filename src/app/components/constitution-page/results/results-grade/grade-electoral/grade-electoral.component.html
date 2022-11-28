@@ -1,5 +1,5 @@
 <br>
-<img *ngIf="isBestQuartert()" class="background blur" [src]="getImageURL()">
+<img *ngIf="isBestQuartert()" class="background blur" [src]="urlGetter.getImageURL(currentSong)">
 <canvas class="fireworks fire" #fireworks> </canvas>
 <div class="page">
   <div class="title">
