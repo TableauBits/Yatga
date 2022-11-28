@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import * as echarts from 'echarts';
 import { isNil } from 'lodash';
 import { EChartsOption, ScatterData } from 'src/app/types/charts';
@@ -10,7 +10,7 @@ const BUBBLE_SIZE = 30;
   templateUrl: './scatter.component.html',
   styleUrls: ['./scatter.component.scss']
 })
-export class ScatterComponent implements AfterViewInit {
+export class ScatterComponent implements AfterViewInit, OnChanges {
 
   @Input() names: string[] = [];
   @Input() data: ScatterData[] = [];

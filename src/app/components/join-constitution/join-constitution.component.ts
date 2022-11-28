@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { Status } from 'src/app/types/status';
   templateUrl: './join-constitution.component.html',
   styleUrls: ['./join-constitution.component.scss']
 })
-export class JoinConstitutionComponent {
+export class JoinConstitutionComponent implements OnDestroy{
 
   public errorStatus: Status;
 	public joinForm: FormGroup;

@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges} from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges} from '@angular/core';
 import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
 import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
@@ -6,13 +6,14 @@ import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
 import { compareObjectsFactory } from 'src/app/types/utils';
 import { getIDFromURL } from 'src/app/types/url';
+import { OnChanges } from '@angular/core/core';
 
 @Component({
   selector: 'app-grade-grades',
   templateUrl: './grade-grades.component.html',
   styleUrls: ['./grade-grades.component.scss']
 })
-export class GradeGradesComponent {
+export class GradeGradesComponent implements OnChanges {
 
   @Input() songs: Map<number, Song> = new Map();
   @Input() users: Map<string, User> = new Map();

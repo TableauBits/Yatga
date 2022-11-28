@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { ChordCategory, ChordLink, ChordNode, HeatmapData } from 'src/app/types/charts';
@@ -9,7 +9,7 @@ import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
   templateUrl: './grade-relationship.component.html',
   styleUrls: ['./grade-relationship.component.scss']
 })
-export class GradeRelationshipComponent {
+export class GradeRelationshipComponent implements OnChanges {
 
   // Input
   @Input() users: Map<string, User> = new Map();
