@@ -24,7 +24,7 @@ export class JoinConstitutionComponent implements OnDestroy {
   ) {
     this.joinForm = this.fb.group({
       id: [, Validators.required]
-    })
+    });
     this.errorStatus = new Status();
     this.auth.pushEventHandler(this.handleEvents, this);
   }
@@ -40,7 +40,7 @@ export class JoinConstitutionComponent implements OnDestroy {
       if (data.success) {
         this.errorStatus.clearStatus();
         this.router.navigateByUrl(`/constitution/${this.joinForm.get('id')?.value}/songList`);
-        this.closeWindow()
+        this.closeWindow();
       } else {
         switch (data.status) {
           case "no_constitution":
@@ -61,7 +61,7 @@ export class JoinConstitutionComponent implements OnDestroy {
 
   sendRequest(): void {
     const cstID = this.joinForm.get('id')?.value;
-    const joinConstitutionMessage = createMessage(EventType.CST_join, { id: cstID })
+    const joinConstitutionMessage = createMessage(EventType.CST_join, { id: cstID });
     this.auth.ws.send(joinConstitutionMessage);
   }
 

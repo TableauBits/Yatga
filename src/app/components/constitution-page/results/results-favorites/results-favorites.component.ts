@@ -54,7 +54,7 @@ export class ResultsFavoritesComponent implements OnChanges {
       this.tableInfo.push({
         song: song.id,
         users: users
-      })
+      });
     }
     this.tableInfo.sort(compareSongFavoriteStat);
   }
@@ -79,7 +79,7 @@ export class ResultsFavoritesComponent implements OnChanges {
 
       this.pieData = Array.from(data.values()).map((v) => {
         const name = this.getUser(v.name).displayName;
-        return {value: v.value, name: name }
+        return {value: v.value, name: name };
       });
     }
   }

@@ -96,7 +96,7 @@ export class ManageSongsComponent implements OnDestroy {
 	addSong(): void {
 		const invalidValues = this.checkFormValidity();
 		if (!isEmpty(invalidValues)) {
-			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`
+			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`;
 			this.errorStatus.notify(text, true);
 		} else {
 			const song: Song = {

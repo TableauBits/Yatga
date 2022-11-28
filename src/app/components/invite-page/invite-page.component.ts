@@ -79,7 +79,7 @@ export class InvitePageComponent {
       const accountInfo = await this.getGoogleCredentials();
       const inviteID = this.getInviteID();
       this.http.post(`${this.HTTPconnectionURL}/invite/${inviteID}`, { newAccount: accountInfo }).subscribe((response) => {
-        console.log(response)
+        console.log(response);
         this.hasReceivedPOSTResponse = true;
         this.invitePOSTResponse = response as InvResPOST;
       });
@@ -100,7 +100,7 @@ export class InvitePageComponent {
       return this.invitePOSTResponse.response.success ? success : error;
     }
 
-    return "Votre compte n'a pas encore été créé."
+    return "Votre compte n'a pas encore été créé.";
   }
 
 }
