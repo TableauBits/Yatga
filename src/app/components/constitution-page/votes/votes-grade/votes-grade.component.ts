@@ -5,10 +5,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
-import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
+import { compareObjectsFactory, toMap, toMapNumber } from 'src/app/types/utils';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
-import { toMap, toMapNumber } from 'src/app/types/utils';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { GetUrlService } from 'src/app/services/get-url.service';
 
@@ -125,34 +124,19 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	}
 
 	getSongsToVote(): Song[] {
-		let songsToVote = Array.from(this.songs.values()).filter(song => {
-			const isNotUserSong = song.user !== this.auth.uid;
-			const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted;
-			return isNotUserSong && !isAlreadyVoted && this.isSelected(song.user);
-		});
+		let songsToVote = Array.from(this.songs.values());
 
-		if (this.cardsSortASC) songsToVote = songsToVote.sort(compareSongASC);
-		else songsToVote = songsToVote.sort(compareSongDSC);
+		songsToVote = songsToVote.filter(song => song.user !== this.auth.uid);
+		songsToVote = songsToVote.filter(song => !(this.votes.values.has(song.id) && this.showAlreadyVoted));
+		songsToVote = songsToVote.filter(song => this.isSelected(song.user));
 
-		if (this.orderByUser) songsToVote = songsToVote.sort(compareSongUser);
-
-		if (this.orderByGrade !== GradeOrder.NONE) songsToVote = songsToVote.sort((s1, s2) => {
-			const order = this.orderByGrade === GradeOrder.INCREASE ? 1 : -1;
-
-			const g1 = this.getVote(s1) || 0;
-			const g2 = this.getVote(s2) || 0;
-
-			if (g1 > g2) return order;
-			if (g1 < g2) return -order;
-
-			return 0;
-		});
-
-		if (this.orderByFavs) songsToVote = songsToVote.sort((a, b) => {
-			if (this.isAFavorite(a)) return -1;
-			if (this.isAFavorite(b)) return 1;
-			return 0;
-		});
+		songsToVote.sort(compareObjectsFactory("id", this.cardsSortASC));
+		if (this.orderByUser) 
+			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
+		if (this.orderByGrade !== GradeOrder.NONE)
+			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.getVote(s) || 0, this.orderByGrade == GradeOrder.DECREASE));
+		if (this.orderByFavs)
+			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
 
 		return songsToVote;
 	}

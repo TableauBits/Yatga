@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
-import { compareSongDSC } from 'src/app/types/song';
+import { compareObjectsFactory } from 'src/app/types/utils';
 
 @Component({
   selector: 'app-grade-grades',
@@ -36,7 +36,7 @@ export class GradeGradesComponent implements OnChanges {
   }
 
   getSongList(): Song[] {
-    return Array.from(this.songs.values()).sort(compareSongDSC);
+    return Array.from(this.songs.values()).sort(compareObjectsFactory("id", false));
   }
 
   getSelectedSong(): Song {
