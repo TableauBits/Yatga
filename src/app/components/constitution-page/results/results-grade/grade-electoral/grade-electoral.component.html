@@ -2,14 +2,14 @@
 <img *ngIf="isBestQuartert()" class="background blur" [src]="getImageURL()">
 <canvas class="fireworks fire" #fireworks> </canvas>
 <div class="page" (window:keydown)="keyPressed($event)">
+  <div class="title">
+    <a href="{{currentSong.url}}" target="_blank">
+      <h1 class="text-overflowable"> {{currentRank+1}}. {{currentSong.author}} - {{currentSong.title}} </h1>
+    </a>
+    <span class="custom-br"></span>
+  </div>
+  <br>
   <div class="left-column box">
-    <br>
-    <div class="title">
-      <a href="{{currentSong.url}}" target="_blank">
-        <h2 class="text-overflowable"> {{currentRank+1}}. {{currentSong.author}} - {{currentSong.title}} </h2>
-      </a>
-      <span class="custom-br"></span>
-    </div>
     <br>
     <iframe class="round" width="{{iframeWidth}}" height="{{iframeHeight}}" frameborder="0"
       [src]="currentSongSafeURL"
@@ -76,7 +76,6 @@
     <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)" matTooltip="Précédant"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
     <br>
     <br>
-
   </div>
 </div>
 <br>

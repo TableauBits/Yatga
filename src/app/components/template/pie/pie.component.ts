@@ -63,7 +63,6 @@ export class PieComponent implements AfterViewInit, OnChanges {
           },
           label: {
             color: '#f4f4f4',
-            formatter: '{b} ({@value})'
           },
         }
       ]

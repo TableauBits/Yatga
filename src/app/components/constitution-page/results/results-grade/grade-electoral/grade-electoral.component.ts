@@ -200,10 +200,10 @@ export class GradeElectoralComponent implements OnChanges {
 
   keyPressed(keyEvent: KeyboardEvent): void {
     if (keyEvent.key === 'ArrowLeft' && !this.isFirstResult()) {
-      this.changeResult(NEXT_RESULT)
+      this.changeResult(NEXT_RESULT);
     }
     else if (keyEvent.key === 'ArrowRight' && !this.isLastResult()) {
-      this.changeResult(PREVIOUS_RESULT)
+      this.changeResult(PREVIOUS_RESULT);
     }
   }
 
