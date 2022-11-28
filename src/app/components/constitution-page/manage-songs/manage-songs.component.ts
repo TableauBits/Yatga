@@ -154,7 +154,7 @@ export class ManageSongsComponent implements OnDestroy {
 	}
 
 	songPlatformFromIcon(): string {
-		const url = this.newSongForm.value['url']
+		const url = this.newSongForm.value['url'];
 		switch (URLToSongPlatform(url)) {
 			case SongPlatform.SOUNDCLOUD: return `${ICONS_PATH}/soundcloud.png`;
 			case SongPlatform.YOUTUBE: return `${ICONS_PATH}/youtube.png`;
