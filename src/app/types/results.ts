@@ -13,7 +13,7 @@ export const EMPTY_USER_GRADE_RESULTS: UserGradeResults = {
   normalizeScores: new Map(),
   mean: -1,
   var: -1
-}
+};
 
 export interface SongGradeResult {
   id: number;
@@ -33,12 +33,12 @@ export function generateUserGradeResults(data: GradeUserData): UserGradeResults 
 
   data.values.forEach((value, key) => {
     n.set(key, normalize(m, v, value));
-  })
+  });
 
   return {
     data: data,
     normalizeScores: n,
     mean: m,
     var: v
-  }
+  };
 }

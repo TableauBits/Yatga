@@ -64,7 +64,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		this.favorites = {uid: "", favs: []};
 		this.histogramGrades = [];
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false"
+		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
 		this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
 		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
 		this.selectedUsers = Array.from(this.users.keys());
@@ -127,11 +127,11 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	getSongsToVote(): Song[] {
 		let songsToVote = Array.from(this.songs.values()).filter(song => {
 			const isNotUserSong = song.user !== this.auth.uid;
-			const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted
+			const isAlreadyVoted = this.votes.values.has(song.id) && this.showAlreadyVoted;
 			return isNotUserSong && !isAlreadyVoted && this.isSelected(song.user);
 		});
 
-		if (this.cardsSortASC) songsToVote = songsToVote.sort(compareSongASC)
+		if (this.cardsSortASC) songsToVote = songsToVote.sort(compareSongASC);
 		else songsToVote = songsToVote.sort(compareSongDSC);
 
 		if (this.orderByUser) songsToVote = songsToVote.sort(compareSongUser);
@@ -146,13 +146,13 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 			if (g1 < g2) return -order;
 
 			return 0;
-		})
+		});
 
 		if (this.orderByFavs) songsToVote = songsToVote.sort((a, b) => {
 			if (this.isAFavorite(a)) return -1;
 			if (this.isAFavorite(b)) return 1;
 			return 0;
-		})
+		});
 
 		return songsToVote;
 	}
@@ -167,7 +167,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	getMean(): string {
 		const values = Array.from(this.votes.values).map((value) => value[1]);
-		const meanValue = mean(values).toFixed(3)
+		const meanValue = mean(values).toFixed(3);
 		return meanValue === 'NaN' ? '0.000' : meanValue;
 	}
 
@@ -186,7 +186,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 			songs: this.getSongsToVote(),
 			votes: this.votes,
 			favorites: this.favorites
-		}
+		};
 
 		this.dialog.open(VoteNavigatorComponent, config);
 		this.currentIframeSongID = -1;
@@ -248,7 +248,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	// FILTER FUNCTIONS
 	toggleUserFilter(uid: string): void {
-		const index = this.selectedUsers.findIndex((user) => { return user === uid });
+		const index = this.selectedUsers.findIndex((user) => { return user === uid; });
 		if (index !== -1) {
 			this.selectedUsers.splice(index, 1);
 		} else {
@@ -283,7 +283,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	resetOrder() {
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
-		this.setOrderByGrade(GradeOrder.NONE)
+		this.setOrderByGrade(GradeOrder.NONE);
 	}
 
 }

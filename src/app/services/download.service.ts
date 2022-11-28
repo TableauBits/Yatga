@@ -11,7 +11,7 @@ export class DownloadService {
     element: {
       dynamicDownload: null as unknown as HTMLElement
     }
-  }
+  };
 
   constructor() { }
 

@@ -1,6 +1,6 @@
 
 import { Component, OnDestroy } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, FavResUpdate, FavReqGet, UserFavorites, CstSongReqUnsubscribe, FavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
@@ -77,9 +77,9 @@ export class ConstitutionComponent implements OnDestroy {
 		this.route.params.subscribe((params) => {
 			this.cstID = params.cstID;
 
-			const getCSTMessage = createMessage<CstReqGet>(EventType.CST_get, { ids: [this.cstID] })
+			const getCSTMessage = createMessage<CstReqGet>(EventType.CST_get, { ids: [this.cstID] });
 			this.auth.ws.send(getCSTMessage);
-		})
+		});
 	}
 
 	private handleEvents(event: MessageEvent<any>): void {
@@ -94,10 +94,10 @@ export class ConstitutionComponent implements OnDestroy {
 					const newUsers = this.constitution.users.filter((uid) => !this.users.has(uid));
 					const unusedListens = Array.from(this.users.values()).filter((user) => !this.constitution.users.includes(user.uid)).map((user) => user.uid);
 					for (const uid of unusedListens) {
-						this.users.delete(uid)
+						this.users.delete(uid);
 					}
 
-					const getUsersMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: newUsers })
+					const getUsersMessage = createMessage<UsrReqGet>(EventType.USER_get, { uids: newUsers });
 					this.auth.ws.send(getUsersMessage);
 					const unsubscribeUsersMessage = createMessage<UsrReqUnsubscribe>(EventType.USER_unsubscribe, { uids: unusedListens });
 					this.auth.ws.send(unsubscribeUsersMessage);
@@ -111,7 +111,7 @@ export class ConstitutionComponent implements OnDestroy {
 					this.route.params.subscribe((params) => {
 						const section = params.section === ConstitutionSection.OWNER && this.auth.uid !== this.constitution.users[OWNER_INDEX] ? ConstitutionSection.SONG_LIST : params.section;
 						this.setCurrentSection(section);
-					})
+					});
 
 					this.pageIsInit = true;
 				}
@@ -120,7 +120,7 @@ export class ConstitutionComponent implements OnDestroy {
 
 			case EventType.USER_update: {
 				const data = extractMessageData<UsrResUpdate>(message).userInfo;
-				this.users.set(data.uid, data)
+				this.users.set(data.uid, data);
 			} break;
 			case EventType.CST_SONG_update: {
 				const data = extractMessageData<CstSongResUpdate>(message);
@@ -164,7 +164,7 @@ export class ConstitutionComponent implements OnDestroy {
 		config.data = {
 			cstID: this.cstID,
 			songs: this.songs
-		}
+		};
 
 		this.dialog.open(ManageSongsComponent, config);
 	}
@@ -176,14 +176,14 @@ export class ConstitutionComponent implements OnDestroy {
 			constitution: this.constitution,
 			songs: Array.from(this.songs.values()),
 			favorites: this.favorites.get(this.auth.uid),
-		}
+		};
 
 		this.dialog.open(RandomSongComponent, config);
 	}
 
 	setCurrentSection(newSection: ConstitutionSection): void {
 		this.currentSection = newSection;
-		this.router.navigate(['constitution', this.cstID, this.currentSection])
+		this.router.navigate(['constitution', this.cstID, this.currentSection]);
 	}
 
 	isSectionActive(section: ConstitutionSection): boolean {
