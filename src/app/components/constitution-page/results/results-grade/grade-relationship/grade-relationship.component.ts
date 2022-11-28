@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { ChordCategory, ChordLink, ChordNode, HeatmapData } from 'src/app/types/charts';

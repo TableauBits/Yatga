@@ -1,12 +1,11 @@
-import { Component, Input, SimpleChanges, OnChanges} from '@angular/core';
-import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
+import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { EMPTY_SONG, EMPTY_USER, Song, User } from 'chelys';
 import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { GetUrlService } from 'src/app/services/get-url.service';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
 import { compareObjectsFactory } from 'src/app/types/utils';
-import { getIDFromURL } from 'src/app/types/url';
-import { OnChanges } from '@angular/core/core';
 
 @Component({
   selector: 'app-grade-grades',
@@ -31,7 +30,7 @@ export class GradeGradesComponent implements OnChanges {
     this.histogramValues = this.getUserHistogramValues();   // Init values
   }
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, public urlGetter: GetUrlService) {
     this.selectedUser = auth.uid;
     this.selectedSong = '-1';
   }
@@ -47,12 +46,7 @@ export class GradeGradesComponent implements OnChanges {
 
   getImageURL(): string {
     const song = this.getSelectedSong();
-		switch (song.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(song);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
+    return this.urlGetter.getImageURL(song);
 	}
 
   returnVote(uid: string): number | string {

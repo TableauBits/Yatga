@@ -11,7 +11,7 @@ import { Status } from 'src/app/types/status';
   templateUrl: './join-constitution.component.html',
   styleUrls: ['./join-constitution.component.scss']
 })
-export class JoinConstitutionComponent implements OnDestroy{
+export class JoinConstitutionComponent implements OnDestroy {
 
   public errorStatus: Status;
 	public joinForm: FormGroup;

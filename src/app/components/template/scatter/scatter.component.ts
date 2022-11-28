@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
 import { isNil } from 'lodash';
 import { EChartsOption, ScatterData } from 'src/app/types/charts';
