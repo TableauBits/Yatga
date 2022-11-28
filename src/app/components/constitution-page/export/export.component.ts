@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, Role, Song, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { DownloadService } from 'src/app/services/download.service';
-import { compareObjectsFactory } from 'src/app/types/song';
+import { compareObjectsFactory } from 'src/app/types/utils';
 
 type ExportJSON = {
   cstName: string;

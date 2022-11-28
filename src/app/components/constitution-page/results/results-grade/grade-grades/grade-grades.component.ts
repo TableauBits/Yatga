@@ -4,7 +4,7 @@ import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
-import { compareObjectsFactory } from 'src/app/types/song';
+import { compareObjectsFactory } from 'src/app/types/utils';
 import { getIDFromURL } from 'src/app/types/url';
 
 @Component({

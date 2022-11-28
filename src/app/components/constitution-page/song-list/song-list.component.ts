@@ -8,7 +8,7 @@ import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
 import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
-import { compareObjectsFactory } from 'src/app/types/song';
+import { compareObjectsFactory } from 'src/app/types/utils';
 
 @Component({
 	selector: 'app-song-list',
