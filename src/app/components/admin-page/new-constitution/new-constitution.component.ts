@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 
-const ANONIMITY_LEVELS = ["Toutes informations révélées", "Utilisateur caché", "Audio seulement"]
+const ANONIMITY_LEVELS = ["Toutes informations révélées", "Utilisateur caché", "Audio seulement"];
 
 @Component({
 	selector: 'app-new-constitution',
@@ -72,7 +72,7 @@ export class NewConstitutionComponent {
 		const invalidValues = this.checkFormValidity();
 
 		if (!isEmpty(invalidValues)) {
-			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`
+			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`;
 			this.errorStatus.notify(text, true);
 		}
 		else {
@@ -89,7 +89,7 @@ export class NewConstitutionComponent {
 				maxUserCount: this.newConstitutionForm.value['maxUserCount'],
 				numberOfSongsPerUser: this.newConstitutionForm.value['numberOfSongsPerUser'],
 				state: 0
-			}
+			};
 
 			const newConstitutionMessage = createMessage(EventType.CST_create, { cstData: constitution });
 			this.auth.ws.send(newConstitutionMessage);

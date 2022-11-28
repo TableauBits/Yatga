@@ -15,4 +15,4 @@ export const ROUTES: Routes = [
 	{	path: 'invite',														component: InvitePageComponent 							},
 	{ path: 'profile', 													component: ProfilePageComponent 						},
 	{ path: 'users', 														component: UsersPageComponent 							},
-]
+];

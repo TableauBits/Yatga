@@ -60,14 +60,14 @@ export class GradeRanksComponent implements OnChanges {
           return index + 1;
         }
         return NO_RESULT;
-      }).filter((value) => { return value !== NO_RESULT });
+      }).filter((value) => { return value !== NO_RESULT; });
 
       this.usersRank.push({
         uid: user.uid,
         rank: mean(userSongResults),
         max: Math.max(...userSongResults),
         min: Math.min(...userSongResults)
-      })
+      });
     }
     this.usersRank.sort(compareRank);
   }
@@ -85,9 +85,9 @@ export class GradeRanksComponent implements OnChanges {
       const result = this.songResults[index];
       const song = this.songs.get(result.id);
       const keys = Array.from(this.users.keys());
-      const userIndex = keys.findIndex((key) => { return key === song?.user});
+      const userIndex = keys.findIndex((key) => { return key === song?.user;});
       
-      this.scatterData.push([userIndex, index, 1])
+      this.scatterData.push([userIndex, index, 1]);
     }
   }
 

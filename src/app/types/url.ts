@@ -9,8 +9,8 @@ export function getIDFromURL(song: Song): string {
 		case SongPlatform.YOUTUBE: {
 			const parsedURL = new URLParse(song.url, true);
 			let videoID = DEFAULT_ID_FROM_URL;
-			if (parsedURL.hostname === "youtu.be") { videoID = parsedURL.pathname.split("/")[1] }
-			if (parsedURL.hostname === "www.youtube.com") { videoID = parsedURL.query["v"] ?? "" }
+			if (parsedURL.hostname === "youtu.be") { videoID = parsedURL.pathname.split("/")[1]; }
+			if (parsedURL.hostname === "www.youtube.com") { videoID = parsedURL.query["v"] ?? ""; }
 			return videoID;
 		}
 

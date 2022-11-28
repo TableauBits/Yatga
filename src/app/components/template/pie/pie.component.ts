@@ -67,7 +67,7 @@ export class PieComponent implements AfterViewInit, OnChanges {
           },
         }
       ]
-    }
+    };
   }
 
 }
