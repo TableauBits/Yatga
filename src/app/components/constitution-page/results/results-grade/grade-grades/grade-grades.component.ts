@@ -1,18 +1,18 @@
-import { Component, Input, SimpleChanges} from '@angular/core';
-import { EMPTY_SONG, EMPTY_USER, Song, SongPlatform, User } from 'chelys';
+import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { EMPTY_SONG, EMPTY_USER, Song, User } from 'chelys';
 import { isNil, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { GetUrlService } from 'src/app/services/get-url.service';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
-import { compareSongDSC } from 'src/app/types/song';
-import { getIDFromURL } from 'src/app/types/url';
+import { compareObjectsFactory } from 'src/app/types/utils';
 
 @Component({
   selector: 'app-grade-grades',
   templateUrl: './grade-grades.component.html',
   styleUrls: ['./grade-grades.component.scss']
 })
-export class GradeGradesComponent {
+export class GradeGradesComponent implements OnChanges {
 
   @Input() songs: Map<number, Song> = new Map();
   @Input() users: Map<string, User> = new Map();
@@ -30,13 +30,13 @@ export class GradeGradesComponent {
     this.histogramValues = this.getUserHistogramValues();   // Init values
   }
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, public urlGetter: GetUrlService) {
     this.selectedUser = auth.uid;
     this.selectedSong = '-1';
   }
 
   getSongList(): Song[] {
-    return Array.from(this.songs.values()).sort(compareSongDSC);
+    return Array.from(this.songs.values()).sort(compareObjectsFactory("id", false));
   }
 
   getSelectedSong(): Song {
@@ -46,12 +46,7 @@ export class GradeGradesComponent {
 
   getImageURL(): string {
     const song = this.getSelectedSong();
-		switch (song.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(song);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
+    return this.urlGetter.getImageURL(song);
 	}
 
   returnVote(uid: string): number | string {

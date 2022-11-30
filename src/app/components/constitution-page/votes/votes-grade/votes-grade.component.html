@@ -85,7 +85,7 @@
               </div>
               <i class="text-overflowable"> {{song.author}} </i>
             </h3>
-            <img src="{{getImageURL(song)}}" class="card-img blur">
+            <img src="{{urlGetter.getImageURL(song)}}" class="card-img blur">
             <div class="card-img-overlay">
               <div class="card-body">
                 <iframe *ngIf="currentIframeSongID === song.id; else loadImage" height="208" frameborder="0"
@@ -93,7 +93,7 @@
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
                 <ng-template #loadImage>
-                  <img src="{{getImageURL(song)}}" height="208" class="iframe-image"
+                  <img src="{{urlGetter.getImageURL(song)}}" height="208" class="iframe-image"
                     (click)="updateCurrentIframeSong(song)">
                   <div class="centered">
                     <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
@@ -142,13 +142,14 @@
         <th> Titre </th>
         <th> Auteur </th>
         <th> URL </th>
+        <th> Ajouté par </th>
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSongsToVote()">
         <td> {{ song.id }} </td>
         <td>
           <button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
-            [disabled]="noMoreFavorites(song) || !canVote()">
+            [disabled]="noMoreFavorites(song) || !canVote()" matTooltip="Voter pour cette chanson">
             <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
           </button>
         </td>
@@ -163,6 +164,7 @@
             <mat-icon>play_circle_outline</mat-icon>
           </a>
         </td>
+        <td> {{getUser(song.user).displayName}} </td>
         <td> {{getVote(song)}} </td>
       </tr>
     </table>

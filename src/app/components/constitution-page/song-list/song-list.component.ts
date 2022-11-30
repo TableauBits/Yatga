@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
-import { compareSongASC, compareSongDSC, compareSongUser } from 'src/app/types/song';
-import { getEmbedURL, getIDFromURL } from 'src/app/types/url';
+import { compareObjectsFactory } from 'src/app/types/utils';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
+import { GetUrlService } from 'src/app/services/get-url.service';
 
 @Component({
 	selector: 'app-song-list',
@@ -37,9 +37,9 @@ export class SongListComponent extends YatgaUserFavorites {
 	orderByFavs: boolean;
 
 	constructor(
-		private sanitizer: DomSanitizer,
 		public auth: AuthService,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		public urlGetter: GetUrlService
 	) {
 		super();
 		this.constitution = EMPTY_CONSTITUTION;
@@ -53,20 +53,15 @@ export class SongListComponent extends YatgaUserFavorites {
 	}
 
 	getSongs(): Song[] {
-		let songs = Array.from(this.songs.values()).filter((song) => {
-			return this.isSelected(song.user);
-		});
+		let songs = Array.from(this.songs.values());
+		
+		songs = songs.filter(song => this.isSelected(song.user));
 
-		if (this.cardsSortASC) songs = songs.sort(compareSongASC);
-		else songs = songs.sort(compareSongDSC);
-
-		if (this.orderByUser) songs = songs.sort(compareSongUser);
-
-		if (this.orderByFavs) songs = songs.sort((a, b) => {
-			if (this.isAFavorite(a)) return -1;
-			if (this.isAFavorite(b)) return 1;
-			return 0;
-		});
+		songs.sort(compareObjectsFactory("id", !this.cardsSortASC));
+		if (this.orderByUser) 
+			songs = songs.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
+		if (this.orderByFavs)
+			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
 
 		return songs;
 	}
@@ -79,18 +74,9 @@ export class SongListComponent extends YatgaUserFavorites {
 		return this.users.get(uid) || EMPTY_USER;
 	}
 
-	getImageURL(song: Song): string {
-		switch (song.platform) {
-			case SongPlatform.YOUTUBE: {
-				const videoID = getIDFromURL(song);
-				return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-			}
-		}
-	}
-
 	getSongSafeURL(song: Song): SafeResourceUrl {
 		if (!this.safeUrls.has(song.id)) {
-			this.safeUrls.set(song.id, getEmbedURL(song, this.sanitizer));
+			this.safeUrls.set(song.id, this.urlGetter.getEmbedURL(song));
 		}
 		return this.safeUrls.get(song.id) || '';
 	}

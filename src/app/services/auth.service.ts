@@ -202,12 +202,12 @@ export class AuthService {
 				this.isAuthenticate = true;
 				this.isConnected = true;
 				this.user = extractMessageData<UsrResUpdate>(message).userInfo;
-				this.ws.onmessage = (event): any => { this.eventHandlers.map((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
+				this.ws.onmessage = (event): any => { this.eventHandlers.forEach((eventHandler) => eventHandler[0].call(eventHandler[1], event)); };
 				this.ws.onclose = () => {
 					this.isConnected = false;
 					this.title.setTitle(this.title.getTitle() + " [OFFLINE]");
 				};
-				this.authCallbacks.map((callback) => callback[0].call(callback[1]));
+				this.authCallbacks.forEach((callback) => callback[0].call(callback[1]));
 				pingWS(this.ws);
 				pingHTTP(this.http, `${this.HTTPconnectionURL}/keep-alive`);
 				break;
