@@ -130,7 +130,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		songsToVote = songsToVote.filter(song => !(this.votes.values.has(song.id) && this.showAlreadyVoted));
 		songsToVote = songsToVote.filter(song => this.isSelected(song.user));
 
-		songsToVote.sort(compareObjectsFactory("id", this.cardsSortASC));
+		songsToVote.sort(compareObjectsFactory("id", !this.cardsSortASC));
 		if (this.orderByUser) 
 			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByGrade !== GradeOrder.NONE)
