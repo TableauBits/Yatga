@@ -47,7 +47,7 @@
 		</mat-tab>
 		<mat-tab>
 			<ng-template mat-tab-label>
-				<mat-icon>delete</mat-icon>
+				<mat-icon>cancel</mat-icon>
 				Retirer
 			</ng-template>
 			<br>
@@ -64,8 +64,8 @@
 					<td class="text-overflowable">{{song.author}}</td>
 					<td class="text-overflowable">{{song.title}}</td>
 					<td>
-						<button mat-raised-button color="primary" (click)="removeSong(song.id)">
-							<mat-icon>delete</mat-icon>
+						<button mat-raised-button color="warn" (click)="removeSong(song.id)">
+							<mat-icon>cancel</mat-icon>
 						</button>
 					</td>
 				</tr>
