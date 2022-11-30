@@ -261,4 +261,8 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		this.setOrderByGrade(GradeOrder.NONE);
 	}
 
+	userFilterTooltip(uid: string, displayName: string): string {
+		const status = !this.selectedUsers.includes(uid) ? "Cacher" : "Afficher";
+		return `${status} ${displayName}`;
+	}
 }

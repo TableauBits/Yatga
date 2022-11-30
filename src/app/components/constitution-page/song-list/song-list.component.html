@@ -1,6 +1,6 @@
 <div class="filter">
 	<span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
-	<img *ngFor="let user of getUsers()" class="picture clickable" matTooltip=" {{user.displayName}}" 
+	<img *ngFor="let user of getUsers()" class="picture clickable" matTooltip="{{userFilterTooltip(user.uid, user.displayName)}}" 
 		[src]="user.photoURL" (click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
 	<button mat-raised-button color="primary" (click)="select('all')" class="filter-button" matTooltip="Afficher tous les utilisateurs">
 		<mat-icon>add_circle_outline</mat-icon>
