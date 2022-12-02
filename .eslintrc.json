@@ -10,8 +10,8 @@
       ],
       "parserOptions": {
         "project": [
-          "Yatga/tsconfig.json",
           "tsconfig.json",
+          "Yatga/tsconfig.json",
           "e2e/tsconfig.json"
         ],
         "createDefaultProgram": true
