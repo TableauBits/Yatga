@@ -7,7 +7,7 @@
 }
 
 .left-column {
-  width: 45%;
+  width: 48%;
   float: left;
   text-align: center;
   margin-right: 1%;
@@ -15,13 +15,12 @@
 }
 
 .right-column {
-  width: 53%;
+  width: 50%;
   float: left;
   text-align: center;
   margin-left: 1%;
-  // margin-right: 2%;
-  overflow-x: auto;
   margin-bottom: 1%;
+  overflow-x: auto;
 }
 
 .rank-button {

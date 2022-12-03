@@ -7,6 +7,9 @@ import { GetUrlService } from 'src/app/services/get-url.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { toMapNumber } from 'src/app/types/utils';
 
+const NEXT_SHIFT = 1;
+const PREVIOUS_SHIFT = -1;
+
 interface VoteNavigatorInjectedData {
 	constitution: Constitution,
 	currentSong: Song,
@@ -102,6 +105,15 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 		this.currentVote = this.votes.values.get(this.currentSong.id);
 		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 	}
+
+	keyPressed(keyEvent: KeyboardEvent): void {
+    if (keyEvent.key === 'ArrowRight' && this.nextSongExist()) {
+      this.changeSong(NEXT_SHIFT);
+    }
+    else if (keyEvent.key === 'ArrowLeft' && this.previousSongExist()) {
+      this.changeSong(PREVIOUS_SHIFT);
+    }
+  }
 
 	closeWindow(): void {
 		this.dialogRef.close();

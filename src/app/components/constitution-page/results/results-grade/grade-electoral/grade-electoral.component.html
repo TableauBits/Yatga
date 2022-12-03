@@ -1,7 +1,7 @@
 <br>
 <img *ngIf="isBestQuartert()" class="background blur" [src]="urlGetter.getImageURL(currentSong)">
 <canvas class="fireworks fire" #fireworks> </canvas>
-<div class="page">
+<div class="page" (window:keydown)="keyPressed($event)">
   <div class="title">
     <a href="{{currentSong.url}}" target="_blank">
       <h1 class="text-overflowable"> {{currentRank+1}}. {{currentSong.author}} - {{currentSong.title}} </h1>
@@ -21,8 +21,20 @@
       <img class="picture" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">
       <mat-icon class="favorite love">favorite</mat-icon>
     </div>
+    <br> 
     <br>
-    <br>
+    <span class="custom-br"></span>
+    <div>
+      <br>
+      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
+      <br>
+      Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
+      <br>
+      <span *ngIf="currentRank === 0">
+        "<i>{{getUser(currentSong.user).description}}</i>"
+      </span>
+      <br> <br>
+    </div>
   </div>
   <div class="right-column box">
     <br>
@@ -52,34 +64,18 @@
     <br>
     <span class="custom-br"></span>
     <br>
-    <div class="box">
-      <br>
-      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
-      <br>
-      Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
-      <br>
-      <span *ngIf="currentRank === 0">
-        "<i>{{getUser(currentSong.user).description}}</i>"
-      </span>
-      <br>
-    </div>
-    <br>
-    <span class="custom-br"></span>
-    <br>
-    <button mat-button class="previous-button purple" [disabled]="isFirstResult()" (click)="goToFirstResult()" matTooltip="Première chanson"> <mat-icon>fast_rewind</mat-icon> </button>
+    <button mat-button class="previous-button purple" [disabled]="isFirstResult()" (click)="goToFirstResult()" matTooltip="Premier"> <mat-icon>fast_rewind</mat-icon> </button>
     <button mat-button class="previous-button purple left" [disabled]="!previousResultExist()" (click)="changeResult(-1)" matTooltip="Suivant"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
-    <button mat-raised-button class="rank-button purple"> {{currentRank + 1}} </button>
-    <button mat-button class="next-button purple left" [disabled]="isLastResult()" (click)="goToLastResult()" matTooltip="Dernière chanson"> <mat-icon>fast_forward</mat-icon> </button>
-    <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)" matTooltip="Précédant"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
-    <br>
-    <br>
-    <br>
     <mat-form-field appearance="fill" class="rank-button">
       <mat-label>Aller au rang</mat-label>
       <mat-select [(value)]="selected" (selectionChange)="goToResult()">
         <mat-option *ngFor="let i of range" value="{{i}}"> {{i+1}}</mat-option>
       </mat-select>
     </mat-form-field>
+    <button mat-button class="next-button purple left" [disabled]="isLastResult()" (click)="goToLastResult()" matTooltip="Dernier"> <mat-icon>fast_forward</mat-icon> </button>
+    <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)" matTooltip="Précédant"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+    <br>
+    <br>
   </div>
 </div>
 <br>

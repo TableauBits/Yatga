@@ -164,4 +164,9 @@ export class SongListComponent extends YatgaUserFavorites {
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
 	}
+
+	userFilterTooltip(uid: string, displayName: string): string {
+		const status = !this.selectedUsers.includes(uid) ? "Cacher" : "Afficher";
+		return `${status} ${displayName}`;
+	}
 }

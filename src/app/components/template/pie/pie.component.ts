@@ -51,7 +51,6 @@ export class PieComponent implements AfterViewInit, OnChanges {
       },
       series: [
         {
-          // name: '',
           type: 'pie',
           radius: ['40%', '70%'],
           data: this.data,
@@ -63,7 +62,7 @@ export class PieComponent implements AfterViewInit, OnChanges {
             }
           },
           label: {
-            color: '#f4f4f4'
+            color: '#f4f4f4',
           },
         }
       ]

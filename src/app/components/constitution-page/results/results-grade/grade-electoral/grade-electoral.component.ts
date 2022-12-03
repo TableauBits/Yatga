@@ -9,6 +9,9 @@ import * as confetti from 'canvas-confetti';
 import { FIREWORK_DEFAULTS, FIREWORK_DURATION } from 'src/app/types/firework';
 import { GetUrlService } from 'src/app/services/get-url.service';
 
+const NEXT_RESULT = -1;
+const PREVIOUS_RESULT = 1;
+
 interface VoteData {
   user: User,
   grade: number,
@@ -184,6 +187,15 @@ export class GradeElectoralComponent implements OnChanges {
 
   isBestQuartert(): boolean {
     return this.currentRank < this.songResults.length / 4;
+  }
+
+  keyPressed(keyEvent: KeyboardEvent): void {
+    if (keyEvent.key === 'ArrowLeft' && !this.isFirstResult()) {
+      this.changeResult(NEXT_RESULT);
+    }
+    else if (keyEvent.key === 'ArrowRight' && !this.isLastResult()) {
+      this.changeResult(PREVIOUS_RESULT);
+    }
   }
 
 }
