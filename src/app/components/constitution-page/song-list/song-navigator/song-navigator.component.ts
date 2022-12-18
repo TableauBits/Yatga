@@ -90,5 +90,4 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 	closeWindow(): void {
 		this.dialogRef.close();
 	}
-
 }
