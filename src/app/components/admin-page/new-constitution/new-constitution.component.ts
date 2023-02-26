@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 
-const ANONIMITY_LEVELS = ["Toutes informations révélées", "Utilisateur caché", "Audio seulement"];
+const ANONIMITY_LEVELS = ["Toutes informations révélées", /*"Utilisateur caché", "Audio seulement"*/];	// TODO : Adapt Anonimity Level
 
 @Component({
 	selector: 'app-new-constitution',
@@ -32,6 +32,7 @@ export class NewConstitutionComponent {
 			playlistLink: [""],
 			maxUserCount: [4, Validators.required],
 			numberOfSongsPerUser: [1, Validators.required],
+			endDate: [],
 		});
 
 		this.errorStatus = new Status();
@@ -70,7 +71,7 @@ export class NewConstitutionComponent {
 
 	public createConstitution(): void {
 		const invalidValues = this.checkFormValidity();
-
+		
 		if (!isEmpty(invalidValues)) {
 			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`;
 			this.errorStatus.notify(text, true);
@@ -88,7 +89,8 @@ export class NewConstitutionComponent {
 				users: [],
 				maxUserCount: this.newConstitutionForm.value['maxUserCount'],
 				numberOfSongsPerUser: this.newConstitutionForm.value['numberOfSongsPerUser'],
-				state: 0
+				state: 0,
+				endDate: this.newConstitutionForm.value['endDate']
 			};
 
 			const newConstitutionMessage = createMessage(EventType.CST_create, { cstData: constitution });

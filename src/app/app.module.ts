@@ -78,6 +78,8 @@ import { MatMenuModule} from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -131,7 +133,7 @@ import { AuthService } from './services/auth.service';
 	 	ChordComponent,
 	 	ManageInvitesComponent,
     ManageRolesComponent,
-    InvitePageComponent
+    InvitePageComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -163,11 +165,15 @@ import { AuthService } from './services/auth.service';
 		MatStepperModule,
 		MatProgressSpinnerModule,
 		MdbDropdownModule,
-		MdbCollapseModule
+		MdbCollapseModule,
+		MatDatepickerModule,
+		MatNativeDateModule
 	],
 	providers: [
 		AuthService,
 		{ provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
+		MatDatepickerModule,
+		MatNativeDateModule
 	],
 	bootstrap: [AppComponent]
 })
