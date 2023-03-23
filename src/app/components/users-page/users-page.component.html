@@ -8,7 +8,9 @@
 	<div class="row g-4">
 		<div class="col" *ngFor="let user of getStaff()">
 			<div class="card user-card border border-danger shadow-0 bg-dark">
-				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+				<div class="user-card-image-container">
+					<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+				</div>
 				<div class="card-body">
 					<h3 class="card-title custom-h3">{{user.displayName}}
 						<div class="icons-container">
@@ -34,7 +36,9 @@
 	<div class="row g-4">
 		<div class="col" *ngFor="let user of getMember()">
 			<div class="card user-card bg-dark border border-warning shadow-0">
-				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+				<div class="user-card-image-container">
+					<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+				</div>
 				<div class="card-body">
 					<h3 class="card-title custom-h3">{{user.displayName}}
 						<div class="icons-container">
@@ -60,7 +64,9 @@
 	<div class="row g-4">
 		<div class="col" *ngFor="let user of getTest()">
 			<div class="card user-card bg-dark shadow-0">
-				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+				<div class="user-card-image-container">
+					<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+				</div>
 				<div class="card-body">
 					<h3 class="card-title custom-h3">{{user.displayName}}
 						<div class="icons-container">
