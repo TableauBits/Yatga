@@ -1,15 +1,16 @@
 .user-card {
 	width: 16rem;
-	height: 27rem;
+	height: 100%;
 	margin: auto;
 }
 
 .user-card-image {
-	height: 12rem;
+	width: 100%;
+	object-fit: cover;
 }
 
 .user-icon {
-	color:cadetblue;
+	color: cadetblue;
 }
 
 .custom-h3 {
@@ -18,9 +19,9 @@
 }
 
 .user-title {
-  width: 95%;
-	margin:auto;
-  border-radius: 25px;
+	width: 95%;
+	margin: auto;
+	border-radius: 25px;
 	text-align: center;
 	font-size: large;
 }
