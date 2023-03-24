@@ -83,8 +83,7 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 	}
 
 	get newCardSongs(): CardSongExtended[] {
-		let songs = Array.from(this.songs.values());
-		return songs.map(s => ({
+		return this.getSongs().map(s => ({
 			videoId: s.url.toString().split("&")[0].slice(-11),
 			id: s.id,
 			songName: s.title,
@@ -104,7 +103,7 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 
 	onVideoStateChange(event: any): void {
 		console.log(event);
-		if (event.data === -1){
+		if (event.data === -1) {
 			event.target.playVideo();
 		}
 	}
