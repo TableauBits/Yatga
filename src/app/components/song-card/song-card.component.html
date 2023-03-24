@@ -1,0 +1,42 @@
+<div class="song">
+    <div class="song-header">
+        <div class="added-by">
+            {{this.mysong.addedBy}}
+        </div>
+    </div>
+    <div class="song-preview" (click)="playSong()">
+        <div>
+            <div class="song-thumbnail"
+                [style.background-image]="getMyShittyHQThumbnailUrlCSS()">
+            </div>
+            <div class="song-info">
+                <div class="song-artist">
+                    {{this.mysong.artistName}}
+                </div>
+                <div class="song-title">
+                    {{this.mysong.songName}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="song-commands">
+        <div>
+            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Ouvrir le lien"
+                [disabled]="false">
+                <mat-icon>open_in_new</mat-icon>
+            </button>
+            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Ouvrir dans un modal"
+                [disabled]="false">
+                <mat-icon>open_in_full</mat-icon>
+            </button>
+            <button mat-icon-button (click)="'song.toggleLikeSong()'" [color]="'song.isLiked' ? 'red' : ''"
+                matTooltip="J'aime" [disabled]="false">
+                <mat-icon>favorite</mat-icon>
+            </button>
+            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Supprimer"
+                [disabled]="false">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

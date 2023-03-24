@@ -1,13 +1,36 @@
 @import "../../../../styles/variables.scss";
 
+.player-container {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 700px;
+	z-index: 1000;
+	// make small and put int bottom right corner when unhovered
+	transform: scale(0.5) translate(50%, 50%);
+	transition: transform 0.2s ease;
+}
+.player-container:hover {
+	transform: scale(1) translate(0, 0);
+}
+.gradient-background {
+	// transparent to black
+	pointer-events: none;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 800px;
+	aspect-ratio: 9 / 9;
+	background: radial-gradient(circle at 100% 100%, #000000, #00000000 50%);
+}
 .filter {
 	display: inline-block;
 	margin-top: -5%;
 	width: 100%;
 
 	background-color: $mineshaft;
-  border-radius: 25px;
-  border: 2px solid $sasuke;
+	border-radius: 25px;
+	border: 2px solid $sasuke;
 }
 
 .filter-text {
@@ -27,10 +50,11 @@ table {
 	margin-right: auto;
 	width: 95%;
 	overflow-x: auto;
-	font-size:medium;
+	font-size: medium;
 }
 
-td, th {
+td,
+th {
 	border: 1px solid $sasuke;
 	text-align: center;
 	padding: 8px;
@@ -44,6 +68,7 @@ td, th {
 #t01 tr:nth-child(even) {
 	background-color: $sasuke;
 }
+
 #t01 tr:nth-child(odd) {
 	background-color: $cape-cod;
 }
@@ -69,9 +94,9 @@ td, th {
 .blur {
 	filter: blur($blur);
 	-webkit-filter: blur($blur);
-    -moz-filter: blur($blur);
-    -o-filter: blur($blur);
-    -ms-filter: blur($blur);
+	-moz-filter: blur($blur);
+	-o-filter: blur($blur);
+	-ms-filter: blur($blur);
 	user-select: none;
 }
 
@@ -82,7 +107,7 @@ td, th {
 	user-select: none;
 }
 
-iframe {
+.card-body>iframe {
 	width: 100%;
 	padding-top: 35px;
 }
@@ -97,10 +122,10 @@ iframe {
 
 .centered {
 	cursor: pointer;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 button {
@@ -117,7 +142,7 @@ button {
 
 ::ng-deep {
 	.mat-menu-content {
-		background-color: $bg-dark  !important;
+		background-color: $bg-dark !important;
 	}
 
 	.mat-menu-item:hover {

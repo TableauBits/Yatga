@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User, UserFavorites, canModifyVotes } from 'chelys';
@@ -9,13 +9,16 @@ import { compareObjectsFactory } from 'src/app/types/utils';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
 import { GetUrlService } from 'src/app/services/get-url.service';
+import { CardSongExtended } from '../../song-card/song-card.component';
 
 @Component({
 	selector: 'app-song-list',
 	templateUrl: './song-list.component.html',
 	styleUrls: ['./song-list.component.scss']
 })
-export class SongListComponent extends YatgaUserFavorites {
+export class SongListComponent extends YatgaUserFavorites implements OnInit {
+
+	apiLoaded = false;
 
 	// Input
 	@Input() constitution: Constitution;
@@ -36,6 +39,8 @@ export class SongListComponent extends YatgaUserFavorites {
 	orderByUser: boolean;
 	orderByFavs: boolean;
 
+	songListening: CardSongExtended | null = null;
+
 	constructor(
 		public auth: AuthService,
 		private dialog: MatDialog,
@@ -44,7 +49,7 @@ export class SongListComponent extends YatgaUserFavorites {
 		super();
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
-		this.favorites = {uid: "", favs: []};
+		this.favorites = { uid: "", favs: [] };
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
@@ -52,18 +57,63 @@ export class SongListComponent extends YatgaUserFavorites {
 		this.orderByFavs = false;
 	}
 
+	ngOnInit() {
+		if (!this.apiLoaded) {
+			// This code loads the IFrame Player API code asynchronously, according to the instructions at
+			// https://developers.google.com/youtube/iframe_api_reference#Getting_Started
+			const tag = document.createElement('script');
+			tag.src = 'https://www.youtube.com/iframe_api';
+			document.body.appendChild(tag);
+			this.apiLoaded = true;
+		}
+	}
+
 	getSongs(): Song[] {
 		let songs = Array.from(this.songs.values());
-		
+
 		songs = songs.filter(song => this.isSelected(song.user));
 
 		songs.sort(compareObjectsFactory("id", !this.cardsSortASC));
-		if (this.orderByUser) 
-			songs = songs.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
+		if (this.orderByUser)
+			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByFavs)
 			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
 
 		return songs;
+	}
+
+	get newCardSongs(): CardSongExtended[] {
+		let songs = Array.from(this.songs.values());
+		return songs.map(s => ({
+			videoId: s.url.toString().split("&")[0].slice(-11),
+			id: s.id,
+			songName: s.title,
+			artistName: s.author,
+			addedBy: this.getUser(s.user).displayName,
+			liked: this.isAFavorite(s),
+			playing: false,
+		}));
+	}
+
+	getSongById(id: number): Song {
+		return this.songs.get(id)!;
+	}
+	onVideoReady(event: any): void {
+		event.target.playVideo();
+	}
+
+	onVideoStateChange(event: any): void {
+		console.log(event);
+		if (event.data === -1){
+			event.target.playVideo();
+		}
+	}
+	getSongVideoId(song: Song): string {
+		return song.url.toString().split("&")[0].slice(-11);
+	}
+
+	setSongListening(song: CardSongExtended | null): void {
+		this.songListening = song;
 	}
 
 	getUsers(): User[] {
@@ -91,12 +141,10 @@ export class SongListComponent extends YatgaUserFavorites {
 
 	openDeleteSongWarning(song: Song): void {
 		const config = new MatDialogConfig();
-
 		config.data = {
 			song,
 			cstId: this.constitution.id
 		};
-
 		this.dialog.open(DeleteSongWarningComponent, config);
 	}
 
