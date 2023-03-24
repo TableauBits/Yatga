@@ -136,7 +136,7 @@
 
 <ng-template #newCardView>
 	<div style="display: flex; justify-content: space-around; flex-direction: row; width: 100%; flex-wrap: wrap;">
-		<app-song-card *ngFor="let song of newCardSongs" [mysong]="song" (onPlay)="setSongListening(song)"
+		<app-song-card *ngFor="let song of newCardSongs" [mysong]="song" (play)="setSongListening(song)"
 			style="flex: 1; min-width: 350px; margin: 10px;"></app-song-card>
 	</div>
 	<div class="player-container" *ngIf="songListening">

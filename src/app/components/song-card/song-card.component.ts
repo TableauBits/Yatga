@@ -32,13 +32,13 @@ export class SongCardComponent {
   };
 
   @Output()
-  public onPlay = new EventEmitter<CardSongExtended>();
+  public play = new EventEmitter<CardSongExtended>();
 
   constructor(
   ) { }
 
   playSong() {
-    this.onPlay.emit(this.mysong);
+    this.play.emit(this.mysong);
   }
 
   getMyShittyHQThumbnailUrlCSS(): string {
