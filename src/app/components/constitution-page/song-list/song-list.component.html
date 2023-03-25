@@ -31,124 +31,123 @@
 </div>
 <br>
 <br>
-<!-- <div *ngIf="cardsViewEnabled; then cardsView; else compactView"> -->
-<div *ngIf="cardsViewEnabled; then newCardView; else newCardView">
-</div>
-<ng-template #cardsView>
-	<div class="container">
-		<div class="row g-4">
-			<div class="col" *ngFor="let song of getSongs()">
-				<div class="card shadow-0 bg-dark z-card">
-					<h3 class="card-header front">
-						<div>
-							<span class="text-overflowable"> {{song.title}} </span>
-							<img src="{{getUser(song.user).photoURL}}" class="image-de picture"
-								matTooltip="{{getUser(song.user).displayName}}">
-						</div>
-						<i class="text-overflowable"> {{song.author}} </i>
-					</h3>
-					<img src="{{urlGetter.getImageURL(song)}}" class="card-img blur">
-					<div class="card-img-overlay">
-						<div class="card-body">
-							<iframe *ngIf="currentIframeSongID === song.id; else loadImage" height="208" frameborder="0"
-								[src]="getSongSafeURL(song)"
-								allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-								allowfullscreen>
-							</iframe>
-							<ng-template #loadImage>
-								<img src="{{urlGetter.getImageURL(song)}}" height="208" class="iframe-image"
-									(click)="updateCurrentIframeSong(song)">
-								<div class="centered">
-									<button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
-										<mat-icon>play_arrow</mat-icon></button>
-								</div>
-							</ng-template>
-							<br>
-							<button mat-raised-button color="primary" (click)="openSongNavigator(song)"
-								matTooltip="Ouvrir le navigateur Matbay">
-								<mat-icon>music_video</mat-icon>
-							</button>
-							<button mat-raised-button color="primary" (click)="onNavigate(song)"
-								matTooltip="Regarder la vidéo sur le site d'origine">
-								<mat-icon>play_circle_outline</mat-icon>
-							</button>
-							<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
-								[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
-								<mat-icon *ngIf="isAFavorite(song); else normalSong"
-									class="favorite">favorite</mat-icon>
-							</button>
-							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button
-								color="warn" class="cancel" (click)="openDeleteSongWarning(song)"
-								matTooltip="Retirer la chanson">
-								<mat-icon>cancel</mat-icon>
-							</button>
+<div [ngSwitch]="cardsViewEnabled">
+	<div *ngSwitchCase="'card'">
+		<div class="container">
+			<div class="row g-4">
+				<div class="col" *ngFor="let song of getSongs()">
+					<div class="card shadow-0 bg-dark z-card">
+						<h3 class="card-header front">
+							<div>
+								<span class="text-overflowable"> {{song.title}} </span>
+								<img src="{{getUser(song.user).photoURL}}" class="image-de picture"
+									matTooltip="{{getUser(song.user).displayName}}">
+							</div>
+							<i class="text-overflowable"> {{song.author}} </i>
+						</h3>
+						<img src="{{urlGetter.getImageURL(song)}}" class="card-img blur">
+						<div class="card-img-overlay">
+							<div class="card-body">
+								<iframe *ngIf="currentIframeSongID === song.id; else loadImage" height="208"
+									frameborder="0" [src]="getSongSafeURL(song)"
+									allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+									allowfullscreen>
+								</iframe>
+								<ng-template #loadImage>
+									<img src="{{urlGetter.getImageURL(song)}}" height="208" class="iframe-image"
+										(click)="updateCurrentIframeSong(song)">
+									<div class="centered">
+										<button mat-raised-button color="primary"
+											(click)="updateCurrentIframeSong(song)">
+											<mat-icon>play_arrow</mat-icon></button>
+									</div>
+								</ng-template>
+								<br>
+								<button mat-raised-button color="primary" (click)="openSongNavigator(song)"
+									matTooltip="Ouvrir le navigateur Matbay">
+									<mat-icon>music_video</mat-icon>
+								</button>
+								<button mat-raised-button color="primary" (click)="onNavigate(song)"
+									matTooltip="Regarder la vidéo sur le site d'origine">
+									<mat-icon>play_circle_outline</mat-icon>
+								</button>
+								<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+									[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+									<mat-icon *ngIf="isAFavorite(song); else normalSong"
+										class="favorite">favorite</mat-icon>
+								</button>
+								<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button
+									color="warn" class="cancel" (click)="openDeleteSongWarning(song)"
+									matTooltip="Retirer la chanson">
+									<mat-icon>cancel</mat-icon>
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</ng-template>
-<ng-template #compactView>
-	<table id="t01">
-		<tr>
-			<th> ID </th>
-			<th> Favoris </th>
-			<th> Titre </th>
-			<th> Auteur </th>
-			<th> URL </th>
-			<th> Ajouté par </th>
-			<th></th>
-		</tr>
-		<tr *ngFor="let song of getSongs()">
-			<td> {{ song.id }} </td>
-			<td>
-				<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
-					[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
-					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
-				</button>
-			</td>
-			<td>
-				<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
-					{{ song.title }}
-				</button>
-			</td>
-			<td> {{ song.author }} </td>
-			<td>
-				<a href="{{song.url}}" target="_blank">
-					<mat-icon>play_circle_outline</mat-icon>
-				</a>
-			</td>
-			<td> {{ getUser(song.user).displayName }} </td>
-			<td>
-				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn"
-					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
-					<mat-icon>cancel</mat-icon>
-				</button>
-			</td>
-		</tr>
-	</table>
-</ng-template>
+	<div *ngSwitchCase="'list'">
+		<table id="t01">
+			<tr>
+				<th> ID </th>
+				<th> Favoris </th>
+				<th> Titre </th>
+				<th> Auteur </th>
+				<th> URL </th>
+				<th> Ajouté par </th>
+				<th></th>
+			</tr>
+			<tr *ngFor="let song of getSongs()">
+				<td> {{ song.id }} </td>
+				<td>
+					<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+						[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+						<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+					</button>
+				</td>
+				<td>
+					<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
+						{{ song.title }}
+					</button>
+				</td>
+				<td> {{ song.author }} </td>
+				<td>
+					<a href="{{song.url}}" target="_blank">
+						<mat-icon>play_circle_outline</mat-icon>
+					</a>
+				</td>
+				<td> {{ getUser(song.user).displayName }} </td>
+				<td>
+					<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn"
+						(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
+						<mat-icon>cancel</mat-icon>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div *ngSwitchCase="'card-new'">
+		<div style="display: flex; justify-content: space-around; flex-direction: row; width: 100%; flex-wrap: wrap;">
+			<app-song-card *ngFor="let song of newCardSongs" [mysong]="song" (play)="setSongListening(song)"
+				style="flex: 1; min-width: 350px; margin: 10px;"></app-song-card>
+		</div>
+		<div class="player-container" *ngIf="songListening">
+			<button mat-icon-button color="white" (click)="setSongListening(null)"
+				style="position: absolute; right: 0; transform: scale(1.5);">
+				<mat-icon>close</mat-icon>
+			</button>
+			<youtube-player [videoId]="getSongVideoId(getSongById(songListening.id))"
+				style="aspect-ratio: 16 / 9; width: 100%;" (stateChange)="onVideoStateChange($event)"
+				(ready)="onVideoReady($event)">
+			</youtube-player>
+		</div>
+		<div class="gradient-background" *ngIf="songListening">
+		</div>
+	</div>
+</div>
 
 <ng-template #normalSong>
 	<mat-icon>favorite_border</mat-icon>
-</ng-template>
-
-<ng-template #newCardView>
-	<div style="display: flex; justify-content: space-around; flex-direction: row; width: 100%; flex-wrap: wrap;">
-		<app-song-card *ngFor="let song of newCardSongs" [mysong]="song" (play)="setSongListening(song)"
-			style="flex: 1; min-width: 350px; margin: 10px;"></app-song-card>
-	</div>
-	<div class="player-container" *ngIf="songListening">
-		<button mat-icon-button color="white" (click)="setSongListening(null)"
-			style="position: absolute; right: 0; transform: scale(1.5);">
-			<mat-icon>close</mat-icon>
-		</button>
-		<youtube-player [videoId]="getSongVideoId(getSongById(songListening.id))"
-			style="aspect-ratio: 16 / 9; width: 100%;" (stateChange)="onVideoStateChange($event)"
-			(ready)="onVideoReady($event)">
-		</youtube-player>
-	</div>
-	<div class="gradient-background" *ngIf="songListening">
-	</div>
 </ng-template>

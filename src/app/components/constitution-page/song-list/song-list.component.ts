@@ -31,7 +31,7 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 	currentIframeSongID: number;
 
 	// Local Parameter
-	cardsViewEnabled: boolean;
+	cardsViewEnabled: string;
 	cardsSortASC: boolean;
 
 	// Filter
@@ -50,7 +50,7 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
 		this.favorites = { uid: "", favs: [] };
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
+		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? "card")
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
