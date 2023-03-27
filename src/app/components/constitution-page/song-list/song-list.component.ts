@@ -57,7 +57,7 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 		}
 		// Change date to today when you want to show the upgrade message again
 		this.showUpgradeMessage = Number((localStorage.getItem(LAST_IGNORE) ?? 0)) < new Date(2023, 0, 1).getTime();
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? "card")
+		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? "card");
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
@@ -65,8 +65,8 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 	}
 
 	removeUpgradeMessage() {
-		this.showUpgradeMessage = false
-		console.log(this.showUpgradeMessage)
+		this.showUpgradeMessage = false;
+		console.log(this.showUpgradeMessage);
 		localStorage.setItem(LAST_IGNORE, new Date().getTime().toString());
 	}
 

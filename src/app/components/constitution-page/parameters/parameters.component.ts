@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_ALREADY_VOTES_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
 
 
-const Views = ["card", "list", "card-new"]
+const Views = ["card", "list", "card-new"];
 type CardsView = typeof Views[number];
 function isCardsView(x: any): x is CardsView {
   return Views.includes(x);
