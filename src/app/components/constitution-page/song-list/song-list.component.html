@@ -139,7 +139,7 @@
 	<div *ngSwitchCase="'card-new'">
 		<div
 			style="display: grid; justify-content: space-around; width: 100%; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); grid-gap: 10px;">
-			<app-song-card *ngFor="let song of newCardSongs" [mysong]="song" (play)="setSongListening(song)"
+			<app-song-card *ngFor="let song of newCardSongs" [mysong]="song" (playSong)="setSongListening(song)"
 				style="flex: 1; min-width: 350px; margin: 10px;"></app-song-card>
 		</div>
 		<div class="player-container" *ngIf="songListening">
