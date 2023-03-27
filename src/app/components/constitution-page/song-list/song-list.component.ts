@@ -4,7 +4,7 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
-import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
+import { CARDS_SORT_KEY, CARDS_VIEW_KEY, LAST_IGNORE } from 'src/app/types/local-storage';
 import { compareObjectsFactory } from 'src/app/types/utils';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
@@ -40,6 +40,7 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 	orderByFavs: boolean;
 
 	songListening: CardSongExtended | null = null;
+	showUpgradeMessage: boolean;
 
 	constructor(
 		public auth: AuthService,
@@ -50,11 +51,23 @@ export class SongListComponent extends YatgaUserFavorites implements OnInit {
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
 		this.favorites = { uid: "", favs: [] };
+
+		if (!["card", "list", "card-new"].includes(localStorage.getItem(CARDS_VIEW_KEY) ?? '')) {
+			localStorage.setItem(CARDS_VIEW_KEY, "card");
+		}
+		// Change date to today when you want to show the upgrade message again
+		this.showUpgradeMessage = Number((localStorage.getItem(LAST_IGNORE) ?? 0)) < new Date(2023, 0, 1).getTime();
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? "card")
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
 		this.orderByFavs = false;
+	}
+
+	removeUpgradeMessage() {
+		this.showUpgradeMessage = false
+		console.log(this.showUpgradeMessage)
+		localStorage.setItem(LAST_IGNORE, new Date().getTime().toString());
 	}
 
 	ngOnInit() {

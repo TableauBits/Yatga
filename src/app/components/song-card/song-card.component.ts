@@ -41,7 +41,7 @@ export class SongCardComponent {
     this.play.emit(this.mysong);
   }
 
-  getMyShittyHQThumbnailUrlCSS(): string {
+  getHQThumbnailUrlCSS(): string {
     return `url("https://img.youtube.com/vi/${this.mysong.videoId}/hqdefault.jpg")`;
   }
 }

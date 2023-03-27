@@ -31,6 +31,14 @@
 </div>
 <br>
 <br>
+<div *ngIf="showUpgradeMessage"
+	style="border: 1px solid rgb(143, 81, 0); border-radius: 20px; background-color: rgb(109, 62, 0); padding: 10px; width: max-content; margin: 10px auto">
+	<u>Une nouvelle vue carte experimentale est disponible à l'essai.</u> Allez dans les paramètres pour l'activer.
+	<button mat-icon-button color="white" (click)="removeUpgradeMessage()">
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+
 <div [ngSwitch]="cardsViewEnabled">
 	<div *ngSwitchCase="'card'">
 		<div class="container">
@@ -129,7 +137,8 @@
 		</table>
 	</div>
 	<div *ngSwitchCase="'card-new'">
-		<div style="display: flex; justify-content: space-around; flex-direction: row; width: 100%; flex-wrap: wrap;">
+		<div
+			style="display: grid; justify-content: space-around; width: 100%; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); grid-gap: 10px;">
 			<app-song-card *ngFor="let song of newCardSongs" [mysong]="song" (play)="setSongListening(song)"
 				style="flex: 1; min-width: 350px; margin: 10px;"></app-song-card>
 		</div>
@@ -139,8 +148,7 @@
 				<mat-icon>close</mat-icon>
 			</button>
 			<youtube-player [videoId]="getSongVideoId(getSongById(songListening.id))"
-				style="aspect-ratio: 16 / 9; width: 100%;" (stateChange)="onVideoStateChange($event)"
-				(ready)="onVideoReady($event)">
+				(stateChange)="onVideoStateChange($event)" [width]="720" (ready)="onVideoReady($event)">
 			</youtube-player>
 		</div>
 		<div class="gradient-background" *ngIf="songListening">

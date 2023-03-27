@@ -6,8 +6,7 @@
     </div>
     <div class="song-preview" (click)="playSong()">
         <div>
-            <div class="song-thumbnail"
-                [style.background-image]="getMyShittyHQThumbnailUrlCSS()">
+            <div class="song-thumbnail" [style.background-image]="getHQThumbnailUrlCSS()">
             </div>
             <div class="song-info">
                 <div class="song-artist">
@@ -21,20 +20,17 @@
     </div>
     <div class="song-commands">
         <div>
-            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Ouvrir le lien"
-                [disabled]="false">
+            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Ouvrir le lien" [disabled]="true">
                 <mat-icon>open_in_new</mat-icon>
             </button>
-            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Ouvrir dans un modal"
-                [disabled]="false">
+            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Ouvrir dans un modal" [disabled]="true">
                 <mat-icon>open_in_full</mat-icon>
             </button>
             <button mat-icon-button (click)="'song.toggleLikeSong()'" [color]="'song.isLiked' ? 'red' : ''"
-                matTooltip="J'aime" [disabled]="false">
+                matTooltip="J'aime" [disabled]="true">
                 <mat-icon>favorite</mat-icon>
             </button>
-            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Supprimer"
-                [disabled]="false">
+            <button mat-icon-button (click)="'song.deleteSong()'" matTooltip="Supprimer" [disabled]="true">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
