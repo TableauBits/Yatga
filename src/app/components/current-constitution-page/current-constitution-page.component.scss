@@ -1,24 +1,46 @@
+@import "../../../styles/variables.scss";
+
+h1{
+  font-size:60px;
+  font-weight: 200;
+  line-height: 100%;
+  margin:60px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+hr {
+  margin:25px;
+  position: relative;
+}
+
 table {
-  margin-left: auto;
-  margin-right: auto;
+  margin:auto;
+  margin-top:40px;
   width: 95%;
   overflow-x: auto;
 }
 
 td, th {
-  border: 1px solid #434647;
+  border: 0px solid #693BB855;
   text-align: center;
   padding: 8px;
+  font-weight: 300;
+  font-size: 110%;
+}
+
+th {
+  font-weight: 500;
 }
 
 #t01 th {
-  background-color: #2E2E2E;
+  background-color: $mineshaft;
   color: whitesmoke;
 }
 
 #t01 tr:nth-child(even) {
-background-color: #434647;
+background-color: #222;
 }
 #t01 tr:nth-child(odd) {
-background-color: #353738;
+background-color: #2a2a2a;
 }

@@ -1,12 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 // MDB SCSS
-@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 // Font Awesome
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
-@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 @import "styles/variables.scss";
 
 
@@ -16,6 +14,12 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   color: whitesmoke;
   background-color:  $cape-cod;
+}
+
+hr {
+  border:none;
+  border-top: 1px solid $purple ;
+  opacity:0.3;
 }
 
 .mat-dialog-container {
@@ -169,7 +173,7 @@ body {
 }
 
 .favorite {
-	color:deeppink;
+	color:#CF387C;
 }
 
 .love {
@@ -205,4 +209,8 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+a {
+  color: #388ACF;
 }
