@@ -17,11 +17,64 @@
   transform: translateX(-50%);
 }
 
+.container-fluid {
+  width:100%;
+  justify-content: flex-start;
+  display:flex;
+}
+
+.navbar {
+  background-color: $mineshaft;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 15px;
+  box-shadow: 0px 5px 15px #0004;
+}
+
+.container .left {
+  width:min-content;
+}
+
+.container .right {
+  width:min-content;
+}
+
+.left:last-child {
+  align-items: right;
+  float: right;
+}
+
+.container {
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+  justify-content: space-between;
+  width:100%;
+}
+
+.navbar-brand {
+  text-decoration: none;
+  color: white;
+  font-size: 40px;
+  line-height: 100%;
+  display:flex;
+  font-weight: 100;
+  margin:2px 5px;
+  margin-right: max(15px,2vw) ;
+}
+
+.navbar-brand b{
+  font-weight: 500;
+}
+
 .content {
   color: whitesmoke;
   background-color: $mineshaft;
   text-align: left;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  display: flex;
 }
 
 .purple {
@@ -33,8 +86,12 @@
 }
 
 .navbar-button {
-  margin: 0px 10px;
+  margin: 0px max(10px, 1vw);
+  text-transform: uppercase;
+  color:white;
+  font-weight: 400;
 }
+
 
 .noHover{
   pointer-events: none;
@@ -42,6 +99,10 @@
 
 .menu-panel {
 	color: whitesmoke;
+}
+
+.mat-menu-item {
+  vertical-align: middle;
 }
 
 ::ng-deep {
@@ -62,4 +123,5 @@
   height: 25px;
   width: 25px;
   margin-right: 15px;
+  vertical-align: middle;
 }
