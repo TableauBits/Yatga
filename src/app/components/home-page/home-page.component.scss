@@ -1,13 +1,27 @@
 @import "../../../styles/variables.scss";
 
 h1 {
-  font-size: xx-large;
+  font-size: 10vw;
+  line-height: 100%;
+  margin-top: min(5%, 75px);
+}
+
+h2 {
+  color: $light-purple;
+  font-size: 170%;
+  font-weight: 300;
+  margin:15px;
+}
+
+hr {
+  margin:5vh;
+  margin-top:6vw;
 }
 
 .wip {
-  border: 5px solid $angular-purple;
-  -moz-border-radius: 28px;
-  border-radius: 28px;  
+  box-shadow: 5px 5px 5px #000;
+  margin:20px;
+  width:300px;
 }
 
 mat-expansion-panel {
