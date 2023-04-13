@@ -56,17 +56,15 @@
 
 .navbar-brand {
   text-decoration: none;
+  align-self: center;
   color: white;
   font-size: 40px;
   line-height: 100%;
+  vertical-align: middle;
   display:flex;
   font-weight: 100;
-  margin:2px 5px;
+  margin:0px 5px;
   margin-right: max(15px,2vw) ;
-}
-
-.navbar-brand b{
-  font-weight: 500;
 }
 
 .content {
@@ -86,7 +84,7 @@
 }
 
 .navbar-button {
-  margin: 0px max(10px, 1vw);
+  margin: 3px max(10px, 1vw);
   text-transform: uppercase;
   color:white;
   font-weight: 400;
@@ -124,4 +122,38 @@
   width: 25px;
   margin-right: 15px;
   vertical-align: middle;
+}
+
+.buttonOpen {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: white;
+}
+
+@media all and (max-width: 918px)  {
+  .navbar-button {
+    margin: 5px 5px;
+    height:80%;
+    font-size: 95%;
+    padding:10px;
+    line-height: 70%;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-flow: row wrap;
+  }
+
+  .container .container{
+    flex-flow: row-reverse nowrap;
+  }
+
+  @media all and (max-width: 768px){
+  .container {
+    flex-flow: row-reverse wrap;
+  }
+  }
 }
