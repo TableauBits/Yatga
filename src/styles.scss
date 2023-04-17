@@ -6,6 +6,7 @@
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 @import "styles/variables.scss";
+@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 
 
 html, body { height: 100%; }
@@ -28,9 +29,13 @@ hr {
   background-color: $cape-cod;
 }
 
+.bg-dark {
+  background-color: $mineshaft !important; 
+}
+
 .custom-br {
   width: 95%;
-  height: 2px;
+  height: 1px;
   background-color: $sasuke;
   margin:auto;
   display:table;
@@ -218,12 +223,6 @@ a {
 }
 
 // scroll bar :
-
-
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
 
 /* width */
 ::-webkit-scrollbar {

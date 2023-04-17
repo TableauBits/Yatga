@@ -5,7 +5,7 @@
 			<h1> {{constitution.name}} </h1>
 		</a>
 	</ng-template>
-	<span class="custom-br"></span>
+	<hr>
 	<table class="custom-br2">
 		<tr>
 			<td> Constitution </td>
@@ -20,20 +20,15 @@
 			<td> {{numberOfCurrentUserFavorites()}} / {{numberOfMaxFavorites()}} </td>
 		</tr>
 	</table>
-	<span class="custom-br custom-br2"></span>
-	<br>
+	<hr>
 	<button mat-raised-button color="primary" [disabled]="!updateSongs()" (click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes chansons
 	</button>
-	<br>
-	<br>
 	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
 		<mat-icon>shuffle</mat-icon> Sélection aléatoire
 	</button>
-	<br>
-	<br>
-	<span class="custom-br"></span>
-	<mat-list role="list" *ngFor="let user of getUsers()">
+	<hr>
+	<mat-list role="list" *ngFor="let user of getUsers()" class="list-roles">
 		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
 			<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
 			<ng-template #isNotOwner>
@@ -43,8 +38,7 @@
 			<span class="list-item"> {{user.displayName}} </span>
 		</mat-list-item>
 	</mat-list>
-	<span class="custom-br custom-br2"></span>
-	<br>
+	<hr>
 	<button mat-raised-button [disabled]="true" class="warning">
 		<mat-icon>highlight_off</mat-icon> Quitter la constitution
 	</button>
