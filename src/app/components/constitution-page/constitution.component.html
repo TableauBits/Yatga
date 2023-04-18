@@ -43,7 +43,7 @@
 		<mat-icon>highlight_off</mat-icon> Quitter la constitution
 	</button>
 </mat-sidenav-container>
-<nav class="navbar round-navbard navbar-expand-lg navbar-dark bg-dark content">
+<nav class="navbar round-navbard navbar-expand-lg navbar-dark bg-dark content naviguation_cons">
 	<div class="container-fluid">
 		<!-- Collapse button-->
 		<button class="navbar-toggler" type="button" (click)="basicNav.toggle()" aria-expanded="false"
@@ -79,7 +79,7 @@
 		</div>
 	</div>
 </nav>
-<div [ngSwitch]="currentSection" class="content">
+<div [ngSwitch]="currentSection" class="content filtres">
 	<app-song-list *ngSwitchCase="constitutionSection.SONG_LIST"
 		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="getCurrentUserFavs()">
 	</app-song-list>

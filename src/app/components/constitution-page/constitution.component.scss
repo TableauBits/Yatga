@@ -76,13 +76,21 @@ hr {
 .custom-br2 {
   margin-top: 8px ;
   border : solid 0px;
-  background-color: #222222;
+  background-color: transparent;
+}
+
+.naviguation_cons {
+  margin:2% 3% 1% 19% !important;
 }
 
 ::ng-deep {
 	.mat-drawer-content {
 		overflow-x: hidden !important;
 	}
+}
+
+.filtres {
+  margin-top: 25px !important;
 }
 
 .round-navbard {
