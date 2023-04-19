@@ -57,11 +57,11 @@ hr {
 }
 
 .admin-color {
-  color: $admin-dark;
+  color: $admin;
 }
 
 .member-color {
-  color: $guest-dark;
+  color: $guest;
 }
 
 .mat-list-base {
@@ -119,6 +119,10 @@ table {
   align-items: center;
   border: 2px solid $sasuke;
   background-color: $bg-dark;
+}
+
+span {
+  overflow-x: hidden;
 }
 
 .content[_ngcontent-fcv-c154] {
