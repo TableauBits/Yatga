@@ -1,13 +1,13 @@
 <br>
 <h1 class="title"> LISTE DES UTILISATEURS </h1>
-<span class="custom-br"></span>
+<hr>
 <br>
-<span class="d-block p-2 bg-dark text-white user-title"> Matbay Staff </span>
+<span class="d-block p-2 text-white user-title"> Matbay Staff </span>
 <br>
 <div class="container">
 	<div class="row g-4">
 		<div class="col" *ngFor="let user of getStaff()">
-			<div class="card user-card border border-danger shadow-0 bg-dark">
+			<div class=" admin-color card user-card">
 				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
 				<div class="card-body">
 					<h3 class="card-title custom-h3">{{user.displayName}}
@@ -17,7 +17,7 @@
 							</span>
 						</div>
 					</h3>
-					<span class="custom-br"></span>
+					<hr>
 					<br>
 					<p class="card-text">
 						{{user.description}}
@@ -28,12 +28,12 @@
 	</div>
 </div>
 <br>
-<span class="d-block p-2 bg-dark shadow-0 text-white user-title"> Matbay Member </span>
+<span class="d-block p-2 shadow-0 text-white user-title"> Matbay Member </span>
 <br>
 <div class="container">
 	<div class="row g-4">
 		<div class="col" *ngFor="let user of getMember()">
-			<div class="card user-card bg-dark border border-warning shadow-0">
+			<div class="card user-card member-color">
 				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
 				<div class="card-body">
 					<h3 class="card-title custom-h3">{{user.displayName}}
@@ -43,7 +43,7 @@
 							</span>
 						</div>
 					</h3>
-					<span class="custom-br"></span>
+					<hr>
 					<br>
 					<p class="card-text">
 						{{user.description}}
@@ -54,12 +54,12 @@
 	</div>
 </div>
 <br>
-<span class="d-block p-2 bg-dark text-white user-title"> Matbay Test Subject </span>
+<span class="d-block p-2 text-white user-title"> Matbay Test Subject </span>
 <br>
 <div class="container">
 	<div class="row g-4">
 		<div class="col" *ngFor="let user of getTest()">
-			<div class="card user-card bg-dark shadow-0">
+			<div class="card user-card other-color">
 				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
 				<div class="card-body">
 					<h3 class="card-title custom-h3">{{user.displayName}}
@@ -69,7 +69,7 @@
 							</span>
 						</div>
 					</h3>
-					<span class="custom-br"></span>
+					<hr>
 					<br>
 					<p class="card-text">
 						{{user.description}}

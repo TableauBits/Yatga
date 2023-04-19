@@ -1,15 +1,57 @@
+@import "../../../styles/variables.scss";
+
 .user-card {
 	width: 16rem;
-	height: 27rem;
+	height: 30rem;
 	margin: auto;
+	background-color: $mineshaft;
+}
+
+.admin-color {
+	background: radial-gradient(ellipse farthest-side at 300% 80%, $admin ,transparent),radial-gradient(ellipse at 0% ,#111,transparent);
+}
+
+.member-color {
+	background: radial-gradient(ellipse farthest-side at 300% 80%, $guest ,transparent),radial-gradient(ellipse at 0% ,#111,transparent);
+}
+
+.other-color {
+	background: radial-gradient(ellipse farthest-side at 300% 80%, $the-blue ,transparent),radial-gradient(ellipse at 0% ,#111,transparent);
+}
+
+h1 {
+	font-size: max(3vw, 40px);
+	font-weight: 200;
+	margin: 20px 0 30px;
+	line-height: 100%;
 }
 
 .user-card-image {
-	height: 12rem;
+	height: 15rem;
+}
+
+.card-text {
+	text-align: justify;
+}
+
+.card {
+	border-radius: 10px;
+	box-shadow: 7px 7px 30px #000a;
+	margin-bottom: 20px;
+}
+
+.card hr {
+	border-top: 1px solid #fff2 ;
+	margin:6px 0px 3px;
+}
+
+.card-img-top {
+	border-radius: 10px 10px 0px 0px;
 }
 
 .user-icon {
-	color:cadetblue;
+	color: #80c6ff;
+	margin-top: 5px;
 }
 
 .custom-h3 {
@@ -18,9 +60,9 @@
 }
 
 .user-title {
-  width: 95%;
-	margin:auto;
-  border-radius: 25px;
+	margin:25px;
 	text-align: center;
 	font-size: large;
+	font-size: 30px;
+	font-weight: 100;
 }
