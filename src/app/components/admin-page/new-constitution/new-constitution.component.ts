@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from 'chelys';
 import { isEmpty } from 'lodash';
@@ -32,11 +32,22 @@ export class NewConstitutionComponent {
 			playlistLink: [""],
 			maxUserCount: [4, Validators.required],
 			numberOfSongsPerUser: [1, Validators.required],
-			endDate: [],
+			endDate: [undefined, {
+				validators: [this.createDateValidator()],
+			}],
 		});
 
 		this.errorStatus = new Status();
 	}
+
+	private createDateValidator(): ValidatorFn {
+    return (control: AbstractControl) : ValidationErrors | null => {
+			const value = control.value;
+			console.log(value);
+			if (!value) return null;
+			return {endDateIsValid : value > new Date()};
+		};
+	} 
 
 	public getTypes(): string[] {
 		return Object.keys(ConstitutionType).filter((key) => isNaN(key as unknown as number)).splice(0, ConstitutionType.LENGTH);
