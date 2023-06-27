@@ -57,9 +57,8 @@
 		<br>
 		<mat-form-field appearance="fill">
 			<mat-label>Date de fin de la constitution</mat-label>
-			<input matInput formControlName="endDate" [matDatepicker]="picker">
+			<input matInput formControlName="endDate" [matDatepicker]="picker" >
 			<mat-hint>MM/DD/YYYY</mat-hint>
-			<mat-datepicker-toggle matIconPrefix [for]="picker"></mat-datepicker-toggle>
 			<mat-datepicker #picker></mat-datepicker>
 		</mat-form-field>
 		<br> <br>

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from 'chelys';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 
@@ -32,22 +32,17 @@ export class NewConstitutionComponent {
 			playlistLink: [""],
 			maxUserCount: [4, Validators.required],
 			numberOfSongsPerUser: [1, Validators.required],
-			endDate: [undefined, {
-				validators: [this.createDateValidator()],
-			}],
+			endDate: [, this.validateEndDate]
 		});
 
 		this.errorStatus = new Status();
 	}
 
-	private createDateValidator(): ValidatorFn {
-    return (control: AbstractControl) : ValidationErrors | null => {
-			const value = control.value;
-			console.log(value);
-			if (!value) return null;
-			return {endDateIsValid : value > new Date()};
-		};
-	} 
+	private validateEndDate(control: AbstractControl): {[key: string]: any} | null {
+		if (isNil(control.value)) return null;
+		if (new Date(control.value) < new Date()) return {"endDateInvalid": true};
+		return null;
+	}
 
 	public getTypes(): string[] {
 		return Object.keys(ConstitutionType).filter((key) => isNaN(key as unknown as number)).splice(0, ConstitutionType.LENGTH);
