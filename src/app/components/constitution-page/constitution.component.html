@@ -20,7 +20,7 @@
 			<td> {{numberOfCurrentUserFavorites()}} / {{numberOfMaxFavorites()}} </td>
 		</tr>
 	</table>
-	<span> {{getRemainingTimeMsg()}} </span>
+	<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
 	<span class="custom-br custom-br2"></span>
 	<br>
 	<button mat-raised-button color="primary" [disabled]="!updateSongs()" (click)="openDialogManageSongs()">
