@@ -12,7 +12,7 @@
         <th> Ajouté par </th>
         <th> Favoris de </th>
       </tr>
-      <tr *ngFor="let info of tableInfo;let indexOfelement=index;">
+      <tr *ngFor="let info of songTableInfo;let indexOfelement=index;">
         <td> {{ indexOfelement + 1 }} </td>
         <td> <button mat-raised-button class="disable-click no-button-color"> <span> {{ info.users.length }} </span>  <mat-icon class="favorite"> favorite </mat-icon> </button> </td>
         <td> {{ getSong(info.song).author }} - {{ getSong(info.song).title }}</td>
@@ -28,6 +28,24 @@
             <mat-icon class="favorite love">favorite</mat-icon>
           </div>
         </td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
+        <mat-panel-title> Nombre de favoris </mat-panel-title>
+    </mat-expansion-panel-header>
+    <span class="stat-text"> {{numberOfFavorites}} favoris ont été donnés durant cette constitution sur les {{numberMaxOfFavorites}} possibles, dont {{numberOfSelfFavorites}} à soi-même. Le classement suivant ne prend pas en compte les favoris émits à soi-même.</span>
+    <table id="t01">
+      <tr>
+        <th> Position </th>
+        <th> Utilisateur </th>
+        <th> Nombre de favoris reçu </th>
+      </tr>
+      <tr *ngFor="let info of userTableInfo;let indexOfelement=index;">
+        <td> {{ indexOfelement + 1 }} </td>
+        <td> <img class="picture avatar" [src]="getUser(info.user).photoURL" matTooltip="{{ getUser(info.user).displayName }}"> </td>
+        <td> <button mat-raised-button class="disable-click no-button-color"> <span> {{ info.favoritesReceived }} </span>  <mat-icon class="favorite"> favorite </mat-icon> </button> </td>
       </tr>
     </table>
   </mat-expansion-panel>
