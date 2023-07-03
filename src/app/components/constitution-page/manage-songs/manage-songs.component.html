@@ -18,7 +18,8 @@
 				<mat-icon *ngIf="respectLengthLimit('title')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('title')}}.">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
 					<mat-label> Titre </mat-label>
-					<input matInput formControlName="title" required>
+					<input matInput #input_title formControlName="title" required>
+					<mat-hint align="end">{{input_title.value.length}}/100</mat-hint>
 				</mat-form-field>
 				<br>
 				<mat-icon *ngIf="!respectLengthLimit('author') && !isNil('author')" class="valid icon">check_circle_outline</mat-icon> 
@@ -26,7 +27,8 @@
 				<mat-icon *ngIf="respectLengthLimit('author')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('author')}}. ">error_outline</mat-icon> 
 				<mat-form-field appearance="outline">
 					<mat-label> Auteur </mat-label>
-					<input matInput formControlName="author" required>
+					<input matInput #input_author formControlName="author" required>
+					<mat-hint align="end">{{input_author.value.length}}/100</mat-hint>
 				</mat-form-field>
 				<br>
 				<mat-icon *ngIf="isValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon> 
@@ -36,6 +38,13 @@
 					<mat-label> URL </mat-label>
 					<input matInput formControlName="url" required>
 					<img *ngIf="!isNil('url')" matSuffix class="platform-img" [src]="songPlatformFromIcon()">
+				</mat-form-field>
+				<h3 class="title"> CHAMPS OPTIONNELS </h3>
+				<span class="custom-br"></span>
+				<br>
+				<mat-form-field appearance="outline">
+					<mat-label> Année de sortie </mat-label>
+					<input matInput type="number" min="0" max="{{getCurrentYear()}}" formControlName="releaseYear">
 				</mat-form-field>
 			</form>
 			<button mat-raised-button color="primary" class="icon" (click)="addSong()">

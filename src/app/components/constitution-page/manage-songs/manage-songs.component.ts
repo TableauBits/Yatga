@@ -37,7 +37,8 @@ export class ManageSongsComponent implements OnDestroy {
 		this.newSongForm = this.fb.group({
 			title: [, Validators.required],
 			author: [, Validators.required],
-			url: [, Validators.required]
+			url: [, Validators.required],
+			releaseYear: []
 		});
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -105,7 +106,10 @@ export class ManageSongsComponent implements OnDestroy {
 				platform: URLToSongPlatform(this.newSongForm.value['url']),
 				title: this.newSongForm.value['title'],
 				author: this.newSongForm.value['author'],
-				url: this.newSongForm.value['url']
+				url: this.newSongForm.value['url'],
+
+				// optionnal fields
+				addedDate: new Date().toISOString(),
 			};
 
 			const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
@@ -160,5 +164,9 @@ export class ManageSongsComponent implements OnDestroy {
 			case SongPlatform.YOUTUBE: return `${ICONS_PATH}/youtube.png`;
 		}
 		return `${ICONS_PATH}/invalid.png`;
+	}
+
+	getCurrentYear(): number {
+		return new Date().getFullYear();
 	}
 }
