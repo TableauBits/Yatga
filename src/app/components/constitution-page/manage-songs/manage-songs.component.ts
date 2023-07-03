@@ -6,6 +6,7 @@ import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 import { URLToSongPlatform } from 'src/app/types/url';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 const ICONS_PATH = "assets/icons";
 
@@ -26,6 +27,8 @@ export class ManageSongsComponent implements OnDestroy {
 	public errorStatus: Status;
 	private cstID: string;
 
+	public altTitles: string[];
+
 	constructor(
 		private auth: AuthService,
 		private dialogRef: MatDialogRef<ManageSongsComponent>,
@@ -34,11 +37,13 @@ export class ManageSongsComponent implements OnDestroy {
 	) {
 		this.cstID = data.cstID;
 		this.songs = data.songs;
+		this.altTitles = [];
 		this.newSongForm = this.fb.group({
 			title: [, Validators.required],
 			author: [, Validators.required],
 			url: [, Validators.required],
-			releaseYear: []
+			album: [],
+			releaseYear: [],
 		});
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -110,7 +115,10 @@ export class ManageSongsComponent implements OnDestroy {
 
 				// optionnal fields
 				addedDate: new Date().toISOString(),
+				altTitles: isEmpty(this.altTitles) ? undefined : this.altTitles,
 			};
+
+			console.log(song);
 
 			const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
 			this.auth.ws.send(newSongMessage);
@@ -169,4 +177,17 @@ export class ManageSongsComponent implements OnDestroy {
 	getCurrentYear(): number {
 		return new Date().getFullYear();
 	}
+
+  add(event: MatChipInputEvent): void {
+		const value = (event.value || '').trim();
+    if (value) { this.altTitles.push(value); }
+    event.chipInput!.clear();
+  }
+
+  remove(title: string): void {
+    const index = this.altTitles.indexOf(title);
+    if (index >= 0) {
+      this.altTitles.splice(index, 1);
+    }
+  }
 }
