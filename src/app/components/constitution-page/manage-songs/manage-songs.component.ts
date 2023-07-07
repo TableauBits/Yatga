@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject, OnDestroy, ViewChild } from '@angular/co
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EventType, extractMessageData, Message, Song, SongPlatform, SONG_AUTHOR_LENGTH, SONG_NAME_LENGTH } from 'chelys';
-import { isEmpty, isNil } from 'lodash';
+import { isEmpty, isNil, isNull } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 import { URLToSongPlatform } from 'src/app/types/url';
@@ -69,7 +69,6 @@ export class ManageSongsComponent implements OnDestroy {
 
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
-		console.log(MUSIC_GENRES);
 	}
 
 	ngOnDestroy(): void {
@@ -139,8 +138,8 @@ export class ManageSongsComponent implements OnDestroy {
 				// optionnal fields
 				addedDate: new Date().toISOString(),
 				altTitles: isEmpty(this.altTitles) ? undefined : this.altTitles,
-				album: this.newSongForm.value['album'],
-				releaseYear: this.newSongForm.value['releaseYear'],				
+				album: isNull(this.newSongForm.value['album']) ? undefined : this.newSongForm.value['album'],
+				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],				
 				genres: isEmpty(this.genres) ? undefined : this.genres,
 			};
 
