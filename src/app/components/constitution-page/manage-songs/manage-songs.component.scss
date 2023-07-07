@@ -14,11 +14,6 @@ mat-form-field {
   width: 85%;
 }
 
-mat-option {
-  color: whitesmoke;
-  background-color: $cape-cod;
-}
-
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
      color: whitesmoke;
@@ -41,7 +36,6 @@ mat-option {
   }
 
   .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
-    color: $angular-purple;
     background: $cape-cod;
   }
 
@@ -49,7 +43,6 @@ mat-option {
     background: $sasuke;
   }
   .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
-    color: $angular-purple;
     background: $sasuke;
   }
 }

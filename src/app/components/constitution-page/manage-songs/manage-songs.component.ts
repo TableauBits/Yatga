@@ -60,15 +60,12 @@ export class ManageSongsComponent implements OnDestroy {
 			url: [, Validators.required],
 			album: [],
 			releaseYear: [],
-			// genres: [],
 		});
 
-		
 		this.filteredGenres = this.genresForm.valueChanges.pipe(
       startWith(null),
       map((genre: string | null) => (genre ? this._filter(genre) : this.allGenres.slice())),
     );
-
 
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -147,10 +144,8 @@ export class ManageSongsComponent implements OnDestroy {
 				genres: isEmpty(this.genres) ? undefined : this.genres,
 			};
 
-			console.log(song);
-
-			// const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
-			// this.auth.ws.send(newSongMessage);
+			const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
+			this.auth.ws.send(newSongMessage);
 		}
 
 		this.newSongForm.reset();
