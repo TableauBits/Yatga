@@ -1,5 +1,5 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EventType, extractMessageData, Message, Song, SongPlatform, SONG_AUTHOR_LENGTH, SONG_NAME_LENGTH } from 'chelys';
 import { isEmpty, isNil } from 'lodash';
@@ -7,6 +7,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 import { URLToSongPlatform } from 'src/app/types/url';
 import { MatChipInputEvent } from '@angular/material/chips';
+import MUSIC_GENRES from "musicgenres-json/gen/genres.json";
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { removeElementFromArray } from 'src/app/types/utils';
 
 const ICONS_PATH = "assets/icons";
 
@@ -28,6 +33,11 @@ export class ManageSongsComponent implements OnDestroy {
 	private cstID: string;
 
 	public altTitles: string[];
+	public genres: string[];
+	public filteredGenres: Observable<string[]>;
+	private allGenres: string[];
+	public genresForm: FormControl;
+	@ViewChild('genreInput') genreInput!: ElementRef<HTMLInputElement>;
 
 	constructor(
 		private auth: AuthService,
@@ -38,15 +48,31 @@ export class ManageSongsComponent implements OnDestroy {
 		this.cstID = data.cstID;
 		this.songs = data.songs;
 		this.altTitles = [];
+		this.genres = [];
+		this.allGenres = MUSIC_GENRES.sort().filter((elem, index, self)=> {		// sort alphabetically and removes duplicates
+			return index === self.indexOf(elem);
+		});
+		this.genresForm = new FormControl();
+
 		this.newSongForm = this.fb.group({
 			title: [, Validators.required],
 			author: [, Validators.required],
 			url: [, Validators.required],
 			album: [],
 			releaseYear: [],
+			// genres: [],
 		});
+
+		
+		this.filteredGenres = this.genresForm.valueChanges.pipe(
+      startWith(null),
+      map((genre: string | null) => (genre ? this._filter(genre) : this.allGenres.slice())),
+    );
+
+
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
+		console.log(MUSIC_GENRES);
 	}
 
 	ngOnDestroy(): void {
@@ -116,15 +142,21 @@ export class ManageSongsComponent implements OnDestroy {
 				// optionnal fields
 				addedDate: new Date().toISOString(),
 				altTitles: isEmpty(this.altTitles) ? undefined : this.altTitles,
+				album: this.newSongForm.value['album'],
+				releaseYear: this.newSongForm.value['releaseYear'],				
+				genres: isEmpty(this.genres) ? undefined : this.genres,
 			};
 
 			console.log(song);
 
-			const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
-			this.auth.ws.send(newSongMessage);
+			// const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
+			// this.auth.ws.send(newSongMessage);
 		}
 
 		this.newSongForm.reset();
+		this.altTitles = [];
+		this.genres = [];
+		this.genresForm.setValue(null);
 	}
 
 	closeWindow(): void {
@@ -178,16 +210,42 @@ export class ManageSongsComponent implements OnDestroy {
 		return new Date().getFullYear();
 	}
 
-  add(event: MatChipInputEvent): void {
-		const value = (event.value || '').trim();
-    if (value) { this.altTitles.push(value); }
+  add(event: MatChipInputEvent, source?: "altTitles" | "genres"): void {
+    const value = (event.value || '').trim();
+    if (value) {
+			switch (source) {
+				case "altTitles":
+					this.altTitles.push(value);
+					break;
+				case "genres":
+					this.genres.push(value);
+					this.genresForm.setValue(null);
+					break;
+			}
+    }
     event.chipInput!.clear();
   }
 
-  remove(title: string): void {
-    const index = this.altTitles.indexOf(title);
-    if (index >= 0) {
-      this.altTitles.splice(index, 1);
-    }
+  remove(value: string, source?: "altTitles" | "genres"): void {
+		switch (source) {
+			case "altTitles":
+				this.altTitles = removeElementFromArray(value, this.altTitles);
+				break;
+			case "genres":
+				this.genres = removeElementFromArray(value, this.genres);
+				break;
+		}
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.genres.push(event.option.viewValue);
+    this.genreInput.nativeElement.value = '';
+    this.genresForm.setValue(null);
+  }
+
+	private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allGenres.filter(genre => genre.toLowerCase().includes(filterValue));
   }
 }

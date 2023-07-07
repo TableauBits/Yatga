@@ -14,6 +14,11 @@ mat-form-field {
   width: 85%;
 }
 
+mat-option {
+  color: whitesmoke;
+  background-color: $cape-cod;
+}
+
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
      color: whitesmoke;
@@ -25,10 +30,27 @@ mat-form-field {
       caret-color: whitesmoke!important;
   }
 
+  .mat-chip-input {
+    color: whitesmoke;
+  }
+
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
+      .mat-hint, input, ::placeholder, .mat-form-field-label, .mat-option-text {
           color: whitesmoke;
       }
+  }
+
+  .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
+    color: $angular-purple;
+    background: $cape-cod;
+  }
+
+  .mat-option:hover:not(.mat-option-disabled) {
+    background: $sasuke;
+  }
+  .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
+    color: $angular-purple;
+    background: $sasuke;
   }
 }
 
@@ -65,4 +87,23 @@ background-color: #353738;
   margin-bottom: 50%;
   width: 25px;
   height: 25px;
+}
+
+.releaseYearField {
+  margin-right: 2%;
+  width: 25%;
+}
+
+.albumField {
+  width: 60%;
+}
+
+input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: whitesmoke;
+}
+
+input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: whitesmoke;
 }

@@ -42,26 +42,59 @@
 				<h3 class="title"> CHAMPS OPTIONNELS </h3>
 				<span class="custom-br"></span>
 				<br>
-				<mat-form-field appearance="outline">
+				<mat-form-field appearance="outline" class="releaseYearField">
 					<mat-label> Année de sortie </mat-label>
 					<input matInput type="number" min="0" max="{{getCurrentYear()}}" formControlName="releaseYear">
 				</mat-form-field>
+				<mat-form-field appearance="outline" class="albumField">
+					<mat-label> Nom de l'album </mat-label>
+					<input matInput #input_album formControlName="album">
+					<mat-hint align="end">{{input_album.value.length}}/100</mat-hint>
+				</mat-form-field>
 				<mat-form-field appearance="outline">
 					<mat-label>Titres alternatifs</mat-label>
-					<mat-chip-list #chipList aria-label="Fruit selection">
-						<mat-chip *ngFor="let title of altTitles" (removed)="remove(title)">
+					<mat-chip-list #chipListTitles>
+						<mat-chip *ngFor="let title of altTitles" (removed)="remove(title, 'altTitles')">
 							{{title}}
 							<button matChipRemove>
 								<mat-icon>cancel</mat-icon>
 							</button>
 						</mat-chip>
 						<input placeholder="Autre titre..."
-									 [matChipInputFor]="chipList"
+									 [matChipInputFor]="chipListTitles"
 									 [matChipInputAddOnBlur]="true"
-									 (matChipInputTokenEnd)="add($event)">
+									 (matChipInputTokenEnd)="add($event, 'altTitles')">
 					</mat-chip-list>
 				</mat-form-field>
+
+				<mat-form-field appearance="outline">
+					<mat-label>Genres</mat-label>
+					<mat-chip-list #chipListGenre>
+						<mat-chip
+							*ngFor="let genre of genres"
+							(removed)="remove(genre, 'genres')">
+							{{genre}}
+							<button matChipRemove>
+								<mat-icon>cancel</mat-icon>
+							</button>
+						</mat-chip>
+						<input
+							placeholder="Ajouter un genre..."
+							#genreInput
+							[formControl]="genresForm"
+							[matAutocomplete]="auto"
+							[matChipInputFor]="chipListGenre"
+							(matChipInputTokenEnd)="add($event, 'genres')">
+					</mat-chip-list>
+					<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+						<mat-option *ngFor="let genre of filteredGenres | async" [value]="genre">
+							{{genre}}
+						</mat-option>
+					</mat-autocomplete>
+				</mat-form-field>
 			</form>
+			<span class="custom-br"></span>
+			<br>
 			<button mat-raised-button color="primary" class="icon" (click)="addSong()">
 				Ajouter
 			</button>
