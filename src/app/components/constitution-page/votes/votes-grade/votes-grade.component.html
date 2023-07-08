@@ -144,6 +144,7 @@
         <th> Auteur </th>
         <th> URL </th>
         <th> Ajouté par </th>
+        <th> Infos </th>
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSongsToVote()">
@@ -166,6 +167,7 @@
           </a>
         </td>
         <td> {{getUser(song.user).displayName}} </td>
+        <td> <app-optionnal-song-infos-button [song]="song"> </app-optionnal-song-infos-button> </td>
         <td> {{getVote(song)}} </td>
       </tr>
     </table>
