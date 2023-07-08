@@ -1,0 +1,7 @@
+@import "../../../../styles/variables.scss";
+::ng-deep {
+  .mat-menu-content { // :not(:empty)
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}

@@ -109,6 +109,7 @@
                   [disabled]="noMoreFavorites(song) || !canVote()">
                   <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
                 </button>
+                <app-optionnal-song-infos-button class="favorite-button" [song]="song"> </app-optionnal-song-infos-button>
                 <button mat-raised-button color="primary" class="vote" [matMenuTriggerFor]="menu"
                   matTooltip="Classer les votes">
                   {{getVote(song)}}

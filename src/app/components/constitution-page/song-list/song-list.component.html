@@ -67,9 +67,7 @@
 								matTooltip="Gérer les favoris">
 									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 							</button>
-							<button mat-raised-button color="primary" [disabled]="true">
-								<mat-icon>info</mat-icon>
-							</button>
+							<app-optionnal-song-infos-button [song]="song"> </app-optionnal-song-infos-button>
 							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" 
 								mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)"
 								matTooltip="Retirer la chanson">

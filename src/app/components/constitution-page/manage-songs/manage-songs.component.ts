@@ -158,7 +158,6 @@ export class ManageSongsComponent implements OnDestroy {
 	}
 
 	// VERIFY DATA
-		// TODO : HTML faire un template ?
 
 	isNil(key: string): boolean {
 		return isNil(this.newSongForm.value[key]) || this.newSongForm.value[key] === '';
@@ -239,7 +238,6 @@ export class ManageSongsComponent implements OnDestroy {
 
 	private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.allGenres.filter(genre => genre.toLowerCase().includes(filterValue));
   }
 }
