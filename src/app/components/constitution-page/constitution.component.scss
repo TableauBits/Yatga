@@ -9,7 +9,6 @@
   margin: 16px 0px;
 }
 
-/* CSS  https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp */
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 18%; /* Set the width of the sidebar */
@@ -37,6 +36,14 @@ hr {
   margin:5px;
   color: whitesmoke;
 }
+
+.sidenav .mat-button-disabled {
+  background-color: #222;
+  color: #b7b7b7;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
 
 .avatar {
   margin-left: 3%;

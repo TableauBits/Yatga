@@ -1,6 +1,6 @@
 <div class="content" mat-dialog-content>
 	<h1 class="title"> GÉRER MES CHANSONS </h1>
-	<span class="custom-br"></span>
+	<hr>
 	<br>
 	<mat-tab-group mat-align-tabs="center" backgroundColor="primary">
 		<mat-tab>
@@ -10,7 +10,7 @@
 			</ng-template>
 			<br>
 			<h2 class="title"> AJOUTER UNE CHANSON </h2>
-			<span class="custom-br"></span>
+			<hr>
 			<form [formGroup]="newSongForm">
 				<br>
 				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')" class="valid icon">check_circle_outline</mat-icon> 
@@ -52,7 +52,7 @@
 			</ng-template>
 			<br>
 			<h2 class="title"> RETIRER UNE CHANSON </h2>
-			<span class="custom-br"></span>
+			<hr>
 			<br>
 			<table id="t01">
 				<tr>

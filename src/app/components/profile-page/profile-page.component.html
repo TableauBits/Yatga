@@ -1,11 +1,10 @@
 <div id="container">
 	<div *ngIf="auth.isAuthenticate; else loggedOut" id="user-info">
 		<h1>Bonjour {{ auth.user.displayName }}. Voici votre profil:</h1>
-		<span class="custom-br"></span>
+
 		<br>
 		<img class="picture" [src]="auth.user.photoURL" [alt]="auth.user.displayName">
 		<br>
-		<span class="custom-br"></span>
 		<br>
 		<div class="icons-container">
 			<span *ngFor="let role of getRoles()">
