@@ -37,6 +37,7 @@ import { RandomSongComponent } from './components/constitution-page/random-song/
 import { ManageInvitesComponent } from './components/admin-page/manage-invites/manage-invites.component';
 import { ManageRolesComponent } from './components/admin-page/manage-roles/manage-roles.component';
 import { InvitePageComponent } from './components/invite-page/invite-page.component';
+import { OptionnalSongInfosButtonComponent } from './components/constitution-page/optionnal-song-infos-button/optionnal-song-infos-button.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -74,12 +75,14 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -108,32 +111,33 @@ import { AuthService } from './services/auth.service';
 		ResultsComponent,
 		ExportComponent,
 		ManageSongsComponent,
-  	ParametersComponent,
-  	DeleteSongWarningComponent,
-    SongNavigatorComponent,
-    GradeOwnerComponent,
-    VotesGradeComponent,
-    HistogramComponent,
-    VoteNavigatorComponent,
-    JoinConstitutionComponent,
-    ResultsGradeComponent,
-  	GradeProfileComponent,
-    GradeRanksComponent,
-    GradeGradesComponent,
-    GradeAverageComponent,
+		ParametersComponent,
+		DeleteSongWarningComponent,
+		SongNavigatorComponent,
+		GradeOwnerComponent,
+		VotesGradeComponent,
+		HistogramComponent,
+		VoteNavigatorComponent,
+		JoinConstitutionComponent,
+		ResultsGradeComponent,
+		GradeProfileComponent,
+		GradeRanksComponent,
+		GradeGradesComponent,
+		GradeAverageComponent,
 		GradeRankingComponent,
-  	RadarComponent,
-  	ScatterComponent,
+		RadarComponent,
+		ScatterComponent,
 		ResultsFavoritesComponent,
 		PieComponent,
 		GradeElectoralComponent,
-  	RandomSongComponent,
+		RandomSongComponent,
 		GradeRelationshipComponent,
 		HeatmapComponent,
-	 	ChordComponent,
-	 	ManageInvitesComponent,
-    ManageRolesComponent,
-    InvitePageComponent,
+		ChordComponent,
+		ManageInvitesComponent,
+		ManageRolesComponent,
+		InvitePageComponent,
+		OptionnalSongInfosButtonComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -167,7 +171,9 @@ import { AuthService } from './services/auth.service';
 		MdbDropdownModule,
 		MdbCollapseModule,
 		MatDatepickerModule,
-		MatNativeDateModule
+		MatNativeDateModule,
+		MatChipsModule,
+		MatAutocompleteModule,
 	],
 	providers: [
 		AuthService,
