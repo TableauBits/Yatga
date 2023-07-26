@@ -83,14 +83,15 @@ td, th {
 }
 
 iframe {
-	width: 100%;
-	padding-top: 35px;
+	// width: 100%;
+	// padding-top: 35px;
 }
 
 .iframe-image {
-	width: 100%;
-	padding-top: 35px;
-	padding-bottom: 5px;
+	// width: 100%;
+	// height: 208
+	// padding-top: 35px;
+	// padding-bottom: 5px;
 	cursor: pointer;
 	user-select: none;
 }
@@ -132,3 +133,49 @@ button {
 .z-card {
 	z-index: 0;
 }
+
+// .test ::ng-deep * {
+//   text-overflow: ellipsis;
+//   overflow: scroll;
+//   white-space: nowrap;
+// }
+
+.card-r {
+	width: 26rem;
+	height: 19.5rem;
+	color: whitesmoke;
+	background-color: $mineshaft;
+	.mat-card-subtitle {
+		color: $angular-purple;
+	}
+	// margin-left: 10px;
+	// margin-right: 10px;
+	// margin-bottom: 12px;
+	// flex: 1;
+}
+
+.cards {
+	// style="display: grid; justify-content: space-around; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); grid-gap: 10px;"
+	display: grid;
+	// grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	grid-template-columns: repeat(auto-fill, 26rem);
+	grid-gap: 25px;
+	justify-content: center; // space-around;
+}
+
+// .cards {
+// 	display: grid;
+// 	grid-template-columns: auto auto auto;
+	// justify-content: space-around; 
+	// width: 100%; 
+	// grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+	// grid-gap: 10px;
+	// justify-content: flex-end;
+// }
+
+// .card {
+// 	width: 26rem;
+// 	height: 19.5rem;
+// 	overflow: hidden;
+// 	margin: auto;
+// }

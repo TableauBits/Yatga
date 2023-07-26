@@ -1,14 +1,17 @@
 <div class="filter">
 	<span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
-	<img *ngFor="let user of getUsers()" class="picture clickable" matTooltip="{{userFilterTooltip(user.uid, user.displayName)}}" 
-		[src]="user.photoURL" (click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
-	<button mat-raised-button color="primary" (click)="select('all')" class="filter-button" matTooltip="Afficher tous les utilisateurs">
+	<img *ngFor="let user of getUsers()" class="picture clickable"
+		matTooltip="{{userFilterTooltip(user.uid, user.displayName)}}" [src]="user.photoURL"
+		(click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
+	<button mat-raised-button color="primary" (click)="select('all')" class="filter-button"
+		matTooltip="Afficher tous les utilisateurs">
 		<mat-icon>add_circle_outline</mat-icon>
 	</button>
 	<button mat-raised-button color="primary" (click)="select('none')" matTooltip="Cacher tous les utilisateurs">
 		<mat-icon>block</mat-icon>
 	</button>
-	<button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu" matTooltip="Classer les chansons">
+	<button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu"
+		matTooltip="Classer les chansons">
 		<mat-icon>filter_list</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu">
@@ -31,7 +34,52 @@
 <div *ngIf="cardsViewEnabled; then cardsView; else compactView">
 </div>
 <ng-template #cardsView>
-	<div class="container">
+	<div class="cards">
+		<mat-card *ngFor="let song of getSongs()" class="card-r">
+			<mat-card-header>
+				<img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
+				<mat-card-title class="text-overflowable"> {{song.title}}</mat-card-title>
+				<mat-card-subtitle class="text-overflowable"> <i> {{song.author}} </i> </mat-card-subtitle>
+			</mat-card-header>
+			<mat-card-content>
+				<div>
+					<!-- <iframe *ngIf="currentIframeSongID === song.id; else loadImage"
+				 	frameborder="0" [src]="getSongSafeURL(song)"
+					class="round"
+					allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen>
+					</iframe>
+					<ng-template #loadImage>
+						<img src="{{urlGetter.getImageURL(song)}}" class="iframe-image round" (click)="updateCurrentIframeSong(song)">
+						<div class="centered">
+							<button mat-mini-fab color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
+						</div>
+					</ng-template> -->
+				</div>
+				<!-- <img mat-card-image src="{{urlGetter.getImageURL(song)}}"> -->
+			</mat-card-content>
+			<mat-card-actions>
+				<button mat-mini-fab color="primary" (click)="openSongNavigator(song)"
+					matTooltip="Ouvrir le navigateur Matbay">
+					<mat-icon>music_video</mat-icon>
+				</button>
+				<button mat-mini-fab color="primary" (click)="onNavigate(song)"
+					matTooltip="Regarder la vidéo sur le site d'origine">
+					<mat-icon>play_circle_outline</mat-icon>
+				</button>
+				<button mat-mini-fab color="primary" (click)="toggleFavorite(song, auth)"
+					[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+				</button>
+				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-mini-fab color="warn"
+					class="cancel" (click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
+					<mat-icon>cancel</mat-icon>
+				</button>
+			</mat-card-actions>
+		</mat-card>
+	</div>
+
+	<!-- <div class="container">
 		<div class="row g-4">
 			<div class="col" *ngFor="let song of getSongs()">
 				<div class="card shadow-0 bg-dark z-card">
@@ -76,7 +124,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </ng-template>
 <ng-template #compactView>
 	<table id="t01">
@@ -92,13 +140,14 @@
 		<tr *ngFor="let song of getSongs()">
 			<td> {{ song.id }} </td>
 			<td>
-				<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)" [disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+				<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+					[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
 					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
-			</button>
+				</button>
 			</td>
-			<td> 
+			<td>
 				<button mat-raised-button color="primary" (click)="openSongNavigator(song)">
-					{{ song.title }} 
+					{{ song.title }}
 				</button>
 			</td>
 			<td> {{ song.author }} </td>
@@ -109,12 +158,11 @@
 			</td>
 			<td> {{ getUser(song.user).displayName }} </td>
 			<td>
-				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" 
-				mat-raised-button color="warn" (click)="openDeleteSongWarning(song)"
-				matTooltip="Retirer la chanson">
+				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn"
+					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
 					<mat-icon>cancel</mat-icon>
 				</button>
-		</td>
+			</td>
 		</tr>
 	</table>
 </ng-template>
