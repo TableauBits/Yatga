@@ -153,7 +153,7 @@ export class ManageSongsComponent implements OnDestroy {
 				album: isNull(this.newSongForm.value['album']) ? undefined : this.newSongForm.value['album'],
 				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],				
 				genres: isEmpty(this.genres) ? undefined : this.genres,
-				languages: isEmpty(this.languages) ? undefined : this.languages.map(langage => LANGUAGES_FR_TO_CODE.get(langage) || ""),// this.languages.map(l => ),
+				languages: isEmpty(this.languages) ? undefined : this.languages.map(langage => LANGUAGES_FR_TO_CODE.get(langage) || ""),
 			};
 
 			const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
