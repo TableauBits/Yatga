@@ -39,6 +39,11 @@ export function removeElementFromArray<T>(element: T, array: T[]): T[] {
 	}
 	return array;
 }
+
+export function capitalizeFirstLetter(value: string) {
+	return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 /**
  * Creates a function that compares two objects by a given key.
  * @template T The type of the objects to compare.
