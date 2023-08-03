@@ -95,19 +95,19 @@
 				<mat-icon class="icon" matTooltip="Liste des langues chantées dans la chanson. Il est possible d'en avoir plusieurs ou aucune.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Langues</mat-label>
-					<mat-chip-list #chipListLangage>
-						<mat-chip *ngFor="let langage of langages" (removed)="remove(langage, 'langages')">
-							{{langage}}
+					<mat-chip-list #chipListLanguage>
+						<mat-chip *ngFor="let language of languages" (removed)="remove(language, 'languages')">
+							{{language}}
 							<button matChipRemove>
 								<mat-icon>cancel</mat-icon>
 							</button>
 						</mat-chip>
-						<input placeholder="Ajouter une langue..." #langageInput [formControl]="langagesForm" [matAutocomplete]="autoLangage"
-							[matChipInputFor]="chipListLangage">
+						<input placeholder="Ajouter une langue..." #languageInput [formControl]="languagesForm" [matAutocomplete]="autoLanguage"
+							[matChipInputFor]="chipListLanguage">
 					</mat-chip-list>
-					<mat-autocomplete #autoLangage="matAutocomplete" (optionSelected)="selected($event, 'langages')">
-						<mat-option *ngFor="let langage of filteredLangages | async" [value]="langage">
-							{{langage}}
+					<mat-autocomplete #autoLanguage="matAutocomplete" (optionSelected)="selected($event, 'languages')">
+						<mat-option *ngFor="let language of filteredLanguages | async" [value]="language">
+							{{language}}
 						</mat-option>
 					</mat-autocomplete>
 				</mat-form-field>
