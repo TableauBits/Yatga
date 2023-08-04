@@ -6,9 +6,7 @@
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
-@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 @import "styles/variables.scss";
-
 
 html, body { height: 100%; }
 body {
@@ -76,7 +74,6 @@ body {
   justify-self: center;
   display: flex;
   align-items: center;
-  // margin-top: 2rem;
   text-align: center;
 }
 
@@ -173,7 +170,6 @@ body {
 }
 
 .love {
-	// position: absolute;
   -ms-transform: translate(-55%, 60%);
   transform: translate(-55%, 60%);
 	font-size: small;
@@ -205,4 +201,13 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+mat-option {
+  color: whitesmoke;
+  background-color: $cape-cod;
+}
+
+.mat-option-text {
+  color: whitesmoke;
 }

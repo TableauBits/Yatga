@@ -3,10 +3,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, FavResUpdate, FavReqGet, UserFavorites, CstSongReqUnsubscribe, FavReqUnsubscribe, FAVORITES_MAX_LENGTH } from 'chelys';
+import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, FavResUpdate, FavReqGet, UserFavorites, CstSongReqUnsubscribe, FavReqUnsubscribe, FAVORITES_MAX_LENGTH, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
 import { RandomSongComponent } from './random-song/random-song.component';
+import { isNil } from 'lodash';
+
+const MS_TO_DAY = 1000 * 3600 * 24;
 
 enum ConstitutionSection {
 	SONG_LIST = "songList",
@@ -28,6 +31,7 @@ export class ConstitutionComponent implements OnDestroy {
 	private cstID: string;
 	private pageIsInit: boolean;
 	currentSection: ConstitutionSection;
+	private currentDate = new Date();
 
 	// Firebase data
 	constitution: Constitution;
@@ -86,7 +90,6 @@ export class ConstitutionComponent implements OnDestroy {
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 		switch (message.event) {
 			case EventType.CST_update: {
-
 				const data = extractMessageData<CstResUpdate>(message).cstInfo;
 				if (data.id === this.cstID) {
 					this.constitution = data;
@@ -115,7 +118,6 @@ export class ConstitutionComponent implements OnDestroy {
 
 					this.pageIsInit = true;
 				}
-
 			} break;
 
 			case EventType.USER_update: {
@@ -221,5 +223,31 @@ export class ConstitutionComponent implements OnDestroy {
 
 	getCurrentUserFavs(): UserFavorites {
 		return this.favorites.get(this.auth.uid) || {uid: "", favs: []};
+	}
+
+	getRemainingTimeMsg(): string {
+		if (this.pageIsInit && !canModifyVotes(this.constitution)) {
+			return "La constitution est terminée.";
+		}
+		if (isNil(this.constitution.endDate)) return "";
+
+		const endDate = new Date(this.constitution.endDate);
+
+		if (endDate < this.currentDate) {
+			return "La constitution est sur le point de se terminer.";
+		}
+	
+		const diff = endDate.getTime() - this.currentDate.getTime();
+		const diffDays = Math.ceil(diff / MS_TO_DAY);
+
+		switch (diffDays) {
+			case 0:
+				return `C'est le dernier jour de la constitution.`;
+			case 1:
+				return `Il reste ${diffDays} jour à la constitution.`;
+			default:
+				return `Il reste ${diffDays} jours à la constitution.`;
+		}
+
 	}
 }

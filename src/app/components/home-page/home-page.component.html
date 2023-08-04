@@ -21,10 +21,10 @@
       <p class="text">
         <b> Publié le : </b> {{release.date}} <br> <br>
         <b> Changements : </b> 
-        <span *ngFor="let change of release.body.changes">
+        <span class="test" *ngFor="let change of release.body.changes">
           <br> * {{change.title}}
           (<a href="{{change.url}}" target="_blank">
-            {{change.url}}
+            <mat-icon class="link-icon">link</mat-icon> 
           </a>)
         </span> <br> <br>
         <b> Changements Complet: </b> <br>
@@ -36,8 +36,6 @@
   </mat-accordion>
   <br> <br>
   <span class="custom-br"></span>
-  <h2> Travaux en cours... </h2> 
-  <img class="wip" src="assets/wip.gif">
-  <br> <br> App by TableauBits <br> <br>
+  <br> App by TableauBits <br> <br>
 </div>
 <br>

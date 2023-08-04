@@ -31,6 +31,14 @@ export function generateRandomString(length: number): string {
 	return str;
 }
 
+export function removeElementFromArray<T>(element: T, array: T[]): T[] {
+	const index = array.indexOf(element);
+
+	if (index >= 0) {
+		array.splice(index, 1);
+	}
+	return array;
+}
 /**
  * Creates a function that compares two objects by a given key.
  * @template T The type of the objects to compare.
