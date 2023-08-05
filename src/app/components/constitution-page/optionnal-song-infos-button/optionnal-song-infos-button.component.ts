@@ -4,7 +4,7 @@ import { isArray, isNil } from 'lodash';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 
 type SongKey = keyof Song;
-const OPTIONNAL_FIELDS: SongKey[] = ["album", "altTitles", "genres", "releaseYear"];
+const OPTIONNAL_FIELDS: SongKey[] = ["album", "altTitles", "genres", "releaseYear", "languages"];
 
 @Component({
   selector: 'app-optionnal-song-infos-button',
