@@ -28,7 +28,7 @@
 </div>
 <br>
 <br>
-<div *ngIf="cardsViewEnabled; then cardsView; else compactView">
+<div *ngIf="selectedSongView === 'card'; then cardsView; else compactView">
 </div>
 <ng-template #cardsView>
 	<div class="container">

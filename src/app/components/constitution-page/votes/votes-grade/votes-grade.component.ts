@@ -3,13 +3,14 @@ import { AuthService } from 'src/app/services/auth.service';
 import { canModifySongs, Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
+import { SongView, LocalStorageKey, SongSort } from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareObjectsFactory, toMap, toMapNumber } from 'src/app/types/utils';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
 import { ActivatedRoute } from '@angular/router';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { GetUrlService } from 'src/app/services/get-url.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 enum GradeOrder {
 	INCREASE,
@@ -38,8 +39,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	cstID = "";
 
-	cardsSortASC: boolean;
-	cardsViewEnabled: boolean;
+	// Local Parameters
+	songSortOrder: SongSort;
+	selectedSongView: SongView;
 	showStats: boolean;
 	showAlreadyVoted: boolean;
 
@@ -53,7 +55,8 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		public auth: AuthService,
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
-		public urlGetter: GetUrlService
+		public urlGetter: GetUrlService,
+		private localStorage: LocalStorageService,
 	) {
 		super();
 
@@ -62,10 +65,10 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		this.summary = { voteCount: 0, userCount: new Map() };
 		this.favorites = {uid: "", favs: []};
 		this.histogramGrades = [];
-		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
-		this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
-		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
+		this.songSortOrder = this.localStorage.get(LocalStorageKey.SONGS_SORT_KEY) as SongSort;
+		this.selectedSongView = this.localStorage.get(LocalStorageKey.SONGS_VIEW_KEY) as SongView;
+		this.showStats = Boolean(this.localStorage.get(LocalStorageKey.GRADE_SHOW_STATS_KEY));
+		this.showAlreadyVoted = Boolean(this.localStorage.get(LocalStorageKey.GRADE_SHOW_ALREADY_VOTED_KEY));
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
 		this.orderByFavs = false;
@@ -116,7 +119,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	updateGradeAlreadyVoted(): void {
 		this.showAlreadyVoted = !this.showAlreadyVoted;
-		localStorage.setItem(GRADE_ALREADY_VOTES_KEY, this.showAlreadyVoted.toString());
+		this.localStorage.set(LocalStorageKey.GRADE_SHOW_ALREADY_VOTED_KEY, this.showAlreadyVoted.toString());
 	}
 
 	setOrderByGrade(order: GradeOrder | number): void {
@@ -130,7 +133,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		songsToVote = songsToVote.filter(song => !(this.votes.values.has(song.id) && this.showAlreadyVoted));
 		songsToVote = songsToVote.filter(song => this.isSelected(song.user));
 
-		songsToVote.sort(compareObjectsFactory("id", !this.cardsSortASC));
+		songsToVote.sort(compareObjectsFactory("id", this.songSortOrder === "dsc"));
 		if (this.orderByUser) 
 			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByGrade !== GradeOrder.NONE)

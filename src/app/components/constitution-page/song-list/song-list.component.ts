@@ -4,11 +4,12 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User, UserFavorites, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
-import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
+import { LocalStorageKey, SongSort, SongView } from 'src/app/types/local-storage';
 import { compareObjectsFactory } from 'src/app/types/utils';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
 import { GetUrlService } from 'src/app/services/get-url.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
 	selector: 'app-song-list',
@@ -28,8 +29,8 @@ export class SongListComponent extends YatgaUserFavorites {
 	currentIframeSongID: number;
 
 	// Local Parameter
-	cardsViewEnabled: boolean;
-	cardsSortASC: boolean;
+	selectedSongView: SongView;
+	songSortOrder: SongSort;
 
 	// Filter
 	selectedUsers: string[];
@@ -39,14 +40,15 @@ export class SongListComponent extends YatgaUserFavorites {
 	constructor(
 		public auth: AuthService,
 		private dialog: MatDialog,
-		public urlGetter: GetUrlService
+		public urlGetter: GetUrlService,
+		private localStorage: LocalStorageService,
 	) {
 		super();
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
 		this.favorites = {uid: "", favs: []};
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
-		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
+		this.selectedSongView = this.localStorage.get(LocalStorageKey.SONGS_VIEW_KEY) as SongView;
+		this.songSortOrder = this.localStorage.get(LocalStorageKey.SONGS_SORT_KEY) as SongSort;
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
 		this.orderByFavs = false;
@@ -57,7 +59,7 @@ export class SongListComponent extends YatgaUserFavorites {
 		
 		songs = songs.filter(song => this.isSelected(song.user));
 
-		songs.sort(compareObjectsFactory("id", !this.cardsSortASC));
+		songs.sort(compareObjectsFactory("id", this.songSortOrder === "dsc"));
 		if (this.orderByUser) 
 			songs = songs.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByFavs)

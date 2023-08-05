@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_ALREADY_VOTES_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
+import {  } from 'src/app/types/local-storage';
 
 interface LocalSettings {
 	cardsView: boolean;

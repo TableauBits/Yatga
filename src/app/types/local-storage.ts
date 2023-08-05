@@ -1,12 +1,12 @@
 export const LOCAL_STORAGE_VERSION = "v1.0.0";
 
 export type SongView = "card" | "list";
-export type SongSort = "";
+export type SongSort = "asc" | "dsc";
 
 export enum LocalStorageKey {
   SONGS_VIEW_KEY = "yatga.settings.songsView",
   SONGS_SORT_KEY = "yatga.settings.songsSort",
-  GRADE_ALREADY_VOTED_KEY = "yatga.settings.gradeShowAlreadyVoted",
+  GRADE_SHOW_ALREADY_VOTED_KEY = "yatga.settings.gradeShowAlreadyVoted",
   GRADE_SHOW_STATS_KEY = "yatga.settings.gradeShowStats",
   VERSION = "yatga.settings.version",
 }
@@ -23,10 +23,10 @@ export const INITIAL_LOCAL_STORAGE: LocalStorageItem[] = [
   },
   {
     key: LocalStorageKey.SONGS_SORT_KEY,
-    value: "true"
+    value: "dsc"
   },
   {
-    key: LocalStorageKey.GRADE_ALREADY_VOTED_KEY,
+    key: LocalStorageKey.GRADE_SHOW_ALREADY_VOTED_KEY,
     value: "true"
   },
   {
