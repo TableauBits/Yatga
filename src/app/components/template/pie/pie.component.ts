@@ -2,22 +2,17 @@
 
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { EChartsOption } from 'echarts';
-import * as echarts from 'echarts';
-import { isNil } from 'lodash';
-import { PieData } from 'src/app/types/charts';
+import { Charts, PieData } from 'src/app/types/charts';
 
 @Component({
   selector: 'app-pie',
   templateUrl: './pie.component.html',
   styleUrls: ['./pie.component.scss']
 })
-export class PieComponent implements AfterViewInit, OnChanges {
+export class PieComponent extends Charts implements AfterViewInit, OnChanges {
 
   @Input() data: PieData[] = [];
   @Input() id: string;
-
-  private chart: echarts.ECharts | undefined;
-  private option: EChartsOption;
 
   ngAfterViewInit() {
     this.updateChart();
@@ -29,21 +24,11 @@ export class PieComponent implements AfterViewInit, OnChanges {
   }
 
   constructor() {
+    super();
     this.id = "";
-    this.chart = undefined;
-    this.option = {};
   }
 
-  private updateChart(): void {
-    const element = document.getElementById(this.id);
-    if (isNil(this.chart) && !isNil(element)) {
-      this.chart = echarts.init(document.getElementById(this.id)!);
-    }
-    this.option = this.generateChartOption();
-    this.option && this.chart?.setOption(this.option);
-  }
-
-  private generateChartOption(): EChartsOption {
+  generateChartOption(): EChartsOption {
     return {
       tooltip: {
         trigger: 'item'
