@@ -19,6 +19,7 @@
     [disabled]="noMoreFavorites(currentSong)">
     <mat-icon *ngIf="isAFavorite(currentSong); else normalSong" class="favorite">favorite</mat-icon>
   </button>
+  <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong"> </app-optionnal-song-infos-button>
   <button mat-raised-button color="primary" class="next-button" [disabled]="!nextSongExist()" (click)="changeSong(1)">
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>

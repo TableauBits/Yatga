@@ -24,11 +24,6 @@ mat-select-value {
   color: whitesmoke !important;
 }
 
-mat-option {
-  color: whitesmoke;
-  background-color: $cape-cod;
-}
-
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
      color: whitesmoke;
@@ -39,13 +34,15 @@ mat-option {
   .mat-input-element {
       caret-color: whitesmoke!important;
   }
-
   .mat-select-value {
     color: whitesmoke;
   }
   .mat-select-arrow-wrapper {
       color: whitesmoke;
       background-color: whitesmoke;
+  }
+  .mat-icon-button {
+    color: whitesmoke;
   }
 
   mat-form-field {

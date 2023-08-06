@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from 'chelys';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNil, isNull } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 
-const ANONIMITY_LEVELS = ["Toutes informations révélées", "Utilisateur caché", "Audio seulement"];
+const ANONIMITY_LEVELS = ["Toutes informations révélées", /*"Utilisateur caché", "Audio seulement"*/];	// TODO : Adapt Anonimity Level
 
 @Component({
 	selector: 'app-new-constitution',
@@ -32,9 +32,16 @@ export class NewConstitutionComponent {
 			playlistLink: [""],
 			maxUserCount: [4, Validators.required],
 			numberOfSongsPerUser: [1, Validators.required],
+			endDate: [, this.validateEndDate]
 		});
 
 		this.errorStatus = new Status();
+	}
+
+	private validateEndDate(control: AbstractControl): {[key: string]: any} | null {
+		if (isNil(control.value)) return null;
+		if (new Date(control.value) < new Date()) return {"endDateInvalid": true};
+		return null;
 	}
 
 	public getTypes(): string[] {
@@ -70,7 +77,7 @@ export class NewConstitutionComponent {
 
 	public createConstitution(): void {
 		const invalidValues = this.checkFormValidity();
-
+		
 		if (!isEmpty(invalidValues)) {
 			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`;
 			this.errorStatus.notify(text, true);
@@ -88,7 +95,8 @@ export class NewConstitutionComponent {
 				users: [],
 				maxUserCount: this.newConstitutionForm.value['maxUserCount'],
 				numberOfSongsPerUser: this.newConstitutionForm.value['numberOfSongsPerUser'],
-				state: 0
+				state: 0,
+				endDate: isNull(this.newConstitutionForm.value['endDate']) ? undefined : this.newConstitutionForm.value['endDate'],
 			};
 
 			const newConstitutionMessage = createMessage(EventType.CST_create, { cstData: constitution });

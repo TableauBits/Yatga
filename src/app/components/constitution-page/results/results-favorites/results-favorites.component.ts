@@ -1,12 +1,23 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
+import { EMPTY_SONG, EMPTY_USER, FAVORITES_MAX_LENGTH, Song, User, UserFavorites } from 'chelys';
 import { isEmpty, isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { PieData } from 'src/app/types/charts';
 
+interface UserFavoriteStat {
+  user: string;
+  favoritesReceived: number;
+}
+
+function compareUserFavoriteStat(u1: UserFavoriteStat, u2: UserFavoriteStat): number {
+	if (u1.favoritesReceived > u2.favoritesReceived) return -1;
+	if (u1.favoritesReceived < u2.favoritesReceived) return 1;
+	return 0;
+}
+
 interface SongFavoriteStat {
-  song: number,
-  users: string[]
+  song: number;
+  users: string[];
 }
 
 function compareSongFavoriteStat(s1: SongFavoriteStat, s2: SongFavoriteStat): number {
@@ -27,22 +38,45 @@ export class ResultsFavoritesComponent implements OnChanges {
   @Input() favorites: Map<string, UserFavorites> = new Map();
 
   selectedUser: string;
-  tableInfo: SongFavoriteStat[];
+  songTableInfo: SongFavoriteStat[];
+  userTableInfo: UserFavoriteStat[];
   pieData: PieData[];
 
+  numberOfFavorites: number;
+  numberMaxOfFavorites: number;
+  numberOfSelfFavorites: number;
+
   ngOnChanges(): void {
-    this.generateTableInfo();
+    this.generateSongTableInfo();
+    this.generateUserTableInfo();
     this.generatePieData();
+
+    this.numberOfFavorites = 0;
+    this.numberOfSelfFavorites = 0;
+    this.numberMaxOfFavorites = this.users.size * FAVORITES_MAX_LENGTH;
+
+    this.favorites.forEach((x: UserFavorites) => {
+      this.numberOfFavorites += x.favs.length;
+      for(const fav of x.favs) {
+        if (this.songs.get(fav)?.user === x.uid) {
+          this.numberOfSelfFavorites++;
+        }
+      }
+    });
   }
 
   constructor(private auth: AuthService) {
     this.selectedUser = auth.uid;
-    this.tableInfo = [];
+    this.songTableInfo = [];
+    this.userTableInfo = [];
     this.pieData = [];
+    this.numberOfFavorites = 0;
+    this.numberOfSelfFavorites = 0;
+    this.numberMaxOfFavorites = 0;
   }
 
-  generateTableInfo(): void {
-    this.tableInfo = [];
+  generateSongTableInfo(): void {
+    this.songTableInfo = [];
     for (const song of this.songs.values()) {
       const users = [];
       for (const favorite of this.favorites.values()) {
@@ -51,12 +85,32 @@ export class ResultsFavoritesComponent implements OnChanges {
       }
 
       if (isEmpty(users)) continue;
-      this.tableInfo.push({
+      this.songTableInfo.push({
         song: song.id,
         users: users
       });
     }
-    this.tableInfo.sort(compareSongFavoriteStat);
+    this.songTableInfo.sort(compareSongFavoriteStat);
+  }
+
+  generateUserTableInfo(): void {
+    this.userTableInfo = [];
+    for (const user of this.users.values()) {
+      let count = 0;
+      for (const favorite of this.favorites.values()) {
+        favorite.favs.forEach((songID: number) => {
+          if (this.songs.get(songID)?.user === user.uid && favorite.uid !== user.uid) { // Don't count self favorite
+            count++;
+          }
+        });
+      }
+      this.userTableInfo.push({
+        user: user.uid,
+        favoritesReceived: count,
+      });
+    }
+
+    this.userTableInfo.sort(compareUserFavoriteStat);
   }
 
   generatePieData(): void {

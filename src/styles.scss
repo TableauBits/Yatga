@@ -8,7 +8,6 @@
 @import "styles/variables.scss";
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 
-
 html, body { height: 100%; }
 body {
   margin: 0;
@@ -87,7 +86,6 @@ hr {
   justify-self: center;
   display: flex;
   align-items: center;
-  // margin-top: 2rem;
   text-align: center;
 }
 
@@ -184,7 +182,6 @@ hr {
 }
 
 .love {
-	// position: absolute;
   -ms-transform: translate(-55%, 60%);
   transform: translate(-55%, 60%);
 	font-size: small;
@@ -240,4 +237,13 @@ a {
 ::-webkit-scrollbar-thumb {
   background: $purple;
   border-radius: 10px;
+}
+
+mat-option {
+  color: whitesmoke;
+  background-color: $cape-cod;
+}
+
+.mat-option-text {
+  color: whitesmoke;
 }
