@@ -9,7 +9,7 @@ import { URLToSongPlatform } from 'src/app/types/url';
 import { MatChipInputEvent } from '@angular/material/chips';
 import MUSIC_GENRES from "musicgenres-json/gen/genres.json";
 import { Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { removeElementFromArray } from 'src/app/types/utils';
 
@@ -49,7 +49,7 @@ export class ManageSongsComponent implements OnDestroy {
 		this.songs = data.songs;
 		this.altTitles = [];
 		this.genres = [];
-		this.allGenres = MUSIC_GENRES.sort().filter((elem, index, self)=> {		// sort alphabetically and removes duplicates
+		this.allGenres = MUSIC_GENRES.sort().filter((elem, index, self) => {		// sort alphabetically and removes duplicates
 			return index === self.indexOf(elem);
 		});
 		this.genresForm = new FormControl();
@@ -63,9 +63,9 @@ export class ManageSongsComponent implements OnDestroy {
 		});
 
 		this.filteredGenres = this.genresForm.valueChanges.pipe(
-      startWith(null),
-      map((genre: string | null) => (genre ? this._filter(genre) : this.allGenres.slice())),
-    );
+			startWith(null),
+			map((genre: string | null) => (genre ? this._filter(genre) : this.allGenres.slice())),
+		);
 
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -139,7 +139,7 @@ export class ManageSongsComponent implements OnDestroy {
 				addedDate: new Date().toISOString(),
 				altTitles: isEmpty(this.altTitles) ? undefined : this.altTitles,
 				album: isNull(this.newSongForm.value['album']) ? undefined : this.newSongForm.value['album'],
-				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],				
+				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],
 				genres: isEmpty(this.genres) ? undefined : this.genres,
 			};
 
@@ -165,7 +165,7 @@ export class ManageSongsComponent implements OnDestroy {
 
 	respectLengthLimit(key: string): boolean {
 		if (isNil(this.newSongForm.value[key])) return false;
-		
+
 		switch (key) {
 			case 'title':
 				return this.newSongForm.value[key].length > SONG_NAME_LENGTH;
@@ -187,6 +187,7 @@ export class ManageSongsComponent implements OnDestroy {
 
 	isValidURL(): boolean {
 		const url = this.newSongForm.value['url'];
+		if (isNil(url)) return false;
 		return URLToSongPlatform(url) !== SongPlatform.INVALID_PLATFORM;
 	}
 
@@ -195,6 +196,7 @@ export class ManageSongsComponent implements OnDestroy {
 		switch (URLToSongPlatform(url)) {
 			case SongPlatform.SOUNDCLOUD: return `${ICONS_PATH}/soundcloud.png`;
 			case SongPlatform.YOUTUBE: return `${ICONS_PATH}/youtube.png`;
+			case SongPlatform.PEERTUBE: return `${ICONS_PATH}/peertube.png`;
 		}
 		return `${ICONS_PATH}/invalid.png`;
 	}
@@ -203,9 +205,9 @@ export class ManageSongsComponent implements OnDestroy {
 		return new Date().getFullYear();
 	}
 
-  add(event: MatChipInputEvent, source?: "altTitles" | "genres"): void {
-    const value = (event.value || '').trim();
-    if (value) {
+	add(event: MatChipInputEvent, source?: "altTitles" | "genres"): void {
+		const value = (event.value || '').trim();
+		if (value) {
 			switch (source) {
 				case "altTitles":
 					this.altTitles.push(value);
@@ -215,11 +217,11 @@ export class ManageSongsComponent implements OnDestroy {
 					this.genresForm.setValue(null);
 					break;
 			}
-    }
-    event.chipInput!.clear();
-  }
+		}
+		event.chipInput!.clear();
+	}
 
-  remove(value: string, source?: "altTitles" | "genres"): void {
+	remove(value: string, source?: "altTitles" | "genres"): void {
 		switch (source) {
 			case "altTitles":
 				this.altTitles = removeElementFromArray(value, this.altTitles);
@@ -228,16 +230,16 @@ export class ManageSongsComponent implements OnDestroy {
 				this.genres = removeElementFromArray(value, this.genres);
 				break;
 		}
-  }
+	}
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.genres.push(event.option.viewValue);
-    this.genreInput.nativeElement.value = '';
-    this.genresForm.setValue(null);
-  }
+	selected(event: MatAutocompleteSelectedEvent): void {
+		this.genres.push(event.option.viewValue);
+		this.genreInput.nativeElement.value = '';
+		this.genresForm.setValue(null);
+	}
 
 	private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.allGenres.filter(genre => genre.toLowerCase().includes(filterValue));
-  }
+		const filterValue = value.toLowerCase();
+		return this.allGenres.filter(genre => genre.toLowerCase().includes(filterValue));
+	}
 }

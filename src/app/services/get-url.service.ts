@@ -17,6 +17,8 @@ export class GetUrlService {
         const videoID = getIDFromURL(song);
         return this.sanitizer.bypassSecurityTrustResourceUrl(`https://youtube.com/embed/${videoID}`);
       }
+      case SongPlatform.PEERTUBE:
+        return this.sanitizer.bypassSecurityTrustResourceUrl(song.url.replace("/videos/watch/", "/videos/embed/"));
       default:
         return "";
     }
@@ -24,12 +26,14 @@ export class GetUrlService {
 
   getImageURL(song: Song): string {
     switch (song.platform) {
-      case SongPlatform.SOUNDCLOUD:
-        return 'assets/soundcloud-card.jpg';
       case SongPlatform.YOUTUBE: {
         const videoID = getIDFromURL(song);
         return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
       }
+      case SongPlatform.SOUNDCLOUD:
+        return 'assets/soundcloud-card.jpg';
+      case SongPlatform.PEERTUBE:
+        return `${song.url.replace("/videos/watch/", "/lazy-static/previews/")}.jpg`;
       default:
         return "";
     }
