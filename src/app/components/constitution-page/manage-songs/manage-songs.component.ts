@@ -151,7 +151,7 @@ export class ManageSongsComponent implements OnDestroy {
 				addedDate: new Date().toISOString(),
 				altTitles: isEmpty(this.altTitles) ? undefined : this.altTitles,
 				album: isNull(this.newSongForm.value['album']) ? undefined : this.newSongForm.value['album'],
-				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],				
+				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],
 				genres: isEmpty(this.genres) ? undefined : this.genres,
 				languages: isEmpty(this.languages) ? undefined : this.languages.map(langage => LANGUAGES_FR_TO_CODE.get(langage) || ""),
 			};
@@ -180,7 +180,7 @@ export class ManageSongsComponent implements OnDestroy {
 
 	respectLengthLimit(key: string): boolean {
 		if (isNil(this.newSongForm.value[key])) return false;
-		
+
 		switch (key) {
 			case 'title':
 				return this.newSongForm.value[key].length > SONG_NAME_LENGTH;
@@ -202,6 +202,7 @@ export class ManageSongsComponent implements OnDestroy {
 
 	isValidURL(): boolean {
 		const url = this.newSongForm.value['url'];
+		if (isNil(url)) return false;
 		return URLToSongPlatform(url) !== SongPlatform.INVALID_PLATFORM;
 	}
 
@@ -210,6 +211,7 @@ export class ManageSongsComponent implements OnDestroy {
 		switch (URLToSongPlatform(url)) {
 			case SongPlatform.SOUNDCLOUD: return `${ICONS_PATH}/soundcloud.png`;
 			case SongPlatform.YOUTUBE: return `${ICONS_PATH}/youtube.png`;
+			case SongPlatform.PEERTUBE: return `${ICONS_PATH}/peertube.png`;
 		}
 		return `${ICONS_PATH}/invalid.png`;
 	}
@@ -218,9 +220,9 @@ export class ManageSongsComponent implements OnDestroy {
 		return new Date().getFullYear();
 	}
 
-  add(event: MatChipInputEvent, source?: "altTitles" | "genres"): void {
-    const value = (event.value || '').trim();
-    if (value) {
+	add(event: MatChipInputEvent, source?: "altTitles" | "genres"): void {
+		const value = (event.value || '').trim();
+		if (value) {
 			switch (source) {
 				case "altTitles":
 					this.altTitles.push(value);
@@ -230,9 +232,9 @@ export class ManageSongsComponent implements OnDestroy {
 					this.genresForm.setValue(null);
 					break;
 			}
-    }
-    event.chipInput!.clear();
-  }
+		}
+		event.chipInput!.clear();
+	}
 
   remove(value: string, source?: "altTitles" | "genres" | "languages"): void {
 		switch (source) {
@@ -246,7 +248,7 @@ export class ManageSongsComponent implements OnDestroy {
 				this.languages = removeElementFromArray(value, this.languages);
 				break;
 		}
-  }
+	}
 
   selected(event: MatAutocompleteSelectedEvent, source: "genres" | "languages"): void {
 		switch (source) {
