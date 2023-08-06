@@ -13,27 +13,35 @@
 			<span class="custom-br"></span>
 			<form [formGroup]="newSongForm">
 				<br>
-				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')" class="valid icon">check_circle_outline</mat-icon> 
-				<mat-icon *ngIf="isNil('title')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
-				<mat-icon *ngIf="respectLengthLimit('title')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('title')}}.">error_outline</mat-icon> 
+				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')"
+					class="valid icon">check_circle_outline</mat-icon>
+				<mat-icon *ngIf="isNil('title')" class="warning icon"
+					matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
+				<mat-icon *ngIf="respectLengthLimit('title')" class="warning icon"
+					matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('title')}}.">error_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label> Titre </mat-label>
 					<input matInput #input_title formControlName="title" required>
 					<mat-hint align="end">{{input_title.value.length}}/100</mat-hint>
 				</mat-form-field>
 				<br>
-				<mat-icon *ngIf="!respectLengthLimit('author') && !isNil('author')" class="valid icon">check_circle_outline</mat-icon> 
-				<mat-icon *ngIf="isNil('author')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
-				<mat-icon *ngIf="respectLengthLimit('author')" class="warning icon" matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('author')}}. ">error_outline</mat-icon> 
+				<mat-icon *ngIf="!respectLengthLimit('author') && !isNil('author')"
+					class="valid icon">check_circle_outline</mat-icon>
+				<mat-icon *ngIf="isNil('author')" class="warning icon"
+					matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
+				<mat-icon *ngIf="respectLengthLimit('author')" class="warning icon"
+					matTooltip="Attention, vous dépassez la limite de caractère (100). Kalimba n'enregistra que : {{showKalimbaValue('author')}}. ">error_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label> Auteur </mat-label>
 					<input matInput #input_author formControlName="author" required>
 					<mat-hint align="end">{{input_author.value.length}}/100</mat-hint>
 				</mat-form-field>
 				<br>
-				<mat-icon *ngIf="isValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon> 
-				<mat-icon *ngIf="isNil('url')" class="warning icon" matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon> 
-				<mat-icon *ngIf="!isValidURL() && !isNil('url')" class="warning icon" matTooltip="Attention, l'URL entrée ne semble pas valide.">error_outline</mat-icon>
+				<mat-icon *ngIf="isValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon>
+				<mat-icon *ngIf="isNil('url')" class="warning icon"
+					matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
+				<mat-icon *ngIf="!isValidURL() && !isNil('url')" class="warning icon"
+					matTooltip="Attention, l'URL entrée ne semble pas valide.">error_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label> URL </mat-label>
 					<input matInput formControlName="url" required>
@@ -50,7 +58,8 @@
 					<mat-label> Nom de l'album </mat-label>
 					<input matInput #input_album formControlName="album">
 					<mat-hint align="end">{{input_album.value.length}}/100</mat-hint>
-				</mat-form-field>
+				</mat-form-field> <br>
+				<mat-icon class="icon" matTooltip="Autres titres possibles de la chanson. Il peut s'agir de traductions.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Titres alternatifs</mat-label>
 					<mat-chip-list #chipListTitles>
@@ -60,35 +69,45 @@
 								<mat-icon>cancel</mat-icon>
 							</button>
 						</mat-chip>
-						<input placeholder="Autre titre..."
-									 [matChipInputFor]="chipListTitles"
-									 [matChipInputAddOnBlur]="true"
-									 (matChipInputTokenEnd)="add($event, 'altTitles')">
+						<input placeholder="Autre titre..." [matChipInputFor]="chipListTitles" [matChipInputAddOnBlur]="true"
+							(matChipInputTokenEnd)="add($event, 'altTitles')">
 					</mat-chip-list>
-				</mat-form-field>
-
+				</mat-form-field><br>
+				<mat-icon class="icon" matTooltip="Liste des genres de la chanson. Il est possible d'en avoir plusieurs.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Genres</mat-label>
 					<mat-chip-list #chipListGenre>
-						<mat-chip
-							*ngFor="let genre of genres"
-							(removed)="remove(genre, 'genres')">
+						<mat-chip *ngFor="let genre of genres" (removed)="remove(genre, 'genres')">
 							{{genre}}
 							<button matChipRemove>
 								<mat-icon>cancel</mat-icon>
 							</button>
 						</mat-chip>
-						<input
-							placeholder="Ajouter un genre..."
-							#genreInput
-							[formControl]="genresForm"
-							[matAutocomplete]="auto"
-							[matChipInputFor]="chipListGenre"
-							(matChipInputTokenEnd)="add($event, 'genres')">
+						<input placeholder="Ajouter un genre..." #genreInput [formControl]="genresForm" [matAutocomplete]="autoGenre"
+							[matChipInputFor]="chipListGenre">
 					</mat-chip-list>
-					<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+					<mat-autocomplete #autoGenre="matAutocomplete" (optionSelected)="selected($event, 'genres')">
 						<mat-option *ngFor="let genre of filteredGenres | async" [value]="genre">
 							{{genre}}
+						</mat-option>
+					</mat-autocomplete>
+				</mat-form-field><br>
+				<mat-icon class="icon" matTooltip="Liste des langues chantées dans la chanson. Il est possible d'en avoir plusieurs ou aucune.">help_outline</mat-icon>
+				<mat-form-field appearance="outline">
+					<mat-label>Langues</mat-label>
+					<mat-chip-list #chipListLanguage>
+						<mat-chip *ngFor="let language of languages" (removed)="remove(language, 'languages')">
+							{{language}}
+							<button matChipRemove>
+								<mat-icon>cancel</mat-icon>
+							</button>
+						</mat-chip>
+						<input placeholder="Ajouter une langue..." #languageInput [formControl]="languagesForm" [matAutocomplete]="autoLanguage"
+							[matChipInputFor]="chipListLanguage">
+					</mat-chip-list>
+					<mat-autocomplete #autoLanguage="matAutocomplete" (optionSelected)="selected($event, 'languages')">
+						<mat-option *ngFor="let language of filteredLanguages | async" [value]="language">
+							{{language}}
 						</mat-option>
 					</mat-autocomplete>
 				</mat-form-field>

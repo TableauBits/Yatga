@@ -7,11 +7,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 import { URLToSongPlatform } from 'src/app/types/url';
 import { MatChipInputEvent } from '@angular/material/chips';
-import MUSIC_GENRES from "musicgenres-json/gen/genres.json";
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { removeElementFromArray } from 'src/app/types/utils';
+import { ALL_GENRES, ALL_LANGUAGES_FR, LANGUAGES_FR_TO_CODE } from 'src/app/types/song-utils';
 
 const ICONS_PATH = "assets/icons";
 
@@ -33,11 +33,18 @@ export class ManageSongsComponent implements OnDestroy {
 	private cstID: string;
 
 	public altTitles: string[];
+	
 	public genres: string[];
 	public filteredGenres: Observable<string[]>;
 	private allGenres: string[];
 	public genresForm: FormControl;
 	@ViewChild('genreInput') genreInput!: ElementRef<HTMLInputElement>;
+
+	public languages: string[];
+	public filteredLanguages: Observable<string[]>;
+	private allLanguages: string[];
+	public languagesForm: FormControl;
+	@ViewChild('langageInput') langageInput!: ElementRef<HTMLInputElement>;
 
 	constructor(
 		private auth: AuthService,
@@ -49,11 +56,11 @@ export class ManageSongsComponent implements OnDestroy {
 		this.songs = data.songs;
 		this.altTitles = [];
 		this.genres = [];
-		this.allGenres = MUSIC_GENRES.sort().filter((elem, index, self) => {		// sort alphabetically and removes duplicates
-			return index === self.indexOf(elem);
-		});
+		this.languages = [];
+		this.allLanguages = ALL_LANGUAGES_FR;
+		this.allGenres = ALL_GENRES;
 		this.genresForm = new FormControl();
-
+		this.languagesForm = new FormControl();
 		this.newSongForm = this.fb.group({
 			title: [, Validators.required],
 			author: [, Validators.required],
@@ -63,9 +70,14 @@ export class ManageSongsComponent implements OnDestroy {
 		});
 
 		this.filteredGenres = this.genresForm.valueChanges.pipe(
-			startWith(null),
-			map((genre: string | null) => (genre ? this._filter(genre) : this.allGenres.slice())),
-		);
+      startWith(null),
+      map((genre: string | null) => (genre ? this._filter(genre, "genres") : this.allGenres.slice())),
+    );
+
+		this.filteredLanguages = this.languagesForm.valueChanges.pipe(
+      startWith(null),
+      map((langage: string | null) => (langage ? this._filter(langage, "languages") : this.allLanguages.slice())),
+    );
 
 		this.errorStatus = new Status();
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -141,6 +153,7 @@ export class ManageSongsComponent implements OnDestroy {
 				album: isNull(this.newSongForm.value['album']) ? undefined : this.newSongForm.value['album'],
 				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],
 				genres: isEmpty(this.genres) ? undefined : this.genres,
+				languages: isEmpty(this.languages) ? undefined : this.languages.map(langage => LANGUAGES_FR_TO_CODE.get(langage) || ""),
 			};
 
 			const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });
@@ -151,6 +164,8 @@ export class ManageSongsComponent implements OnDestroy {
 		this.altTitles = [];
 		this.genres = [];
 		this.genresForm.setValue(null);
+		this.languages = [];
+		this.languagesForm.setValue(null);
 	}
 
 	closeWindow(): void {
@@ -221,7 +236,7 @@ export class ManageSongsComponent implements OnDestroy {
 		event.chipInput!.clear();
 	}
 
-	remove(value: string, source?: "altTitles" | "genres"): void {
+  remove(value: string, source?: "altTitles" | "genres" | "languages"): void {
 		switch (source) {
 			case "altTitles":
 				this.altTitles = removeElementFromArray(value, this.altTitles);
@@ -229,17 +244,30 @@ export class ManageSongsComponent implements OnDestroy {
 			case "genres":
 				this.genres = removeElementFromArray(value, this.genres);
 				break;
+			case "languages":
+				this.languages = removeElementFromArray(value, this.languages);
+				break;
 		}
 	}
 
-	selected(event: MatAutocompleteSelectedEvent): void {
-		this.genres.push(event.option.viewValue);
-		this.genreInput.nativeElement.value = '';
-		this.genresForm.setValue(null);
-	}
+  selected(event: MatAutocompleteSelectedEvent, source: "genres" | "languages"): void {
+		switch (source) {
+			case "genres":
+				this.genres.push(event.option.viewValue);
+				this.genreInput.nativeElement.value = '';
+				this.genresForm.setValue(null);
+				break;
+			case "languages":
+				this.languages.push(event.option.viewValue);
+				this.langageInput.nativeElement.value = '';
+				this.languagesForm.setValue(null);
+		}
+  }
 
-	private _filter(value: string): string[] {
-		const filterValue = value.toLowerCase();
-		return this.allGenres.filter(genre => genre.toLowerCase().includes(filterValue));
-	}
+	private _filter(value: string, source: "genres" | "languages"): string[] {
+    const filterValue = value.toLowerCase();
+		if (source === "genres") return this.allGenres.filter(genre => genre.toLowerCase().includes(filterValue));
+		if (source === "languages") return this.allLanguages.filter(langage => langage.toLowerCase().includes(filterValue));
+		return [];
+  }
 }
