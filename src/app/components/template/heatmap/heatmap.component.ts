@@ -13,6 +13,7 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
   @Input() data: HeatmapData[] = [];
   @Input() xAxis: string[] = [];
   @Input() yAxis: string[] = [];
+  @Input() id: string;
 
   private max = -1;
 
@@ -20,10 +21,7 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
   private option: EChartsOption;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('heatmap')!);
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -35,15 +33,25 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
     this.max = max;
     this.xAxis = changes['xAxis'].currentValue;
     this.yAxis = changes['yAxis'].currentValue;
-    this.ngAfterViewInit();
+    this.updateChart();
   }
 
   constructor() {
+    this.id = "";
     this.chart = undefined;
     this.option = {};
   }
 
-  private initChart(): EChartsOption {
+  private updateChart(): void {
+    const element = document.getElementById(this.id);
+    if (isNil(this.chart) && !isNil(element)) {
+      this.chart = echarts.init(document.getElementById(this.id)!);
+    }
+    this.option = this.generateChartOption();
+    this.option && this.chart?.setOption(this.option);
+  }
+
+  private generateChartOption(): EChartsOption {
     return {
       tooltip: {},
       grid: {

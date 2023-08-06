@@ -15,15 +15,13 @@ export class ChordComponent implements AfterViewInit, OnChanges {
   @Input() links: ChordLink[] = [];
   @Input() nodes: ChordNode[] = [];
   @Input() useForce: boolean = false;
+  @Input() id: string;
 
   private chart: echarts.ECharts | undefined;
   private option: EChartsOption;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('chord')!);
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -36,11 +34,21 @@ export class ChordComponent implements AfterViewInit, OnChanges {
   }
 
   constructor() {
+    this.id = "";
     this.chart = undefined;
     this.option = {};
   }
 
-  private initChart(): EChartsOption {
+  private updateChart(): void {
+    const element = document.getElementById(this.id);
+    if (isNil(this.chart) && !isNil(element)) {
+      this.chart = echarts.init(document.getElementById(this.id)!);
+    }
+    this.option = this.generateChartOption();
+    this.option && this.chart?.setOption(this.option);
+  }
+
+  private generateChartOption(): EChartsOption {
     return {
       tooltip: {},
       legend: [

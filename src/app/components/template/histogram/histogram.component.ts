@@ -13,32 +13,36 @@ const GRADE_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // TODO : give the values 
 export class HistogramComponent implements AfterViewInit, OnChanges {
 
   @Input() values: number[] = [];
+  @Input() id: string;
 
   private chart: echarts.ECharts | undefined;
   private option: EChartsOption;
 
-  // TODO : Generate a random id string
-
   ngAfterViewInit() {
-    if (isNil(this.chart)) {
-      this.chart = echarts.init(document.getElementById('histogram')!);      
-    } 
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.values = changes['values'].currentValue;
-    this.ngAfterViewInit();
+    this.updateChart();
   }
 
   constructor() {
+    this.id = "";
     this.chart = undefined;
     this.option = {};
   }
 
-  private initChart(): EChartsOption {
+  private updateChart(): void {
+    const element = document.getElementById(this.id);
+    if (isNil(this.chart) && !isNil(element)) {
+      this.chart = echarts.init(document.getElementById(this.id)!);
+    }
+    this.option = this.generateChartOption();
+    this.option && this.chart?.setOption(this.option);
+  }
+
+  private generateChartOption(): EChartsOption {
     return {
       tooltip: {
         trigger: 'item'

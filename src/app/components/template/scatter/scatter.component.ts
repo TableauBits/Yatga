@@ -15,30 +15,37 @@ export class ScatterComponent implements AfterViewInit, OnChanges {
   @Input() names: string[] = [];
   @Input() data: ScatterData[] = [];
   @Input() axisMax: number = 100;
+  @Input() id: string;
 
   private chart: echarts.ECharts | undefined;
   private option: EChartsOption;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('scatter')!);
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.names = changes['names'].currentValue;
     this.data = changes['data'].currentValue;
-    this.ngAfterViewInit();
+    this.updateChart();
   }
 
   constructor() {
+    this.id = "";
     this.chart = undefined;
     this.option = {};
   }
 
-  private initChart(): EChartsOption {
+  private updateChart(): void {
+    const element = document.getElementById(this.id);
+    if (isNil(this.chart) && !isNil(element)) {
+      this.chart = echarts.init(document.getElementById(this.id)!);
+    }
+    this.option = this.generateChartOption();
+    this.option && this.chart?.setOption(this.option);
+  }
 
+  private generateChartOption(): EChartsOption {
     const title: echarts.TitleComponentOption[] = [];
     const singleAxis: echarts.SingleAxisComponentOption[] = [];
     const series: echarts.ScatterSeriesOption[] = [];

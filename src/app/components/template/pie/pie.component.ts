@@ -14,17 +14,13 @@ import { PieData } from 'src/app/types/charts';
 export class PieComponent implements AfterViewInit, OnChanges {
 
   @Input() data: PieData[] = [];
+  @Input() id: string;
 
   private chart: echarts.ECharts | undefined;
   private option: EChartsOption;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) {
-      this.chart = echarts.init(document.getElementById('pie')!);
-    }
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -33,11 +29,21 @@ export class PieComponent implements AfterViewInit, OnChanges {
   }
 
   constructor() {
+    this.id = "";
     this.chart = undefined;
     this.option = {};
   }
 
-  private initChart(): EChartsOption {
+  private updateChart(): void {
+    const element = document.getElementById(this.id);
+    if (isNil(this.chart) && !isNil(element)) {
+      this.chart = echarts.init(document.getElementById(this.id)!);
+    }
+    this.option = this.generateChartOption();
+    this.option && this.chart?.setOption(this.option);
+  }
+
+  private generateChartOption(): EChartsOption {
     return {
       tooltip: {
         trigger: 'item'
