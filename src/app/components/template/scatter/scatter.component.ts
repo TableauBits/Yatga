@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
 import { isNil } from 'lodash';
-import { EChartsOption, ScatterData } from 'src/app/types/charts';
+import { Charts, EChartsOption, ScatterData } from 'src/app/types/charts';
 
 const BUBBLE_SIZE = 30;
 
@@ -10,35 +10,29 @@ const BUBBLE_SIZE = 30;
   templateUrl: './scatter.component.html',
   styleUrls: ['./scatter.component.scss']
 })
-export class ScatterComponent implements AfterViewInit, OnChanges {
+export class ScatterComponent extends Charts implements AfterViewInit, OnChanges {
 
   @Input() names: string[] = [];
   @Input() data: ScatterData[] = [];
   @Input() axisMax: number = 100;
-
-  private chart: echarts.ECharts | undefined;
-  private option: EChartsOption;
+  @Input() id: string;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('scatter')!);
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.names = changes['names'].currentValue;
     this.data = changes['data'].currentValue;
-    this.ngAfterViewInit();
+    this.updateChart();
   }
 
   constructor() {
-    this.chart = undefined;
-    this.option = {};
+    super();
+    this.id = "";
   }
 
-  private initChart(): EChartsOption {
-
+  generateChartOption(): EChartsOption {
     const title: echarts.TitleComponentOption[] = [];
     const singleAxis: echarts.SingleAxisComponentOption[] = [];
     const series: echarts.ScatterSeriesOption[] = [];

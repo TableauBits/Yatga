@@ -1,26 +1,19 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import * as echarts from 'echarts';
-import { isNil } from 'lodash';
-import { EChartsOption, RadarData, RadarIndicator } from 'src/app/types/charts';
+import { Charts, EChartsOption, RadarData, RadarIndicator } from 'src/app/types/charts';
 
 @Component({
   selector: 'app-radar',
   templateUrl: './radar.component.html',
   styleUrls: ['./radar.component.scss']
 })
-export class RadarComponent implements AfterViewInit, OnChanges {
+export class RadarComponent extends Charts implements AfterViewInit, OnChanges {
 
   @Input() indicators: RadarIndicator[] = [];
   @Input() data: RadarData[] = [];
-
-  private chart: echarts.ECharts | undefined;
-  private option: EChartsOption;
+  @Input() id: string;
 
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('radar')!);
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -30,11 +23,11 @@ export class RadarComponent implements AfterViewInit, OnChanges {
   }
 
   constructor() {
-    this.chart = undefined;
-    this.option = {};
+    super();
+    this.id = "";
   }
 
-  private initChart(): EChartsOption {
+   generateChartOption(): EChartsOption {
     return {
       tooltip: {
         trigger: 'item'

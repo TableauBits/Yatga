@@ -1,29 +1,22 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import * as echarts from 'echarts';
-import { isNil } from 'lodash';
-import { EChartsOption, HeatmapData } from 'src/app/types/charts';
+import { Charts, EChartsOption, HeatmapData } from 'src/app/types/charts';
 
 @Component({
   selector: 'app-heatmap',
   templateUrl: './heatmap.component.html',
   styleUrls: ['./heatmap.component.scss']
 })
-export class HeatmapComponent implements AfterViewInit, OnChanges  {
+export class HeatmapComponent extends Charts implements AfterViewInit, OnChanges  {
 
   @Input() data: HeatmapData[] = [];
   @Input() xAxis: string[] = [];
   @Input() yAxis: string[] = [];
+  @Input() id: string;
 
   private max = -1;
 
-  private chart: echarts.ECharts | undefined;
-  private option: EChartsOption;
-
   ngAfterViewInit() {
-    if (isNil(this.chart)) this.chart = echarts.init(document.getElementById('heatmap')!);
-    
-    this.option = this.initChart();
-    this.option && this.chart.setOption(this.option);
+    this.updateChart();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -35,15 +28,15 @@ export class HeatmapComponent implements AfterViewInit, OnChanges  {
     this.max = max;
     this.xAxis = changes['xAxis'].currentValue;
     this.yAxis = changes['yAxis'].currentValue;
-    this.ngAfterViewInit();
+    this.updateChart();
   }
 
   constructor() {
-    this.chart = undefined;
-    this.option = {};
+    super();
+    this.id = "";
   }
 
-  private initChart(): EChartsOption {
+  generateChartOption(): EChartsOption {
     return {
       tooltip: {},
       grid: {

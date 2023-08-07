@@ -1,8 +1,32 @@
 import * as echarts from 'echarts';
-
-export const CHARTS_ID_LENGTH = 12;
+import { isNil } from 'lodash';
 
 export type EChartsOption = echarts.EChartsOption;
+
+
+export abstract class Charts {
+  id: string;
+
+  private chart: echarts.ECharts | undefined;
+  private option: EChartsOption;
+  
+  constructor() {
+    this.id = "";
+    this.chart = undefined;
+    this.option = {};
+  }
+
+  updateChart(): void {
+    const element = document.getElementById(this.id);
+    if (isNil(this.chart) && !isNil(element)) {
+      this.chart = echarts.init(element!);
+    }
+    this.option = this.generateChartOption();
+    this.option && this.chart?.setOption(this.option);
+  }
+  
+  abstract generateChartOption(): EChartsOption;
+}
 
 // Chord
 export type ChordCategory = {
