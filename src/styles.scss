@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 // MDB SCSS
-@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 // Font Awesome
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 @import "styles/variables.scss";
+@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
 
 html, body { height: 100%; }
 body {
@@ -16,13 +16,25 @@ body {
   background-color:  $cape-cod;
 }
 
+hr {
+  border:none;
+  border-top: 1px solid $purple ;
+  opacity:0.8;
+  width: min(100%, 600px);
+  margin:auto;
+}
+
 .mat-dialog-container {
   background-color: $cape-cod;
 }
 
+.bg-dark {
+  background-color: $mineshaft !important; 
+}
+
 .custom-br {
   width: 95%;
-  height: 2px;
+  height: 1px;
   background-color: $sasuke;
   margin:auto;
   display:table;
@@ -166,7 +178,7 @@ body {
 }
 
 .favorite {
-	color:deeppink;
+	color:#CF387C;
 }
 
 .love {
@@ -201,6 +213,30 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+a {
+  color: #388ACF;
+}
+
+// scroll bar :
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+  height:3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px $mineshaft;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $purple;
+  border-radius: 10px;
 }
 
 mat-option {

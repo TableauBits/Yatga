@@ -3,11 +3,11 @@
 .filter {
 	display: inline-block;
 	margin-top: -5%;
+	margin-bottom: 20px;
 	width: 100%;
-
 	background-color: $mineshaft;
-  border-radius: 25px;
-  border: 2px solid $sasuke;
+	border-radius: 25px;
+	border: 2px solid $sasuke;
 }
 
 .filter-text {

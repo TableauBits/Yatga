@@ -1,14 +1,14 @@
 <div class="admin-background">
 	<br>
   <h1 class="title"> GÉRER LES INVITATIONS </h1>
-  <span class="custom-br"></span>
+  <hr>
 	<br>
   <button mat-raised-button color="primary" (click)="newInvite()">
     <mat-icon>fiber_new</mat-icon> Générer une nouvelle invitation
   </button>
   <br>
   <br>
-  <span class="custom-br"></span>
+  <hr>
   <p> Liste d'invitation en cours : </p>
   <mat-list *ngFor="let invite of invites">
 		<mat-list-item role="listitem" class="item">

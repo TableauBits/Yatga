@@ -1,7 +1,7 @@
 <div class="admin-background">
 	<br>
 	<h1 class="title"> CRÉER UNE CONSTITUTION </h1>
-	<span class="custom-br"></span>
+	<hr>
 	<br>
 	<form [formGroup]="newConstitutionForm">
 		<mat-form-field appearance="outline" class="numberField">
@@ -22,7 +22,7 @@
 			<input matInput formControlName="playlistLink">
 		</mat-form-field>
 		<br>
-		<span class="custom-br"></span>
+		<hr>
 		<br>
 		<mat-form-field appearance="outline" class="typeField">
 			<mat-label> Type </mat-label>
@@ -33,7 +33,7 @@
 			</mat-select>
 		</mat-form-field>
 		<br>
-		<span class="custom-br"></span>
+		<hr>
 		<br>
 		<mat-label> Nombre de participants : </mat-label>
 		<mat-slider thumbLabel min="4" max="10" step="1" formControlName="maxUserCount" required></mat-slider>
@@ -43,7 +43,7 @@
 		<span class="warning"> Le nombre total de chanson ne peut dépasser 100 chansons. </span>
 		<br>
 		<br>
-		<span class="custom-br"></span>
+		<hr>
 		<br>
 		<mat-form-field appearance="outline" class="typeField">
 			<mat-label> Niveau d'anonymat </mat-label>

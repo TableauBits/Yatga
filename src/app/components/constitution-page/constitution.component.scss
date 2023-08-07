@@ -1,16 +1,20 @@
 @import "../../../styles/variables.scss";
 
+
 .active {
   background-color: $cape-cod;
 }
 
-/* CSS  https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp */
+.h1 {
+  margin: 16px 0px;
+}
+
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 18%; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 0; /* Stay on top */
-  top: 0%; /* Stay at the top */
+  top: 0; /* Stay at the top */
   left: 0;
   background-color: $mineshaft;
   overflow-x: hidden; /* Disable horizontal scroll */
@@ -21,26 +25,50 @@
   background-color: $mineshaft;
 }
 
+hr {
+  margin: 10px ;
+  border-top: 2px solid $dark-purple ;
+  opacity : 0.2;
+  width:90%;
+}
+
+.sidenav button {
+  margin:5px;
+  color: whitesmoke;
+}
+
+.sidenav .mat-button-disabled {
+  background-color: #222;
+  color: #b7b7b7;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+
 .avatar {
   margin-left: 3%;
   margin-right: 3%;
   margin-bottom: 1%;
 }
 
+.list-roles {
+  margin:20px 0px;
+}
+
 .item {
-  background-color: $bg-dark;
-  border-radius: 25px;
+  background-color: linear-gradient(300deg, $mineshaft 0%, #1f1535 35%, #222222 100%);
+  border-radius: 0px;
   text-align: center;
-  border: 2px solid $sasuke;
+  border: 0px solid $sasuke;
   // max-width: 300px;
 }
 
 .admin-color {
-  color: $admin-dark;
+  color: $admin;
 }
 
 .member-color {
-  color: $guest-dark;
+  color: $guest;
 }
 
 .mat-list-base {
@@ -53,6 +81,13 @@
 }
 
 .custom-br2 {
+  margin-top: 8px ;
+  border : solid 0px;
+  background-color: transparent;
+}
+
+.naviguation_cons {
+  margin:2% 3% 1% 19% !important;
   margin-top: 8px;
   margin-bottom: 8px;
 }
@@ -61,6 +96,10 @@
 	.mat-drawer-content {
 		overflow-x: hidden !important;
 	}
+}
+
+.filtres {
+  margin-top: 25px !important;
 }
 
 .round-navbard {
@@ -90,3 +129,11 @@ table {
   border: 2px solid $sasuke;
   background-color: $bg-dark;
 }
+
+span {
+  overflow-x: hidden;
+}
+
+.content[_ngcontent-fcv-c154] {
+  margin:2% 3% 2% 19%;
+ }

@@ -1,15 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="cnavbar navbar-expand-lg navbar-dark">
 	<div class="container-fluid">
 		<!-- Navbar Brand -->
-		<a class="navbar-brand" routerLink="/">MATBay!</a>
-
-		<!-- Collapse button-->
-		<button class="navbar-toggler" type="button" (click)="basicNav.toggle()" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<i class="fas fa-bars"></i>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
-			<button mat-raised-button class="btn btn-primary purple dropdown-toggle navbar-button" [matMenuTriggerFor]="menu">
+		<a class="navbar-brand" routerLink="/">Matbay!</a>
+		<div class="container">
+			<div class="container left">
+			<button mat-raised-button class="btn btn-primary dropdown-toggle purple navbar-button" [matMenuTriggerFor]="menu">
 				Constitutions
 			</button>
 			<mat-menu #menu="matMenu">
@@ -17,7 +12,6 @@
 					<mat-icon class="menu-panel">open_in_browser</mat-icon>
 					<span>Rejoindre une Constitution</span>
 				</button>
-				<span class="custom-br"> </span>
 				<button mat-menu-item class="menu-panel" routerLink="/current-constitutions">
 					<mat-icon class="menu-panel">dvr</mat-icon>
 					<span>Voir les Constitutions en cours</span>
@@ -44,7 +38,7 @@
 			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
 				routerLink="/admin-page">Administrateur</button>
 
-
+			</div>
 			<!-- Dropdown Menu -->
 			<div *ngIf="auth.isAuthenticate; then signedIn else signedOut"></div>
 		</div>
@@ -52,7 +46,7 @@
 </nav>
 
 <ng-template #signedIn>
-	<div class="ms-auto">
+	<div class="container right">
 		<mat-icon *ngIf="!auth.isConnected" class="warning vertical image-de" matTooltip="Vous êtes déconnecté de Kalimba. Essayez de recharger la page. Si le problème persiste, contactez un administrateur.">cloud_off</mat-icon>
 
 		<button mat-button  [disableRipple]="true" [matMenuTriggerFor]="menu">
@@ -73,8 +67,8 @@
 
 </ng-template>
 <ng-template #signedOut>
-	<div class="ms-auto">
+	<div class="container right">
 		<button mat-raised-button class="navbar-button" color="primary" (click)="navigateTo('invite')">Inscription</button>
-		<button mat-raised-button color="primary" (click)="auth.signIn()">Connexion</button>
+		<button mat-raised-button class="navbar-button" color="primary" (click)="auth.signIn()">Connexion</button>
 	</div>
 </ng-template>
