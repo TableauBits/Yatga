@@ -49,7 +49,7 @@
 	<div class="container right">
 		<mat-icon *ngIf="!auth.isConnected" class="warning vertical image-de" matTooltip="Vous êtes déconnecté de Kalimba. Essayez de recharger la page. Si le problème persiste, contactez un administrateur.">cloud_off</mat-icon>
 
-		<button mat-button  [disableRipple]="true" [matMenuTriggerFor]="menu">
+		<button mat-button [matMenuTriggerFor]="menu">
 			<img src="{{auth.user.photoURL}}" class="rounded-circle navbar-button" width="50"	height="50">
 		</button>
 	</div>

@@ -44,6 +44,10 @@ export function capitalizeFirstLetter(value: string) {
 	return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+export function keepUniqueValues<T>(array: T[]): T[] {
+	return [...new Set<T>(array)];
+}
+
 /**
  * Creates a function that compares two objects by a given key.
  * @template T The type of the objects to compare.
