@@ -44,7 +44,7 @@ export class ManageSongsComponent implements OnDestroy {
 	public filteredLanguages: Observable<string[]>;
 	private allLanguages: string[];
 	public languagesForm: FormControl;
-	@ViewChild('langageInput') langageInput!: ElementRef<HTMLInputElement>;
+	@ViewChild('languageInput') languageInput!: ElementRef<HTMLInputElement>;
 
 	constructor(
 		private auth: AuthService,
@@ -269,7 +269,7 @@ export class ManageSongsComponent implements OnDestroy {
 				break;
 			case "languages":
 				this.languages.push(event.option.viewValue);
-				this.langageInput.nativeElement.value = '';
+				this.languageInput.nativeElement.value = '';
 				this.languagesForm.setValue(null);
 		}
   }
