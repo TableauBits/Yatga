@@ -45,6 +45,10 @@ mat-form-field {
   .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
     background: $sasuke;
   }
+
+  .mat-checkbox-frame {
+    border-color: whitesmoke;
+  }
 }
 
 table {

@@ -10,8 +10,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { removeElementFromArray } from 'src/app/types/utils';
-import { ALL_GENRES, ALL_LANGUAGES_FR, LANGUAGES_FR_TO_CODE } from 'src/app/types/song-utils';
+import { keepUniqueValues, removeElementFromArray } from 'src/app/types/utils';
+import { ALL_GENRES, ALL_LANGUAGES_FR, INSTRUMENTAL_CODE, LANGUAGES_FR_TO_CODE } from 'src/app/types/song-utils';
 
 const ICONS_PATH = "assets/icons";
 
@@ -67,6 +67,7 @@ export class ManageSongsComponent implements OnDestroy {
 			url: [, Validators.required],
 			album: [],
 			releaseYear: [],
+			isInstrumental: [false]
 		});
 
 		this.filteredGenres = this.genresForm.valueChanges.pipe(
@@ -133,6 +134,15 @@ export class ManageSongsComponent implements OnDestroy {
 		this.auth.ws.send(removeSongMessage);
 	}
 
+	getLanguages(): string[] | undefined {
+		if (this.isInstrumental()) return [INSTRUMENTAL_CODE];
+		return isEmpty(this.languages) ? undefined : keepUniqueValues(this.languages.map(langage => LANGUAGES_FR_TO_CODE.get(langage) || ""));
+	}
+
+	isInstrumental(): boolean {
+		return this.newSongForm.value["isInstrumental"] === true;
+	}
+
 	addSong(): void {
 		const invalidValues = this.checkFormValidity();
 		if (!isEmpty(invalidValues)) {
@@ -152,8 +162,8 @@ export class ManageSongsComponent implements OnDestroy {
 				altTitles: isEmpty(this.altTitles) ? undefined : this.altTitles,
 				album: isNull(this.newSongForm.value['album']) ? undefined : this.newSongForm.value['album'],
 				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],
-				genres: isEmpty(this.genres) ? undefined : this.genres,
-				languages: isEmpty(this.languages) ? undefined : this.languages.map(langage => LANGUAGES_FR_TO_CODE.get(langage) || ""),
+				genres: isEmpty(this.genres) ? undefined : keepUniqueValues(this.genres),
+				languages: this.getLanguages(),
 			};
 
 			const newSongMessage = createMessage<CstSongReqAdd>(EventType.CST_SONG_add, { cstId: this.cstID, songData: song });

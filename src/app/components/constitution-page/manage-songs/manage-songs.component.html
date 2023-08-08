@@ -48,7 +48,7 @@
 					<img *ngIf="!isNil('url')" matSuffix class="platform-img" [src]="songPlatformFromIcon()">
 				</mat-form-field>
 				<h3 class="title"> CHAMPS OPTIONNELS </h3>
-				<span class="custom-br"></span>
+				<hr>
 				<br>
 				<mat-form-field appearance="outline" class="releaseYearField">
 					<mat-label> Année de sortie </mat-label>
@@ -92,8 +92,8 @@
 						</mat-option>
 					</mat-autocomplete>
 				</mat-form-field><br>
-				<mat-icon class="icon" matTooltip="Liste des langues chantées dans la chanson. Il est possible d'en avoir plusieurs ou aucune.">help_outline</mat-icon>
-				<mat-form-field appearance="outline">
+				<mat-icon *ngIf="!isInstrumental()" class="icon" matTooltip="Liste des langues chantées dans la chanson. Il est possible d'en avoir plusieurs ou aucune.">help_outline</mat-icon>
+				<mat-form-field appearance="outline" *ngIf="!isInstrumental()">
 					<mat-label>Langues</mat-label>
 					<mat-chip-list #chipListLanguage>
 						<mat-chip *ngFor="let language of languages" (removed)="remove(language, 'languages')">
@@ -111,9 +111,9 @@
 						</mat-option>
 					</mat-autocomplete>
 				</mat-form-field>
+				<mat-checkbox class="pitie" color="primary" formControlName="isInstrumental"> <mat-label> Il s'agit d'une chanson instrumentale </mat-label> </mat-checkbox>
 			</form>
-			<span class="custom-br"></span>
-			<br>
+			<br> <hr> <br>
 			<button mat-raised-button color="primary" class="icon" (click)="addSong()">
 				Ajouter
 			</button>
@@ -146,7 +146,7 @@
 					</td>
 				</tr>
 			</table>
-			<br>
+			<br> <hr> <br>
 			<button mat-raised-button color="warn" (click)="closeWindow()">
 				Annuler
 			</button>
