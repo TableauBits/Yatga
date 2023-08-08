@@ -16,6 +16,13 @@ export abstract class Charts {
     this.option = {};
   }
 
+  onResize() {
+    this.chart?.resize({
+      width: "auto",
+      height: "auto",
+    });
+  }
+
   updateChart(): void {
     const element = document.getElementById(this.id);
     if (isNil(this.chart) && !isNil(element)) {
