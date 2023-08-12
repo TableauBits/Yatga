@@ -10,6 +10,7 @@ import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.componen
 import { ActivatedRoute } from '@angular/router';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { GetUrlService } from 'src/app/services/get-url.service';
+import { GRADE_VALUES } from 'src/app/types/song-utils';
 
 enum GradeOrder {
 	INCREASE,
@@ -23,6 +24,7 @@ enum GradeOrder {
 	styleUrls: ['./votes-grade.component.scss']
 })
 export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy {
+	readonly GRADE_VALUES = GRADE_VALUES;
 
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();

@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Charts, EChartsOption } from 'src/app/types/charts';
 
-const GRADE_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // TODO : give the values to count with Input
-
 @Component({
   selector: 'app-histogram',
   templateUrl: './histogram.component.html',
@@ -11,6 +9,7 @@ const GRADE_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // TODO : give the values 
 export class HistogramComponent extends Charts implements AfterViewInit, OnChanges {
 
   @Input() values: number[] = [];
+  @Input() columns: number[] = [];
   @Input() id: string;
 
   ngAfterViewInit() {
@@ -19,6 +18,7 @@ export class HistogramComponent extends Charts implements AfterViewInit, OnChang
 
   ngOnChanges(changes: SimpleChanges) {
     this.values = changes['values'].currentValue;
+    this.columns = changes['columns'].currentValue;
     this.updateChart();
   }
 
@@ -35,13 +35,13 @@ export class HistogramComponent extends Charts implements AfterViewInit, OnChang
       color: '#673AB7',
       series: [
         {
-          data: GRADE_VALUES.map((grade) => this.count(grade)),
+          data: this.columns.map((column) => this.count(column)),
           type: 'bar'
         }
       ],
       xAxis: {
         type: 'category',
-        data: GRADE_VALUES
+        data: this.columns
       },
       yAxis: {
         type: 'value'
