@@ -1,6 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys';
-import { isEmpty, isNil, max, min, range } from 'lodash';
+import { flatten, isEmpty, isNil, max, min, range } from 'lodash';
+import { PieData } from 'src/app/types/charts';
+import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
+import { keepUniqueValues } from 'src/app/types/utils';
 
 const CONSTITUTION_USER_ID = "current-constitution";
 
@@ -22,13 +25,9 @@ export class ResultsConstitutionComponent implements OnChanges {
   releaseYearHistogramColumns: number[] = [];
   releaseYearGroupBy: number;
 
+  languagesPieData: PieData[] = [];
+
   ngOnChanges(changes: SimpleChanges): void {
-    const usersChange = changes["users"].currentValue as Map<string, User>;
-
-    usersChange.forEach((value, key) => {
-      this.resultsUsers.set(key, value);
-    });
-
     const cstChange = changes["constitution"].currentValue as Constitution;
     this.resultsUsers.set(CONSTITUTION_USER_ID, {
       ...EMPTY_USER,
@@ -36,7 +35,13 @@ export class ResultsConstitutionComponent implements OnChanges {
       displayName: cstChange.name,
     });
 
+    const usersChange = changes["users"].currentValue as Map<string, User>;
+    usersChange.forEach((value, key) => {
+      this.resultsUsers.set(key, value);
+    });
+
     this.generateHistogramData();
+    this.generatePieDate();
   }
 
   constructor() {
@@ -54,11 +59,12 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   newSelection(): void {
     this.generateHistogramData();
+    this.generatePieDate();
   }
 
-  yearFilter(song: Song): boolean {
+  songFilter(song: Song, property: keyof Song): boolean {
     // return true if the year isn't unfedined and the song is from the selectedUser
-    if (isNil(song?.releaseYear)) return false;
+    if (isNil(song[property])) return false;
     if (this.selectedUser === CONSTITUTION_USER_ID) return true;  // special case for the constitution where we return all the songs
     else if (this.selectedUser === song.user) return true;
     return false;
@@ -71,7 +77,7 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   generateHistogramData(): void {
     const years = Array.from(this.songs.values())
-      .filter(song => this.yearFilter(song))
+      .filter(song => this.songFilter(song, "releaseYear"))
       .map(song => this.toDecade(song.releaseYear)) as number[];
 
     if (isEmpty(years)) {
@@ -88,6 +94,21 @@ export class ResultsConstitutionComponent implements OnChanges {
     this.releaseYearHistogramValues = years;
   }
 
+  generatePieDate(): void {
+    this.languagesPieData = [];
+    const languages = flatten<string>(
+      Array.from(this.songs.values())
+      .filter(song => this.songFilter(song, "languages"))
+      .map(song => song.languages || [])
+      ).map(language => LANGUAGES_CODE_TO_FR.get(language));
 
+    for (const language of keepUniqueValues(languages)) {
+      if (isNil(language)) return;
+      this.languagesPieData.push({
+        name: language,
+        value: languages.filter(value => value === language).length
+      });
+    }
+  }
 
 }
