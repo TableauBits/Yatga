@@ -10,6 +10,14 @@
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir le regroupement par année </mat-label>
+      <mat-select [(value)]="releaseYearGroupBy" (selectionChange)="newSelection()">
+        <mat-option value="1">1 an</mat-option>
+        <mat-option value="5">5 ans</mat-option>
+        <mat-option value="10">10 ans</mat-option>
+      </mat-select>
+    </mat-form-field>
     <app-histogram [id]="'results-constitution-years-histogram'" [columns]="releaseYearHistogramColumns" [values]="releaseYearHistogramValues"> </app-histogram>
   </mat-expansion-panel>
 </mat-accordion>

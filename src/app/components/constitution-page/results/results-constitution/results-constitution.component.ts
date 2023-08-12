@@ -3,7 +3,6 @@ import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys
 import { isEmpty, isNil, max, min, range } from 'lodash';
 
 const CONSTITUTION_USER_ID = "current-constitution";
-const RELEASE_YEAR_GROUP_BY = [1, 5, 10];
 
 @Component({
   selector: 'app-results-constitution',
@@ -21,7 +20,7 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   releaseYearHistogramValues: number[] = [];
   releaseYearHistogramColumns: number[] = [];
-  releaseYearGroupBy: number = RELEASE_YEAR_GROUP_BY[2];
+  releaseYearGroupBy: number;
 
   ngOnChanges(changes: SimpleChanges): void {
     const usersChange = changes["users"].currentValue as Map<string, User>;
@@ -42,6 +41,7 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   constructor() {
     this.selectedUser = CONSTITUTION_USER_ID;
+    this.releaseYearGroupBy = 10;
   }
 
   getUserList(): User[] {
