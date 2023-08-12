@@ -38,6 +38,7 @@ import { ManageInvitesComponent } from './components/admin-page/manage-invites/m
 import { ManageRolesComponent } from './components/admin-page/manage-roles/manage-roles.component';
 import { InvitePageComponent } from './components/invite-page/invite-page.component';
 import { OptionnalSongInfosButtonComponent } from './components/constitution-page/optionnal-song-infos-button/optionnal-song-infos-button.component';
+import { ResultsConstitutionComponent } from './components/constitution-page/results/results-constitution/results-constitution.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -138,6 +139,7 @@ import { AuthService } from './services/auth.service';
 		ManageRolesComponent,
 		InvitePageComponent,
 		OptionnalSongInfosButtonComponent,
+  ResultsConstitutionComponent,
 	],
 	imports: [
 		BrowserModule,

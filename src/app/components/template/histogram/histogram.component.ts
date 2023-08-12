@@ -36,7 +36,8 @@ export class HistogramComponent extends Charts implements AfterViewInit, OnChang
       series: [
         {
           data: this.columns.map((column) => this.count(column)),
-          type: 'bar'
+          type: 'bar',
+          barWidth: '60%',
         }
       ],
       xAxis: {
