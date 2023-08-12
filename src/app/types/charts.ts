@@ -1,8 +1,10 @@
 import * as echarts from 'echarts';
 import { isNil } from 'lodash';
+import echartsTheme from '../../styles/echarts-theme.json';
+
+echarts.registerTheme('dark', echartsTheme);
 
 export type EChartsOption = echarts.EChartsOption;
-
 
 export abstract class Charts {
   id: string;
@@ -26,7 +28,7 @@ export abstract class Charts {
   updateChart(): void {
     const element = document.getElementById(this.id);
     if (isNil(this.chart) && !isNil(element)) {
-      this.chart = echarts.init(element!);
+      this.chart = echarts.init(element!, 'dark');
     }
     this.option = this.generateChartOption();
     this.option && this.chart?.setOption(this.option);
