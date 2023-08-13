@@ -4,6 +4,7 @@ import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { DownloadService } from 'src/app/services/download.service';
 import { EMPTY_USER_GRADE_RESULTS, SongGrade, SongGradeResult, UserGradeResults } from 'src/app/types/results';
+import { GRADE_VALUES } from 'src/app/types/song-utils';
 
 @Component({
   selector: 'app-grade-profile',
@@ -11,6 +12,7 @@ import { EMPTY_USER_GRADE_RESULTS, SongGrade, SongGradeResult, UserGradeResults 
   styleUrls: ['./grade-profile.component.scss']
 })
 export class GradeProfileComponent implements OnChanges {
+  readonly GRADE_VALUES = GRADE_VALUES;
 
   @Input() result: UserGradeResults = EMPTY_USER_GRADE_RESULTS;
   @Input() users: Map<string, User> = new Map();
