@@ -25,7 +25,7 @@ export class GradeProfileComponent implements OnChanges {
   histogramValues: number[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.histogramValues = Array.from(changes['result'].currentValue.data.values.values());
+    if (changes['result']) this.histogramValues = Array.from(changes['result'].currentValue.data.values.values());
   }
 
   constructor(private auth: AuthService, private dwl: DownloadService) { }

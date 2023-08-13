@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { isNil } from 'lodash';
 import { Charts, EChartsOption } from 'src/app/types/charts';
 
 @Component({
@@ -18,7 +19,7 @@ export class HistogramComponent extends Charts implements AfterViewInit, OnChang
 
   ngOnChanges(changes: SimpleChanges) {
     this.values = changes['values'].currentValue;
-    this.columns = changes['columns'].currentValue;
+    if (changes['columns']) this.columns = changes['columns'].currentValue;
     this.updateChart();
   }
 
