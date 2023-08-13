@@ -1,20 +1,10 @@
+<app-navigator-song-display [song]="currentSong"></app-navigator-song-display>
 <div class="title">
-  <a href="{{currentSong.url}}" target="_blank">
-    <h1 class="text-overflowable"> {{currentSong.author}} - {{currentSong.title}} </h1>
-  </a>
-<hr>
-</div>
-<br>
-<div class="title">
-  <iframe width="640" height="360" frameborder="0"
-      [src]="currentSongSafeURL"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-  </iframe>
-  <br>
   <button mat-raised-button color="primary" class="margin" matTooltip="Chanson aléatoire" (click)="changeSong()"> <mat-icon>shuffle</mat-icon>  </button>
   <button mat-raised-button color="primary" class="favorite-button" (click)="toggleFavorite(currentSong, auth)" [disabled]="noMoreFavorites(currentSong) || !canModifyFavorite()">
     <mat-icon *ngIf="isAFavorite(currentSong); else normalSong" class="favorite">favorite</mat-icon>
   </button>
+  <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong"> </app-optionnal-song-infos-button>
 </div>
 <button mat-raised-button color="primary" (click)="closeWindow()">
   Fermer
