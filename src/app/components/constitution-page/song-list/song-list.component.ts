@@ -110,6 +110,9 @@ export class SongListComponent extends YatgaUserFavorites {
 			favorites: this.favorites,
 		};
 
+		config.width = "780px";
+		config.height = "760px";
+
 		this.dialog.open(SongNavigatorComponent, config);
 		this.currentIframeSongID = -1;
 	}
