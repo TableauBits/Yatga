@@ -20,7 +20,7 @@ export class NavigatorSongDisplayComponent implements OnChanges {
   constructor(public urlGetter: GetUrlService) { }
 
   getSubTitle(): string {
-    return this.song.album ? `${this.song.author} - ${this.song.album}` : this.song.author
+    return this.song.album ? `${this.song.author} - ${this.song.album}` : this.song.author;
   }
 
 }
