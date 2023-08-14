@@ -48,12 +48,12 @@ td, th {
 	background-color: $cape-cod;
 }
 
-.card {
-	width: 26rem;
-	height: 19.5rem;
-	overflow: hidden;
-	margin: auto;
-}
+// .card {
+// 	width: 26rem;
+// 	height: 19.5rem;
+// 	overflow: hidden;
+// 	margin: auto;
+// }
 
 .no-overflow {
 	overflow: hidden;
@@ -75,12 +75,12 @@ td, th {
 	user-select: none;
 }
 
-.card-body {
-	padding-left: 0;
-	padding-right: 0;
-	padding-bottom: 0;
-	user-select: none;
-}
+// .card-body {
+// 	padding-left: 0;
+// 	padding-right: 0;
+// 	padding-bottom: 0;
+// 	user-select: none;
+// }
 
 iframe {
 	// width: 100%;
@@ -134,48 +134,61 @@ button {
 	z-index: 0;
 }
 
-// .test ::ng-deep * {
-//   text-overflow: ellipsis;
-//   overflow: scroll;
-//   white-space: nowrap;
-// }
-
 .card-r {
 	width: 26rem;
 	height: 19.5rem;
 	color: whitesmoke;
 	background-color: $mineshaft;
+	.card-text {
+		width: 21rem;
+	}
+	.card-background-img {
+		// transform: scale(1.5);
+		// overflow: hidden;
+		// z-index: 999;
+		opacity: 35%;
+		// position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		filter: blur($blur);
+		-webkit-filter: blur($blur);
+			-moz-filter: blur($blur);
+			-o-filter: blur($blur);
+			-ms-filter: blur($blur);
+		user-select: none;
+		margin: 0 0 0 0;
+	}
+
 	.mat-card-subtitle {
 		color: $angular-purple;
 	}
-	// margin-left: 10px;
-	// margin-right: 10px;
-	// margin-bottom: 12px;
-	// flex: 1;
+	// .mat-card-image {
+	// 	// margin-left: 25px;
+	// 	width: 294px;// 368px;
+	// 	height: 166px; //208px;
+	// 	margin: 0 0 0 0;
+	// 	transform: scale(2);
+	// }
+	.mat-card-avatar:hover {
+		transform: scale(1.3);
+	}
+	.mat-card-avatar {
+		width: 45px;
+		height: 45px;
+		margin-top: -8px;
+	}
 }
 
 .cards {
-	// style="display: grid; justify-content: space-around; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); grid-gap: 10px;"
 	display: grid;
-	// grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 	grid-template-columns: repeat(auto-fill, 26rem);
 	grid-gap: 25px;
-	justify-content: center; // space-around;
+	justify-content: center;
 }
 
-// .cards {
-// 	display: grid;
-// 	grid-template-columns: auto auto auto;
-	// justify-content: space-around; 
-	// width: 100%; 
-	// grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-	// grid-gap: 10px;
-	// justify-content: flex-end;
-// }
 
-// .card {
-// 	width: 26rem;
-// 	height: 19.5rem;
+// .card-background-img {
 // 	overflow: hidden;
-// 	margin: auto;
+// 	z-index: 0;
 // }
