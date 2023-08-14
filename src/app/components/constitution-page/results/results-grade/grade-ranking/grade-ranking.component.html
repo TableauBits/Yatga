@@ -24,6 +24,7 @@
             <button mat-raised-button color="primary" (click)="onNavigate(winner)" matTooltip="Regarder la vidéo sur le site d'origine">
               <mat-icon>play_circle_outline</mat-icon>
             </button>
+            <app-optionnal-song-infos-button [song]="winner"> </app-optionnal-song-infos-button>
             <span class="image-de front"> <b> Score : {{getWinnerScore()}} </b>  </span>
           </div>
         </div>

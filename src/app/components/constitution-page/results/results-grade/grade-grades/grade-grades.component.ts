@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
+import { GRADE_VALUES } from 'src/app/types/song-utils';
 import { compareObjectsFactory } from 'src/app/types/utils';
 
 @Component({
@@ -13,6 +14,7 @@ import { compareObjectsFactory } from 'src/app/types/utils';
   styleUrls: ['./grade-grades.component.scss']
 })
 export class GradeGradesComponent implements OnChanges {
+  readonly GRADE_VALUES = GRADE_VALUES;
 
   @Input() songs: Map<number, Song> = new Map();
   @Input() users: Map<string, User> = new Map();

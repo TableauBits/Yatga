@@ -25,10 +25,29 @@ mat-form-field {
       caret-color: whitesmoke!important;
   }
 
+  .mat-chip-input {
+    color: whitesmoke;
+  }
+
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
+      .mat-hint, input, ::placeholder, .mat-form-field-label, .mat-option-text {
           color: whitesmoke;
       }
+  }
+
+  .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
+    background: $cape-cod;
+  }
+
+  .mat-option:hover:not(.mat-option-disabled) {
+    background: $sasuke;
+  }
+  .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
+    background: $sasuke;
+  }
+
+  .mat-checkbox-frame {
+    border-color: whitesmoke;
   }
 }
 
@@ -40,21 +59,21 @@ table {
 }
 
 td, th {
-  border: 1px solid #434647;
+  border: 1px solid $sasuke;
   text-align: center;
   padding: 8px;
 }
 
 #t01 th {
-  background-color: #2E2E2E;
+  background-color: $mineshaft;
   color: whitesmoke;
 }
 
 #t01 tr:nth-child(even) {
-background-color: #434647;
+  background-color: $sasuke;
 }
 #t01 tr:nth-child(odd) {
-background-color: #353738;
+  background-color: $cape-cod;
 }
 
 .icon {
@@ -65,4 +84,23 @@ background-color: #353738;
   margin-bottom: 50%;
   width: 25px;
   height: 25px;
+}
+
+.releaseYearField {
+  margin-right: 2%;
+  width: 30%;
+}
+
+.albumField {
+  width: 60%;
+}
+
+input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: whitesmoke;
+}
+
+input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: whitesmoke;
 }

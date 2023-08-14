@@ -1,15 +1,101 @@
+@import "../../../styles/variables.scss";
+
 .user-card {
-	width: 16rem;
-	height: 27rem;
+	width:15rem;
+	height: 30rem;
 	margin: auto;
+	background: linear-gradient(#0000 30%, #111c) ;
+}
+
+.flexy {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+h1 {
+	font-size: max(3vw, 40px);
+	font-weight: 200;
+	margin: 20px 0 30px;
+	line-height: 100%;
 }
 
 .user-card-image {
-	height: 12rem;
+	height: 15rem;
+}
+
+.card-text {
+	text-align: justify;
+}
+
+.admin-color.blob {
+	background: radial-gradient(#cf387c80, #0000);}
+.admin-color.card {
+	border-bottom: 5px solid $admin;}
+.admin-color {
+	fill: $admin;
+}
+
+
+.member-color.blob {
+	background: radial-gradient(#C26B3589, #0000);}
+.member-color.card {
+	border-bottom: 5px solid $guest;}
+.member-color {
+	fill:$guest;
+}
+
+
+.other-color.blob {
+	background: radial-gradient(#388ACF80, #0000);}
+.other-color.card {
+	border-bottom: 5px solid $the-blue;}
+.other-color {
+	fill:$the-blue;
+}
+
+
+.card {
+	margin-bottom: 30px;
+    margin-top: 10px;
+	box-shadow: none;	
+}
+
+.blob {
+	padding:20px;
+	padding-top: 25px;
+	border-radius: 30px;
+	margin-bottom: 30px;
+}
+
+h2 svg {
+	margin-top: -25px;
+}
+
+.card hr {
+	border-top: 1px solid #fff2 ;
+	margin:6px 0px 3px;
+}
+
+.card-img-top {
+	border-radius: 150px;
 }
 
 .user-icon {
-	color:cadetblue;
+	color: #beb5ff;
+	margin-top: 5px;
+	text-shadow: 0px 0px 5px #000a;
+	margin:5px;
+	transition: all ease 0.3s;
+}
+
+.card-body {
+	padding : 1rem;
+}
+
+.user-icon:hover {
+	color: #8a47fc;
+	transform: scale(1.3);
 }
 
 .custom-h3 {
@@ -18,9 +104,11 @@
 }
 
 .user-title {
-  width: 95%;
 	margin:auto;
-  border-radius: 25px;
+	margin-bottom:10px;
 	text-align: center;
-	font-size: large;
+	font-size: 30px;
+	font-weight: 100;
+	word-spacing: 15px;
+	width:max-content;
 }

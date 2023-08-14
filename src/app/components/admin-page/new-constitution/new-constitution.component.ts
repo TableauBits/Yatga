@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from 'chelys';
-import { isEmpty, isNil } from 'lodash';
+import { isEmpty, isNil, isNull } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 
@@ -96,7 +96,7 @@ export class NewConstitutionComponent {
 				maxUserCount: this.newConstitutionForm.value['maxUserCount'],
 				numberOfSongsPerUser: this.newConstitutionForm.value['numberOfSongsPerUser'],
 				state: 0,
-				endDate: this.newConstitutionForm.value['endDate']
+				endDate: isNull(this.newConstitutionForm.value['endDate']) ? undefined : this.newConstitutionForm.value['endDate'],
 			};
 
 			const newConstitutionMessage = createMessage(EventType.CST_create, { cstData: constitution });

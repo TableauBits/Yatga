@@ -5,7 +5,7 @@
 			<h1> {{constitution.name}} </h1>
 		</a>
 	</ng-template>
-	<span class="custom-br"></span>
+	<hr>
 	<table class="custom-br2">
 		<tr>
 			<td> Constitution </td>
@@ -21,20 +21,15 @@
 		</tr>
 	</table>
 	<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
-	<span class="custom-br custom-br2"></span>
-	<br>
+	<hr>
 	<button mat-raised-button color="primary" [disabled]="!updateSongs()" (click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes chansons
 	</button>
-	<br>
-	<br>
 	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
 		<mat-icon>shuffle</mat-icon> Sélection aléatoire
 	</button>
-	<br>
-	<br>
-	<span class="custom-br"></span>
-	<mat-list role="list" *ngFor="let user of getUsers()">
+	<hr>
+	<mat-list role="list" *ngFor="let user of getUsers()" class="list-roles">
 		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
 			<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
 			<ng-template #isNotOwner>
@@ -44,13 +39,12 @@
 			<span class="list-item"> {{user.displayName}} </span>
 		</mat-list-item>
 	</mat-list>
-	<span class="custom-br custom-br2"></span>
-	<br>
+	<hr>
 	<button mat-raised-button [disabled]="true" class="warning">
 		<mat-icon>highlight_off</mat-icon> Quitter la constitution
 	</button>
 </mat-sidenav-container>
-<nav class="navbar round-navbard navbar-expand-lg navbar-dark bg-dark content">
+<nav class="navbar round-navbard navbar-expand-lg navbar-dark bg-dark content naviguation_cons">
 	<div class="container-fluid">
 		<!-- Collapse button-->
 		<button class="navbar-toggler" type="button" (click)="basicNav.toggle()" aria-expanded="false"
@@ -86,7 +80,7 @@
 		</div>
 	</div>
 </nav>
-<div [ngSwitch]="currentSection" class="content">
+<div [ngSwitch]="currentSection" class="content filtres">
 	<app-song-list *ngSwitchCase="constitutionSection.SONG_LIST"
 		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="getCurrentUserFavs()">
 	</app-song-list>

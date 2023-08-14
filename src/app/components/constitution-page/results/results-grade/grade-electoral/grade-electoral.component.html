@@ -6,7 +6,7 @@
     <a href="{{currentSong.url}}" target="_blank">
       <h1 class="text-overflowable"> {{currentRank+1}}. {{currentSong.author}} - {{currentSong.title}} </h1>
     </a>
-    <span class="custom-br"></span>
+    <hr>
   </div>
   <br>
   <div class="left-column box">
@@ -23,7 +23,7 @@
     </div>
     <br> 
     <br>
-    <span class="custom-br"></span>
+    <hr>
     <div>
       <br>
       Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
@@ -62,7 +62,7 @@
   <div class="title">
     <br>
     <br>
-    <span class="custom-br"></span>
+    <hr>
     <br>
     <button mat-button class="previous-button purple" [disabled]="isFirstResult()" (click)="goToFirstResult()" matTooltip="Premier"> <mat-icon>fast_rewind</mat-icon> </button>
     <button mat-button class="previous-button purple left" [disabled]="!previousResultExist()" (click)="changeResult(-1)" matTooltip="Suivant"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
@@ -81,4 +81,4 @@
 <br>
 <b> Répartition actuelle des chansons déjà passées des utilisateurs : </b>
 <br>
-<app-pie [data]="pieData"> </app-pie>
+<app-pie [id]="'grade-electoral-pie'" [data]="pieData"> </app-pie>

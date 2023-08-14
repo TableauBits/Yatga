@@ -1,9 +1,9 @@
 <div *ngIf="isAdmin()">
-  <hr>
+  <br>
   <button mat-raised-button color="primary" (click)="downloadResults()">
     <mat-icon>get_app</mat-icon> Télécharger les résultats
   </button>
-  <hr>
+  <br>
 </div>
 <mat-accordion multi class="panel">
   <mat-expansion-panel [expanded]="true">
@@ -17,7 +17,7 @@
     <br>
     <br>
     Répartition des notes :
-    <app-histogram [values]="histogramValues"> </app-histogram>
+    <app-histogram [id]="'grade-profile-histogram'" [columns]="GRADE_VALUES" [values]="histogramValues"> </app-histogram>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 

@@ -29,6 +29,6 @@
       </mat-select>
     </mat-form-field>
     <img class="picture image-de" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
-    <app-radar [indicators]="radarIndicators" [data]="radarDatas"> </app-radar>
+    <app-radar [id]="'grade-average-radar'" [indicators]="radarIndicators" [data]="radarDatas"> </app-radar>
   </mat-expansion-panel>
 </mat-accordion>

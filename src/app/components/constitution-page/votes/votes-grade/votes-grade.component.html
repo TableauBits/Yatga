@@ -26,7 +26,7 @@
       <br>
       <br>
       Répartition des notes :
-      <app-histogram [values]="histogramGrades"> </app-histogram>
+      <app-histogram [id]="'votes-grade-histogram'" [columns]="GRADE_VALUES" [values]="histogramGrades"> </app-histogram>
     </mat-expansion-panel>
   </mat-accordion>
   <br>
@@ -109,6 +109,7 @@
                   [disabled]="noMoreFavorites(song) || !canVote()">
                   <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
                 </button>
+                <app-optionnal-song-infos-button class="favorite-button" [song]="song"> </app-optionnal-song-infos-button>
                 <button mat-raised-button color="primary" class="vote" [matMenuTriggerFor]="menu"
                   matTooltip="Classer les votes">
                   {{getVote(song)}}
@@ -143,6 +144,7 @@
         <th> Auteur </th>
         <th> URL </th>
         <th> Ajouté par </th>
+        <th> Infos </th>
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSongsToVote()">
@@ -165,6 +167,7 @@
           </a>
         </td>
         <td> {{getUser(song.user).displayName}} </td>
+        <td> <app-optionnal-song-infos-button [song]="song"> </app-optionnal-song-infos-button> </td>
         <td> {{getVote(song)}} </td>
       </tr>
     </table>

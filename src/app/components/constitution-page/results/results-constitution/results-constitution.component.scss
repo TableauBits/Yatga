@@ -1,31 +1,4 @@
-@import "../../../../../../styles/variables.scss";
-
-table {
-	margin-left: auto;
-	margin-right: auto;
-	width: 95%;
-	overflow-x: auto;
-	font-size:medium;
-}
-
-td, th {
-	border: 1px solid $sasuke;
-	text-align: center;
-	padding: 8px;
-  width: 1%;
-}
-
-#t01 th {
-	background-color: $mineshaft;
-	color: whitesmoke;
-}
-
-#t01 tr:nth-child(even) {
-	background-color: $sasuke;
-}
-#t01 tr:nth-child(odd) {
-	background-color: $cape-cod;
-}
+@import "../../../../../styles/variables.scss";
 
 mat-select {
   color: whitesmoke;
