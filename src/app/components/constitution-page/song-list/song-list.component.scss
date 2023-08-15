@@ -75,26 +75,19 @@ td, th {
 	user-select: none;
 }
 
-// .card-body {
-// 	padding-left: 0;
-// 	padding-right: 0;
-// 	padding-bottom: 0;
-// 	user-select: none;
+// iframe {
+// 	// width: 100%;
+// 	// padding-top: 35px;
 // }
 
-iframe {
-	// width: 100%;
-	// padding-top: 35px;
-}
-
-.iframe-image {
-	// width: 100%;
-	// height: 208
-	// padding-top: 35px;
-	// padding-bottom: 5px;
-	cursor: pointer;
-	user-select: none;
-}
+// .iframe-image {
+// 	// width: 100%;
+// 	// height: 208
+// 	// padding-top: 35px;
+// 	// padding-bottom: 5px;
+// 	cursor: pointer;
+// 	user-select: none;
+// }
 
 .centered {
 	cursor: pointer;
@@ -143,21 +136,37 @@ button {
 		width: 21rem;
 	}
 	.card-background-img {
-		// transform: scale(1.5);
-		// overflow: hidden;
-		// z-index: 999;
-		opacity: 35%;
-		// position: absolute;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		filter: blur($blur);
-		-webkit-filter: blur($blur);
-			-moz-filter: blur($blur);
-			-o-filter: blur($blur);
-			-ms-filter: blur($blur);
+		// // transform: scale(1.5);
+		// // overflow: hidden;
+		// // z-index: 999;
+		// opacity: 35%;
+		// // position: absolute;
+		// width: 100%;
+		// height: 100%;
+		// z-index: -1;
+		// filter: blur($blur);
+		// -webkit-filter: blur($blur);
+		// 	-moz-filter: blur($blur);
+		// 	-o-filter: blur($blur);
+		// 	-ms-filter: blur($blur);
+		// user-select: none;
+		// margin: 0 0 0 0;
+	}
+	.card-body {
+		padding: 0 0 0 0;
 		user-select: none;
-		margin: 0 0 0 0;
+		.iframe-image {
+			// width: 294px;// 368px;
+			// height: 166px; //208px;
+			width: 100%;
+			height: 208px;
+			opacity: 75%;
+		}
+		.iframe {
+			width: 100%;
+			height: 200px;
+			padding: 0 0 0 0;
+		}
 	}
 
 	.mat-card-subtitle {
