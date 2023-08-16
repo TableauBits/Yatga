@@ -180,6 +180,9 @@ export class ConstitutionComponent implements OnDestroy {
 			favorites: this.favorites.get(this.auth.uid),
 		};
 
+		config.width = "780px";
+		config.height = "720px";
+
 		this.dialog.open(RandomSongComponent, config);
 	}
 
