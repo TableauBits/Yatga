@@ -130,11 +130,10 @@
       </mat-card>
     </div>
   </ng-template>
-  
+
   <ng-template #compactView>
     <table id="t01">
       <tr>
-        <th> ID </th>
         <th> Favoris </th>
         <th> Titre </th>
         <th> Auteur </th>
@@ -144,9 +143,8 @@
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSongsToVote()">
-        <td> {{ song.id }} </td>
         <td>
-          <button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+          <button mat-button color="primary" (click)="toggleFavorite(song, auth)"
             [disabled]="noMoreFavorites(song) || !canVote()" matTooltip="Voter pour cette chanson">
             <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
           </button>
@@ -163,7 +161,7 @@
           </a>
         </td>
         <td> {{getUser(song.user).displayName}} </td>
-        <td> <app-optionnal-song-infos-button [song]="song"> </app-optionnal-song-infos-button> </td>
+        <td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false"> </app-optionnal-song-infos-button> </td>
         <td> {{getVote(song)}} </td>
       </tr>
     </table>

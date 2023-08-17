@@ -79,7 +79,6 @@
 <ng-template #compactView>
 	<table id="t01">
 		<tr>
-			<th> ID </th>
 			<th> Favoris </th>
 			<th> Titre </th>
 			<th> Auteur </th>
@@ -89,9 +88,8 @@
 			<th></th>
 		</tr>
 		<tr *ngFor="let song of getSongs()">
-			<td> {{ song.id }} </td>
 			<td>
-				<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+				<button mat-button color="primary" (click)="toggleFavorite(song, auth)"
 					[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
 					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 				</button>
@@ -108,9 +106,9 @@
 				</a>
 			</td>
 			<td> {{ getUser(song.user).displayName }} </td>
-			<td> <app-optionnal-song-infos-button [song]="song"> </app-optionnal-song-infos-button> </td>
+			<td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false"> </app-optionnal-song-infos-button> </td>
 			<td>
-				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-raised-button color="warn"
+				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
 					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
 					<mat-icon>cancel</mat-icon>
 				</button>
