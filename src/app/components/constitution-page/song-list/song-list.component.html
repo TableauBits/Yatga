@@ -42,6 +42,7 @@
 				<mat-card-subtitle class="card-text text-overflowable"> <i> {{song.author}} </i> </mat-card-subtitle>
 			</mat-card-header>
 			<hr>
+			<img src="{{urlGetter.getImageURL(song)}}" class="card-background-img" (click)="updateCurrentIframeSong(song)">
 			<div class="card-body">
 				<iframe *ngIf="currentIframeSongID === song.id; else loadImage" frameborder="0" class="iframe"
 					[src]="getSongSafeURL(song)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -54,83 +55,26 @@
 							<mat-icon>play_arrow</mat-icon></button>
 					</div>
 				</ng-template>
+				<button mat-button color="primary" (click)="openSongNavigator(song)" matTooltip="Ouvrir le navigateur Matbay">
+					<mat-icon>music_video</mat-icon>
+				</button>
+				<button mat-button color="primary" (click)="onNavigate(song)"
+					matTooltip="Regarder la vidéo sur le site d'origine">
+					<mat-icon>play_circle_outline</mat-icon>
+				</button>
+				<button mat-button color="primary" (click)="toggleFavorite(song, auth)"
+					[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+				</button>
+				<app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
+				</app-optionnal-song-infos-button>
+				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn" class="cancel"
+					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
+					<mat-icon>cancel</mat-icon>
+				</button>
 			</div>
-
-
-			<!-- <img class="card-background-img blur" src="{{urlGetter.getImageURL(song)}}"> -->
-			<!-- <mat-card-content>
-				
-			</mat-card-content> -->
-			<!-- <mat-card-actions> -->
-			<button mat-button color="primary" (click)="openSongNavigator(song)" matTooltip="Ouvrir le navigateur Matbay">
-				<mat-icon>music_video</mat-icon>
-			</button>
-			<button mat-button color="primary" (click)="onNavigate(song)"
-				matTooltip="Regarder la vidéo sur le site d'origine">
-				<mat-icon>play_circle_outline</mat-icon>
-			</button>
-			<button mat-button color="primary" (click)="toggleFavorite(song, auth)"
-				[disabled]="noMoreFavorites(song) || !canModifyFavorite()">
-				<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
-			</button>
-			<app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
-			</app-optionnal-song-infos-button>
-			<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn" class="cancel"
-				(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
-				<mat-icon>cancel</mat-icon>
-			</button>
-			<!-- </mat-card-actions> -->
 		</mat-card>
 	</div>
-
-	<!-- <div class="container">
-		<div class="row g-4">
-			<div class="col" *ngFor="let song of getSongs()">
-				<div class="card shadow-0 bg-dark z-card">
-					<h3 class="card-header front">
-						<div>
-							<span class="text-overflowable"> {{song.title}} </span>
-							<img src="{{getUser(song.user).photoURL}}" class="image-de picture" matTooltip="{{getUser(song.user).displayName}}">
-						</div>
-						<i class="text-overflowable"> {{song.author}} </i> 
-					</h3>
-					<img src="{{urlGetter.getImageURL(song)}}" class="card-img blur">
-					<div class="card-img-overlay">
-						<div class="card-body">
-							<iframe *ngIf="currentIframeSongID === song.id; else loadImage"
-							height="208" frameborder="0" [src]="getSongSafeURL(song)" 
-							allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-							allowfullscreen>
-							</iframe>
-							<ng-template #loadImage>
-								<img src="{{urlGetter.getImageURL(song)}}" height="208" class="iframe-image" (click)="updateCurrentIframeSong(song)">
-								<div class="centered">
-									<button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)"> <mat-icon>play_arrow</mat-icon></button>
-								</div>
-							</ng-template>
-							<br>
-							<button mat-raised-button color="primary" (click)="openSongNavigator(song)" matTooltip="Ouvrir le navigateur Matbay">
-								<mat-icon>music_video</mat-icon>
-							</button>
-							<button mat-raised-button color="primary" (click)="onNavigate(song)" matTooltip="Regarder la vidéo sur le site d'origine">
-								<mat-icon>play_circle_outline</mat-icon>
-							</button>
-							<button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)" [disabled]="noMoreFavorites(song) || !canModifyFavorite()"
-								matTooltip="Gérer les favoris">
-									<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
-							</button>
-							<app-optionnal-song-infos-button [song]="song"> </app-optionnal-song-infos-button>
-							<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" 
-								mat-raised-button color="warn" class="cancel" (click)="openDeleteSongWarning(song)"
-								matTooltip="Retirer la chanson">
-									<mat-icon>cancel</mat-icon>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
 </ng-template>
 <ng-template #compactView>
 	<table id="t01">
