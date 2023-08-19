@@ -39,6 +39,7 @@ import { ManageRolesComponent } from './components/admin-page/manage-roles/manag
 import { InvitePageComponent } from './components/invite-page/invite-page.component';
 import { OptionnalSongInfosButtonComponent } from './components/constitution-page/optionnal-song-infos-button/optionnal-song-infos-button.component';
 import { ResultsConstitutionComponent } from './components/constitution-page/results/results-constitution/results-constitution.component';
+import { NavigatorSongDisplayComponent } from './components/constitution-page/navigator-song-display/navigator-song-display.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -142,6 +143,7 @@ import { AuthService } from './services/auth.service';
 		InvitePageComponent,
 		OptionnalSongInfosButtonComponent,
   ResultsConstitutionComponent,
+  NavigatorSongDisplayComponent,
 	],
 	imports: [
 		BrowserModule,

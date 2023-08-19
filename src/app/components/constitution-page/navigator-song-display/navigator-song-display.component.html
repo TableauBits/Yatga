@@ -1,0 +1,10 @@
+<div class="title">
+  <a href="{{song.url}}" target="_blank">
+    <h1 class="remove-margin text-overflowable"> <b> {{song.title}} </b> </h1>
+    <h2 class="remove-margin text-overflowable"> {{getSubTitle()}} </h2>
+  </a>
+  <hr>
+  <iframe width="720" height="480" frameborder="0" [src]="songSafeURL" class="iframe-display round"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+  </iframe>
+</div>

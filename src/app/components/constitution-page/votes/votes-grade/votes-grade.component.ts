@@ -174,6 +174,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 			favorites: this.favorites
 		};
 
+		config.width = "780px";
+		config.height = "830px";
+
 		this.dialog.open(VoteNavigatorComponent, config);
 		this.currentIframeSongID = -1;
 	}

@@ -1,9 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { Constitution, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
-import { GetUrlService } from 'src/app/services/get-url.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 
 const NEXT_SHIFT = 1;
@@ -25,13 +23,11 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 	constitution: Constitution;
 	currentSong: Song;
-	currentSongSafeURL: SafeResourceUrl;
 	songs: Song[];
 	favorites: UserFavorites;
 
 	constructor(
 		public auth: AuthService,
-		public urlGetter: GetUrlService,
 		private dialogRef: MatDialogRef<SongNavigatorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
 	) {
@@ -41,7 +37,6 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 		this.currentSong = data.currentSong;
 		this.songs = data.songs;
 		this.favorites = data.favorites;
-		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 
 		this.auth.pushEventHandler(this.handleEvent, this);
 	}
@@ -75,7 +70,6 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 		const currentIndex = this.songs.lastIndexOf(this.currentSong);
 
 		this.currentSong = this.songs[currentIndex + shift];
-		this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.currentSong);
 	}
 
 	keyPressed(keyEvent: KeyboardEvent): void {

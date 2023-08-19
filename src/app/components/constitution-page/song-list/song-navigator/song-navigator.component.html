@@ -1,16 +1,5 @@
-<div class="title">
-  <a href="{{currentSong.url}}" target="_blank">
-    <h1 class="text-overflowable"> {{currentSong.author}} - {{currentSong.title}} </h1>
-  </a>
-  <hr>
-</div>
-<br>
+<app-navigator-song-display [song]="currentSong"></app-navigator-song-display>
 <div class="title" (window:keydown)="keyPressed($event)">
-  <iframe width="720" height="480" frameborder="0" [src]="currentSongSafeURL" class="round"
-    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-  </iframe>
-  <br>
-  <br>
   <button mat-raised-button color="primary" class="previous-button" [disabled]="!previousSongExist()"
     (click)="changeSong(-1)">
     <mat-icon>keyboard_arrow_left</mat-icon>
