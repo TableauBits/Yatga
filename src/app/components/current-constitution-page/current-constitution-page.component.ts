@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
+	areResultsPublic,
 	Constitution, createMessage,
 	CstReqGetFromUser, CstReqJoin, CstReqUnsubscribe, CstResUpdate,
 	EMPTY_USER, EventType, extractMessageData, Message, User,
@@ -94,8 +95,10 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 		this.auth.ws.send(createMessage<CstReqGetFromUser>(EventType.CST_get_from_user, {}));
 	}
 
-	getConstitutions(): DisplayData[] {
-		return Array.from(this.constitutions.values()).sort(compareConstitutionASC);
+	getConstitutions(isOver: boolean): DisplayData[] {
+		return Array.from(this.constitutions.values()).sort(compareConstitutionASC).filter(c => {
+			return isOver ? areResultsPublic(c.constitution) : !areResultsPublic(c.constitution) ;
+		});
 	}
 
 	getStatus(constitution: Constitution): ConstitutionStatus {
