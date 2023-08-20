@@ -85,6 +85,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -176,6 +178,7 @@ import { AuthService } from './services/auth.service';
 		MdbCollapseModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
+		MatCardModule,
 		MatChipsModule,
 		MatAutocompleteModule,
 	],

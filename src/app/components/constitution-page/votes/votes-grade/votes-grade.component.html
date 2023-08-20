@@ -26,13 +26,15 @@
       <br>
       <br>
       Répartition des notes :
-      <app-histogram [id]="'votes-grade-histogram'" [columns]="GRADE_VALUES" [values]="histogramGrades"> </app-histogram>
+      <app-histogram [id]="'votes-grade-histogram'" [columns]="GRADE_VALUES" [values]="histogramGrades">
+      </app-histogram>
     </mat-expansion-panel>
   </mat-accordion>
   <br>
   <div class="filter">
     <span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
-    <img *ngFor="let user of getOtherUsers()" class="picture" matTooltip=" {{userFilterTooltip(user.uid, user.displayName)}}" [src]="user.photoURL"
+    <img *ngFor="let user of getOtherUsers()" class="picture"
+      matTooltip=" {{userFilterTooltip(user.uid, user.displayName)}}" [src]="user.photoURL"
       (click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
     <button mat-raised-button color="primary" (click)="select('all')" class="filter-button"
       matTooltip="Afficher tous les utilisateurs">
@@ -73,72 +75,65 @@
   <div *ngIf="cardsViewEnabled; then cardsView; else compactView">
   </div>
   <ng-template #cardsView>
-    <div class="container">
-      <div class="row g-4">
-        <div class="col" *ngFor="let song of getSongsToVote()">
-          <div class="card shadow-0 bg-dark z-card">
-            <h3 class="card-header front">
-              <div>
-                <span class="text-overflowable"> {{song.title}} </span>
-                <img src="{{getUser(song.user).photoURL}}" class="image-de picture"
-                  matTooltip="{{getUser(song.user).displayName}}">
-              </div>
-              <i class="text-overflowable"> {{song.author}} </i>
-            </h3>
-            <img src="{{urlGetter.getImageURL(song)}}" class="card-img blur">
-            <div class="card-img-overlay">
-              <div class="card-body">
-                <iframe *ngIf="currentIframeSongID === song.id; else loadImage" height="208" frameborder="0"
-                  [src]="getSongSafeURL(song)"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                </iframe>
-                <ng-template #loadImage>
-                  <img src="{{urlGetter.getImageURL(song)}}" height="208" class="iframe-image"
-                    (click)="updateCurrentIframeSong(song)">
-                  <div class="centered">
-                    <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
-                      <mat-icon>play_arrow</mat-icon>
-                    </button>
-                  </div>
-                </ng-template>
-                <br>
-                <button mat-raised-button color="primary" (click)="openVoteNavigator(song)" matTooltip="Voter pour cette chanson">
-                  <mat-icon>how_to_vote</mat-icon>
-                </button>
-                <button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
-                  [disabled]="noMoreFavorites(song) || !canVote()">
-                  <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
-                </button>
-                <app-optionnal-song-infos-button class="favorite-button" [song]="song"> </app-optionnal-song-infos-button>
-                <button mat-raised-button color="primary" class="vote" [matMenuTriggerFor]="menu"
-                  matTooltip="Classer les votes">
-                  {{getVote(song)}}
-                </button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(0)">
-                    <mat-icon class="menu-panel">trending_up</mat-icon>
-                    <span>Classer par ordre croissant</span>
-                  </button>
-                  <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(1)">
-                    <mat-icon class="menu-panel">trending_down</mat-icon>
-                    <span>Classer par ordre décroissant</span>
-                  </button>
-                  <button mat-menu-item class="menu-panel" (click)="resetOrder()">
-                    <mat-icon class="menu-panel">replay</mat-icon>
-                    <span>Réinitialiser</span>
-                  </button>
-                </mat-menu>
-              </div>
+    <div class="cards">
+      <mat-card *ngFor="let song of getSongsToVote()" class="card-r">
+        <mat-card-header>
+          <img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
+          <mat-card-title class="card-text text-overflowable"> {{song.title}}</mat-card-title>
+          <mat-card-subtitle class="card-text text-overflowable"> <i> {{song.author}} </i> </mat-card-subtitle>
+        </mat-card-header>
+        <hr>
+        <img src="{{urlGetter.getImageURL(song)}}" class="card-background-img" (click)="updateCurrentIframeSong(song)">
+        <div class="card-body">
+          <iframe *ngIf="currentIframeSongID === song.id; else loadImage" frameborder="0" class="iframe"
+            [src]="getSongSafeURL(song)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <ng-template #loadImage>
+            <img src="{{urlGetter.getImageURL(song)}}" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+            <div class="centered">
+              <button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
+                <mat-icon>play_arrow</mat-icon></button>
             </div>
-          </div>
+          </ng-template>
+          <button mat-button color="primary" (click)="openVoteNavigator(song)" matTooltip="Ouvrir le navigateur Matbay">
+            <mat-icon>music_video</mat-icon>
+          </button>
+          <button mat-button color="primary" 
+            matTooltip="Regarder la vidéo sur le site d'origine">
+            <mat-icon>play_circle_outline</mat-icon>
+          </button>
+          <button mat-button color="primary" (click)="toggleFavorite(song, auth)"
+            [disabled]="noMoreFavorites(song) || !canModifyFavorite()">
+            <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
+          </button>
+          <app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
+          </app-optionnal-song-infos-button>
+          <button mat-button class="vote" [matMenuTriggerFor]="menu" matTooltip="Classer les votes">
+            {{getVote(song)}}
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(0)">
+              <mat-icon class="menu-panel">trending_up</mat-icon>
+              <span>Classer par ordre croissant</span>
+            </button>
+            <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(1)">
+              <mat-icon class="menu-panel">trending_down</mat-icon>
+              <span>Classer par ordre décroissant</span>
+            </button>
+            <button mat-menu-item class="menu-panel" (click)="resetOrder()">
+              <mat-icon class="menu-panel">replay</mat-icon>
+              <span>Réinitialiser</span>
+            </button>
+          </mat-menu>
         </div>
-      </div>
+      </mat-card>
     </div>
   </ng-template>
+
   <ng-template #compactView>
     <table id="t01">
       <tr>
-        <th> ID </th>
         <th> Favoris </th>
         <th> Titre </th>
         <th> Auteur </th>
@@ -148,9 +143,8 @@
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSongsToVote()">
-        <td> {{ song.id }} </td>
         <td>
-          <button mat-raised-button color="primary" (click)="toggleFavorite(song, auth)"
+          <button mat-button color="primary" (click)="toggleFavorite(song, auth)"
             [disabled]="noMoreFavorites(song) || !canVote()" matTooltip="Voter pour cette chanson">
             <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
           </button>
@@ -167,7 +161,7 @@
           </a>
         </td>
         <td> {{getUser(song.user).displayName}} </td>
-        <td> <app-optionnal-song-infos-button [song]="song"> </app-optionnal-song-infos-button> </td>
+        <td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false"> </app-optionnal-song-infos-button> </td>
         <td> {{getVote(song)}} </td>
       </tr>
     </table>

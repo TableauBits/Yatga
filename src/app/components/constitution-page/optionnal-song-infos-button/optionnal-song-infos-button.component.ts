@@ -14,6 +14,7 @@ const OPTIONNAL_FIELDS: SongKey[] = ["album", "genres", "releaseYear", "language
 export class OptionnalSongInfosButtonComponent {
 
   @Input() song: Song = EMPTY_SONG;
+  @Input() isButtonRaised = true;
 
   constructor() { }
 

@@ -1,4 +1,5 @@
-<button mat-raised-button color="primary" [disabled]="isEmpty()" [matMenuTriggerFor]="optionnalInfosMenu" matTooltip="Afficher les informations supplémentaires">
+<button *ngIf="isButtonRaised; else matButton" mat-raised-button color="primary" [disabled]="isEmpty()"
+  [matMenuTriggerFor]="optionnalInfosMenu" matTooltip="Afficher les informations supplémentaires">
   <mat-icon>info</mat-icon>
 </button>
 <mat-menu #optionnalInfosMenu="matMenu">
@@ -8,3 +9,10 @@
   <b>Genres</b> : {{convertToString(song.genres)}} <br>
   <b>Langues</b> : {{convertLanguagesToString(song.languages)}} <br>
 </mat-menu>
+
+<ng-template #matButton>
+  <button mat-button color="primary" [disabled]="isEmpty()" [matMenuTriggerFor]="optionnalInfosMenu"
+    matTooltip="Afficher les informations supplémentaires">
+    <mat-icon>info</mat-icon>
+  </button>
+</ng-template>
