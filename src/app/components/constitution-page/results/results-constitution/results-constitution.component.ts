@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys';
 import { flatten, isEmpty, isNil, max, min, range } from 'lodash';
-import { PieData } from 'src/app/types/charts';
+import { CalendarData, PieData } from 'src/app/types/charts';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 import { keepUniqueValues } from 'src/app/types/utils';
 
@@ -27,6 +27,8 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   languagesPieData: PieData[] = [];
 
+  calendarData: CalendarData[] = [];
+
   ngOnChanges(changes: SimpleChanges): void {
     const cstChange = changes["constitution"].currentValue as Constitution;
     this.resultsUsers.set(CONSTITUTION_USER_ID, {
@@ -42,6 +44,7 @@ export class ResultsConstitutionComponent implements OnChanges {
 
     this.generateHistogramData();
     this.generatePieDate();
+    this.generateCalendarData();
   }
 
   constructor() {
@@ -108,6 +111,17 @@ export class ResultsConstitutionComponent implements OnChanges {
         name: language,
         value: languages.filter(value => value === language).length
       });
+    }
+  }
+
+  generateCalendarData(): void {
+    const dates = Array.from(this.songs.values()).filter(song => song.addedDate).map(song => {
+      const date = new Date(song.addedDate || "");
+      return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDay()}`;
+    });
+
+    for (const date of keepUniqueValues(dates)) {
+      this.calendarData.push([date, dates.filter(v => v === date).length]);
     }
   }
 
