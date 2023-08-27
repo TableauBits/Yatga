@@ -332,6 +332,10 @@
                 "color": "#eeeeee",
                 "width": "1"
             }
+        },
+        "backgroundColor": "#111",
+        "textStyle": {
+          "color": "#f4f4f4"
         }
     },
     "timeline": {
