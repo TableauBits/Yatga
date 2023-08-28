@@ -5,11 +5,12 @@ table {
 	margin-left: auto;
 	margin-right: auto;
 	overflow-x: auto;
-	font-size:medium;
+	font-size: medium;
 	width: 33%;
 }
 
-td, th {
+td,
+th {
 	border: 1px solid $sasuke;
 	text-align: center;
 	padding: 8px;

@@ -38,9 +38,9 @@ export class NewConstitutionComponent {
 		this.errorStatus = new Status();
 	}
 
-	private validateEndDate(control: AbstractControl): {[key: string]: any} | null {
+	private validateEndDate(control: AbstractControl): { [key: string]: any } | null {
 		if (isNil(control.value)) return null;
-		if (new Date(control.value) < new Date()) return {"endDateInvalid": true};
+		if (new Date(control.value) < new Date()) return { "endDateInvalid": true };
 		return null;
 	}
 
@@ -77,7 +77,7 @@ export class NewConstitutionComponent {
 
 	public createConstitution(): void {
 		const invalidValues = this.checkFormValidity();
-		
+
 		if (!isEmpty(invalidValues)) {
 			const text = `Certains champs sont invalides : ${invalidValues.join(', ')}`;
 			this.errorStatus.notify(text, true);

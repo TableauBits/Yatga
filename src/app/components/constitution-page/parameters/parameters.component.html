@@ -13,7 +13,18 @@
   </tr>
   <tr>
     <td> Montrer les nouvelles chansons d'abord </td>
-    <td> <mat-slide-toggle [checked]="localSettings.cardsSortDSC" (change)="updateCardsSort()"> </mat-slide-toggle> </td>
+    <td> <mat-slide-toggle [checked]="localSettings.cardsSortDSC" (change)="updateCardsSort()"> </mat-slide-toggle>
+    </td>
+  </tr>
+  <tr>
+    <td> Affichage des titres </td>
+    <td>
+      <mat-select [value]="localSettings.titlePreference">
+        <mat-option *ngFor="let preference of getTitlePreferences() | keyvalue" [value]="preference">
+          {{preference.value}}
+        </mat-option>
+      </mat-select>
+    </td>
   </tr>
 </table>
 <br>
@@ -25,10 +36,12 @@
   </tr>
   <tr>
     <td> Cacher les chansons déjà votées </td>
-    <td> <mat-slide-toggle [checked]="localSettings.gradeShowAlreadyVoted" (change)="updateGradeAlreadyVoted()"> </mat-slide-toggle></td>
+    <td> <mat-slide-toggle [checked]="localSettings.gradeShowAlreadyVoted" (change)="updateGradeAlreadyVoted()">
+      </mat-slide-toggle></td>
   </tr>
   <tr>
     <td> Garder l'onglet "Statistiques" ouvert </td>
-    <td> <mat-slide-toggle [checked]="localSettings.gradeShowStats" (change)="updateGradeShowStats()"> </mat-slide-toggle></td>
+    <td> <mat-slide-toggle [checked]="localSettings.gradeShowStats" (change)="updateGradeShowStats()">
+      </mat-slide-toggle></td>
   </tr>
 </table>
