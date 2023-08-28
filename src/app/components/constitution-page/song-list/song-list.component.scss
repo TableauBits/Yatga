@@ -87,7 +87,7 @@ button {
 	height: 19.5rem;
 	color: whitesmoke;
 	background-color: $mineshaft;
-	z-index: 1;
+	z-index: 0;
 	overflow: hidden;
 	.card-text {
 		width: 21rem;
@@ -121,7 +121,7 @@ button {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	z-index: -1;
+	z-index: -2;
 	overflow: hidden;
 	opacity: 35%;
 	filter: saturate(2);
