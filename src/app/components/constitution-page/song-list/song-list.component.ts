@@ -9,6 +9,7 @@ import { compareObjectsFactory } from 'src/app/types/utils';
 import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-song-warning.component';
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
 import { GetUrlService } from 'src/app/services/get-url.service';
+import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
 
 @Component({
 	selector: 'app-song-list',
@@ -39,12 +40,13 @@ export class SongListComponent extends YatgaUserFavorites {
 	constructor(
 		public auth: AuthService,
 		private dialog: MatDialog,
-		public urlGetter: GetUrlService
+		public urlGetter: GetUrlService,
+		public songPropertyManager: SongPropertyManagerService
 	) {
 		super();
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
-		this.favorites = {uid: "", favs: []};
+		this.favorites = { uid: "", favs: [] };
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.selectedUsers = Array.from(this.users.keys());
@@ -54,12 +56,12 @@ export class SongListComponent extends YatgaUserFavorites {
 
 	getSongs(): Song[] {
 		let songs = Array.from(this.songs.values());
-		
+
 		songs = songs.filter(song => this.isSelected(song.user));
 
 		songs.sort(compareObjectsFactory("id", !this.cardsSortASC));
-		if (this.orderByUser) 
-			songs = songs.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
+		if (this.orderByUser)
+			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByFavs)
 			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
 

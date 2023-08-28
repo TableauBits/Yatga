@@ -37,25 +37,31 @@
 	<div class="cards">
 		<mat-card *ngFor="let song of getSongs()" class="card-r">
 			<mat-card-header>
-				<img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
-				<mat-card-title class="card-text text-overflowable"> {{song.title}}</mat-card-title>
-				<mat-card-subtitle class="card-text text-overflowable"> <i> {{song.author}} </i> </mat-card-subtitle>
+				<img mat-card-avatar src="{{getUser(song.user).photoURL}}"
+					matTooltip="{{getUser(song.user).displayName}}">
+				<mat-card-title class="card-text text-overflowable"> {{songPropertyManager.getTitle(song)}}
+				</mat-card-title>
+				<mat-card-subtitle class="card-text text-overflowable"> <i> {{songPropertyManager.getSubTitle(song)}}
+					</i> </mat-card-subtitle>
 			</mat-card-header>
 			<hr>
-			<img src="{{urlGetter.getImageURL(song)}}" class="card-background-img" (click)="updateCurrentIframeSong(song)">
+			<img src="{{urlGetter.getImageURL(song)}}" class="card-background-img"
+				(click)="updateCurrentIframeSong(song)">
 			<div class="card-body">
 				<iframe *ngIf="currentIframeSongID === song.id; else loadImage" frameborder="0" class="iframe"
-					[src]="getSongSafeURL(song)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-					allowfullscreen>
+					[src]="getSongSafeURL(song)"
+					allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 				</iframe>
 				<ng-template #loadImage>
-					<img src="{{urlGetter.getImageURL(song)}}" class="iframe-image" (click)="updateCurrentIframeSong(song)">
+					<img src="{{urlGetter.getImageURL(song)}}" class="iframe-image"
+						(click)="updateCurrentIframeSong(song)">
 					<div class="centered">
 						<button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
 							<mat-icon>play_arrow</mat-icon></button>
 					</div>
 				</ng-template>
-				<button mat-button color="primary" (click)="openSongNavigator(song)" matTooltip="Ouvrir le navigateur Matbay">
+				<button mat-button color="primary" (click)="openSongNavigator(song)"
+					matTooltip="Ouvrir le navigateur Matbay">
 					<mat-icon>music_video</mat-icon>
 				</button>
 				<button mat-button color="primary" (click)="onNavigate(song)"
@@ -68,8 +74,8 @@
 				</button>
 				<app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
 				</app-optionnal-song-infos-button>
-				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn" class="cancel"
-					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
+				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
+					class="cancel" (click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
 					<mat-icon>cancel</mat-icon>
 				</button>
 			</div>
@@ -106,7 +112,8 @@
 				</a>
 			</td>
 			<td> {{ getUser(song.user).displayName }} </td>
-			<td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false"> </app-optionnal-song-infos-button> </td>
+			<td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false">
+				</app-optionnal-song-infos-button> </td>
 			<td>
 				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
 					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
