@@ -1,6 +1,12 @@
 <mat-accordion multi class="panel">
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
+      <mat-panel-title> Ajout des chansons dans le temps </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-calendar [id]="'results-constitution-calendar'" [data]="calendarData"> </app-calendar>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
       <mat-panel-title> Répartiton des années de sorties </mat-panel-title>
     </mat-expansion-panel-header>
     Résumé de :

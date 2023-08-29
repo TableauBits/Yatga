@@ -37,6 +37,12 @@ export abstract class Charts {
   abstract generateChartOption(): EChartsOption;
 }
 
+// Calendar
+export type CalendarData = [
+  string, // data {yyyy}-{MM}-{dd}
+  number, // value
+]
+
 // Chord
 export type ChordCategory = {
   name: string;

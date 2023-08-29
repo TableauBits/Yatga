@@ -48,6 +48,7 @@ import { ScatterComponent } from './components/template/scatter/scatter.componen
 import { PieComponent } from './components/template/pie/pie.component';
 import { HeatmapComponent } from './components/template/heatmap/heatmap.component';
 import { ChordComponent } from './components/template/chord/chord.component';
+import { CalendarComponent } from './components/template/calendar/calendar.component';
 
 // Grade Component
 import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
@@ -86,7 +87,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
-
 
 // MDB
 import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
@@ -144,6 +144,7 @@ import { AuthService } from './services/auth.service';
 		OptionnalSongInfosButtonComponent,
   ResultsConstitutionComponent,
   NavigatorSongDisplayComponent,
+  CalendarComponent,
 	],
 	imports: [
 		BrowserModule,

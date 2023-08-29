@@ -37,8 +37,17 @@ export class HeatmapComponent extends Charts implements AfterViewInit, OnChanges
   }
 
   generateChartOption(): EChartsOption {
+    const xAxis = this.xAxis;
+    const yAxis = this.yAxis;
     return {
-      tooltip: {},
+      tooltip: {
+        formatter: function (p) {
+          const userX = xAxis[(p as any).data[1]];
+          const userY = yAxis[(p as any).data[0]];
+          const value = (p as any).data[2];
+          return `${userX} vers ${userY} : ${value}`;
+        }
+      },
       grid: {
         height: '50%',
         top: '10%'
