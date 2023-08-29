@@ -15,6 +15,9 @@ export class SongPropertyManagerService {
   }
 
   getSubTitle(song: Song): string {
-    return song.album ? `${song.author} • ${song.album}` : song.author;
+    let subtitle = song.author;
+    if (song.album) subtitle += ` • ${song.album}`;
+    if (song.releaseYear) subtitle += ` (${song.releaseYear})`;
+    return subtitle;
   }
 }
