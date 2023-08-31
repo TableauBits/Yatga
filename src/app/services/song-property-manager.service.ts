@@ -14,10 +14,10 @@ export class SongPropertyManagerService {
     return title;
   }
 
-  getSubTitle(song: Song): string {
+  getSubTitle(song: Song, showYear: boolean = true): string {
     let subtitle = song.author;
     if (song.album) subtitle += ` • ${song.album}`;
-    if (song.releaseYear) subtitle += ` (${song.releaseYear})`;
+    if (showYear && song.releaseYear) subtitle += ` (${song.releaseYear})`;
     return subtitle;
   }
 }
