@@ -16,16 +16,6 @@
     <td> <mat-slide-toggle [checked]="localSettings.cardsSortDSC" (change)="updateCardsSort()"> </mat-slide-toggle>
     </td>
   </tr>
-  <tr>
-    <td> Affichage des titres </td>
-    <td>
-      <mat-select [value]="localSettings.titlePreference">
-        <mat-option *ngFor="let preference of getTitlePreferences() | keyvalue" [value]="preference">
-          {{preference.value}}
-        </mat-option>
-      </mat-select>
-    </td>
-  </tr>
 </table>
 <br>
 <h2 class="title"> GRADE </h2>

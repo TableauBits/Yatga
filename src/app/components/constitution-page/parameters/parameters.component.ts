@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_ALREADY_VOTES_KEY, GRADE_SHOW_STATS_KEY, TITLE_PREFERENCE_KEY, TitlePreferences } from 'src/app/types/local-storage';
+import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_ALREADY_VOTES_KEY, GRADE_SHOW_STATS_KEY } from 'src/app/types/local-storage';
 
 interface LocalSettings {
   cardsView: boolean;
   cardsSortDSC: boolean;
   gradeShowAlreadyVoted: boolean;
   gradeShowStats: boolean;
-  titlePreference: TitlePreferences;
 }
 
 @Component({
@@ -24,12 +23,7 @@ export class ParametersComponent {
       cardsSortDSC: (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "true",
       gradeShowAlreadyVoted: (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true",
       gradeShowStats: (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true",
-      titlePreference: localStorage.getItem(TITLE_PREFERENCE_KEY) as TitlePreferences ?? TitlePreferences.ROMAN
     };
-  }
-
-  public getTitlePreferences(): typeof TitlePreferences {
-    return TitlePreferences;
   }
 
   // TODO : Map & Service ?
@@ -51,10 +45,6 @@ export class ParametersComponent {
   updateGradeShowStats(): void {
     this.localSettings.gradeShowStats = !this.localSettings.gradeShowStats;
     localStorage.setItem(GRADE_SHOW_STATS_KEY, this.localSettings.gradeShowStats.toString());
-  }
-
-  updateTitlePreference(newPreference: TitlePreferences): void {
-    // this.localSettings.titlePreference = 
   }
 
 }
