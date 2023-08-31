@@ -20,6 +20,32 @@ interface ManageSongsInjectedData {
 	songs: Map<number, Song>;
 }
 
+type SearchHelper = {
+	name: string;
+	formatter: (title: string, author: string) => string;
+}
+
+const SEARCH_HELPERS: SearchHelper[] = [
+	{
+		name: "Apple Music",
+		formatter: (title, author) => {
+			return `https://music.apple.com/us/search?term=${author}${title}`;
+		}
+	},
+	{
+		name: "Discogs",
+		formatter: (title, author) => {
+			return `https://www.discogs.com/search/?q=${author.split(" ").join("+")}+${title.split(" ").join("+")}&type=all&type=all`;
+		}
+	},
+	{
+		name: "Spotify",
+		formatter: (title, author) => {
+			return ``;
+		}
+	}
+];
+
 @Component({
 	selector: 'app-manage-songs',
 	templateUrl: './manage-songs.component.html',
