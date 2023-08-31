@@ -15,6 +15,8 @@ import { ALL_GENRES, ALL_LANGUAGES_FR, INSTRUMENTAL_CODE, LANGUAGES_FR_TO_CODE }
 
 const ICONS_PATH = "assets/icons";
 
+type SearchQuery = (title: string, author: string) => string;
+
 interface ManageSongsInjectedData {
 	cstID: string;
 	songs: Map<number, Song>;
@@ -22,26 +24,37 @@ interface ManageSongsInjectedData {
 
 type SearchHelper = {
 	name: string;
-	formatter: (title: string, author: string) => string;
+	iconPath: string;
+	formatter: SearchQuery;
 }
 
 const SEARCH_HELPERS: SearchHelper[] = [
 	{
 		name: "Apple Music",
+		iconPath: ICONS_PATH + "/apple_music.png",
 		formatter: (title, author) => {
-			return `https://music.apple.com/us/search?term=${author}${title}`;
+			return `https://music.apple.com/us/search?term=${author} ${title}`;
 		}
 	},
 	{
 		name: "Discogs",
+		iconPath: ICONS_PATH + "/discogs.png",
 		formatter: (title, author) => {
 			return `https://www.discogs.com/search/?q=${author.split(" ").join("+")}+${title.split(" ").join("+")}&type=all&type=all`;
 		}
 	},
 	{
-		name: "Spotify",
+		name: "Genius",
+		iconPath: ICONS_PATH + "/genius.png",
 		formatter: (title, author) => {
-			return ``;
+			return `https://genius.com/search?q=${author} ${title}`;
+		},
+	},
+	{
+		name: "Spotify",
+		iconPath: ICONS_PATH + "/spotify.png",
+		formatter: (title, author) => {
+			return `https://open.spotify.com/search/${author} ${title}`;
 		}
 	}
 ];
@@ -76,7 +89,7 @@ export class ManageSongsComponent implements OnDestroy {
 		private auth: AuthService,
 		private dialogRef: MatDialogRef<ManageSongsComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: ManageSongsInjectedData,
-		public fb: FormBuilder,
+		public fb: FormBuilder
 	) {
 		this.cstID = data.cstID;
 		this.songs = data.songs;
@@ -153,6 +166,14 @@ export class ManageSongsComponent implements OnDestroy {
 	getUserSongs(): Song[] {
 		const songValues = Array.from(this.songs.values());
 		return songValues.filter((song) => song.user === this.auth.uid);
+	}
+
+	getSearchHelpers(): SearchHelper[] {
+		return SEARCH_HELPERS;
+	}
+
+	onNavigate(formatter: SearchQuery): void {
+		window.open(formatter(this.newSongForm.value['title'], this.newSongForm.value['author']), "_blank");
 	}
 
 	removeSong(id: number): void {

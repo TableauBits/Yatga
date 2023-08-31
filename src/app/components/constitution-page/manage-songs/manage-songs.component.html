@@ -51,17 +51,10 @@
 				<hr>
 				<span class="help-section">
 					Aide pour la recherche :
-					<button mat-icon-button color="primary" class="help-button">
-						<img class="platform-img" src="assets/icons/apple_music.png">
-					</button>
-					<button mat-icon-button class="help-button">
-						<img class="platform-img" src="assets/icons/discogs.png">
-					</button>
-					<button mat-icon-button class="help-button">
-						<img class="platform-img" src="assets/icons/spotify.png">
+					<button *ngFor="let helper of getSearchHelpers()" mat-icon-button color="primary" class="help-button" matTooltip="Chercher sur {{helper.name}}" (click)="onNavigate(helper.formatter)">
+						<img class="platform-img" src="{{helper.iconPath}}">
 					</button>
 				</span>
-
 				<br> <br>
 				<mat-form-field appearance="outline" class="releaseYearField">
 					<mat-label> Année de sortie </mat-label>
