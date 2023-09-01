@@ -8,6 +8,7 @@ import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import * as confetti from 'canvas-confetti';
 import { FIREWORK_DEFAULTS, FIREWORK_DURATION } from 'src/app/types/firework';
 import { GetUrlService } from 'src/app/services/get-url.service';
+import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
 
 const NEXT_RESULT = -1;
 const PREVIOUS_RESULT = 1;
@@ -66,7 +67,7 @@ export class GradeElectoralComponent implements OnChanges {
     this.generatePieData();
   }
 
-  constructor(public urlGetter: GetUrlService) {
+  constructor(public urlGetter: GetUrlService, public songPropertyManager: SongPropertyManagerService) {
     this.onWindowResize();
   }
 

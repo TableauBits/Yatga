@@ -73,13 +73,13 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 	}
 
 	keyPressed(keyEvent: KeyboardEvent): void {
-    if (keyEvent.key === 'ArrowRight' && this.nextSongExist()) {
-      this.changeSong(NEXT_SHIFT);
-    }
-    else if (keyEvent.key === 'ArrowLeft' && this.previousSongExist()) {
-      this.changeSong(PREVIOUS_SHIFT);
-    }
-  }
+		if (keyEvent.key === 'ArrowRight' && this.nextSongExist()) {
+			this.changeSong(NEXT_SHIFT);
+		}
+		else if (keyEvent.key === 'ArrowLeft' && this.previousSongExist()) {
+			this.changeSong(PREVIOUS_SHIFT);
+		}
+	}
 
 	closeWindow(): void {
 		this.dialogRef.close();

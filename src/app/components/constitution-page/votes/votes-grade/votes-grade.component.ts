@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { GRADE_VALUES } from 'src/app/types/song-utils';
+import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
 
 enum GradeOrder {
 	INCREASE,
@@ -55,7 +56,8 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		public auth: AuthService,
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
-		public urlGetter: GetUrlService
+		public urlGetter: GetUrlService,
+		public songPropertyManager: SongPropertyManagerService
 	) {
 		super();
 

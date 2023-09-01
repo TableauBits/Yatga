@@ -4,7 +4,8 @@
 <div class="page" (window:keydown)="keyPressed($event)">
   <div class="title">
     <a href="{{currentSong.url}}" target="_blank">
-      <h1 class="text-overflowable"> {{currentRank+1}}. {{currentSong.author}} - {{currentSong.title}} </h1>
+      <h1 class="remove-margin text-overflowable"> {{currentRank+1}}. {{songPropertyManager.getTitle(currentSong)}} </h1>
+      <h2 class="remove-margin text-overflowable"> {{songPropertyManager.getSubTitle(currentSong)}} </h2>
     </a>
     <hr>
   </div>
