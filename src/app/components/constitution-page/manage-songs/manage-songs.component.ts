@@ -51,6 +51,13 @@ const SEARCH_HELPERS: SearchHelper[] = [
 		},
 	},
 	{
+		name: "LastFM",
+		iconPath: ICONS_PATH + "/lastfm.png",
+		formatter: (title, author) => {
+			return `https://www.last.fm/search?q=${author.split(" ").join("+")}+${title.split(" ").join("+")}`;
+		},
+	},
+	{
 		name: "Spotify",
 		iconPath: ICONS_PATH + "/spotify.png",
 		formatter: (title, author) => {
