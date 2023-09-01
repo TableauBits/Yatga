@@ -16,13 +16,15 @@ mat-form-field {
 
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
-     color: whitesmoke;
+    color: whitesmoke;
   }
+
   .mat-form-field.mat-focused .mat-form-field-label {
-      color: whitesmoke !important;
+    color: whitesmoke !important;
   }
+
   .mat-input-element {
-      caret-color: whitesmoke!important;
+    caret-color: whitesmoke !important;
   }
 
   .mat-chip-input {
@@ -30,9 +32,14 @@ mat-form-field {
   }
 
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label, .mat-option-text {
-          color: whitesmoke;
-      }
+
+    .mat-hint,
+    input,
+    ::placeholder,
+    .mat-form-field-label,
+    .mat-option-text {
+      color: whitesmoke;
+    }
   }
 
   .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
@@ -42,6 +49,7 @@ mat-form-field {
   .mat-option:hover:not(.mat-option-disabled) {
     background: $sasuke;
   }
+
   .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
     background: $sasuke;
   }
@@ -58,7 +66,8 @@ table {
   overflow-x: auto;
 }
 
-td, th {
+td,
+th {
   border: 1px solid $sasuke;
   text-align: center;
   padding: 8px;
@@ -72,6 +81,7 @@ td, th {
 #t01 tr:nth-child(even) {
   background-color: $sasuke;
 }
+
 #t01 tr:nth-child(odd) {
   background-color: $cape-cod;
 }
@@ -103,4 +113,15 @@ input::-webkit-input-placeholder {
 input::-moz-placeholder {
   /* Firefox 19+ */
   color: whitesmoke;
+}
+
+.help-section {
+  vertical-align: middle;
+}
+
+.help-button {
+  width: 25px;
+  height: 25px;
+  margin-top: 15px;
+  margin-left: 10px;
 }
