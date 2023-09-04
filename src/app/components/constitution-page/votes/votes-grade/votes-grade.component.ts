@@ -145,6 +145,10 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		return songsToVote;
 	}
 
+	onNavigate(song: Song): void {
+		window.open(song.url, "_blank");
+	}
+
 	getGrades(): number[] {
 		return Array.from(this.votes.values.values());
 	}
