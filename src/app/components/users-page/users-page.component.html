@@ -4,101 +4,72 @@
 <br>
 <div class="container">
 	<div class="admin-color blob">
-		<h2 class="user-title">Équipe Technique
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.23 20.1"><g id="Layer_2" data-name="Layer 2">
-				<g id="Layer_1-2" data-name="Layer 1">
-					<path class="admin-color" d="M496.41,2.92C368.7-3.19,240.85,1.48,113.18,6.14L4.82,10.1c-6.41.23-6.44,10.23,0,10,127.4-4.65,254.9-10.9,382.41-10,36.41.24,72.81,1.13,109.18,2.87C502.85,13.22,502.83,3.22,496.41,2.92Z"/></g>
-				</g></svg></h2>
-	<div class="flexy">
-		<div class="col" *ngFor="let user of getStaff()">
-			<div class="admin-color card user-card">
-				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
-				<div class="card-body">
-					<h3 class="card-title custom-h3">{{user.displayName}}
-						<div class="icons-container">
-							<span *ngFor="let role of getRoles(user)">
-								<mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
-							</span>
-						</div>
-					</h3>
-					<hr>
-					<br>
-					<p class="card-text">
-						{{user.description}}
-					</p>
+		<h2 class="user-title"> <b> Équipe Matbay </b>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.23 20.1">
+				<g id="Layer_2" data-name="Layer 2">
+					<g id="Layer_1-2" data-name="Layer 1">
+						<path class="admin-color"
+							d="M496.41,2.92C368.7-3.19,240.85,1.48,113.18,6.14L4.82,10.1c-6.41.23-6.44,10.23,0,10,127.4-4.65,254.9-10.9,382.41-10,36.41.24,72.81,1.13,109.18,2.87C502.85,13.22,502.83,3.22,496.41,2.92Z"/>
+					</g>
+				</g>
+			</svg>
+		</h2>
+		<div class="flexy">
+			<div class="col" *ngFor="let user of getStaff()">
+				<div class="admin-color card user-card">
+					<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+					<div class="card-body">
+						<h3 class="card-title custom-h3"> <b> {{user.displayName}} </b>
+							<div class="icons-container">
+								<span *ngFor="let role of getRoles(user)">
+									<mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
+								</span>
+							</div>
+						</h3>
+						<hr>
+						<br>
+						<p class="card-text">
+							{{user.description}}
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
-
 
 <div class="container">
 	<div class="member-color blob">
-		<h2 class="user-title">Membres Matbay
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.23 20.1"><g id="Layer_2" data-name="Layer 2">
+		<h2 class="user-title"> <b> Membres Matbay </b>
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.23 20.1">
+				<g id="Layer_2" data-name="Layer 2">
 					<g id="Layer_1-2" data-name="Layer 1">
-						<path class="member-color" d="M496.41,2.92C368.7-3.19,240.85,1.48,113.18,6.14L4.82,10.1c-6.41.23-6.44,10.23,0,10,127.4-4.65,254.9-10.9,382.41-10,36.41.24,72.81,1.13,109.18,2.87C502.85,13.22,502.83,3.22,496.41,2.92Z"/></g>
-					</g></svg></h2>
+						<path class="member-color"
+							d="M496.41,2.92C368.7-3.19,240.85,1.48,113.18,6.14L4.82,10.1c-6.41.23-6.44,10.23,0,10,127.4-4.65,254.9-10.9,382.41-10,36.41.24,72.81,1.13,109.18,2.87C502.85,13.22,502.83,3.22,496.41,2.92Z"/>
+					</g>
+				</g>
+			</svg>
+		</h2>
 		<div class="flexy">
-
-		<div class="col" *ngFor="let user of getMember()">
-			<div class="card user-card member-color">
-				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
-				<div class="card-body">
-					<h3 class="card-title custom-h3">{{user.displayName}}
-						<div class="icons-container">
-							<span *ngFor="let role of getRoles(user)">
-								<mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
-							</span>
-						</div>
-					</h3>
-					<hr>
-					<br>
-					<p class="card-text">
-						{{user.description}}
-					</p>
+			<div class="col" *ngFor="let user of getMember()">
+				<div class="member-color card user-card">
+					<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
+					<div class="card-body">
+						<h3 class="card-title custom-h3"> <b> {{user.displayName}} </b>
+							<div class="icons-container">
+								<span *ngFor="let role of getRoles(user)">
+									<mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
+								</span>
+							</div>
+						</h3>
+						<hr>
+						<br>
+						<p class="card-text">
+							{{user.description}}
+						</p>
+					</div>
 				</div>
-			</div>
-		</div>
-		</div>
-	</div>
-</div>
-
-
-
-<div class="container">
-	<div class="other-color blob">
-
-		<h2 class="user-title">Cobayes Matbay
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 501.23 20.1"><defs>
-			</defs><g id="Layer_2" data-name="Layer 2">
-					<g id="Layer_1-2" data-name="Layer 1">
-						<path class="other-color" d="M496.41,2.92C368.7-3.19,240.85,1.48,113.18,6.14L4.82,10.1c-6.41.23-6.44,10.23,0,10,127.4-4.65,254.9-10.9,382.41-10,36.41.24,72.81,1.13,109.18,2.87C502.85,13.22,502.83,3.22,496.41,2.92Z"/></g>
-					</g></svg></h2>
-		<div class="flexy">
-
-		<div class="col" *ngFor="let user of getTest()">
-			<div class="card user-card other-color">
-				<img src={{user.photoURL}} class="card-img-top user-card-image" alt="..." />
-				<div class="card-body">
-					<h3 class="card-title custom-h3">{{user.displayName}}
-						<div class="icons-container">
-							<span *ngFor="let role of getRoles(user)">
-								<mat-icon matTooltip="{{role.name}}" class="user-icon"> {{role.icon}} </mat-icon>
-							</span>
-						</div>
-					</h3>
-					<hr>
-					<br>
-					<p class="card-text">
-						{{user.description}}
-					</p>
-				</div>
-			</div>
 			</div>
 		</div>
 	</div>
 </div>
-<br>
