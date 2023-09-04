@@ -87,10 +87,6 @@ export class SongListComponent extends YatgaUserFavorites {
 		return song.user === this.auth.uid;
 	}
 
-	onNavigate(song: Song): void {
-		window.open(song.url, "_blank");
-	}
-
 	openDeleteSongWarning(song: Song): void {
 		const config = new MatDialogConfig();
 
