@@ -8,6 +8,10 @@ export class SongPropertyManagerService {
 
   constructor() { }
 
+  onNavigate(song: Song): void {
+		window.open(song.url, "_blank");
+	}
+
   getTitle(song: Song): string {
     let title = song.title;
     if (song.altTitles) title += ` (${song.altTitles.join(" / ")})`;
