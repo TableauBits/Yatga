@@ -103,7 +103,7 @@ export class ManageSongsComponent implements OnDestroy {
 		this.altTitles = [];
 		this.genres = [];
 		this.languages = [];
-		this.allLanguages = ALL_LANGUAGES_FR;
+		this.allLanguages = ALL_LANGUAGES_FR.sort();
 		this.allGenres = ALL_GENRES;
 		this.genresForm = new FormControl();
 		this.languagesForm = new FormControl();
