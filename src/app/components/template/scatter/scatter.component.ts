@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
-import { isNil } from 'lodash';
+import { isNil, range } from 'lodash';
 import { Charts, EChartsOption, ScatterData } from 'src/app/types/charts';
 
 const BUBBLE_SIZE = 30;
@@ -15,6 +15,7 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
   @Input() names: string[] = [];
   @Input() data: ScatterData[] = [];
   @Input() axisMax: number = 100;
+  @Input() axisLabelInterval?: number;
   @Input() id: string;
 
   ngAfterViewInit() {
@@ -36,12 +37,9 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
     const title: echarts.TitleComponentOption[] = [];
     const singleAxis: echarts.SingleAxisComponentOption[] = [];
     const series: echarts.ScatterSeriesOption[] = [];
-    const array: number[] = [];
+    const array: number[] = range(1, this.axisMax+1);
     const numberOfUsers = this.names.length;
-
-    for (let index = 0; index < this.axisMax; index++) {
-      array.push(index);
-    }
+    const interval = this.axisLabelInterval;
 
     this.names.forEach(function(name, idx) {
       title.push({
@@ -60,7 +58,7 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
         top: (idx * 100) / numberOfUsers + 5 + '%',
         height: 100 / numberOfUsers - 10 + '%',
         axisLabel: {
-          interval: 2
+          interval: interval
         }
       });
       series.push({
