@@ -139,3 +139,9 @@ button {
 	grid-gap: 25px;
 	justify-content: center;
 }
+
+.table-navigator-button {
+	background-color: $mineshaft;
+	border-radius: 2px;
+  border: 1px solid $angular-purple;
+}
