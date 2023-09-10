@@ -49,3 +49,4 @@ Thumbs.db
 # firebase
 .firebase/*
 .scannerwork/
+bun.lockb
