@@ -1,10 +1,17 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { EMPTY_SONG, EMPTY_USER, Song, User } from 'chelys';
-import { ScatterData } from 'src/app/types/charts';
+import { ScatterConfig } from 'src/app/types/charts';
 import { mean } from 'src/app/types/math';
 import { SongGradeResult } from 'src/app/types/results';
 
 const NO_RESULT = -1;
+
+const EMPTY_CONFIG: ScatterConfig = {
+  axisMax: 0,
+  bubbleSizeMultiplier: 0,
+  data: [],
+  names: []
+};
 
 interface UserRankResult {
   uid: string;
@@ -32,17 +39,13 @@ export class GradeRanksComponent implements OnChanges {
 
   usersRank: UserRankResult[] = [];
 
-  scatterNames: string[] = [];
-  scatterData: ScatterData[] = [];
-  scatterAxisMax: number = 0;
+  scatterConfig: ScatterConfig = EMPTY_CONFIG;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
-    this.generateScatterInfos();   // Init values
+    this.generateScatterInfos();
     this.generateRankResults();
   }
-
-  constructor() { }
 
   getUser(uid: string): User {
 		return this.users.get(uid) || EMPTY_USER;
@@ -73,22 +76,27 @@ export class GradeRanksComponent implements OnChanges {
   }
 
   generateScatterInfos(): void {
-    this.scatterNames = [];
-    this.scatterData = [];
-    this.scatterAxisMax = this.songResults.length;
-
-    for (const user of this.users.values()) {   
-      this.scatterNames.push(user.displayName);
-    }
-
-    for (let index = 0; index < this.songResults.length; index++) {
-      const result = this.songResults[index];
-      const song = this.songs.get(result.id);
-      const keys = Array.from(this.users.keys());
-      const userIndex = keys.findIndex((key) => { return key === song?.user;});
-      
-      this.scatterData.push([userIndex, index, 1]);
-    }
+    // Init
+    this.scatterConfig = EMPTY_CONFIG;
+    const keys = Array.from(this.users.keys());
+    
+    // New config
+    this.scatterConfig = {
+      axisMax: this.songResults.length,
+      axisLabelInterval: 2,
+      bubbleSizeMultiplier: 30,
+      formatter: (p) => {
+        const data = p.data as number[];
+        const song = this.songs.get(this.songResults[data[0]].id);
+        return `${data[0]+1}. ${song?.title} - ${song?.author}`;
+      },
+      data: this.songResults.map((result, index) => {
+        const song = this.songs.get(result.id);
+        const userIndex = keys.findIndex((key) => { return key === song?.user;});
+        return [userIndex, index, 1];
+      }),
+      names: Array.from(this.users.values()).map(u => u.displayName)
+    };
   }
 
 }

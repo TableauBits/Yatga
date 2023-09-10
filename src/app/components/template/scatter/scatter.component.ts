@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
-import { isNil } from 'lodash';
-import { Charts, EChartsOption, ScatterData } from 'src/app/types/charts';
-
-const BUBBLE_SIZE = 30;
+import { isNil, range } from 'lodash';
+import { Charts, EChartsOption, ScatterConfig } from 'src/app/types/charts';
 
 @Component({
   selector: 'app-scatter',
@@ -12,9 +10,7 @@ const BUBBLE_SIZE = 30;
 })
 export class ScatterComponent extends Charts implements AfterViewInit, OnChanges {
 
-  @Input() names: string[] = [];
-  @Input() data: ScatterData[] = [];
-  @Input() axisMax: number = 100;
+  @Input() config: ScatterConfig;
   @Input() id: string;
 
   ngAfterViewInit() {
@@ -22,28 +18,26 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.names = changes['names'].currentValue;
-    this.data = changes['data'].currentValue;
+    if (changes['config']) this.config = changes['config'].currentValue;
     this.updateChart();
   }
 
   constructor() {
     super();
     this.id = "";
+    this.config =  { axisMax: 100, bubbleSizeMultiplier: 30, data: [], names: [] };
   }
 
   generateChartOption(): EChartsOption {
     const title: echarts.TitleComponentOption[] = [];
     const singleAxis: echarts.SingleAxisComponentOption[] = [];
     const series: echarts.ScatterSeriesOption[] = [];
-    const array: number[] = [];
-    const numberOfUsers = this.names.length;
+    const array: number[] = range(1, this.config.axisMax+1);
 
-    for (let index = 0; index < this.axisMax; index++) {
-      array.push(index);
-    }
+    const numberOfUsers = this.config.names.length;
+    const {axisLabelInterval, bubbleSizeMultiplier, color, formatter} = this.config;
 
-    this.names.forEach(function(name, idx) {
+    this.config.names.forEach(function(name, idx) {
       title.push({
         top: ((idx + 0.5) * 100) / numberOfUsers + '%', // TODO : Nombres magique
         text: name,
@@ -60,7 +54,7 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
         top: (idx * 100) / numberOfUsers + 5 + '%',
         height: 100 / numberOfUsers - 10 + '%',
         axisLabel: {
-          interval: 2
+          interval: axisLabelInterval
         }
       });
       series.push({
@@ -68,20 +62,22 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
         coordinateSystem: 'singleAxis',
         type: 'scatter',
         data: [],
+        color: color,
         symbolSize: function(dataItem) {
-          return dataItem[1] * BUBBLE_SIZE;
+          return dataItem[1] * bubbleSizeMultiplier;
         }
       });
     });
 
-    this.data.forEach(function(dataItem) {
+    this.config.data.forEach(function(dataItem) {
       if (isNil((series as any)[dataItem[0]])) return;
       (series as any)[dataItem[0]].data.push([dataItem[1], dataItem[2]]);
     });
 
     return {
       tooltip: {
-        position: 'top'
+        position: 'top',
+        formatter: formatter,
       },
       title: title,
       singleAxis: singleAxis,
