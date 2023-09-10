@@ -88,7 +88,7 @@ export class GradeRanksComponent implements OnChanges {
       formatter: (p) => {
         const data = p.data as number[];
         const song = this.songs.get(this.songResults[data[0]].id);
-        return `${song?.title} - ${song?.author}`;
+        return `${data[0]+1}. ${song?.title} - ${song?.author}`;
       },
       data: this.songResults.map((result, index) => {
         const song = this.songs.get(result.id);
