@@ -108,7 +108,7 @@
           </button>
           <app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
           </app-optionnal-song-infos-button>
-          <button mat-button class="vote" [matMenuTriggerFor]="menu" matTooltip="Classer les votes">
+          <button *ngIf="getVote(song)" mat-button class="vote" [matMenuTriggerFor]="menu" matTooltip="Classer les votes">
             {{getVote(song)}}
           </button>
           <mat-menu #menu="matMenu">
@@ -149,7 +149,7 @@
           </button>
         </td>
         <td>
-          <button mat-raised-button color="primary" (click)="openVoteNavigator(song)">
+          <button mat-button class="table-navigator-button" (click)="openVoteNavigator(song)">
             {{ song.title }}
           </button>
         </td>
