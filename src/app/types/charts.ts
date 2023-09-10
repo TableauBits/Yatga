@@ -96,6 +96,15 @@ export type RadarData = {
 }
 
 // Scatter
+export type ScatterConfig = {
+  axisMax: number;
+  axisLabelInterval?: number;
+  bubbleSizeMultiplier: number;
+  color?: string;
+  data: ScatterData[];
+  names: string[];
+}
+
 export type ScatterData = [
   number, // Axis Id
   number, // Position
