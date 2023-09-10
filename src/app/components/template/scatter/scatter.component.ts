@@ -35,7 +35,7 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
     const array: number[] = range(1, this.config.axisMax+1);
 
     const numberOfUsers = this.config.names.length;
-    const {axisLabelInterval, bubbleSizeMultiplier, color} = this.config;
+    const {axisLabelInterval, bubbleSizeMultiplier, color, formatter} = this.config;
 
     this.config.names.forEach(function(name, idx) {
       title.push({
@@ -76,7 +76,8 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
 
     return {
       tooltip: {
-        position: 'top'
+        position: 'top',
+        formatter: formatter,
       },
       title: title,
       singleAxis: singleAxis,

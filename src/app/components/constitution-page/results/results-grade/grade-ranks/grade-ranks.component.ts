@@ -43,7 +43,7 @@ export class GradeRanksComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
-    this.generateScatterInfos();   // Init values
+    this.generateScatterInfos();
     this.generateRankResults();
   }
 
@@ -85,6 +85,11 @@ export class GradeRanksComponent implements OnChanges {
       axisMax: this.songResults.length,
       axisLabelInterval: 2,
       bubbleSizeMultiplier: 30,
+      formatter: (p) => {
+        const data = p.data as number[];
+        const song = this.songs.get(this.songResults[data[0]].id);
+        return `${song?.title} - ${song?.author}`;
+      },
       data: this.songResults.map((result, index) => {
         const song = this.songs.get(result.id);
         const userIndex = keys.findIndex((key) => { return key === song?.user;});

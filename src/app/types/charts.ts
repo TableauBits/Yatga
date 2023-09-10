@@ -100,6 +100,7 @@ export type ScatterConfig = {
   axisMax: number;
   axisLabelInterval?: number;
   bubbleSizeMultiplier: number;
+  formatter?: (param: any) => string;
   color?: string;
   data: ScatterData[];
   names: string[];
