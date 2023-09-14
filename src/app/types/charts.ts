@@ -111,3 +111,10 @@ export type ScatterData = [
   number, // Position
   number  // Size
 ];
+
+export const EMPTY_SCATTER_CONFIG: ScatterConfig = {
+  axisMax: 0,
+  bubbleSizeMultiplier: 0,
+  data: [],
+  names: []
+};
