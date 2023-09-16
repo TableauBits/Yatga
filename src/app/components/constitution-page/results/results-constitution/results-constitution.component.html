@@ -3,11 +3,11 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Ajout des chansons dans le temps </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-calendar [id]="'results-constitution-calendar'" [data]="calendarData"> </app-calendar>
+    <app-calendar *ngIf="propertyExists('addedDate'); else missingData" [id]="'results-constitution-calendar'" [data]="calendarData"> </app-calendar>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
-      <mat-panel-title> Répartiton des années de sorties </mat-panel-title>
+      <mat-panel-title> Répartition des années de sorties </mat-panel-title>
     </mat-expansion-panel-header>
     Résumé de :
     <mat-form-field appearance="fill">
@@ -24,11 +24,11 @@
         <mat-option value="10">10 ans</mat-option>
       </mat-select>
     </mat-form-field>
-    <app-histogram [id]="'results-constitution-years-histogram'" [columns]="releaseYearHistogramColumns" [values]="releaseYearHistogramValues"> </app-histogram>
+    <app-histogram *ngIf="propertyExists('releaseYear'); else missingData" [id]="'results-constitution-years-histogram'" [columns]="releaseYearHistogramColumns" [values]="releaseYearHistogramValues"> </app-histogram>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
-      <mat-panel-title> Répartiton des langues </mat-panel-title>
+      <mat-panel-title> Répartition des langues </mat-panel-title>
     </mat-expansion-panel-header>
     Résumé de :
     <mat-form-field appearance="fill">
@@ -37,6 +37,8 @@
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
       </mat-select>
     </mat-form-field>
-    <app-pie [id]="'results-constitution-languages-pie'" [data]="languagesPieData"> </app-pie>
+    <app-pie *ngIf="propertyExists('languages'); else missingData" [id]="'results-constitution-languages-pie'" [data]="languagesPieData"> </app-pie>
   </mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #missingData> <br> Aucune donnée disponible. </ng-template>
