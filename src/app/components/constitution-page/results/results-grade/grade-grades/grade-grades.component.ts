@@ -1,12 +1,13 @@
 import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { EMPTY_SONG, EMPTY_USER, Song, User } from 'chelys';
-import { isNil, toNumber } from 'lodash';
+import { flatten, isNil, range, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetUrlService } from 'src/app/services/get-url.service';
+import { EMPTY_SCATTER_CONFIG, ScatterConfig, ScatterData } from 'src/app/types/charts';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
-import { GRADE_VALUES } from 'src/app/types/song-utils';
-import { compareObjectsFactory } from 'src/app/types/utils';
+import { GRADE_VALUES, LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
+import { keepUniqueValues } from 'src/app/types/utils';
 
 @Component({
   selector: 'app-grade-grades',
@@ -27,9 +28,12 @@ export class GradeGradesComponent implements OnChanges {
   selecedUserMean: number = 0;
   selectedUserVar: number = 0;
 
+  languagesScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
+
   ngOnChanges(changes: SimpleChanges): void {
     this.userResults = changes['userResults'].currentValue;
     this.histogramValues = this.getUserHistogramValues();   // Init values
+    this.generateScatterInfos();
   }
 
   constructor(private auth: AuthService, public urlGetter: GetUrlService) {
@@ -38,7 +42,7 @@ export class GradeGradesComponent implements OnChanges {
   }
 
   getSongList(): Song[] {
-    return Array.from(this.songs.values()).sort(compareObjectsFactory("id", false));
+    return Array.from(this.songs.values());
   }
 
   getSelectedSong(): Song {
@@ -96,5 +100,34 @@ export class GradeGradesComponent implements OnChanges {
 
   newSelection(): void  {
     this.histogramValues = this.getUserHistogramValues();
+    this.generateScatterInfos();
+  }
+
+  generateScatterInfos(): void {
+    // Init
+    this.languagesScatterConfig = EMPTY_SCATTER_CONFIG;
+    const languages = keepUniqueValues(flatten(this.getSongList()
+      .filter(s => !isNil(s.languages))
+      .map(s => s.languages)
+    ));
+
+    const songs = this.getSongList().filter(s => s.user !== this.selectedUser); // Only keep song that the selected user have a vote for
+    const votes = this.userResults.get(this.selectedUser)?.data.values;
+
+    // Config
+    this.languagesScatterConfig = {
+      axisMax: 10,
+      bubbleSizeMultiplier: 15,
+      data: flatten(languages.map((language, index) => {
+        let scatterPoints: ScatterData[] = [];
+        range(1, 11).forEach(grade => {
+          const count = songs.filter(s => s.languages?.includes(language || "") && votes?.get(s.id) === grade).length;
+          if (count === 0) return;
+          scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+        });
+        return scatterPoints;
+      })),
+      names: languages.map(language => LANGUAGES_CODE_TO_FR.get(language || "") || "")
+    };
   }
 }

@@ -45,6 +45,20 @@
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
+        <mat-panel-title> Répartitions des participants en fonction des langues </mat-panel-title>
+    </mat-expansion-panel-header>
+    Répartition de : 
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
+    <app-scatter [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
         <mat-panel-title> Notes des participants </mat-panel-title>
     </mat-expansion-panel-header>
     Notes de : 

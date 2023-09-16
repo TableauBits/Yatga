@@ -1,17 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { EMPTY_SONG, EMPTY_USER, Song, User } from 'chelys';
-import { ScatterConfig } from 'src/app/types/charts';
+import { EMPTY_SCATTER_CONFIG, ScatterConfig } from 'src/app/types/charts';
 import { mean } from 'src/app/types/math';
 import { SongGradeResult } from 'src/app/types/results';
 
 const NO_RESULT = -1;
-
-const EMPTY_CONFIG: ScatterConfig = {
-  axisMax: 0,
-  bubbleSizeMultiplier: 0,
-  data: [],
-  names: []
-};
 
 interface UserRankResult {
   uid: string;
@@ -39,7 +32,7 @@ export class GradeRanksComponent implements OnChanges {
 
   usersRank: UserRankResult[] = [];
 
-  scatterConfig: ScatterConfig = EMPTY_CONFIG;
+  scatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
@@ -77,7 +70,7 @@ export class GradeRanksComponent implements OnChanges {
 
   generateScatterInfos(): void {
     // Init
-    this.scatterConfig = EMPTY_CONFIG;
+    this.scatterConfig = EMPTY_SCATTER_CONFIG;
     const keys = Array.from(this.users.keys());
     
     // New config
