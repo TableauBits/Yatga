@@ -125,4 +125,8 @@ export class ResultsConstitutionComponent implements OnChanges {
     }
   }
 
+  propertyExists(property: keyof Song): boolean {
+    return Array.from(this.songs.values()).findIndex((s) => { return !isNil(s[property]); }) !== -1;
+  }
+
 }
