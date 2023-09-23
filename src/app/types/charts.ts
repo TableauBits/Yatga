@@ -118,3 +118,17 @@ export const EMPTY_SCATTER_CONFIG: ScatterConfig = {
   data: [],
   names: []
 };
+
+// Simple Scatter
+export type SimpleScatterConfig = {
+  color?: string;
+  data: Array<[number, number]>;
+  symbolSize: number;
+  xAxisName?: string;
+  yAxisName?: string;
+}
+
+export const EMPTY_SIMPLE_SCATTER_CONFIG: SimpleScatterConfig = {
+  data: [],
+  symbolSize: 0,
+};

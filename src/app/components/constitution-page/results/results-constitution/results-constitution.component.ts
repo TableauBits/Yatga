@@ -68,8 +68,7 @@ export class ResultsConstitutionComponent implements OnChanges {
   songFilter(song: Song, property: keyof Song): boolean {
     // return true if the property isn't undefined and the song is from the selectedUser
     if (isNil(song[property])) return false;
-    if (this.selectedUser === CONSTITUTION_USER_ID) return true;  // special case for the "constitution user" where we return all songs
-    else if (this.selectedUser === song.user) return true;
+    if (this.selectedUser === CONSTITUTION_USER_ID || this.selectedUser === song.user) return true;  // special case for the "constitution user" where we return all songs
     return false;
   }
 

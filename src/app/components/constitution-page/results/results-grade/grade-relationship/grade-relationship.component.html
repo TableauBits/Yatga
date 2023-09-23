@@ -12,6 +12,24 @@
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
+        <mat-panel-title> Répartition des valeurs normalisés entre deux participants </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="xUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="yUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <app-simple-scatter [id]="'grade-relationship-scatter'" [config]="scatterConfig"> </app-simple-scatter>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
         <mat-panel-title> Graphe des relations entre participants </mat-panel-title>
     </mat-expansion-panel-header>
     <b> (Beta) </b> <br>

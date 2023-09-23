@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
-import { ChordCategory, ChordLink, ChordNode, HeatmapData } from 'src/app/types/charts';
+import { ChordCategory, ChordLink, ChordNode, EMPTY_SIMPLE_SCATTER_CONFIG, HeatmapData, SimpleScatterConfig } from 'src/app/types/charts';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 
 @Component({
@@ -32,13 +32,20 @@ export class GradeRelationshipComponent implements OnChanges {
   maxSliderValue: number = 0;
   coordinates: Map<string, {x: number, y: number}> = new Map();
 
+  // Scatter
+  xUser: string = "";
+  yUser: string = "";
+  scatterConfig: SimpleScatterConfig = EMPTY_SIMPLE_SCATTER_CONFIG;
+
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
     this.generateHeatmap();
     this.generateChord();
   }
 
-  constructor() { }
+  getUserList(): User[] {
+    return Array.from(this.users.values());
+  }
 
   // Count relation points from uid1 to uid2
   countRelations(uid1: string, uid2: string): number {
@@ -129,6 +136,31 @@ export class GradeRelationshipComponent implements OnChanges {
 
   updateForce(): void {
     this.useForce = !this.useForce;
+  }
+
+  generateSimpleScatterConfig(): void {
+    const data: Array<[number, number]> = [];
+    if (![this.xUser, this.yUser].includes("")) {
+      this.songs.forEach(song => {
+        if ([this.xUser, this.yUser].includes(song.user)) return;
+        data.push([
+          Number(this.userResults.get(this.xUser)?.normalizeScores.get(song.id)?.toPrecision(3)),
+          Number(this.userResults.get(this.yUser)?.normalizeScores.get(song.id)?.toPrecision(3))
+        ]);
+      });
+    }
+
+    this.scatterConfig = {
+      data: data,
+      color: "#693BB8",
+      symbolSize: 25,
+      xAxisName: this.users.get(this.xUser)?.displayName,
+      yAxisName: this.users.get(this.yUser)?.displayName,
+    };
+  }
+
+  newSelection(): void {
+    this.generateSimpleScatterConfig();
   }
 
 }
