@@ -10,6 +10,8 @@
       <mat-panel-title> Répartition des années de sorties </mat-panel-title>
     </mat-expansion-panel-header>
     <div *ngIf="propertyExists('releaseYear'); else missingData">
+      <li> Année moyenne : {{releaseYearSection.mean}} </li>
+      <li> Année médiane : {{releaseYearSection.median}} </li> <br>
       Résumé de :
       <mat-form-field appearance="fill">
         <mat-label> Choisir un utilisateur </mat-label>
@@ -19,13 +21,13 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label> Choisir le regroupement par année </mat-label>
-        <mat-select [(value)]="releaseYearGroupBy" (selectionChange)="newSelection()">
+        <mat-select [(value)]="releaseYearSection.groupBy" (selectionChange)="newSelection()">
           <mat-option value="1">1 an</mat-option>
           <mat-option value="5">5 ans</mat-option>
           <mat-option value="10">10 ans</mat-option>
         </mat-select>
       </mat-form-field>
-      <app-histogram [id]="'results-constitution-years-histogram'" [columns]="releaseYearHistogramColumns" [values]="releaseYearHistogramValues"> </app-histogram>
+      <app-histogram [id]="'results-constitution-years-histogram'" [columns]="releaseYearSection.histogramColumns" [values]="releaseYearSection.histogramValues"> </app-histogram>
     </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">

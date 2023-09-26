@@ -2,10 +2,19 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys';
 import { flatten, isEmpty, isNil, max, min, range } from 'lodash';
 import { CalendarData, PieData } from 'src/app/types/charts';
+import { mean, median } from 'src/app/types/math';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 import { keepUniqueValues } from 'src/app/types/utils';
 
 const CONSTITUTION_USER_ID = "current-constitution";
+
+type ReleaseYearSection = {
+  histogramValues: number [];
+  histogramColumns: number [];
+  groupBy: number;
+  mean: number;
+  median: number;
+}
 
 @Component({
   selector: 'app-results-constitution',
@@ -21,9 +30,7 @@ export class ResultsConstitutionComponent implements OnChanges {
   resultsUsers: Map<string, User> = new Map();
   selectedUser: string;
 
-  releaseYearHistogramValues: number[] = [];
-  releaseYearHistogramColumns: number[] = [];
-  releaseYearGroupBy: number;
+  releaseYearSection: ReleaseYearSection;
 
   languagesPieData: PieData[] = [];
 
@@ -49,7 +56,13 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   constructor() {
     this.selectedUser = CONSTITUTION_USER_ID;
-    this.releaseYearGroupBy = 10;
+    this.releaseYearSection = {
+      histogramValues: [],
+      histogramColumns: [],
+      groupBy: 10,
+      mean: -1,
+      median: -1
+    };
   }
 
   getUserList(): User[] {
@@ -68,24 +81,28 @@ export class ResultsConstitutionComponent implements OnChanges {
   songFilter(song: Song, property: keyof Song): boolean {
     // return true if the property isn't undefined and the song is from the selectedUser
     if (isNil(song[property])) return false;
-    if (this.selectedUser === CONSTITUTION_USER_ID) return true;  // special case for the "constitution user" where we return all songs
-    else if (this.selectedUser === song.user) return true;
+    else if (this.selectedUser === CONSTITUTION_USER_ID || this.selectedUser === song.user) return true;  // special case for the "constitution user" where we return all songs
     return false;
   }
 
   toDecade(year: number | undefined) {
     if (isNil(year)) return;
-    return Math.floor((year) / this.releaseYearGroupBy) * this.releaseYearGroupBy;
+    return Math.floor((year) / this.releaseYearSection.groupBy) * this.releaseYearSection.groupBy;
   }
 
   generateHistogramData(): void {
-    const years = Array.from(this.songs.values())
+    let years = Array.from(this.songs.values())
       .filter(song => this.songFilter(song, "releaseYear"))
-      .map(song => this.toDecade(song.releaseYear)) as number[];
+      .map(song => song.releaseYear) as number[];
+
+    this.releaseYearSection.mean = Math.round(mean(years));
+    this.releaseYearSection.median = median(years);
+
+    years =  years.map(year => this.toDecade(year)) as number[];
 
     if (isEmpty(years)) {
-      this.releaseYearHistogramColumns = [];
-      this.releaseYearHistogramValues = [];
+      this.releaseYearSection.histogramColumns = [];
+      this.releaseYearSection.histogramValues = [];
     };
 
     const minYear = min(years);
@@ -93,8 +110,8 @@ export class ResultsConstitutionComponent implements OnChanges {
 
     if (isNil(minYear) || isNil(maxYear)) return;
 
-    this.releaseYearHistogramColumns = range(minYear, maxYear + 1, this.releaseYearGroupBy);
-    this.releaseYearHistogramValues = years;
+    this.releaseYearSection.histogramColumns = range(minYear, maxYear + 1, this.releaseYearSection.groupBy);
+    this.releaseYearSection.histogramValues = years;
   }
 
   generatePieDate(): void {
