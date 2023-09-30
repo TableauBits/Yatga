@@ -95,7 +95,7 @@ export class ResultsConstitutionComponent implements OnChanges {
       .filter(song => this.songFilter(song, "releaseYear"))
       .map(song => song.releaseYear) as number[];
 
-    this.releaseYearSection.mean = Math.round(mean(years));
+    this.releaseYearSection.mean = Math.floor(mean(years));
     this.releaseYearSection.median = median(years);
 
     years =  years.map(year => this.toDecade(year)) as number[];
