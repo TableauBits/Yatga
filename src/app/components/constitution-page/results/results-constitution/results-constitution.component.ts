@@ -2,10 +2,25 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys';
 import { flatten, isEmpty, isNil, max, min, range } from 'lodash';
 import { CalendarData, PieData } from 'src/app/types/charts';
+import { mean, median } from 'src/app/types/math';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
-import { keepUniqueValues } from 'src/app/types/utils';
+import { compareObjectsFactory, keepUniqueValues } from 'src/app/types/utils';
 
 const CONSTITUTION_USER_ID = "current-constitution";
+
+type ReleaseYearSection = {
+  histogramValues: number[];
+  histogramColumns: number[];
+  groupBy: number;
+  mean: number;
+  median: number;
+}
+
+type GenreTableData = {
+  genre: string;
+  count: number;
+  users: Set<string>;
+}
 
 @Component({
   selector: 'app-results-constitution',
@@ -21,13 +36,11 @@ export class ResultsConstitutionComponent implements OnChanges {
   resultsUsers: Map<string, User> = new Map();
   selectedUser: string;
 
-  releaseYearHistogramValues: number[] = [];
-  releaseYearHistogramColumns: number[] = [];
-  releaseYearGroupBy: number;
+  releaseYearSection: ReleaseYearSection;
 
   languagesPieData: PieData[] = [];
-
   calendarData: CalendarData[] = [];
+  genreTabeData: GenreTableData[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     const cstChange = changes["constitution"].currentValue as Constitution;
@@ -45,15 +58,26 @@ export class ResultsConstitutionComponent implements OnChanges {
     this.generateHistogramData();
     this.generatePieDate();
     this.generateCalendarData();
+    this.generateGenreTableData();
   }
 
   constructor() {
     this.selectedUser = CONSTITUTION_USER_ID;
-    this.releaseYearGroupBy = 10;
+    this.releaseYearSection = {
+      histogramValues: [],
+      histogramColumns: [],
+      groupBy: 10,
+      mean: -1,
+      median: -1
+    };
   }
 
   getUserList(): User[] {
     return Array.from(this.resultsUsers.values());
+  }
+
+  getUser(uid: string): User {
+    return this.users.get(uid) || EMPTY_USER;
   }
 
   getSelectedUser(): User {
@@ -63,6 +87,7 @@ export class ResultsConstitutionComponent implements OnChanges {
   newSelection(): void {
     this.generateHistogramData();
     this.generatePieDate();
+    this.generateGenreTableData();
   }
 
   songFilter(song: Song, property: keyof Song): boolean {
@@ -74,17 +99,22 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   toDecade(year: number | undefined) {
     if (isNil(year)) return;
-    return Math.floor((year) / this.releaseYearGroupBy) * this.releaseYearGroupBy;
+    return Math.floor((year) / this.releaseYearSection.groupBy) * this.releaseYearSection.groupBy;
   }
 
   generateHistogramData(): void {
-    const years = Array.from(this.songs.values())
+    let years = Array.from(this.songs.values())
       .filter(song => this.songFilter(song, "releaseYear"))
-      .map(song => this.toDecade(song.releaseYear)) as number[];
+      .map(song => song.releaseYear) as number[];
+
+    this.releaseYearSection.mean = Math.round(mean(years));
+    this.releaseYearSection.median = median(years);
+
+    years =  years.map(year => this.toDecade(year)) as number[];
 
     if (isEmpty(years)) {
-      this.releaseYearHistogramColumns = [];
-      this.releaseYearHistogramValues = [];
+      this.releaseYearSection.histogramColumns = [];
+      this.releaseYearSection.histogramValues = [];
     };
 
     const minYear = min(years);
@@ -92,8 +122,8 @@ export class ResultsConstitutionComponent implements OnChanges {
 
     if (isNil(minYear) || isNil(maxYear)) return;
 
-    this.releaseYearHistogramColumns = range(minYear, maxYear + 1, this.releaseYearGroupBy);
-    this.releaseYearHistogramValues = years;
+    this.releaseYearSection.histogramColumns = range(minYear, maxYear + 1, this.releaseYearSection.groupBy);
+    this.releaseYearSection.histogramValues = years;
   }
 
   generatePieDate(): void {
@@ -122,6 +152,29 @@ export class ResultsConstitutionComponent implements OnChanges {
     for (const date of keepUniqueValues(dates)) {
       this.calendarData.push([date, dates.filter(v => v === date).length]);
     }
+  }
+
+  generateGenreTableData(): void {
+    const genreMap = new Map<string, GenreTableData>();
+    this.songs.forEach(song => {
+      if (!this.songFilter(song, "languages")) return;
+      song.genres?.forEach(genre => {
+        if (genreMap.has(genre)) {
+          const data = genreMap.get(genre);
+          if (isNil(data)) return;
+          data.count += 1;
+          data.users.add(song.user);
+          genreMap.set(genre, data);
+        } else {
+          genreMap.set(genre, {
+            genre,
+            count: 1,
+            users: new Set([song.user])
+          });
+        }
+      });
+    });
+    this.genreTabeData = Array.from(genreMap.values()).sort(compareObjectsFactory("count", true));
   }
 
   propertyExists(property: keyof Song): boolean {
