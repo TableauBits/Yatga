@@ -32,6 +32,37 @@
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
+      <mat-panel-title> Répartition des genres </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div *ngIf="propertyExists('genres'); else missingData">
+      <mat-form-field appearance="fill">
+        <mat-label> Choisir un utilisateur </mat-label>
+        <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+          <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <table id="t01">
+        <tr>
+          <th> Position </th>
+          <th> Genre </th>
+          <th> Occurence </th>
+          <th> Ajouté par </th>
+        </tr>
+        <tr *ngFor="let genreData of genreTabeData;let indexOfelement=index;">
+          <td> {{ indexOfelement + 1 }} </td>
+          <td> {{ genreData.genre }}</td>
+          <td> {{ genreData.count }}</td>
+          <td> 
+            <div class="same-line" *ngFor="let user of genreData.users">
+              <img class="picture" matTooltip="{{getUser(user).displayName}}" [src]="getUser(user).photoURL">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
       <mat-panel-title> Répartition des langues </mat-panel-title>
     </mat-expansion-panel-header>
     <div *ngIf="propertyExists('languages'); else missingData">
