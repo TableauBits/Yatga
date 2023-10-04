@@ -24,6 +24,30 @@
         <td *ngFor="let user of getUserList()"> {{returnScore(user.uid)}}</td>
       </tr>
     </table>
+    <br> <br>
+    <table id="t01">
+      <tr>
+        <th> </th>
+        <th> Utilisateur </th>
+        <th> Chanson </th>
+        <th> Score </th>
+        <th> Note </th>
+      </tr>
+      <tr>
+        <td> Note Max </td>
+        <td> <img class="picture" [src]="getUser(minMaxGrades.max.uid).photoURL" matTooltip="{{getUser(minMaxGrades.max.uid).displayName}}"> </td>
+        <td> {{getSong(minMaxGrades.max.songId).title}} </td>
+        <td> {{minMaxGrades.max.normalizeScore.toFixed(4)}} </td>
+        <td> {{minMaxGrades.max.grade}} </td>
+      </tr>
+      <tr>
+        <td> Note Min </td>
+        <td> <img class="picture" [src]="getUser(minMaxGrades.min.uid).photoURL" matTooltip="{{getUser(minMaxGrades.min.uid).displayName}}"> </td>
+        <td> {{getSong(minMaxGrades.min.songId).title}}  </td>
+        <td> {{minMaxGrades.min.normalizeScore.toFixed(4)}} </td>
+        <td> {{minMaxGrades.min.grade}} </td>
+      </tr>
+    </table>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
@@ -38,7 +62,7 @@
     </mat-form-field>
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
     <br>
-    Moyenne : {{selecedUserMean.toFixed(3)}}
+    Moyenne : {{selectedUserMean.toFixed(3)}}
     <br>
     Variance : {{selectedUserVar.toFixed(3)}}
     <app-histogram [id]="'grade-grades-histogram'" [columns]="GRADE_VALUES" [values]="histogramValues"> </app-histogram>
@@ -47,15 +71,17 @@
     <mat-expansion-panel-header> 
         <mat-panel-title> Répartitions des participants en fonction des langues </mat-panel-title>
     </mat-expansion-panel-header>
-    Répartition de : 
-    <mat-form-field appearance="fill">
-      <mat-label> Choisir un utilisateur </mat-label>
-      <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
-        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
-    <app-scatter [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+    <div *ngIf="propertyExists('languages'); else missingData">
+      Répartition de : 
+      <mat-form-field appearance="fill">
+        <mat-label> Choisir un utilisateur </mat-label>
+        <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+          <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
+      <app-scatter [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+    </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
@@ -92,3 +118,5 @@
     </table>
   </mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #missingData> Aucune donnée disponible. </ng-template>
