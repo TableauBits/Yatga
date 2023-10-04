@@ -4,16 +4,22 @@ import { flatten, isEmpty, isNil, max, min, range } from 'lodash';
 import { CalendarData, PieData } from 'src/app/types/charts';
 import { mean, median } from 'src/app/types/math';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
-import { keepUniqueValues } from 'src/app/types/utils';
+import { compareObjectsFactory, keepUniqueValues } from 'src/app/types/utils';
 
 const CONSTITUTION_USER_ID = "current-constitution";
 
 type ReleaseYearSection = {
-  histogramValues: number [];
-  histogramColumns: number [];
+  histogramValues: number[];
+  histogramColumns: number[];
   groupBy: number;
   mean: number;
   median: number;
+}
+
+type GenreTableData = {
+  genre: string;
+  count: number;
+  users: Set<string>;
 }
 
 @Component({
@@ -33,8 +39,8 @@ export class ResultsConstitutionComponent implements OnChanges {
   releaseYearSection: ReleaseYearSection;
 
   languagesPieData: PieData[] = [];
-
   calendarData: CalendarData[] = [];
+  genreTabeData: GenreTableData[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     const cstChange = changes["constitution"].currentValue as Constitution;
@@ -52,6 +58,7 @@ export class ResultsConstitutionComponent implements OnChanges {
     this.generateHistogramData();
     this.generatePieDate();
     this.generateCalendarData();
+    this.generateGenreTableData();
   }
 
   constructor() {
@@ -69,6 +76,10 @@ export class ResultsConstitutionComponent implements OnChanges {
     return Array.from(this.resultsUsers.values());
   }
 
+  getUser(uid: string): User {
+    return this.users.get(uid) || EMPTY_USER;
+  }
+
   getSelectedUser(): User {
     return this.resultsUsers.get(this.selectedUser) || EMPTY_USER;
   }
@@ -76,6 +87,7 @@ export class ResultsConstitutionComponent implements OnChanges {
   newSelection(): void {
     this.generateHistogramData();
     this.generatePieDate();
+    this.generateGenreTableData();
   }
 
   songFilter(song: Song, property: keyof Song): boolean {
@@ -140,6 +152,29 @@ export class ResultsConstitutionComponent implements OnChanges {
     for (const date of keepUniqueValues(dates)) {
       this.calendarData.push([date, dates.filter(v => v === date).length]);
     }
+  }
+
+  generateGenreTableData(): void {
+    const genreMap = new Map<string, GenreTableData>();
+    this.songs.forEach(song => {
+      if (!this.songFilter(song, "languages")) return;
+      song.genres?.forEach(genre => {
+        if (genreMap.has(genre)) {
+          const data = genreMap.get(genre);
+          if (isNil(data)) return;
+          data.count += 1;
+          data.users.add(song.user);
+          genreMap.set(genre, data);
+        } else {
+          genreMap.set(genre, {
+            genre,
+            count: 1,
+            users: new Set([song.user])
+          });
+        }
+      });
+    });
+    this.genreTabeData = Array.from(genreMap.values()).sort(compareObjectsFactory("count", true));
   }
 
   propertyExists(property: keyof Song): boolean {
