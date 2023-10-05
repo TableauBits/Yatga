@@ -64,7 +64,10 @@
       </mat-select>
     </mat-form-field>
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
-    <app-scatter [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+    <div [ngSwitch]="selection">
+      <app-scatter *ngSwitchCase="optionnalParametersSelection.LANGUAGES" [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+      <app-scatter *ngSwitchCase="optionnalParametersSelection.FAVORITES" [id]="'grade-grades-favorites-scatter'" [config]="favoritesScatterConfig"> </app-scatter>
+    </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 

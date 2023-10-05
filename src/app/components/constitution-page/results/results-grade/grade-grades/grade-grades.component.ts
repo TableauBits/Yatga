@@ -42,14 +42,20 @@ export class GradeGradesComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.userResults = changes['userResults'].currentValue;
-    this.histogramValues = this.getUserHistogramValues();   // Init values
+    this.histogramValues = this.getUserHistogramValues();
     this.generateScatterInfos();
+    this.generateFavoritesScatterConfig();
   }
 
   constructor(private auth: AuthService, public urlGetter: GetUrlService) {
     this.selectedUser = auth.uid;
     this.selectedSong = '-1';
   }
+
+  	// HTML can't access the AdminSection enum directly
+	public get optionnalParametersSelection(): typeof OptionnalParametersSelection {
+		return OptionnalParametersSelection;
+	}
 
   getSongList(): Song[] {
     return Array.from(this.songs.values());
@@ -111,6 +117,7 @@ export class GradeGradesComponent implements OnChanges {
   newSelection(): void  {
     this.histogramValues = this.getUserHistogramValues();
     this.generateScatterInfos();
+    this.generateFavoritesScatterConfig();
   }
 
   generateScatterInfos(): void {
@@ -141,20 +148,25 @@ export class GradeGradesComponent implements OnChanges {
     };
   }
 
-  generateFavoriteScatterConfig(): void {
+  generateFavoritesScatterConfig(): void {
     // Init
     this.favoritesScatterConfig = EMPTY_SCATTER_CONFIG;
     const favorites = this.favorites.get(this.selectedUser)?.favs;
-    if (isNil(favorites)) return;
+    const votes = this.userResults.get(this.selectedUser)?.data.values;
+    if (isNil(favorites) || isNil(votes)) return;
+
+    const data: ScatterData[] = [];
+    range(1, 11).forEach(grade => {
+      const count = this.getSongList().filter(s => favorites.includes(s.id) && votes.get(s.id) === grade).length;
+      if (count === 0) return;
+      data.push([0, grade-1, count]);
+    });
 
     this.favoritesScatterConfig = {
       axisMax: 10,
       bubbleSizeMultiplier: 15,
       color: "#CF387C",
-      // data: favorites.map(favorite => {
-
-      // }),
-      data: [],
+      data: data,
       names: ["Favoris"]
     };
   }
