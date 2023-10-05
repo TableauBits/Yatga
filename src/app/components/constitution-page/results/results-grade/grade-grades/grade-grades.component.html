@@ -45,13 +45,22 @@
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
-        <mat-panel-title> Répartitions des participants en fonction des langues </mat-panel-title>
+        <mat-panel-title> Répartitions des participants en fonction de paramètres optionnels </mat-panel-title>
     </mat-expansion-panel-header>
     Répartition de : 
     <mat-form-field appearance="fill">
       <mat-label> Choisir un utilisateur </mat-label>
       <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un paramètre </mat-label>
+      <mat-select [(value)]="selection">
+        <mat-option value="languages"> Langues </mat-option>
+        <mat-option value="genres"> Genres </mat-option>
+        <mat-option value="releaseYear"> Décennie de sortie </mat-option>
+        <mat-option value="favorites"> Favoris </mat-option>
       </mat-select>
     </mat-form-field>
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
@@ -72,13 +81,15 @@
     <br>
     <table id="t01">
       <tr>
-        <th> Auteur - Titre </th>
+        <th> Auteur </th>
+        <th> Titre</th>
         <th> URL </th>
         <th> Ajouté par </th>
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSelectedUserSong()">
-        <td> {{song.song.author}} - {{song.song.title}} </td>
+        <td> {{song.song.author}} </td>
+        <td> {{song.song.title}} </td>
         <td>
           <a href="{{song.song.url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>
