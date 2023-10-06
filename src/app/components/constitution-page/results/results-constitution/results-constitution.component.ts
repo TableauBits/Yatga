@@ -4,7 +4,7 @@ import { flatten, isEmpty, isNil, max, min, range } from 'lodash';
 import { CalendarData, PieData } from 'src/app/types/charts';
 import { mean, median } from 'src/app/types/math';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
-import { compareObjectsFactory, keepUniqueValues } from 'src/app/types/utils';
+import { compareObjectsFactory, keepUniqueValues, toDecade } from 'src/app/types/utils';
 
 const CONSTITUTION_USER_ID = "current-constitution";
 
@@ -97,11 +97,6 @@ export class ResultsConstitutionComponent implements OnChanges {
     return false;
   }
 
-  toDecade(year: number | undefined) {
-    if (isNil(year)) return;
-    return Math.floor((year) / this.releaseYearSection.groupBy) * this.releaseYearSection.groupBy;
-  }
-
   generateHistogramData(): void {
     let years = Array.from(this.songs.values())
       .filter(song => this.songFilter(song, "releaseYear"))
@@ -110,7 +105,7 @@ export class ResultsConstitutionComponent implements OnChanges {
     this.releaseYearSection.mean = Math.round(mean(years));
     this.releaseYearSection.median = median(years);
 
-    years =  years.map(year => this.toDecade(year)) as number[];
+    years = years.map(year => toDecade(year, this.releaseYearSection.groupBy));
 
     if (isEmpty(years)) {
       this.releaseYearSection.histogramColumns = [];

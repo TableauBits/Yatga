@@ -65,7 +65,15 @@
     </mat-form-field>
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
     <div [ngSwitch]="selection">
-      <app-scatter *ngSwitchCase="optionnalParametersSelection.LANGUAGES" [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+      <div *ngSwitchCase="optionnalParametersSelection.LANGUAGES">
+        <app-scatter *ngIf="propertyExists('languages'); else missingData"  [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+      </div>
+      <div *ngSwitchCase="optionnalParametersSelection.RELEASE_YEAR">
+        <app-scatter *ngIf="propertyExists('releaseYear'); else missingData"  [id]="'grade-grades-decades-scatter'" [config]="decadesScatterConfig"> </app-scatter>
+      </div>
+      <div *ngSwitchCase="optionnalParametersSelection.GENRES">
+        <app-scatter *ngIf="propertyExists('genres'); else missingData"  [id]="'grade-grades-genres-scatter'" [config]="genresScatterConfig"> </app-scatter>
+      </div>
       <app-scatter *ngSwitchCase="optionnalParametersSelection.FAVORITES" [id]="'grade-grades-favorites-scatter'" [config]="favoritesScatterConfig"> </app-scatter>
     </div>
   </mat-expansion-panel>
@@ -106,3 +114,5 @@
     </table>
   </mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #missingData> Aucune donnée disponible. </ng-template>

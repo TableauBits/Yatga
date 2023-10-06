@@ -7,7 +7,7 @@ import { EMPTY_SCATTER_CONFIG, ScatterConfig, ScatterData } from 'src/app/types/
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
 import { GRADE_VALUES, LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
-import { keepUniqueValues } from 'src/app/types/utils';
+import { keepUniqueValues, toDecade } from 'src/app/types/utils';
 
 enum OptionnalParametersSelection {
   LANGUAGES = "languages",
@@ -39,12 +39,13 @@ export class GradeGradesComponent implements OnChanges {
   selection: OptionnalParametersSelection = OptionnalParametersSelection.LANGUAGES;
   languagesScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
   favoritesScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
+  decadesScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
+  genresScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.userResults = changes['userResults'].currentValue;
     this.histogramValues = this.getUserHistogramValues();
     this.generateScatterInfos();
-    this.generateFavoritesScatterConfig();
   }
 
   constructor(private auth: AuthService, public urlGetter: GetUrlService) {
@@ -117,19 +118,24 @@ export class GradeGradesComponent implements OnChanges {
   newSelection(): void  {
     this.histogramValues = this.getUserHistogramValues();
     this.generateScatterInfos();
-    this.generateFavoritesScatterConfig();
   }
 
   generateScatterInfos(): void {
+    const songs = this.getSongList().filter(s => s.user !== this.selectedUser); // Only keep song that the selected user have a vote for
+    const votes = this.userResults.get(this.selectedUser)?.data.values;
+
+    this.generateLanguagesScatterConfig(songs, votes);
+    this.generateFavoritesScatterConfig(votes);
+    this.generateDecadeScatterConfig(songs, votes);
+    this.generateGenresScatterConfig(songs, votes);
+  }
+
+  generateLanguagesScatterConfig(songs: Song[], votes: Map<number, number> | undefined): void {
     // Init
-    this.languagesScatterConfig = EMPTY_SCATTER_CONFIG;
     const languages = keepUniqueValues(flatten(this.getSongList()
       .filter(s => !isNil(s.languages))
       .map(s => s.languages)
-    ));
-
-    const songs = this.getSongList().filter(s => s.user !== this.selectedUser); // Only keep song that the selected user have a vote for
-    const votes = this.userResults.get(this.selectedUser)?.data.values;
+    )).sort();
 
     // Config
     this.languagesScatterConfig = {
@@ -148,11 +154,51 @@ export class GradeGradesComponent implements OnChanges {
     };
   }
 
-  generateFavoritesScatterConfig(): void {
+  generateGenresScatterConfig(songs: Song[], votes: Map<number, number> | undefined): void {
+    const genres = keepUniqueValues(flatten(this.getSongList().filter(s => !isNil(s.genres)).map(s => s.genres))).sort() as string[];
+
+    this.genresScatterConfig = {
+      axisMax: 10,
+      bubbleSizeMultiplier: 15,
+      data: flatten(genres.map((genre, index) => {
+        let scatterPoints: ScatterData[] = [];
+        range(1, 11).forEach(grade => {
+          const count = songs.filter(s => s.genres?.includes(genre ?? "") && votes?.get(s.id) === grade).length;
+          if (count === 0) return;
+          scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+        });
+        return scatterPoints;
+      })),
+      names: genres
+    };
+  }
+
+  generateDecadeScatterConfig(songs: Song[], votes: Map<number, number> | undefined): void {
+     // Init
+    const decades = keepUniqueValues(this.getSongList()
+      .filter(s => !isNil(s.releaseYear))
+      .map(s => toDecade(s.releaseYear))).sort();
+
+    // Config
+    this.decadesScatterConfig = {
+      axisMax: 10,
+      bubbleSizeMultiplier: 15,
+      data: flatten(decades.map((decade, index) => {
+        let scatterPoints: ScatterData[] = [];
+        range(1, 11).forEach(grade => {
+          const count = songs.filter(s => toDecade(s.releaseYear) === decade && votes?.get(s.id) === grade).length;
+          if (count === 0) return;
+          scatterPoints.push([index, grade-1, count]);
+        });
+        return scatterPoints;
+      })),
+      names: decades.map(d => d.toString())
+    };
+  }
+
+  generateFavoritesScatterConfig(votes: Map<number, number> | undefined): void {
     // Init
-    this.favoritesScatterConfig = EMPTY_SCATTER_CONFIG;
     const favorites = this.favorites.get(this.selectedUser)?.favs;
-    const votes = this.userResults.get(this.selectedUser)?.data.values;
     if (isNil(favorites) || isNil(votes)) return;
 
     const data: ScatterData[] = [];
@@ -162,6 +208,7 @@ export class GradeGradesComponent implements OnChanges {
       data.push([0, grade-1, count]);
     });
 
+    // Config
     this.favoritesScatterConfig = {
       axisMax: 10,
       bubbleSizeMultiplier: 15,
@@ -169,5 +216,9 @@ export class GradeGradesComponent implements OnChanges {
       data: data,
       names: ["Favoris"]
     };
+  }
+
+  propertyExists(property: keyof Song): boolean {
+    return Array.from(this.songs.values()).findIndex((s) => { return !isNil(s[property]); }) !== -1;
   }
 }
