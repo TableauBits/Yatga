@@ -45,7 +45,7 @@
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
-        <mat-panel-title> Répartitions des participants en fonction des langues </mat-panel-title>
+        <mat-panel-title> Répartitions des participants en fonction de paramètres optionnels </mat-panel-title>
     </mat-expansion-panel-header>
     Répartition de : 
     <mat-form-field appearance="fill">
@@ -54,8 +54,28 @@
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un paramètre </mat-label>
+      <mat-select [(value)]="selection">
+        <mat-option value="languages"> Langues </mat-option>
+        <mat-option value="genres"> Genres </mat-option>
+        <mat-option value="releaseYear"> Décennie de sortie </mat-option>
+        <mat-option value="favorites"> Favoris </mat-option>
+      </mat-select>
+    </mat-form-field>
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
-    <app-scatter [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+    <div [ngSwitch]="selection">
+      <div *ngSwitchCase="optionnalParametersSelection.LANGUAGES">
+        <app-scatter *ngIf="propertyExists('languages'); else missingData"  [id]="'grade-grades-languages-scatter'" [config]="languagesScatterConfig"> </app-scatter>
+      </div>
+      <div *ngSwitchCase="optionnalParametersSelection.RELEASE_YEAR">
+        <app-scatter *ngIf="propertyExists('releaseYear'); else missingData"  [id]="'grade-grades-decades-scatter'" [config]="decadesScatterConfig"> </app-scatter>
+      </div>
+      <div *ngSwitchCase="optionnalParametersSelection.GENRES">
+        <app-scatter *ngIf="propertyExists('genres'); else missingData"  [id]="'grade-grades-genres-scatter'" [config]="genresScatterConfig"> </app-scatter>
+      </div>
+      <app-scatter *ngSwitchCase="optionnalParametersSelection.FAVORITES" [id]="'grade-grades-favorites-scatter'" [config]="favoritesScatterConfig"> </app-scatter>
+    </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
@@ -72,13 +92,15 @@
     <br>
     <table id="t01">
       <tr>
-        <th> Auteur - Titre </th>
+        <th> Auteur </th>
+        <th> Titre</th>
         <th> URL </th>
         <th> Ajouté par </th>
         <th> Note </th>
       </tr>
       <tr *ngFor="let song of getSelectedUserSong()">
-        <td> {{song.song.author}} - {{song.song.title}} </td>
+        <td> {{song.song.author}} </td>
+        <td> {{song.song.title}} </td>
         <td>
           <a href="{{song.song.url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>
@@ -92,3 +114,5 @@
     </table>
   </mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #missingData> Aucune donnée disponible. </ng-template>

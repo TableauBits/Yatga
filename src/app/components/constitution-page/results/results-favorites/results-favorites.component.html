@@ -7,7 +7,8 @@
       <tr>
         <th> Position </th>
         <th> <mat-icon class="favorite"> favorite </mat-icon> </th>
-        <th> Titre - Auteur </th>
+        <th> Auteur </th>
+        <th> Titre </th>
         <th> URL </th>
         <th> Ajouté par </th>
         <th> Favoris de </th>
@@ -15,7 +16,8 @@
       <tr *ngFor="let info of songTableInfo;let indexOfelement=index;">
         <td> {{ indexOfelement + 1 }} </td>
         <td> <button mat-raised-button class="disable-click no-button-color"> <span> {{ info.users.length }} </span>  <mat-icon class="favorite"> favorite </mat-icon> </button> </td>
-        <td> {{ getSong(info.song).author }} - {{ getSong(info.song).title }}</td>
+        <td> {{ getSong(info.song).author }} </td>
+        <td> {{ getSong(info.song).title }} </td>
         <td>
           <a href="{{getSong(info.song).url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>
@@ -66,13 +68,15 @@
     <table id="t01">
       <tr>
         <th style="width: 15%;"> Index </th>
-        <th style="width: 50%;"> Titre - Auteur </th>
+        <th style="width: 25%;"> Auteur </th>
+        <th style="width: 25%;"> Titre </th>
         <th style="width: 15%;"> URL </th>
         <th style="width: 20%;"> Ajouté par </th>
       </tr>
       <tr *ngFor="let fav of getSelectedUserFavorites();let indexOfelement=index;">
         <td> {{ indexOfelement + 1 }} </td>
-        <td> {{fav.title}} - {{fav.author}} </td>
+        <td> {{fav.author}} </td>
+        <td> {{fav.title}} </td>
         <td>          
           <a href="{{fav.url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>
