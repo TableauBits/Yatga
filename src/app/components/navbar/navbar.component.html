@@ -10,15 +10,11 @@
 			<mat-menu #menu="matMenu">
 				<button mat-menu-item class="menu-panel" (click)="openJoinConstitution()">
 					<mat-icon class="menu-panel">open_in_browser</mat-icon>
-					<span>Rejoindre une Constitution</span>
+					<span>Rejoindre une Constitution privée</span>
 				</button>
 				<button mat-menu-item class="menu-panel" routerLink="/current-constitutions">
 					<mat-icon class="menu-panel">dvr</mat-icon>
-					<span>Voir les Constitutions en cours</span>
-				</button>
-				<button mat-menu-item class="menu-panel" [disabled]="true">
-					<mat-icon class="menu-panel">account_balance</mat-icon>
-					<span>Voir l'Historique</span>
+					<span>Voir la liste des Constitutions</span>
 				</button>
 			</mat-menu>
 
