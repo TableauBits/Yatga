@@ -6,8 +6,6 @@ import { Song } from 'chelys';
 })
 export class SongPropertyManagerService {
 
-  constructor() { }
-
   onNavigate(song: Song): void {
 		window.open(song.url, "_blank");
 	}
@@ -18,10 +16,10 @@ export class SongPropertyManagerService {
     return title;
   }
 
-  getSubTitle(song: Song, showYear: boolean = true): string {
+  getSubTitle(song: Song): string {
     let subtitle = song.author;
     if (song.album) subtitle += ` • ${song.album}`;
-    if (showYear && song.releaseYear) subtitle += ` (${song.releaseYear})`;
+    if (song.releaseYear) subtitle += ` (${song.releaseYear})`;
     return subtitle;
   }
 }
