@@ -34,7 +34,6 @@
     "firebase": "^9.14.0",
     "lodash": "^4.17.21",
     "mdb-angular-ui-kit": "^2.3.0",
-    "musicgenres-json": "^1.0.2",
     "rxjs": "~6.6.7",
     "tslib": "^2.4.1",
     "url-parser": "0.0.1",
