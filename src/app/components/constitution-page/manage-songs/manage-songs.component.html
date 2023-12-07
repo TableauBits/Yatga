@@ -50,7 +50,7 @@
 				<h3 class="title"> CHAMPS OPTIONNELS </h3>
 				<hr>
 				<span class="help-section">
-					Aide pour la recherche :
+					Cliquez sur les icônes pour une aide à la recherche :
 					<button *ngFor="let helper of getSearchHelpers()" mat-icon-button color="primary" class="help-button" matTooltip="Chercher sur {{helper.name}}" (click)="onNavigate(helper.formatter)">
 						<img class="platform-img" src="{{helper.iconPath}}">
 					</button>

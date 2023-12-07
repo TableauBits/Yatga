@@ -2,15 +2,16 @@
 <img *ngIf="isBestQuartert()" class="background blur" [src]="urlGetter.getImageURL(currentSong)">
 <canvas class="fireworks fire" #fireworks> </canvas>
 <div class="page" (window:keydown)="keyPressed($event)">
-  <div class="title">
-    <a href="{{currentSong.url}}" target="_blank">
-      <h1 class="remove-margin text-overflowable"> {{currentRank+1}}. {{songPropertyManager.getTitle(currentSong)}} </h1>
-      <h2 class="remove-margin text-overflowable"> {{songPropertyManager.getSubTitle(currentSong)}} </h2>
-    </a>
-    <hr>
-  </div>
-  <br>
   <div class="left-column box">
+    <br>
+    <div class="title">
+      <a href="{{currentSong.url}}" target="_blank">
+        <h1 class="remove-margin text-overflowable"> <b> {{currentRank+1}}. {{songPropertyManager.getTitle(currentSong)}} </b> </h1>
+        <h2 class="remove-margin text-overflowable"> {{songPropertyManager.getSubTitle(currentSong)}} </h2>
+      </a>
+      <hr>
+    </div>
+    <br>
     <br>
     <iframe class="round" width="{{iframeWidth}}" height="{{iframeHeight}}" frameborder="0"
       [src]="currentSongSafeURL"
@@ -28,6 +29,7 @@
     <div>
       <br>
       Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
+      <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong" [isButtonRaised]="false"></app-optionnal-song-infos-button>
       <br>
       Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
       <br>

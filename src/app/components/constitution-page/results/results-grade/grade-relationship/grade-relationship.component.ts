@@ -47,7 +47,7 @@ export class GradeRelationshipComponent implements OnChanges {
   getUserList(): User[] {
     return Array.from(this.users.values());
   }
-
+  
   // Count relation points from uid1 to uid2
   countRelations(uid1: string, uid2: string): number {
     const results1 = this.userResults.get(uid1);
