@@ -122,13 +122,14 @@ export const EMPTY_SCATTER_CONFIG: ScatterConfig = {
 // Simple Scatter
 export type SimpleScatterConfig = {
   color?: string;
-  data: Array<[number, number]>;
-  symbolSize: number;
+  data: Array<[number, number, number]>;
+  formatter?: (param: any) => string;
+  symbolSize: (param: any) => number;
   xAxisName?: string;
   yAxisName?: string;
 }
 
 export const EMPTY_SIMPLE_SCATTER_CONFIG: SimpleScatterConfig = {
   data: [],
-  symbolSize: 0,
+  symbolSize: () => 25,
 };

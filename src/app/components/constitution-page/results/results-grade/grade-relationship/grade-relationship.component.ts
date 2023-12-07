@@ -3,6 +3,7 @@ import { Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
 import { ChordCategory, ChordLink, ChordNode, EMPTY_SIMPLE_SCATTER_CONFIG, HeatmapData, SimpleScatterConfig } from 'src/app/types/charts';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
+import { keepUniqueValues } from 'src/app/types/utils';
 
 @Component({
   selector: 'app-grade-relationship',
@@ -140,22 +141,41 @@ export class GradeRelationshipComponent implements OnChanges {
 
   generateSimpleScatterConfig(): void {
     const data: Array<[number, number]> = [];
+    const counts = new Map<string, number>();
+
     if (![this.xUser, this.yUser].includes("")) {
       this.songs.forEach(song => {
+        // Les utilisateurs n'ont pas de votes communs
         if ([this.xUser, this.yUser].includes(song.user)) return;
-        data.push([
-          Number(this.userResults.get(this.xUser)?.normalizeScores.get(song.id)?.toPrecision(3)),
-          Number(this.userResults.get(this.yUser)?.normalizeScores.get(song.id)?.toPrecision(3))
-        ]);
+
+        const x = Number(this.userResults.get(this.xUser)?.normalizeScores.get(song.id)?.toPrecision(3));
+        const y = Number(this.userResults.get(this.yUser)?.normalizeScores.get(song.id)?.toPrecision(3));
+        data.push([x, y]);
+
+        // count the number of occurences of each pair
+        const key = [x, y].join(",");
+        counts.set(key, (counts.get(key) ?? 0) + 1);
       });
     }
 
+    const max = Math.max(...counts.values());
+    const min = Math.min(...counts.values());
+
+    const xUserDisplayName = this.users.get(this.xUser)?.displayName;
+    const yUserDisplayName = this.users.get(this.yUser)?.displayName;
+
     this.scatterConfig = {
-      data: data,
+      data: keepUniqueValues(data).map(value => [value[0], value[1], counts.get(value.join(",")) ?? 0]),
       color: "#693BB8",
-      symbolSize: 25,
-      xAxisName: this.users.get(this.xUser)?.displayName,
-      yAxisName: this.users.get(this.yUser)?.displayName,
+      formatter: (value) => {
+        return `${xUserDisplayName}: ${value.data[0]} <br> ${yUserDisplayName}: ${value.data[1]} <br> Nombre: ${value.data[2]}`;
+      },
+      symbolSize: (value) => {
+        const minMaxNormalized = (value[2] - min) / (max - min);
+        return minMaxNormalized*50;
+      },
+      xAxisName: `Score de ${xUserDisplayName}`,
+      yAxisName: `Score de ${yUserDisplayName}`
     };
   }
 
