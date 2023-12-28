@@ -99,7 +99,7 @@ export type RadarData = {
 export type ScatterConfig = {
   axisMax: number;
   axisLabelInterval?: number;
-  bubbleSizeMultiplier: number;
+  symbolSize: (param: any) => number;
   formatter?: (param: any) => string;
   color?: string;
   data: ScatterData[];
@@ -114,7 +114,7 @@ export type ScatterData = [
 
 export const EMPTY_SCATTER_CONFIG: ScatterConfig = {
   axisMax: 0,
-  bubbleSizeMultiplier: 0,
+  symbolSize: () => 15,
   data: [],
   names: []
 };

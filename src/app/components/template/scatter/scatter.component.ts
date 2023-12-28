@@ -25,7 +25,7 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
   constructor() {
     super();
     this.id = "";
-    this.config =  { axisMax: 100, bubbleSizeMultiplier: 30, data: [], names: [] };
+    this.config =  { axisMax: 100, symbolSize: () => 15, data: [], names: [] };
   }
 
   generateChartOption(): EChartsOption {
@@ -35,7 +35,7 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
     const array: number[] = range(1, this.config.axisMax+1);
 
     const numberOfUsers = this.config.names.length;
-    const {axisLabelInterval, bubbleSizeMultiplier, color, formatter} = this.config;
+    const {axisLabelInterval, symbolSize, color, formatter} = this.config;
 
     this.config.names.forEach(function(name, idx) {
       title.push({
@@ -63,9 +63,10 @@ export class ScatterComponent extends Charts implements AfterViewInit, OnChanges
         type: 'scatter',
         data: [],
         color: color,
-        symbolSize: function(dataItem) {
-          return dataItem[1] * bubbleSizeMultiplier;
-        }
+        symbolSize: symbolSize,
+        // symbolSize: function(dataItem) {
+        //   return dataItem[1] * bubbleSizeMultiplier;
+        // }
       });
     });
 
