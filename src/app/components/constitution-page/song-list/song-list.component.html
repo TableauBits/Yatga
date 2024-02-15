@@ -11,7 +11,7 @@
 		<mat-icon>block</mat-icon>
 	</button>
 	<button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu"
-		matTooltip="Classer les chansons">
+		matTooltip="Classer les musiques">
 		<mat-icon>filter_list</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu">
@@ -75,7 +75,7 @@
 				<app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
 				</app-optionnal-song-infos-button>
 				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
-					class="cancel" (click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
+					class="cancel" (click)="openDeleteSongWarning(song)" matTooltip="Retirer la musique">
 					<mat-icon>cancel</mat-icon>
 				</button>
 			</div>
@@ -116,7 +116,7 @@
 				</app-optionnal-song-infos-button> </td>
 			<td>
 				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
-					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la chanson">
+					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la musique">
 					<mat-icon>cancel</mat-icon>
 				</button>
 			</td>

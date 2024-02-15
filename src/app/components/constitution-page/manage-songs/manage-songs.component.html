@@ -66,7 +66,7 @@
 					<mat-hint align="end">{{input_album.value.length}}/100</mat-hint>
 				</mat-form-field> <br>
 				<mat-icon class="icon"
-					matTooltip="Autres titres possibles de la chanson. Il peut s'agir de traductions.">help_outline</mat-icon>
+					matTooltip="Autres titres possibles de la musique. Il peut s'agir de traductions.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Titres alternatifs</mat-label>
 					<mat-chip-list #chipListTitles>
@@ -81,7 +81,7 @@
 					</mat-chip-list>
 				</mat-form-field><br>
 				<mat-icon class="icon"
-					matTooltip="Liste des genres de la chanson. Il est possible d'en avoir plusieurs.">help_outline</mat-icon>
+					matTooltip="Liste des genres de la musique. Il est possible d'en avoir plusieurs.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Genres</mat-label>
 					<mat-chip-list #chipListGenre>
@@ -101,7 +101,7 @@
 					</mat-autocomplete>
 				</mat-form-field><br>
 				<mat-icon *ngIf="!isInstrumental()" class="icon"
-					matTooltip="Liste des langues chantées dans la chanson. Il est possible d'en avoir plusieurs ou aucune. Sélectionner 'Autre' si aucune langue ne correspond.">help_outline</mat-icon>
+					matTooltip="Liste des langues chantées dans la musique. Il est possible d'en avoir plusieurs ou aucune. Sélectionner 'Autre' si aucune langue ne correspond.">help_outline</mat-icon>
 				<mat-form-field appearance="outline" *ngIf="!isInstrumental()">
 					<mat-label>Langues</mat-label>
 					<mat-chip-list #chipListLanguage>
@@ -121,7 +121,7 @@
 					</mat-autocomplete>
 				</mat-form-field>
 				<mat-checkbox class="pitie" color="primary" formControlName="isInstrumental"> <mat-label> Il s'agit d'une
-						chanson instrumentale </mat-label> </mat-checkbox>
+						musique instrumentale </mat-label> </mat-checkbox>
 			</form>
 			<br>
 			<hr> <br>
