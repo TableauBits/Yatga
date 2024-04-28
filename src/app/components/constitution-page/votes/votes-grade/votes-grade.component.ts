@@ -10,8 +10,8 @@ import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.componen
 import { ActivatedRoute } from '@angular/router';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { GetUrlService } from 'src/app/services/get-url.service';
-import { GRADE_VALUES } from 'src/app/types/song-utils';
 import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
+import { range } from 'lodash';
 
 enum GradeOrder {
 	INCREASE,
@@ -25,8 +25,6 @@ enum GradeOrder {
 	styleUrls: ['./votes-grade.component.scss']
 })
 export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy {
-	readonly GRADE_VALUES = GRADE_VALUES;
-
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
@@ -271,5 +269,10 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	userFilterTooltip(uid: string, displayName: string): string {
 		const status = !this.selectedUsers.includes(uid) ? "Cacher" : "Afficher";
 		return `${status} ${displayName}`;
+	}
+
+	getGradeList(): number[] {
+		const maxGrade = this.constitution.maxGrade || 10;
+		return range(1, maxGrade+1);
 	}
 }

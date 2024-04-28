@@ -1,12 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
+import { Constitution, EMPTY_CONSTITUTION, EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
 import { flatten, isNil, range, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { EMPTY_SCATTER_CONFIG, ScatterConfig, ScatterData } from 'src/app/types/charts';
 import { mean, variance } from 'src/app/types/math';
 import { SongGrade, UserGradeResults } from 'src/app/types/results';
-import { GRADE_VALUES, LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
+import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 import { keepUniqueValues, toDecade } from 'src/app/types/utils';
 
 enum OptionnalParametersSelection {
@@ -22,8 +22,7 @@ enum OptionnalParametersSelection {
   styleUrls: ['./grade-grades.component.scss']
 })
 export class GradeGradesComponent implements OnChanges {
-  readonly GRADE_VALUES = GRADE_VALUES;
-
+  @Input() constitution: Constitution = EMPTY_CONSTITUTION;
   @Input() songs: Map<number, Song> = new Map();
   @Input() users: Map<string, User> = new Map();
   @Input() userResults: Map<string, UserGradeResults> = new Map();
@@ -221,4 +220,9 @@ export class GradeGradesComponent implements OnChanges {
   propertyExists(property: keyof Song): boolean {
     return Array.from(this.songs.values()).findIndex((s) => { return !isNil(s[property]); }) !== -1;
   }
+
+  getGradeList(): number[] {
+		const maxGrade = this.constitution.maxGrade || 10;
+		return range(1, maxGrade+1);
+	}
 }
