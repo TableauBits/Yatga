@@ -12,59 +12,13 @@ import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { keepUniqueValues, removeElementFromArray } from 'src/app/types/utils';
 import { ALL_GENRES, ALL_LANGUAGES_FR, INSTRUMENTAL_CODE, LANGUAGES_FR_TO_CODE } from 'src/app/types/song-utils';
-
-const ICONS_PATH = "assets/icons";
-
-type SearchQuery = (title: string, author: string) => string;
+import { ICONS_PATH } from 'src/app/types/icon';
+import { SEARCH_HELPERS, SearchHelper, SearchQuery } from 'src/app/types/search-helper';
 
 interface ManageSongsInjectedData {
 	cstID: string;
 	songs: Map<number, Song>;
 }
-
-type SearchHelper = {
-	name: string;
-	iconPath: string;
-	formatter: SearchQuery;
-}
-
-const SEARCH_HELPERS: SearchHelper[] = [
-	{
-		name: "Apple Music",
-		iconPath: ICONS_PATH + "/apple_music.png",
-		formatter: (title, author) => {
-			return `https://music.apple.com/us/search?term=${author} ${title}`;
-		}
-	},
-	{
-		name: "Discogs",
-		iconPath: ICONS_PATH + "/discogs.png",
-		formatter: (title, author) => {
-			return `https://www.discogs.com/search/?q=${author.split(" ").join("+")}+${title.split(" ").join("+")}&type=all&type=all`;
-		}
-	},
-	{
-		name: "Genius",
-		iconPath: ICONS_PATH + "/genius.png",
-		formatter: (title, author) => {
-			return `https://genius.com/search?q=${author} ${title}`;
-		},
-	},
-	{
-		name: "LastFM",
-		iconPath: ICONS_PATH + "/lastfm.png",
-		formatter: (title, author) => {
-			return `https://www.last.fm/search?q=${author.split(" ").join("+")}+${title.split(" ").join("+")}`;
-		},
-	},
-	{
-		name: "Spotify",
-		iconPath: ICONS_PATH + "/spotify.png",
-		formatter: (title, author) => {
-			return `https://open.spotify.com/search/${author} ${title}`;
-		}
-	}
-];
 
 @Component({
 	selector: 'app-manage-songs',

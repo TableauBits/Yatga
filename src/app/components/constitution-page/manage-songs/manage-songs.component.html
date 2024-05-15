@@ -47,10 +47,9 @@
 					<input matInput formControlName="url" required>
 					<img *ngIf="!isNil('url')" matSuffix class="platform-img" [src]="songPlatformFromIcon()">
 				</mat-form-field>
-				<h3 class="title"> CHAMPS OPTIONNELS </h3>
 				<hr>
 				<span class="help-section">
-					Cliquez sur les icônes pour une aide à la recherche :
+					Cliquez sur les icônes suivantes pour chercher les informations via différentes plateformes :
 					<button *ngFor="let helper of getSearchHelpers()" mat-icon-button color="primary" class="help-button" matTooltip="Chercher sur {{helper.name}}" (click)="onNavigate(helper.formatter)">
 						<img class="platform-img" src="{{helper.iconPath}}">
 					</button>
