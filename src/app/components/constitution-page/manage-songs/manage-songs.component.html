@@ -11,6 +11,14 @@
 			<br>
 			<h2 class="title"> AJOUTER UNE MUSIQUE </h2>
 			<hr>
+			<span class="help-section">
+				Cliquez sur les icônes suivantes pour chercher les informations via différentes plateformes :
+				<button *ngFor="let helper of getSearchHelpers()" mat-icon-button color="primary" class="help-button"
+					matTooltip="Chercher sur {{helper.name}}" (click)="onNavigate(helper.formatter)">
+					<img class="platform-img" src="{{helper.iconPath}}">
+				</button>
+			</span>
+			<br>
 			<form [formGroup]="newSongForm">
 				<br>
 				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')"
@@ -37,6 +45,21 @@
 					<mat-hint align="end">{{input_author.value.length}}/100</mat-hint>
 				</mat-form-field>
 				<br>
+				<mat-icon class="icon"
+					matTooltip='"En présence de / avec". Liste des auteurs supplémentaires.'>help_outline</mat-icon>
+				<mat-form-field appearance="outline">
+					<mat-label>Liste des featurings</mat-label>
+					<mat-chip-list #chipListFeats>
+						<mat-chip *ngFor="let feat of feats" (removed)="remove(feat, 'feats')">
+							{{feat}}
+							<button matChipRemove>
+								<mat-icon>cancel</mat-icon>
+							</button>
+						</mat-chip>
+						<input placeholder="Autre auteur..." [matChipInputFor]="chipListFeats" [matChipInputAddOnBlur]="true"
+							(matChipInputTokenEnd)="add($event, 'feats')">
+					</mat-chip-list>
+				</mat-form-field><br>
 				<mat-icon *ngIf="isValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon>
 				<mat-icon *ngIf="isNil('url')" class="warning icon"
 					matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
@@ -46,15 +69,9 @@
 					<mat-label> URL </mat-label>
 					<input matInput formControlName="url" required>
 					<img *ngIf="!isNil('url')" matSuffix class="platform-img" [src]="songPlatformFromIcon()">
-				</mat-form-field>
-				<hr>
-				<span class="help-section">
-					Cliquez sur les icônes suivantes pour chercher les informations via différentes plateformes :
-					<button *ngFor="let helper of getSearchHelpers()" mat-icon-button color="primary" class="help-button" matTooltip="Chercher sur {{helper.name}}" (click)="onNavigate(helper.formatter)">
-						<img class="platform-img" src="{{helper.iconPath}}">
-					</button>
-				</span>
-				<br> <br>
+				</mat-form-field> <br>
+				<mat-icon class="icon"
+					matTooltip="Privilégier les années de sorties et les albums les plus anciens dans le cas de doublon.">help_outline</mat-icon>
 				<mat-form-field appearance="outline" class="releaseYearField">
 					<mat-label> Année de sortie </mat-label>
 					<input matInput type="number" min="0" max="{{getCurrentYear()}}" formControlName="releaseYear">
