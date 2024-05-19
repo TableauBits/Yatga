@@ -10,6 +10,12 @@ export class SongPropertyManagerService {
 		window.open(song.url, "_blank");
 	}
 
+  getFeaturingList(feats: string[] | undefined): string {
+    if (!feats || feats.length === 0) return "";
+    if (feats.length === 1) return feats[0];
+    return feats.join(", ");
+  }
+
   getTitle(song: Song): string {
     let title = song.title;
     if (song.altTitles) title += ` (${song.altTitles.join(" / ")})`;
@@ -18,6 +24,7 @@ export class SongPropertyManagerService {
 
   getSubTitle(song: Song): string {
     let subtitle = song.author;
+    if (song.featuring) subtitle += ` feat. ${this.getFeaturingList(song.featuring)}`;
     if (song.album) subtitle += ` • ${song.album}`;
     if (song.releaseYear) subtitle += ` (${song.releaseYear})`;
     return subtitle;
