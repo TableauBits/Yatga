@@ -11,7 +11,6 @@ export class SongPropertyManagerService {
 	}
 
   getFeaturingList(feats: string[] | undefined): string {
-    console.log(feats);
     if (!feats || feats.length === 0) return "";
     if (feats.length === 1) return feats[0];
     return feats.join(", ");
