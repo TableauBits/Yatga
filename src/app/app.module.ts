@@ -40,6 +40,9 @@ import { InvitePageComponent } from './components/invite-page/invite-page.compon
 import { OptionnalSongInfosButtonComponent } from './components/constitution-page/optionnal-song-infos-button/optionnal-song-infos-button.component';
 import { ResultsConstitutionComponent } from './components/constitution-page/results/results-constitution/results-constitution.component';
 import { NavigatorSongDisplayComponent } from './components/constitution-page/navigator-song-display/navigator-song-display.component';
+import { AddSongComponent } from './components/constitution-page/manage-songs/add-song/add-song.component';
+import { RemoveSongComponent } from './components/constitution-page/manage-songs/remove-song/remove-song.component';
+import { EditSongComponent } from './components/constitution-page/manage-songs/edit-song/edit-song.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -145,6 +148,9 @@ import { AuthService } from './services/auth.service';
   ResultsConstitutionComponent,
   NavigatorSongDisplayComponent,
   CalendarComponent,
+  AddSongComponent,
+  RemoveSongComponent,
+  EditSongComponent,
 	],
 	imports: [
 		BrowserModule,

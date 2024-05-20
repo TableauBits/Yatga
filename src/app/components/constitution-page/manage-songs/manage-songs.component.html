@@ -154,27 +154,7 @@
 				Retirer
 			</ng-template>
 			<br>
-			<h2 class="title"> RETIRER UNE MUSIQUE </h2>
-			<hr>
-			<br>
-			<table id="t01">
-				<tr>
-					<th> Titre </th>
-					<th> Auteur </th>
-					<th> Retirer </th>
-				</tr>
-				<tr *ngFor="let song of getUserSongs()">
-					<td class="text-overflowable">{{song.author}}</td>
-					<td class="text-overflowable">{{song.title}}</td>
-					<td>
-						<button mat-raised-button color="warn" (click)="removeSong(song.id)">
-							<mat-icon>cancel</mat-icon>
-						</button>
-					</td>
-				</tr>
-			</table>
-			<br>
-			<hr> <br>
+			<app-remove-song [cstID]="cstID" [songs]="songs"></app-remove-song>
 			<button mat-raised-button color="warn" (click)="closeWindow()">
 				Annuler
 			</button>

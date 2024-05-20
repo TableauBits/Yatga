@@ -26,25 +26,25 @@ interface ManageSongsInjectedData {
 	styleUrls: ['./manage-songs.component.scss']
 })
 export class ManageSongsComponent implements OnDestroy {
+	songs: Map<number, Song>;
+	newSongForm: FormGroup;
+	errorStatus: Status;
+	cstID: string;
 
-	public songs: Map<number, Song>;
-	public newSongForm: FormGroup;
-	public errorStatus: Status;
-	private cstID: string;
-
-	public altTitles: string[] = [];
-	public feats: string[] = [];
+	altTitles: string[] = [];
+	feats: string[] = [];
 	
-	public genres: string[] = [];
-	public filteredGenres: Observable<string[]>;
+	genres: string[] = [];
+	filteredGenres: Observable<string[]>;
 	private allGenres: string[] = ALL_GENRES;
-	public genresForm: FormControl;
+	genresForm: FormControl;
+
 	@ViewChild('genreInput') genreInput!: ElementRef<HTMLInputElement>;
 
-	public languages: string[] = [];
-	public filteredLanguages: Observable<string[]>;
+	languages: string[] = [];
+	filteredLanguages: Observable<string[]>;
 	private allLanguages: string[];
-	public languagesForm: FormControl;
+	languagesForm: FormControl;
 	@ViewChild('languageInput') languageInput!: ElementRef<HTMLInputElement>;
 
 	constructor(
@@ -132,11 +132,6 @@ export class ManageSongsComponent implements OnDestroy {
 
 	onNavigate(formatter: SearchQuery): void {
 		window.open(formatter(this.newSongForm.value['title'] ?? "", this.newSongForm.value['author'] ?? ""), "_blank");
-	}
-
-	removeSong(id: number): void {
-		const removeSongMessage = createMessage<CstSongReqRemove>(EventType.CST_SONG_remove, { cstId: this.cstID, songId: id });
-		this.auth.ws.send(removeSongMessage);
 	}
 
 	getLanguages(): string[] | undefined {
