@@ -73,7 +73,7 @@
           <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
         </mat-select>
       </mat-form-field>
-      <app-pie [id]="'results-constitution-languages-pie'" [data]="languagesPieData"> </app-pie>
+      <app-inv-histogram [id]="'results-constitution-languages-histogram'" [data]="languagesInvHistogramData"> </app-inv-histogram>
     </div>
   </mat-expansion-panel>
 </mat-accordion>
