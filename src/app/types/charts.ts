@@ -118,3 +118,14 @@ export const EMPTY_SCATTER_CONFIG: ScatterConfig = {
   data: [],
   names: []
 };
+
+// Inv Histogram
+export type InvHistogramData = {
+  values: number[];
+  rows: string[];
+  visualMap?: {
+    min: number;
+    max: number;
+    text: [string, string];
+  }
+}
