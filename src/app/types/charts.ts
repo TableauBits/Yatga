@@ -119,6 +119,21 @@ export const EMPTY_SCATTER_CONFIG: ScatterConfig = {
   names: []
 };
 
+// Simple Scatter
+export type SimpleScatterConfig = {
+  color?: string;
+  data: Array<[number, number, number]>;
+  formatter?: (param: any) => string;
+  symbolSize: (param: any) => number;
+  xAxisName?: string;
+  yAxisName?: string;
+}
+
+export const EMPTY_SIMPLE_SCATTER_CONFIG: SimpleScatterConfig = {
+  data: [],
+  symbolSize: () => 25,
+};
+
 // Inv Histogram
 export type InvHistogramData = {
   values: number[];

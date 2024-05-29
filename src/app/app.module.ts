@@ -49,6 +49,7 @@ import { PieComponent } from './components/template/pie/pie.component';
 import { HeatmapComponent } from './components/template/heatmap/heatmap.component';
 import { ChordComponent } from './components/template/chord/chord.component';
 import { CalendarComponent } from './components/template/calendar/calendar.component';
+import { SimpleScatterComponent } from './components/template/simple-scatter/simple-scatter.component';
 import { InvHistogramComponent } from './components/template/inv-histogram/inv-histogram.component';
 
 // Grade Component
@@ -143,10 +144,11 @@ import { AuthService } from './services/auth.service';
 		ManageRolesComponent,
 		InvitePageComponent,
 		OptionnalSongInfosButtonComponent,
-  ResultsConstitutionComponent,
-  NavigatorSongDisplayComponent,
-  CalendarComponent,
-  InvHistogramComponent,
+		ResultsConstitutionComponent,
+		NavigatorSongDisplayComponent,
+		CalendarComponent,
+		SimpleScatterComponent,
+		InvHistogramComponent,
 	],
 	imports: [
 		BrowserModule,
