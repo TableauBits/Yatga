@@ -179,6 +179,21 @@ export class GradeRelationshipComponent implements OnChanges {
     };
   }
 
+  getSimilarity(): string {
+    const nSongsPerUser = this.songs.size / this.users.size;
+
+    const nSongs = this.xUser === this.yUser ? this.songs.size - nSongsPerUser : this.songs.size - 2 * nSongsPerUser;
+
+    // check if values[0] and values[1] have the same sign
+    return (this.scatterConfig.data.filter(values => {
+      const [v1, v2, _] = values;
+      if (v1 < 0 && v2 < 0) return true;
+      if (v1 > 0 && v2 > 0) return true;
+      if (v1 === 0 && v2 === 0) return true;
+      return false;
+    }).length / nSongs * 100).toFixed(2) + "%";
+  }
+
   newSelection(): void {
     this.generateSimpleScatterConfig();
   }

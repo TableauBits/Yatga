@@ -62,7 +62,36 @@ export class SimpleScatterComponent extends Charts implements AfterViewInit, OnC
           color: this.config.color,
           emphasis: {
             focus: 'self'
-          }
+          },
+          markArea: {
+            silent: true,
+            itemStyle: {
+              color: 'rgba(255, 0, 0, 0.10)', // Change this to the color you want
+            },
+            data: [
+              [
+                {
+                  xAxis: '-Infinity',
+                  yAxis: 0
+                },
+                {
+                  xAxis: 0,
+                  yAxis: 'Infinity'
+                },
+              ],
+              [
+                // Second area : for y negative and x positive
+                {
+                  xAxis: 0,
+                  yAxis: '-Infinity'
+                },
+                {
+                  xAxis: 'Infinity',
+                  yAxis: 0
+                },
+              ],
+            ],
+          },
         }
       ]
     };
