@@ -50,6 +50,7 @@ import { HeatmapComponent } from './components/template/heatmap/heatmap.componen
 import { ChordComponent } from './components/template/chord/chord.component';
 import { CalendarComponent } from './components/template/calendar/calendar.component';
 import { SimpleScatterComponent } from './components/template/simple-scatter/simple-scatter.component';
+import { InvHistogramComponent } from './components/template/inv-histogram/inv-histogram.component';
 
 // Grade Component
 import { GradeOwnerComponent } from './components/constitution-page/owner/grade-owner/grade-owner.component';
@@ -147,6 +148,7 @@ import { AuthService } from './services/auth.service';
   NavigatorSongDisplayComponent,
   CalendarComponent,
   SimpleScatterComponent,
+  InvHistogramComponent,
 	],
 	imports: [
 		BrowserModule,

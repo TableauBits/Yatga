@@ -1,6 +1,6 @@
 <app-navigator-song-display [song]="currentSong"></app-navigator-song-display>
 <div class="title">
-  <button mat-raised-button color="primary" class="margin" matTooltip="Chanson aléatoire" (click)="changeSong()"> <mat-icon>shuffle</mat-icon>  </button>
+  <button mat-raised-button color="primary" class="margin" matTooltip="Musique aléatoire" (click)="changeSong()"> <mat-icon>shuffle</mat-icon>  </button>
   <button mat-raised-button color="primary" class="favorite-button" (click)="toggleFavorite(currentSong, auth)" [disabled]="noMoreFavorites(currentSong) || !canModifyFavorite()">
     <mat-icon *ngIf="isAFavorite(currentSong); else normalSong" class="favorite">favorite</mat-icon>
   </button>

@@ -133,3 +133,14 @@ export const EMPTY_SIMPLE_SCATTER_CONFIG: SimpleScatterConfig = {
   data: [],
   symbolSize: () => 25,
 };
+
+// Inv Histogram
+export type InvHistogramData = {
+  values: number[];
+  rows: string[];
+  visualMap?: {
+    min: number;
+    max: number;
+    text: [string, string];
+  }
+}

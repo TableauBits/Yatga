@@ -12,7 +12,7 @@ enum GradeState {
 }
 
 const STATES: Map<GradeState, string> = new Map([
-	[GradeState.SONGS, "Période d'ajout et modification de chansons"],
+	[GradeState.SONGS, "Période d'ajout et modification de musiques"],
 	[GradeState.VOTES, "Période de votes"],
 	[GradeState.RESULTS, "Période de résultats"],
 	[GradeState.NO_STATE, "ERROR"]

@@ -1,7 +1,7 @@
 <mat-accordion multi class="panel">
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
-      <mat-panel-title> Ajout des chansons dans le temps </mat-panel-title>
+      <mat-panel-title> Ajout des musiques dans le temps </mat-panel-title>
     </mat-expansion-panel-header>
     <app-calendar *ngIf="propertyExists('addedDate'); else missingData" [id]="'results-constitution-calendar'" [data]="calendarData"> </app-calendar>
   </mat-expansion-panel>
@@ -73,7 +73,7 @@
           <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
         </mat-select>
       </mat-form-field>
-      <app-pie [id]="'results-constitution-languages-pie'" [data]="languagesPieData"> </app-pie>
+      <app-inv-histogram [id]="'results-constitution-languages-histogram'" [data]="languagesInvHistogramData"> </app-inv-histogram>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

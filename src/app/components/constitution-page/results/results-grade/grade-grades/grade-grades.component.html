@@ -3,9 +3,9 @@
     <mat-expansion-panel-header> 
         <mat-panel-title> Notes </mat-panel-title>
     </mat-expansion-panel-header>
-    Chanson sélectionnée :
+    Musique sélectionnée :
     <mat-form-field appearance="fill">
-      <mat-label> Choisir une chanson </mat-label>
+      <mat-label> Choisir une musique </mat-label>
       <mat-select [(value)]="selectedSong">
         <mat-option *ngFor="let song of getSongList()" value="{{song.id}}" class="text-overflowable"> {{song.author}} - {{song.title}} </mat-option>
       </mat-select>
@@ -41,7 +41,7 @@
     Moyenne : {{selecedUserMean.toFixed(3)}}
     <br>
     Variance : {{selectedUserVar.toFixed(3)}}
-    <app-histogram [id]="'grade-grades-histogram'" [columns]="GRADE_VALUES" [values]="histogramValues"> </app-histogram>
+    <app-histogram [id]="'grade-grades-histogram'" [columns]="getGradeList()" [values]="histogramValues"> </app-histogram>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 

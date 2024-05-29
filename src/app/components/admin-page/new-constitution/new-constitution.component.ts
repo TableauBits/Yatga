@@ -32,7 +32,8 @@ export class NewConstitutionComponent {
 			playlistLink: [""],
 			maxUserCount: [4, Validators.required],
 			numberOfSongsPerUser: [1, Validators.required],
-			endDate: [, this.validateEndDate]
+			endDate: [, this.validateEndDate],
+			maxGrade: [10]
 		});
 
 		this.errorStatus = new Status();
@@ -97,8 +98,8 @@ export class NewConstitutionComponent {
 				numberOfSongsPerUser: this.newConstitutionForm.value['numberOfSongsPerUser'],
 				state: 0,
 				endDate: isNull(this.newConstitutionForm.value['endDate']) ? undefined : this.newConstitutionForm.value['endDate'],
+				maxGrade: this.newConstitutionForm.value['maxGrade']
 			};
-
 			const newConstitutionMessage = createMessage(EventType.CST_create, { cstData: constitution });
 			this.auth.ws.send(newConstitutionMessage);
 

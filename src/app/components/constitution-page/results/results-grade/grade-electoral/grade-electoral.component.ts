@@ -1,8 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnChanges, ViewChild } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
-import { isNil } from 'lodash';
-import { PieData } from 'src/app/types/charts';
+import { InvHistogramData } from 'src/app/types/charts';
 import { mean, randomInRange } from 'src/app/types/math';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import * as confetti from 'canvas-confetti';
@@ -53,9 +52,10 @@ export class GradeElectoralComponent implements OnChanges {
   iframeHeight: number = 0;
   iframeWidth: number = 0;
   shouldLaunchFireworks: boolean = true;
-  pieData: PieData[] = [];
   selected: number = 0;
   range: number[] = [];
+
+  invHistogramData: InvHistogramData;
 
   ngOnChanges(): void {
     this.currentRank = this.songResults.length - 1;
@@ -64,10 +64,14 @@ export class GradeElectoralComponent implements OnChanges {
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG);
     this.currentVoters = this.getVotingUser();
-    this.generatePieData();
+    this.generateInvHistData();
   }
 
   constructor(public urlGetter: GetUrlService, public songPropertyManager: SongPropertyManagerService) {
+    this.invHistogramData = {
+      rows: [],
+      values: []
+    };
     this.onWindowResize();
   }
 
@@ -159,31 +163,33 @@ export class GradeElectoralComponent implements OnChanges {
     this.currentSong = this.songs.get(this.songResults[this.currentRank].id) || EMPTY_SONG;
     this.currentSongSafeURL = this.urlGetter.getEmbedURL(this.songs.get(this.currentSong.id) || EMPTY_SONG);
     this.currentVoters = this.getVotingUser();
-    this.generatePieData();
+    this.generateInvHistData();
   }
 
-  generatePieData() {
-    this.pieData = [];
-    const data = new Map<string, PieData>();
-    
-    for (const user of this.users.keys()) {
-      data.set(user, {name: user, value: 0});
-    }
+  generateInvHistData() {
+    const rows: string[] = [];
+    const values: number[] = [];
+    const nSongsPerUser = this.songs.size / this.users.size;
 
     const results = this.songResults.filter((_, index) => index >= this.currentRank);
 
-    for (const result of results) {
-      const user = this.songs.get(result.id)?.user;
-      if (isNil(user)) continue;
-
-        const count = data.get(user)?.value;
-        data.set(user, {name: user, value: count ? count + 1 : 1});
+    for (const user of this.users.keys()) {
+      rows.push(this.getUser(user).displayName);
+      values.push(nSongsPerUser - results.filter(result => this.songs.get(result.id)?.user === user).length);
     }
 
-    this.pieData = Array.from(data.values()).map((v) => {
-      const name = this.getUser(v.name).displayName;
-      return {value: v.value, name};
-    });
+    // get the indexes of values sorted in descending order.
+    const sortedIndexes = values.map((_, i) => i).sort((a, b) => values[a] - values[b]);
+
+    this.invHistogramData = {
+      rows: sortedIndexes.map(i => rows[i]),
+      values: sortedIndexes.map(i => values[i]),
+      visualMap: {
+        min: 0,
+        max: nSongsPerUser,
+        text: ["Beaucoup de musiques", "Peu de musiques",]
+      }
+    };
   }
 
   isBestQuartert(): boolean {
