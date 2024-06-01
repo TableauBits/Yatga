@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys';
-import { flatten, isEmpty, isNil, max, min, range } from 'lodash';
-import { CalendarData, PieData } from 'src/app/types/charts';
+import { isEmpty, isNil, max, min, range } from 'lodash';
+import { CalendarData, InvHistogramData } from 'src/app/types/charts';
 import { mean, median } from 'src/app/types/math';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 import { compareObjectsFactory, keepUniqueValues, toDecade } from 'src/app/types/utils';
@@ -37,8 +37,7 @@ export class ResultsConstitutionComponent implements OnChanges {
   selectedUser: string;
 
   releaseYearSection: ReleaseYearSection;
-
-  languagesPieData: PieData[] = [];
+  languagesInvHistogramData: InvHistogramData;
   calendarData: CalendarData[] = [];
   genreTabeData: GenreTableData[] = [];
 
@@ -56,7 +55,7 @@ export class ResultsConstitutionComponent implements OnChanges {
     });
 
     this.generateHistogramData();
-    this.generatePieDate();
+    this.generateLanguageData();
     this.generateCalendarData();
     this.generateGenreTableData();
   }
@@ -69,6 +68,10 @@ export class ResultsConstitutionComponent implements OnChanges {
       groupBy: 10,
       mean: -1,
       median: -1
+    };
+    this.languagesInvHistogramData = {
+      rows: [],
+      values: [],
     };
   }
 
@@ -86,14 +89,14 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   newSelection(): void {
     this.generateHistogramData();
-    this.generatePieDate();
+    this.generateLanguageData();
     this.generateGenreTableData();
   }
 
   songFilter(song: Song, property: keyof Song): boolean {
     // return true if the property isn't undefined and the song is from the selectedUser
     if (isNil(song[property])) return false;
-    else if (this.selectedUser === CONSTITUTION_USER_ID || this.selectedUser === song.user) return true;  // special case for the "constitution user" where we return all songs
+    if (this.selectedUser === CONSTITUTION_USER_ID || this.selectedUser === song.user) return true;  // special case for the "constitution user" where we return all songs
     return false;
   }
 
@@ -121,27 +124,43 @@ export class ResultsConstitutionComponent implements OnChanges {
     this.releaseYearSection.histogramValues = years;
   }
 
-  generatePieDate(): void {
-    this.languagesPieData = [];
-    const languages = flatten<string>(
-      Array.from(this.songs.values())
+  generateLanguageData(): void {
+    const rows: string[] = [];
+    const values: number[] = [];
+
+    const languages = Array.from(this.songs.values())
       .filter(song => this.songFilter(song, "languages"))
       .map(song => song.languages || [])
-      ).map(language => LANGUAGES_CODE_TO_FR.get(language));
+      .map(languages => {
+        return languages.map(language => LANGUAGES_CODE_TO_FR.get(language)).sort().join(", ");
+      })
+      .sort()
+      .reverse();
 
     for (const language of keepUniqueValues(languages)) {
       if (isNil(language)) return;
-      this.languagesPieData.push({
-        name: language,
-        value: languages.filter(value => value === language).length
-      });
+      rows.push(language);
+      values.push(languages.filter(value => value === language).length);
     }
+
+    // get the indexes of values sorted in descending order
+    const sortedIndexes = values.map((_, i) => i).sort((a, b) => values[a] - values[b]);
+
+    this.languagesInvHistogramData = {
+      rows: sortedIndexes.map(i => rows[i]),
+      values: sortedIndexes.map(i => values[i]),
+      visualMap: {
+        min: 0,
+        max: languages.length,
+        text: ["Beaucoup de musiques", "Peu de musiques",]
+      }
+    };
   }
 
   generateCalendarData(): void {
     const dates = Array.from(this.songs.values()).filter(song => song.addedDate).map(song => {
       const date = new Date(song.addedDate || "");
-      return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDay()}`;
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`;
     });
 
     for (const date of keepUniqueValues(dates)) {

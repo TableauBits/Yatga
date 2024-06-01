@@ -41,7 +41,7 @@
     Moyenne : {{selecedUserMean.toFixed(3)}}
     <br>
     Variance : {{selectedUserVar.toFixed(3)}}
-    <app-histogram [id]="'grade-grades-histogram'" [columns]="GRADE_VALUES" [values]="histogramValues"> </app-histogram>
+    <app-histogram [id]="'grade-grades-histogram'" [columns]="getGradeList()" [values]="histogramValues"> </app-histogram>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
