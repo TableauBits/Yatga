@@ -20,7 +20,7 @@
     <br>
     <div *ngIf="getFavoriteForUser().length === 0" class="no_data"> Pas de favoris </div>
     <div class="same-line" *ngFor="let fav of getFavoriteForUser()">
-      <img class="picture3" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">
+      <img class="picture" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">
       <mat-icon class="favorite love">favorite</mat-icon>
     </div>
     <br> 
@@ -28,7 +28,7 @@
     <hr>
     <div>
       <br>
-      Ajouté par : <img class="picture3" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
+      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
       <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong" [isButtonRaised]="false"></app-optionnal-song-infos-button>
       <br>
       Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
@@ -48,7 +48,7 @@
         <th style="width: 15%;"> Note </th>
       </tr>
       <tr *ngFor="let votingUser of currentVoters">
-        <td style="width: 15%;"> <img class="picture3" [src]="votingUser.user.photoURL"> </td>
+        <td style="width: 15%;"> <img class="picture" [src]="votingUser.user.photoURL"> </td>
         <td style="width: 55%;"> {{ votingUser.user.displayName }} </td>
         <td style="width: 15%;"> {{ votingUser.score.toFixed(3) }}</td>
         <td style="width: 15%;"> {{ votingUser.grade }}</td>

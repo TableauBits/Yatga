@@ -187,7 +187,8 @@ export class GradeElectoralComponent implements OnChanges {
       visualMap: {
         min: 0,
         max: nSongsPerUser,
-        text: ["Beaucoup de musiques", "Peu de musiques",]
+        text: ["Beaucoup de musiques restantes", "Peu de musiques restantes"],
+        colorRange: ['#FD665F', '#FFCE34', '#65B581']
       }
     };
   }

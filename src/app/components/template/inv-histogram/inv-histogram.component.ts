@@ -57,11 +57,11 @@ export class InvHistogramComponent extends Charts implements AfterViewInit, OnCh
         // Map the score column to color
         dimension: 0,
         inRange: {
-          // color: ['#65B581', '#FFCE34', '#FD665F']
-          color: ['#D1C4E9', '#673AB7', '#311B92']
+          color: this.data.visualMap?.colorRange ?? ['#D1C4E9', '#673AB7', '#311B92']
         },
         textStyle: {
-          color: '#fff'
+          color: '#fff',
+          fontWeight: 'bold'
         }
       },
       series: [

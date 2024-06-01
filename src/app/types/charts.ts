@@ -142,5 +142,6 @@ export type InvHistogramData = {
     min: number;
     max: number;
     text: [string, string];
+    colorRange?: string[];
   }
 }
