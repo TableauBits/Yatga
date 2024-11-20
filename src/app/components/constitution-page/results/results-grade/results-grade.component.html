@@ -46,7 +46,7 @@
 						(click)="setCurrentSection(gradeResultSection.FAVORITES)">
 						<mat-icon>favorite</mat-icon> Favoris
 					</button>
-					<button mat-button [ngClass]="isSectionActive(gradeResultSection.PROFIL) ? 'active' : ''"
+					<button mat-button *ngIf="isInConstitution()" [ngClass]="isSectionActive(gradeResultSection.PROFIL) ? 'active' : ''"
 						(click)="setCurrentSection(gradeResultSection.PROFIL)">
 						<mat-icon>account_box</mat-icon> Mon Profil
 					</button>

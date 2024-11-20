@@ -22,7 +22,7 @@
 	</table>
 	<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
 	<hr>
-	<button mat-raised-button color="primary" [disabled]="!updateSongs()" (click)="openDialogManageSongs()">
+	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution()" (click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes musiques
 	</button>
 	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
@@ -56,7 +56,7 @@
 							(click)="setCurrentSection(constitutionSection.SONG_LIST)">
 				<mat-icon>queue_music</mat-icon> Liste des Musiques
 			</button>
-			<button mat-button [ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''" 
+			<button *ngIf="isInConstitution()" mat-button [ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''" 
 							(click)="setCurrentSection(constitutionSection.VOTES)">
 				<mat-icon>how_to_vote</mat-icon> Zone Électorale
 			</button>
