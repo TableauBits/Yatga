@@ -84,4 +84,8 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 	closeWindow(): void {
 		this.dialogRef.close();
 	}
+	
+	isInConstitution(): boolean {
+		return this.constitution.users.includes(this.auth.uid);
+	}
 }

@@ -170,4 +170,8 @@ export class SongListComponent extends YatgaUserFavorites {
 		const status = !this.selectedUsers.includes(uid) ? "Cacher" : "Afficher";
 		return `${status} ${displayName}`;
 	}
+
+	isInConstitution(): boolean {
+		return this.constitution.users.includes(this.auth.uid);
+	}
 }
