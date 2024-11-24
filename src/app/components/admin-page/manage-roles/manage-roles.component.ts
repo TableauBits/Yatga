@@ -56,7 +56,7 @@ export class ManageRolesComponent implements OnDestroy {
 
   getRoles(user: User): RoleData[] {
 		const roles = returnUserRoles(user.roles);
-		return roles ? roles : [];
+		return roles ?? [];
 	}
 
   getUserForm(uid: string): FormControl {

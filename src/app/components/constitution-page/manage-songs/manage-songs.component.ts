@@ -12,59 +12,13 @@ import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { keepUniqueValues, removeElementFromArray } from 'src/app/types/utils';
 import { ALL_GENRES, ALL_LANGUAGES_FR, INSTRUMENTAL_CODE, LANGUAGES_FR_TO_CODE } from 'src/app/types/song-utils';
-
-const ICONS_PATH = "assets/icons";
-
-type SearchQuery = (title: string, author: string) => string;
+import { ICONS_PATH } from 'src/app/types/icon';
+import { SEARCH_HELPERS, SearchHelper, SearchQuery } from 'src/app/types/search-helper';
 
 interface ManageSongsInjectedData {
 	cstID: string;
 	songs: Map<number, Song>;
 }
-
-type SearchHelper = {
-	name: string;
-	iconPath: string;
-	formatter: SearchQuery;
-}
-
-const SEARCH_HELPERS: SearchHelper[] = [
-	{
-		name: "Apple Music",
-		iconPath: ICONS_PATH + "/apple_music.png",
-		formatter: (title, author) => {
-			return `https://music.apple.com/us/search?term=${author} ${title}`;
-		}
-	},
-	{
-		name: "Discogs",
-		iconPath: ICONS_PATH + "/discogs.png",
-		formatter: (title, author) => {
-			return `https://www.discogs.com/search/?q=${author.split(" ").join("+")}+${title.split(" ").join("+")}&type=all&type=all`;
-		}
-	},
-	{
-		name: "Genius",
-		iconPath: ICONS_PATH + "/genius.png",
-		formatter: (title, author) => {
-			return `https://genius.com/search?q=${author} ${title}`;
-		},
-	},
-	{
-		name: "LastFM",
-		iconPath: ICONS_PATH + "/lastfm.png",
-		formatter: (title, author) => {
-			return `https://www.last.fm/search?q=${author.split(" ").join("+")}+${title.split(" ").join("+")}`;
-		},
-	},
-	{
-		name: "Spotify",
-		iconPath: ICONS_PATH + "/spotify.png",
-		formatter: (title, author) => {
-			return `https://open.spotify.com/search/${author} ${title}`;
-		}
-	}
-];
 
 @Component({
 	selector: 'app-manage-songs',
@@ -78,15 +32,16 @@ export class ManageSongsComponent implements OnDestroy {
 	public errorStatus: Status;
 	private cstID: string;
 
-	public altTitles: string[];
+	public altTitles: string[] = [];
+	public feats: string[] = [];
 	
-	public genres: string[];
+	public genres: string[] = [];
 	public filteredGenres: Observable<string[]>;
-	private allGenres: string[];
+	private allGenres: string[] = ALL_GENRES;
 	public genresForm: FormControl;
 	@ViewChild('genreInput') genreInput!: ElementRef<HTMLInputElement>;
 
-	public languages: string[];
+	public languages: string[] = [];
 	public filteredLanguages: Observable<string[]>;
 	private allLanguages: string[];
 	public languagesForm: FormControl;
@@ -100,11 +55,7 @@ export class ManageSongsComponent implements OnDestroy {
 	) {
 		this.cstID = data.cstID;
 		this.songs = data.songs;
-		this.altTitles = [];
-		this.genres = [];
-		this.languages = [];
 		this.allLanguages = ALL_LANGUAGES_FR.sort();
-		this.allGenres = ALL_GENRES;
 		this.genresForm = new FormControl();
 		this.languagesForm = new FormControl();
 		this.newSongForm = this.fb.group({
@@ -180,7 +131,7 @@ export class ManageSongsComponent implements OnDestroy {
 	}
 
 	onNavigate(formatter: SearchQuery): void {
-		window.open(formatter(this.newSongForm.value['title'], this.newSongForm.value['author']), "_blank");
+		window.open(formatter(this.newSongForm.value['title'] ?? "", this.newSongForm.value['author'] ?? ""), "_blank");
 	}
 
 	removeSong(id: number): void {
@@ -214,6 +165,7 @@ export class ManageSongsComponent implements OnDestroy {
 				// optionnal fields
 				addedDate: new Date().toISOString(),
 				altTitles: isEmpty(this.altTitles) ? undefined : this.altTitles,
+				featuring: isEmpty(this.feats) ? undefined : this.feats,
 				album: isNull(this.newSongForm.value['album']) ? undefined : this.newSongForm.value['album'],
 				releaseYear: isNull(this.newSongForm.value['releaseYear']) ? undefined : this.newSongForm.value['releaseYear'],
 				genres: isEmpty(this.genres) ? undefined : keepUniqueValues(this.genres),
@@ -226,6 +178,7 @@ export class ManageSongsComponent implements OnDestroy {
 
 		this.newSongForm.reset();
 		this.altTitles = [];
+		this.feats = [];
 		this.genres = [];
 		this.genresForm.setValue(null);
 		this.languages = [];
@@ -284,7 +237,7 @@ export class ManageSongsComponent implements OnDestroy {
 		return new Date().getFullYear();
 	}
 
-	add(event: MatChipInputEvent, source?: "altTitles" | "genres"): void {
+	add(event: MatChipInputEvent, source?: "altTitles" | "genres" | "feats"): void {
 		const value = (event.value || '').trim();
 		if (value) {
 			switch (source) {
@@ -295,12 +248,15 @@ export class ManageSongsComponent implements OnDestroy {
 					this.genres.push(value);
 					this.genresForm.setValue(null);
 					break;
+				case "feats":
+					this.feats.push(value);
+					break;
 			}
 		}
 		event.chipInput!.clear();
 	}
 
-  remove(value: string, source?: "altTitles" | "genres" | "languages"): void {
+  remove(value: string, source?: "altTitles" | "genres" | "languages" | "feats"): void {
 		switch (source) {
 			case "altTitles":
 				this.altTitles = removeElementFromArray(value, this.altTitles);
@@ -310,6 +266,9 @@ export class ManageSongsComponent implements OnDestroy {
 				break;
 			case "languages":
 				this.languages = removeElementFromArray(value, this.languages);
+				break;
+			case "feats":	
+				this.feats = removeElementFromArray(value, this.feats);
 				break;
 		}
 	}

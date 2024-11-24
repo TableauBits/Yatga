@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Song, User, UserFavorites } from 'chelys';
 import { isNil } from 'lodash';
-import { ChordCategory, ChordLink, ChordNode, HeatmapData } from 'src/app/types/charts';
+import { ChordCategory, ChordLink, ChordNode, EMPTY_SIMPLE_SCATTER_CONFIG, HeatmapData, SimpleScatterConfig } from 'src/app/types/charts';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
+import { keepUniqueValues } from 'src/app/types/utils';
 
 @Component({
   selector: 'app-grade-relationship',
@@ -32,12 +33,21 @@ export class GradeRelationshipComponent implements OnChanges {
   maxSliderValue: number = 0;
   coordinates: Map<string, {x: number, y: number}> = new Map();
 
+  // Scatter
+  xUser: string = "";
+  yUser: string = "";
+  scatterConfig: SimpleScatterConfig = EMPTY_SIMPLE_SCATTER_CONFIG;
+
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
     this.generateHeatmap();
     this.generateChord();
   }
 
+  getUserList(): User[] {
+    return Array.from(this.users.values());
+  }
+  
   // Count relation points from uid1 to uid2
   countRelations(uid1: string, uid2: string): number {
     const results1 = this.userResults.get(uid1);
@@ -127,6 +137,65 @@ export class GradeRelationshipComponent implements OnChanges {
 
   updateForce(): void {
     this.useForce = !this.useForce;
+  }
+
+  generateSimpleScatterConfig(): void {
+    const data: Array<[number, number]> = [];
+    const counts = new Map<string, number>();
+
+    if (![this.xUser, this.yUser].includes("")) {
+      this.songs.forEach(song => {
+        // Les utilisateurs n'ont pas de votes communs
+        if ([this.xUser, this.yUser].includes(song.user)) return;
+
+        const x = Number(this.userResults.get(this.xUser)?.normalizeScores.get(song.id)?.toPrecision(3));
+        const y = Number(this.userResults.get(this.yUser)?.normalizeScores.get(song.id)?.toPrecision(3));
+        data.push([x, y]);
+
+        // count the number of occurences of each pair
+        const key = [x, y].join(",");
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+      });
+    }
+
+    const max = Math.max(...counts.values());
+    const min = Math.min(...counts.values());
+
+    const xUserDisplayName = this.users.get(this.xUser)?.displayName;
+    const yUserDisplayName = this.users.get(this.yUser)?.displayName;
+
+    this.scatterConfig = {
+      data: keepUniqueValues(data).map(value => [value[0], value[1], counts.get(value.join(",")) ?? 0]),
+      color: "#693BB8",
+      formatter: (value) => {
+        return `${xUserDisplayName}: ${value.data[0]} <br> ${yUserDisplayName}: ${value.data[1]} <br> Nombre: ${value.data[2]}`;
+      },
+      symbolSize: (value) => {
+        const minMaxNormalized = (value[2] - min) / (max - min);
+        return minMaxNormalized*50;
+      },
+      xAxisName: `Score de ${xUserDisplayName}`,
+      yAxisName: `Score de ${yUserDisplayName}`
+    };
+  }
+
+  getSimilarity(): string {
+    const nSongsPerUser = this.songs.size / this.users.size;
+
+    const nSongs = this.xUser === this.yUser ? this.songs.size - nSongsPerUser : this.songs.size - 2 * nSongsPerUser;
+
+    // check if values[0] and values[1] have the same sign
+    return (this.scatterConfig.data.filter(values => {
+      const [v1, v2, _] = values;
+      if (v1 < 0 && v2 < 0) return true;
+      if (v1 > 0 && v2 > 0) return true;
+      if (v1 === 0 && v2 === 0) return true;
+      return false;
+    }).length / nSongs * 100).toFixed(2) + "%";
+  }
+
+  newSelection(): void {
+    this.generateSimpleScatterConfig();
   }
 
 }

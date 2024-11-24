@@ -8,7 +8,6 @@ import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
 const WS_PING_INTERVAL = 30 * 1000; // Every 30 seconds
-const HTTP_PING_INTERVAL = 10 * 60 * 1000;	// Every 10 minutes
 
 function* lyrics() {
 	while (true) {
@@ -49,12 +48,6 @@ function pingWS(ws: WebSocket): void {
 	setTimeout(pingWS, WS_PING_INTERVAL, ws);
 }
 
-function pingHTTP(http: HttpClient, url: string): void {
-	http.get(url).subscribe();
-
-	setTimeout(pingHTTP, HTTP_PING_INTERVAL, http, url);
-}
-
 type EventHandlerFunction = (event: MessageEvent<any>) => void;
 type AuthCallbackFunction = () => void;
 
@@ -93,8 +86,9 @@ export class AuthService {
 		this.eventHandlers = [[this.updateUserData, this]];
 		this.authCallbacks = [];
 
-		this.WSconnectionURL = `${environment.protocolWebSocket}${environment.serverAPI}:${environment.portWebSocket}`;
-		this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}:${environment.portWebSocket}`;
+		const { protocolHTTP, protocolWebSocket, serverAPI, portWebSocket } = environment;
+		this.WSconnectionURL = `${protocolWebSocket}${serverAPI}${portWebSocket ? ":" + portWebSocket : ""}`;
+		this.HTTPconnectionURL = `${protocolHTTP}${serverAPI}:${portWebSocket}`;
 		if (!environment.production) {
 			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
 		}
@@ -209,7 +203,6 @@ export class AuthService {
 				};
 				this.authCallbacks.forEach((callback) => callback[0].call(callback[1]));
 				pingWS(this.ws);
-				pingHTTP(this.http, `${this.HTTPconnectionURL}/keep-alive`);
 				break;
 
 			default:
