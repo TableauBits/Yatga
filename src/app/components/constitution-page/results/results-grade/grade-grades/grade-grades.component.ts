@@ -1,11 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
 import { flatten, isNil, range, toNumber } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { EMPTY_SCATTER_CONFIG, ScatterConfig, ScatterData } from 'src/app/types/charts';
 import { mean, variance } from 'src/app/types/math';
-import { SongGrade, UserGradeResults } from 'src/app/types/results';
+import { CONSTITUTION_USER_ID, SongGrade, UserGradeResults } from 'src/app/types/results';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 import { keepUniqueValues, toDecade } from 'src/app/types/utils';
 
@@ -28,10 +28,13 @@ export class GradeGradesComponent implements OnChanges {
   @Input() userResults: Map<string, UserGradeResults> = new Map();
   @Input() favorites: Map<string, UserFavorites> = new Map();
 
+  secondaryUsers: User[] = [];
+
   selectedSong: string;
 
   histogramValues: number[] = [];
   selectedUser: string;
+  selectedSecondaryUser: string;
   selecedUserMean: number = 0;
   selectedUserVar: number = 0;
 
@@ -43,19 +46,31 @@ export class GradeGradesComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.userResults = changes['userResults'].currentValue;
+    const usersChange = changes["users"].currentValue as Map<string, User>;
+    this.secondaryUsers = [{
+      ...EMPTY_USER,
+      uid: CONSTITUTION_USER_ID,
+      displayName: this.constitution.name,
+    }];
+
+    usersChange.forEach((value, ) => {
+      this.secondaryUsers.push(value);
+    });
+
     this.histogramValues = this.getUserHistogramValues();
     this.generateScatterInfos();
   }
 
   constructor(private auth: AuthService, public urlGetter: GetUrlService) {
     this.selectedUser = auth.uid;
+    this.selectedSecondaryUser = CONSTITUTION_USER_ID;
     this.selectedSong = '-1';
   }
 
-  	// HTML can't access the AdminSection enum directly
-	public get optionnalParametersSelection(): typeof OptionnalParametersSelection {
-		return OptionnalParametersSelection;
-	}
+  // HTML can't access the AdminSection enum directly
+  public get optionnalParametersSelection(): typeof OptionnalParametersSelection {
+    return OptionnalParametersSelection;
+  }
 
   getSongList(): Song[] {
     return Array.from(this.songs.values());
@@ -69,7 +84,7 @@ export class GradeGradesComponent implements OnChanges {
   getImageURL(): string {
     const song = this.getSelectedSong();
     return this.urlGetter.getImageURL(song);
-	}
+  }
 
   returnVote(uid: string): number | string {
     return this.userResults.get(uid)?.data.values.get(toNumber(this.selectedSong)) || '/';
@@ -87,7 +102,7 @@ export class GradeGradesComponent implements OnChanges {
     return this.users.get(this.selectedUser) || EMPTY_USER;
   }
 
-  getSelectedUserSong(): SongGrade[] {
+  getSelectedUserSongs(): SongGrade[] {
     const userResult = this.userResults.get(this.selectedUser);
     if (isNil(userResult)) return [];
     let songs: SongGrade[] = [];
@@ -97,12 +112,16 @@ export class GradeGradesComponent implements OnChanges {
         grade: value
       });
     });
-   
-    return songs.sort((a, b) => b.grade - a.grade);
+
+    return songs.sort((a, b) => b.grade - a.grade).filter(s => s.song.user === this.selectedSecondaryUser || this.selectedSecondaryUser === CONSTITUTION_USER_ID);
   }
 
   getUserList(): User[] {
     return Array.from(this.users.values());
+  }
+
+  getUserList2(): User[] {
+    return this.secondaryUsers;
   }
 
   getUserHistogramValues(): number[] {
@@ -114,7 +133,7 @@ export class GradeGradesComponent implements OnChanges {
     return values;
   }
 
-  newSelection(): void  {
+  newSelection(): void {
     this.histogramValues = this.getUserHistogramValues();
     this.generateScatterInfos();
   }
@@ -145,7 +164,7 @@ export class GradeGradesComponent implements OnChanges {
         range(1, 11).forEach(grade => {
           const count = songs.filter(s => s.languages?.includes(language ?? "") && votes?.get(s.id) === grade).length;
           if (count === 0) return;
-          scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+          scatterPoints.push([index, grade - 1, count]);  // grade-1 because index should start at 0
         });
         return scatterPoints;
       })),
@@ -164,7 +183,7 @@ export class GradeGradesComponent implements OnChanges {
         range(1, 11).forEach(grade => {
           const count = songs.filter(s => s.genres?.includes(genre ?? "") && votes?.get(s.id) === grade).length;
           if (count === 0) return;
-          scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+          scatterPoints.push([index, grade - 1, count]);  // grade-1 because index should start at 0
         });
         return scatterPoints;
       })),
@@ -173,7 +192,7 @@ export class GradeGradesComponent implements OnChanges {
   }
 
   generateDecadeScatterConfig(songs: Song[], votes: Map<number, number> | undefined): void {
-     // Init
+    // Init
     const decades = keepUniqueValues(this.getSongList()
       .filter(s => !isNil(s.releaseYear))
       .map(s => toDecade(s.releaseYear))).sort();
@@ -187,7 +206,7 @@ export class GradeGradesComponent implements OnChanges {
         range(1, 11).forEach(grade => {
           const count = songs.filter(s => toDecade(s.releaseYear) === decade && votes?.get(s.id) === grade).length;
           if (count === 0) return;
-          scatterPoints.push([index, grade-1, count]);
+          scatterPoints.push([index, grade - 1, count]);
         });
         return scatterPoints;
       })),
@@ -204,7 +223,7 @@ export class GradeGradesComponent implements OnChanges {
     range(1, 11).forEach(grade => {
       const count = this.getSongList().filter(s => favorites.includes(s.id) && votes.get(s.id) === grade).length;
       if (count === 0) return;
-      data.push([0, grade-1, count]);
+      data.push([0, grade - 1, count]);
     });
 
     // Config
@@ -222,7 +241,7 @@ export class GradeGradesComponent implements OnChanges {
   }
 
   getGradeList(): number[] {
-		const maxGrade = this.constitution.maxGrade || 10;
-		return range(1, maxGrade+1);
-	}
+    const maxGrade = this.constitution.maxGrade || 10;
+    return range(1, maxGrade + 1);
+  }
 }
