@@ -77,7 +77,7 @@ export class GradeRanksComponent implements OnChanges {
     this.scatterConfig = {
       axisMax: this.songResults.length,
       axisLabelInterval: 2,
-      bubbleSizeMultiplier: 30,
+      symbolSize: () => 30,
       formatter: (p) => {
         const data = p.data as number[];
         const song = this.songs.get(this.songResults[data[0]].id);

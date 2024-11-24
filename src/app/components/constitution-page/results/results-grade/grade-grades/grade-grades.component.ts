@@ -178,19 +178,29 @@ export class GradeGradesComponent implements OnChanges {
       .map(s => s.languages)
     )).sort();
 
+    const data = flatten(languages.map((language, index) => {
+      let scatterPoints: ScatterData[] = [];
+      range(1, 11).forEach(grade => {
+        const count = songs.filter(s => s.languages?.includes(language ?? "") && votes?.get(s.id) === grade).length;
+        if (count === 0) return;
+        scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+      });
+      return scatterPoints;
+    }));
+
+    const max = Math.max(...data.map(d => d[2]));
+
     // Config
     this.languagesScatterConfig = {
       axisMax: 10,
-      bubbleSizeMultiplier: 15,
-      data: flatten(languages.map((language, index) => {
-        let scatterPoints: ScatterData[] = [];
-        range(1, 11).forEach(grade => {
-          const count = songs.filter(s => s.languages?.includes(language ?? "") && votes?.get(s.id) === grade).length;
-          if (count === 0) return;
-          scatterPoints.push([index, grade - 1, count]);  // grade-1 because index should start at 0
-        });
-        return scatterPoints;
-      })),
+      symbolSize: (param) => {
+        return (param[1] / max) * 50 + 8;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
+      },
+      data: data,
       names: languages.map(language => LANGUAGES_CODE_TO_FR.get(language ?? "") ?? "")
     };
   }
@@ -219,18 +229,29 @@ export class GradeGradesComponent implements OnChanges {
   generateGenresScatterConfig(songs: Song[], votes: Map<number, number> | undefined): void {
     const genres = keepUniqueValues(flatten(this.getSongList().filter(s => !isNil(s.genres)).map(s => s.genres))).sort() as string[];
 
+    const data = flatten(genres.map((genre, index) => {
+      let scatterPoints: ScatterData[] = [];
+      range(1, 11).forEach(grade => {
+        const count = songs.filter(s => s.genres?.includes(genre ?? "") && votes?.get(s.id) === grade).length;
+        if (count === 0) return;
+        scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+      });
+      return scatterPoints;
+    }));
+
+    const max = Math.max(...data.map(d => d[2]));
+
     this.genresScatterConfig = {
       axisMax: 10,
-      bubbleSizeMultiplier: 15,
-      data: flatten(genres.map((genre, index) => {
-        let scatterPoints: ScatterData[] = [];
-        range(1, 11).forEach(grade => {
-          const count = songs.filter(s => s.genres?.includes(genre ?? "") && votes?.get(s.id) === grade).length;
-          if (count === 0) return;
-          scatterPoints.push([index, grade - 1, count]);  // grade-1 because index should start at 0
-        });
-        return scatterPoints;
-      })),
+      
+      symbolSize: (param) => {
+        return (param[1] / max) * 50 + 8;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
+      },
+      data: data,
       names: genres
     };
   }
@@ -241,19 +262,29 @@ export class GradeGradesComponent implements OnChanges {
       .filter(s => !isNil(s.releaseYear))
       .map(s => toDecade(s.releaseYear))).sort();
 
+    const data = flatten(decades.map((decade, index) => {
+      let scatterPoints: ScatterData[] = [];
+      range(1, 11).forEach(grade => {
+        const count = songs.filter(s => toDecade(s.releaseYear) === decade && votes?.get(s.id) === grade).length;
+        if (count === 0) return;
+        scatterPoints.push([index, grade-1, count]);
+      });
+      return scatterPoints;
+    }));
+
+    const max = Math.max(...data.map(d => d[2]));
+
     // Config
     this.decadesScatterConfig = {
       axisMax: 10,
-      bubbleSizeMultiplier: 15,
-      data: flatten(decades.map((decade, index) => {
-        let scatterPoints: ScatterData[] = [];
-        range(1, 11).forEach(grade => {
-          const count = songs.filter(s => toDecade(s.releaseYear) === decade && votes?.get(s.id) === grade).length;
-          if (count === 0) return;
-          scatterPoints.push([index, grade - 1, count]);
-        });
-        return scatterPoints;
-      })),
+      symbolSize: (param) => {
+        return (param[1] / max) * 50 + 8;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
+      },
+      data: data,
       names: decades.map(d => d.toString())
     };
   }
@@ -273,7 +304,13 @@ export class GradeGradesComponent implements OnChanges {
     // Config
     this.favoritesScatterConfig = {
       axisMax: 10,
-      bubbleSizeMultiplier: 15,
+      symbolSize: (param) => {
+        return param[1] * 15;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
+      },
       color: "#CF387C",
       data: data,
       names: ["Favoris"]
