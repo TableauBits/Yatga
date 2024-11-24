@@ -88,6 +88,13 @@
         <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
       </mat-select>
     </mat-form-field>
+    pour :
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="selectedSecondaryUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList2()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>    
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
     <br>
     <table id="t01">
@@ -98,7 +105,7 @@
         <th> Ajouté par </th>
         <th> Note </th>
       </tr>
-      <tr *ngFor="let song of getSelectedUserSong()">
+      <tr *ngFor="let song of getSelectedUserSongs()">
         <td> {{song.song.author}} </td>
         <td> {{song.song.title}} </td>
         <td>

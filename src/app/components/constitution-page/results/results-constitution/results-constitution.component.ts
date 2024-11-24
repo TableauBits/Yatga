@@ -3,10 +3,9 @@ import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys
 import { isEmpty, isNil, max, min, range } from 'lodash';
 import { CalendarData, InvHistogramData } from 'src/app/types/charts';
 import { mean, median } from 'src/app/types/math';
+import { CONSTITUTION_USER_ID } from 'src/app/types/results';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 import { compareObjectsFactory, keepUniqueValues, toDecade } from 'src/app/types/utils';
-
-const CONSTITUTION_USER_ID = "current-constitution";
 
 type ReleaseYearSection = {
   histogramValues: number[];
