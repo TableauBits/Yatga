@@ -16,6 +16,18 @@ enum OptionnalParametersSelection {
   FAVORITES = "favorites"
 }
 
+type UserGrade = {
+  uid: string;
+  songId: number;
+  grade: number;
+  normalizeScore: number;
+}
+
+type MinMaxGrades = {
+  min: UserGrade;
+  max: UserGrade;
+}
+
 @Component({
   selector: 'app-grade-grades',
   templateUrl: './grade-grades.component.html',
@@ -35,7 +47,7 @@ export class GradeGradesComponent implements OnChanges {
   histogramValues: number[] = [];
   selectedUser: string;
   selectedSecondaryUser: string;
-  selecedUserMean: number = 0;
+  selectedUserMean: number = 0;
   selectedUserVar: number = 0;
 
   selection: OptionnalParametersSelection = OptionnalParametersSelection.LANGUAGES;
@@ -43,6 +55,8 @@ export class GradeGradesComponent implements OnChanges {
   favoritesScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
   decadesScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
   genresScatterConfig: ScatterConfig = EMPTY_SCATTER_CONFIG;
+
+  minMaxGrades: MinMaxGrades;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.userResults = changes['userResults'].currentValue;
@@ -59,12 +73,17 @@ export class GradeGradesComponent implements OnChanges {
 
     this.histogramValues = this.getUserHistogramValues();
     this.generateScatterInfos();
+    this.generateMinMaxGrades();
   }
 
   constructor(private auth: AuthService, public urlGetter: GetUrlService) {
     this.selectedUser = auth.uid;
     this.selectedSecondaryUser = CONSTITUTION_USER_ID;
     this.selectedSong = '-1';
+    this.minMaxGrades = {
+      max: {uid: "", songId: -1, normalizeScore: 0, grade: -1},
+      min: {uid: "", songId: -1, normalizeScore: 0, grade: -1}
+    };
   }
 
   // HTML can't access the AdminSection enum directly
@@ -76,9 +95,13 @@ export class GradeGradesComponent implements OnChanges {
     return Array.from(this.songs.values());
   }
 
+  getSong(id: number): Song {
+    return this.songs.get(id) ?? EMPTY_SONG;
+  }
+
   getSelectedSong(): Song {
     const id = toNumber(this.selectedSong);
-    return this.songs.get(id) || EMPTY_SONG;
+    return this.songs.get(id) ?? EMPTY_SONG;
   }
 
   getImageURL(): string {
@@ -87,19 +110,19 @@ export class GradeGradesComponent implements OnChanges {
   }
 
   returnVote(uid: string): number | string {
-    return this.userResults.get(uid)?.data.values.get(toNumber(this.selectedSong)) || '/';
+    return this.userResults.get(uid)?.data.values.get(toNumber(this.selectedSong)) ?? '/';
   }
 
   returnScore(uid: string): number | string {
-    return this.userResults.get(uid)?.normalizeScores.get(toNumber(this.selectedSong))?.toFixed(4) || '/';
+    return this.userResults.get(uid)?.normalizeScores.get(toNumber(this.selectedSong))?.toFixed(4) ?? '/';
   }
 
   getUser(uid: string): User {
-    return this.users.get(uid) || EMPTY_USER;
+    return this.users.get(uid) ?? EMPTY_USER;
   }
 
   getSelectedUser(): User {
-    return this.users.get(this.selectedUser) || EMPTY_USER;
+    return this.users.get(this.selectedUser) ?? EMPTY_USER;
   }
 
   getSelectedUserSongs(): SongGrade[] {
@@ -108,7 +131,7 @@ export class GradeGradesComponent implements OnChanges {
     let songs: SongGrade[] = [];
     userResult.data.values.forEach((value, key) => {
       songs.push({
-        song: this.songs.get(key) || EMPTY_SONG,
+        song: this.songs.get(key) ?? EMPTY_SONG,
         grade: value
       });
     });
@@ -128,8 +151,8 @@ export class GradeGradesComponent implements OnChanges {
     const userResult = this.userResults.get(this.selectedUser);
     if (isNil(userResult)) return [];
     const values = Array.from(userResult.data.values.values());
-    this.selecedUserMean = mean(values);
-    this.selectedUserVar = variance(this.selecedUserMean, values);
+    this.selectedUserMean = mean(values);
+    this.selectedUserVar = variance(this.selectedUserMean, values);
     return values;
   }
 
@@ -172,6 +195,27 @@ export class GradeGradesComponent implements OnChanges {
     };
   }
 
+  generateMinMaxGrades(): void {
+    let maxGrade: UserGrade =  {uid: "", songId: -1, normalizeScore: 0, grade: -1};
+    let minGrade: UserGrade = {uid: "", songId: -1, normalizeScore: Infinity, grade: -1};
+    this.users.forEach(user => {
+      const result = this.userResults.get(user.uid);
+      if (isNil(result)) return;
+      this.songs.forEach(song => {
+        const score = result.normalizeScores.get(song.id);
+        if (isNil(score)) return;
+        if (maxGrade.normalizeScore < score) {
+          maxGrade = {uid: user.uid, songId: song.id, normalizeScore: score, grade: result.data.values.get(song.id) ?? -1};
+        } else if (minGrade.normalizeScore > score) {
+          minGrade = {uid: user.uid, songId: song.id, normalizeScore: score, grade: result.data.values.get(song.id) ?? -1};
+        }
+      });
+    });
+    this.minMaxGrades = {
+      min: minGrade,
+      max: maxGrade
+    };
+  }
   generateGenresScatterConfig(songs: Song[], votes: Map<number, number> | undefined): void {
     const genres = keepUniqueValues(flatten(this.getSongList().filter(s => !isNil(s.genres)).map(s => s.genres))).sort() as string[];
 

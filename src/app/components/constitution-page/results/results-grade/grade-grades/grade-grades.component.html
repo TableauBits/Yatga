@@ -3,7 +3,7 @@
     <mat-expansion-panel-header> 
         <mat-panel-title> Notes </mat-panel-title>
     </mat-expansion-panel-header>
-    Musique sélectionnée :
+    Notes des utilisateurs :
     <mat-form-field appearance="fill">
       <mat-label> Choisir une musique </mat-label>
       <mat-select [(value)]="selectedSong">
@@ -24,6 +24,34 @@
         <td *ngFor="let user of getUserList()"> {{returnScore(user.uid)}}</td>
       </tr>
     </table>
+    <br> <br>
+    Notes max et min sur l'ensemble de la constitution : <br> <br>
+    <table id="t01">
+      <tr>
+        <th> </th>
+        <th> Donneur du vote </th>
+        <th> Chanson </th>
+        <th> Receveur du vote </th>
+        <th> Score </th>
+        <th> Note </th>
+      </tr>
+      <tr>
+        <td> Note Max </td>
+        <td> <img class="picture" [src]="getUser(minMaxGrades.max.uid).photoURL" matTooltip="{{getUser(minMaxGrades.max.uid).displayName}}"> </td>
+        <td> {{getSong(minMaxGrades.max.songId).title}} </td>
+        <td> <img class="picture" [src]="getUser(getSong(minMaxGrades.max.songId).user).photoURL" matTooltip="{{getUser(getSong(minMaxGrades.max.songId).user).displayName}}"> </td>
+        <td> {{minMaxGrades.max.normalizeScore.toFixed(4)}} </td>
+        <td> {{minMaxGrades.max.grade}} </td>
+      </tr>
+      <tr>
+        <td> Note Min </td>
+        <td> <img class="picture" [src]="getUser(minMaxGrades.min.uid).photoURL" matTooltip="{{getUser(minMaxGrades.min.uid).displayName}}"> </td>
+        <td> {{getSong(minMaxGrades.min.songId).title}}  </td>
+        <td> <img class="picture" [src]="getUser(getSong(minMaxGrades.min.songId).user).photoURL" matTooltip="{{getUser(getSong(minMaxGrades.min.songId).user).displayName}}"> </td>
+        <td> {{minMaxGrades.min.normalizeScore.toFixed(4)}} </td>
+        <td> {{minMaxGrades.min.grade}} </td>
+      </tr>
+    </table>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
@@ -38,7 +66,7 @@
     </mat-form-field>
     <img class="image-de picture3" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
     <br>
-    Moyenne : {{selecedUserMean.toFixed(3)}}
+    Moyenne : {{selectedUserMean.toFixed(3)}}
     <br>
     Variance : {{selectedUserVar.toFixed(3)}}
     <app-histogram [id]="'grade-grades-histogram'" [columns]="getGradeList()" [values]="histogramValues"> </app-histogram>
