@@ -12,7 +12,7 @@
 			<td> {{songs.size}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}} </td>
 		</tr>
 		<tr>
-			<td> Mes chansons </td>
+			<td> Mes musiques </td>
 			<td> {{numberOfSongsOfCurrentUser()}} / {{constitution.numberOfSongsPerUser}} </td>
 		</tr>
 		<tr>
@@ -22,8 +22,8 @@
 	</table>
 	<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
 	<hr>
-	<button mat-raised-button color="primary" [disabled]="!updateSongs()" (click)="openDialogManageSongs()">
-		<mat-icon>apps</mat-icon> Gérer mes chansons
+	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution()" (click)="openDialogManageSongs()">
+		<mat-icon>apps</mat-icon> Gérer mes musiques
 	</button>
 	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
 		<mat-icon>shuffle</mat-icon> Sélection aléatoire
@@ -54,9 +54,9 @@
 		<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
 			<button mat-button [ngClass]="isSectionActive(constitutionSection.SONG_LIST) ? 'active' : ''" 
 							(click)="setCurrentSection(constitutionSection.SONG_LIST)">
-				<mat-icon>queue_music</mat-icon> Liste des Chansons
+				<mat-icon>queue_music</mat-icon> Liste des Musiques
 			</button>
-			<button mat-button [ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''" 
+			<button *ngIf="isInConstitution()" mat-button [ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''" 
 							(click)="setCurrentSection(constitutionSection.VOTES)">
 				<mat-icon>how_to_vote</mat-icon> Zone Électorale
 			</button>

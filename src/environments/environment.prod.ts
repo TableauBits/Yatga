@@ -1,4 +1,6 @@
-export const environment = {
+import { Environment } from "src/app/types/environment";
+
+export const environment: Environment = {
 	production: true,
 	firebase: {
 		apiKey: "AIzaSyBljB_Xo7WNymFihDf0GCTDpy2wFMHdCqg",
@@ -13,5 +15,4 @@ export const environment = {
 	protocolHTTP: "https://",
 	protocolWebSocket: "wss://",
 	serverAPI: "kalimba.fly.dev",
-	portWebSocket: "3000",
 };

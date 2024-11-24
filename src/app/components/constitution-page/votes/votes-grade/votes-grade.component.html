@@ -11,7 +11,7 @@
         <mat-panel-title> Statistiques </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-checkbox color="primary" [checked]="showAlreadyVoted" (change)="updateGradeAlreadyVoted()"> Cacher les
-        chansons déjà votées </mat-checkbox>
+        musiques déjà votées </mat-checkbox>
       <br>
       <br>
       Mes votes : {{this.votes.values.size}} / {{constitution.numberOfSongsPerUser * (constitution.maxUserCount - 1)}}
@@ -26,7 +26,7 @@
       <br>
       <br>
       Répartition des notes :
-      <app-histogram [id]="'votes-grade-histogram'" [columns]="GRADE_VALUES" [values]="histogramGrades">
+      <app-histogram [id]="'votes-grade-histogram'" [columns]="getGradeList()" [values]="histogramGrades">
       </app-histogram>
     </mat-expansion-panel>
   </mat-accordion>
@@ -44,7 +44,7 @@
       <mat-icon>block</mat-icon>
     </button>
     <button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu"
-      matTooltip="Classer les chansons">
+      matTooltip="Classer les musiques">
       <mat-icon>filter_list</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
@@ -80,7 +80,7 @@
         <mat-card-header>
           <img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
           <mat-card-title class="card-text text-overflowable"> {{songPropertyManager.getTitle(song)}} </mat-card-title>
-          <mat-card-subtitle class="card-text text-overflowable"> <i> {{songPropertyManager.getSubTitle(song, false)}} </i> </mat-card-subtitle>
+          <mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}"> <i> {{songPropertyManager.getSubTitle(song)}} </i> </mat-card-subtitle>
         </mat-card-header>
         <hr>
         <img src="{{urlGetter.getImageURL(song)}}" class="card-background-img" (click)="updateCurrentIframeSong(song)">
@@ -144,7 +144,7 @@
       <tr *ngFor="let song of getSongsToVote()">
         <td>
           <button mat-button color="primary" (click)="toggleFavorite(song, auth)"
-            [disabled]="noMoreFavorites(song) || !canVote()" matTooltip="Voter pour cette chanson">
+            [disabled]="noMoreFavorites(song) || !canVote()" matTooltip="Voter pour cette musique">
             <mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
           </button>
         </td>

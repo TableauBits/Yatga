@@ -1,6 +1,8 @@
 import { GradeUserData, Song } from "chelys";
 import { mean, normalize, variance } from "./math";
 
+export const CONSTITUTION_USER_ID = "current-constitution";
+
 export interface UserGradeResults {
   data: GradeUserData;
   normalizeScores: Map<number, number>, // SongId, Normalize Score

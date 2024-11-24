@@ -1,0 +1,1 @@
+export const ICONS_PATH = "assets/icons";

@@ -251,6 +251,9 @@ export class ConstitutionComponent implements OnDestroy {
 			default:
 				return `Il reste ${diffDays} jours à la constitution.`;
 		}
+	}
 
+	isInConstitution(): boolean {
+		return this.constitution.users.includes(this.auth.uid);
 	}
 }

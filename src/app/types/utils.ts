@@ -1,4 +1,4 @@
-import { toNumber } from "lodash";
+import { isNil, toNumber } from "lodash";
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -73,4 +73,9 @@ export function keepUniqueValues<T>(array: T[]): T[] {
 		if (v1 < v2) return invert ? 1 : -1;
 		return 0;
 	};
+}
+
+export function toDecade(year: number | undefined, groupBy: number = 10): number {
+	if (isNil(year)) return -1;
+	return Math.floor((year) / groupBy) * groupBy;
 }

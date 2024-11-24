@@ -7,6 +7,7 @@ import {
 	UsrReqGet, UsrReqUnsubscribe, UsrResUpdate
 } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const OWNER_INDEX = 0;
 
@@ -40,7 +41,7 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 
 	public constitutions: Map<string, DisplayData>;
 
-	constructor(private auth: AuthService) {
+	constructor(private auth: AuthService, private _snackBar: MatSnackBar) {
 		this.constitutions = new Map();
 		this.auth.pushAuthFunction(this.onConnect, this);
 		this.auth.pushEventHandler(this.handleEvents, this);
@@ -109,7 +110,21 @@ export class CurrentConstitutionPageComponent implements OnDestroy {
 		return ConstitutionStatus.FULL;
 	}
 
-	joinConstitution(data: DisplayData) {
+	joinConstitution(data: DisplayData): void {
 		this.auth.ws.send(createMessage<CstReqJoin>(EventType.CST_join, { id: data.constitution.id }));
+	}
+
+	seeConstitution(): void {
+		this.openSnackBar("Vous êtes en mode consultation seulement", 'OK');
+	}
+
+	isInConstitution(cst: Constitution): boolean {
+		return cst.users.includes(this.auth.uid);
+	}
+
+	openSnackBar(message: string, action: string) {
+		this._snackBar.open(message, action, {
+			horizontalPosition: 'right'
+		});
 	}
 }

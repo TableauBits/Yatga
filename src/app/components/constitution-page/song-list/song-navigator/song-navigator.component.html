@@ -5,7 +5,7 @@
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
   <button mat-raised-button color="primary" class="favorite-button" (click)="toggleFavorite(currentSong, auth)"
-    [disabled]="noMoreFavorites(currentSong) || !canModifyFavorite()">
+    [disabled]="noMoreFavorites(currentSong) || !canModifyFavorite() || !isInConstitution()">
     <mat-icon *ngIf="isAFavorite(currentSong); else normalSong" class="favorite">favorite</mat-icon>
   </button>
   <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong"> </app-optionnal-song-infos-button>

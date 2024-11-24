@@ -39,7 +39,8 @@ export class InvitePageComponent {
     this.hasReceivedPOSTResponse = false;
     this.invitePOSTResponse = { response: { success: false, status: "" } };
 
-    this.HTTPconnectionURL = `${environment.protocolHTTP}${environment.serverAPI}:${environment.portWebSocket}`;
+    const { protocolHTTP, serverAPI, portWebSocket } = environment;
+    this.HTTPconnectionURL = `${protocolHTTP}${serverAPI}:${portWebSocket ? ":" + portWebSocket : ""}`;
   }
 
   getInviteID(): string {

@@ -6,15 +6,34 @@
     <i>
       La ligne note la colonne.
       Plus le chiffre est grand, plus l'utilisateur de la ligne apprécie l'utilisateur de la colonne.
-      Donne un point lorsqu'une chanson est notée au-dessus de sa moyenne ou si elle est un favori.
+      Donne un point lorsqu'une musique est notée au-dessus de sa moyenne ou si elle est un favori.
     </i>
     <app-heatmap [id]="'grade-relationship-heatmap'" [data]="heatmapData" [xAxis]="xAxisNames" [yAxis]="yAxisNames"> </app-heatmap>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header> 
+        <mat-panel-title> Répartition des valeurs normalisés entre deux participants </mat-panel-title>
+    </mat-expansion-panel-header>
+    <i> Deux utilisateurs ont une opinion similaire lorsque la note se situe dans la diagonale droite du graphique et une opinion contraire dans la diagonale gauche (en rouge). </i>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="xUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select [(value)]="yUser" (selectionChange)="newSelection()">
+        <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <app-simple-scatter [id]="'grade-relationship-scatter'" [config]="scatterConfig"> </app-simple-scatter>
+    {{users.get(xUser)?.displayName ?? "undefined"}} et {{users.get(yUser)?.displayName ?? "undefined"}} ont une similarité de {{getSimilarity()}} en tendance de votes.
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header> 
         <mat-panel-title> Graphe des relations entre participants </mat-panel-title>
     </mat-expansion-panel-header>
-    <b> (Beta) </b> <br>
     <button mat-raised-button color="primary" class="margin" [disabled]="useForce" (click)="generateChord()"> Générer Nouveau Graphe </button>
     <mat-checkbox color="primary" [checked]="useForce" class="margin" (change)="updateForce()"> Appliquer la force </mat-checkbox>
     <mat-slider color="primary" [thumbLabel]="true" [max]="maxSliderValue" [(ngModel)]="sliderValue" aria-label="unit(s)" (change)="generateChord(true)"></mat-slider> Conserver les liens supérieur à <b> {{sliderValue}} </b>

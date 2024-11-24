@@ -113,4 +113,7 @@ export class ResultsGradeComponent implements OnDestroy {
     this.songResults.sort(compareScore);
   }
 
+  isInConstitution(): boolean {
+		return this.constitution.users.includes(this.auth.uid);
+	}
 }

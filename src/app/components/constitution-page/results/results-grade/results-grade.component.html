@@ -46,7 +46,7 @@
 						(click)="setCurrentSection(gradeResultSection.FAVORITES)">
 						<mat-icon>favorite</mat-icon> Favoris
 					</button>
-					<button mat-button [ngClass]="isSectionActive(gradeResultSection.PROFIL) ? 'active' : ''"
+					<button mat-button *ngIf="isInConstitution()" [ngClass]="isSectionActive(gradeResultSection.PROFIL) ? 'active' : ''"
 						(click)="setCurrentSection(gradeResultSection.PROFIL)">
 						<mat-icon>account_box</mat-icon> Mon Profil
 					</button>
@@ -61,8 +61,8 @@
 		<app-grade-ranking *ngSwitchCase="gradeResultSection.RANKING" [users]="users" [songs]="songs"
 			[songResults]="songResults">
 		</app-grade-ranking>
-		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES" [users]="users" [songs]="songs"
-			[userResults]="userResults">
+		<app-grade-grades *ngSwitchCase="gradeResultSection.GRADES" [users]="users" [songs]="songs" [constitution]="constitution"
+			[userResults]="userResults" [favorites]="favorites">
 		</app-grade-grades>
 		<app-grade-average *ngSwitchCase="gradeResultSection.AVERAGE" [users]="users" [userResults]="userResults"
 			[songs]="songs" [numberOfSongsByUser]="constitution.numberOfSongsPerUser">

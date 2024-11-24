@@ -1,5 +1,5 @@
 <div class="content" mat-dialog-content>
-	<h1 class="title"> GÉRER MES CHANSONS </h1>
+	<h1 class="title"> GÉRER MES MUSIQUES </h1>
 	<hr>
 	<br>
 	<mat-tab-group mat-align-tabs="center" backgroundColor="primary">
@@ -9,8 +9,16 @@
 				Ajouter
 			</ng-template>
 			<br>
-			<h2 class="title"> AJOUTER UNE CHANSON </h2>
+			<h2 class="title"> AJOUTER UNE MUSIQUE </h2>
 			<hr>
+			<span class="help-section">
+				Cliquez sur les icônes suivantes pour chercher les informations via différentes plateformes :
+				<button *ngFor="let helper of getSearchHelpers()" mat-icon-button color="primary" class="help-button"
+					matTooltip="Chercher sur {{helper.name}}" (click)="onNavigate(helper.formatter)">
+					<img class="platform-img" src="{{helper.iconPath}}">
+				</button>
+			</span>
+			<br>
 			<form [formGroup]="newSongForm">
 				<br>
 				<mat-icon *ngIf="!respectLengthLimit('title') && !isNil('title')"
@@ -37,6 +45,21 @@
 					<mat-hint align="end">{{input_author.value.length}}/100</mat-hint>
 				</mat-form-field>
 				<br>
+				<mat-icon class="icon"
+					matTooltip='"En présence de / avec". Liste des auteurs supplémentaires.'>help_outline</mat-icon>
+				<mat-form-field appearance="outline">
+					<mat-label>Liste des featurings</mat-label>
+					<mat-chip-list #chipListFeats>
+						<mat-chip *ngFor="let feat of feats" (removed)="remove(feat, 'feats')">
+							{{feat}}
+							<button matChipRemove>
+								<mat-icon>cancel</mat-icon>
+							</button>
+						</mat-chip>
+						<input placeholder="Autre auteur..." [matChipInputFor]="chipListFeats" [matChipInputAddOnBlur]="true"
+							(matChipInputTokenEnd)="add($event, 'feats')">
+					</mat-chip-list>
+				</mat-form-field><br>
 				<mat-icon *ngIf="isValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon>
 				<mat-icon *ngIf="isNil('url')" class="warning icon"
 					matTooltip="Ce champ ne peut pas être vide.">error_outline</mat-icon>
@@ -46,16 +69,9 @@
 					<mat-label> URL </mat-label>
 					<input matInput formControlName="url" required>
 					<img *ngIf="!isNil('url')" matSuffix class="platform-img" [src]="songPlatformFromIcon()">
-				</mat-form-field>
-				<h3 class="title"> CHAMPS OPTIONNELS </h3>
-				<hr>
-				<span class="help-section">
-					Aide pour la recherche :
-					<button *ngFor="let helper of getSearchHelpers()" mat-icon-button color="primary" class="help-button" matTooltip="Chercher sur {{helper.name}}" (click)="onNavigate(helper.formatter)">
-						<img class="platform-img" src="{{helper.iconPath}}">
-					</button>
-				</span>
-				<br> <br>
+				</mat-form-field> <br>
+				<mat-icon class="icon"
+					matTooltip="Privilégier les années de sorties et les albums les plus anciens dans le cas de doublon.">help_outline</mat-icon>
 				<mat-form-field appearance="outline" class="releaseYearField">
 					<mat-label> Année de sortie </mat-label>
 					<input matInput type="number" min="0" max="{{getCurrentYear()}}" formControlName="releaseYear">
@@ -66,7 +82,7 @@
 					<mat-hint align="end">{{input_album.value.length}}/100</mat-hint>
 				</mat-form-field> <br>
 				<mat-icon class="icon"
-					matTooltip="Autres titres possibles de la chanson. Il peut s'agir de traductions.">help_outline</mat-icon>
+					matTooltip="Autres titres possibles de la musique. Il peut s'agir de traductions.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Titres alternatifs</mat-label>
 					<mat-chip-list #chipListTitles>
@@ -81,7 +97,7 @@
 					</mat-chip-list>
 				</mat-form-field><br>
 				<mat-icon class="icon"
-					matTooltip="Liste des genres de la chanson. Il est possible d'en avoir plusieurs.">help_outline</mat-icon>
+					matTooltip="Liste des genres de la musique. Il est possible d'en avoir plusieurs.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Genres</mat-label>
 					<mat-chip-list #chipListGenre>
@@ -101,7 +117,7 @@
 					</mat-autocomplete>
 				</mat-form-field><br>
 				<mat-icon *ngIf="!isInstrumental()" class="icon"
-					matTooltip="Liste des langues chantées dans la chanson. Il est possible d'en avoir plusieurs ou aucune. Sélectionner 'Autre' si aucune langue ne correspond.">help_outline</mat-icon>
+					matTooltip="Liste des langues chantées dans la musique. Il est possible d'en avoir plusieurs ou aucune. Sélectionner 'Autre' si aucune langue ne correspond.">help_outline</mat-icon>
 				<mat-form-field appearance="outline" *ngIf="!isInstrumental()">
 					<mat-label>Langues</mat-label>
 					<mat-chip-list #chipListLanguage>
@@ -121,7 +137,7 @@
 					</mat-autocomplete>
 				</mat-form-field>
 				<mat-checkbox class="pitie" color="primary" formControlName="isInstrumental"> <mat-label> Il s'agit d'une
-						chanson instrumentale </mat-label> </mat-checkbox>
+						musique instrumentale </mat-label> </mat-checkbox>
 			</form>
 			<br>
 			<hr> <br>
@@ -138,7 +154,7 @@
 				Retirer
 			</ng-template>
 			<br>
-			<h2 class="title"> RETIRER UNE CHANSON </h2>
+			<h2 class="title"> RETIRER UNE MUSIQUE </h2>
 			<hr>
 			<br>
 			<table id="t01">

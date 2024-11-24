@@ -1,10 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_SONG, EMPTY_USER, Role, Song, User, UserFavorites } from 'chelys';
-import { isNil } from 'lodash';
+import { isNil, range } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { DownloadService } from 'src/app/services/download.service';
 import { EMPTY_USER_GRADE_RESULTS, SongGrade, SongGradeResult, UserGradeResults } from 'src/app/types/results';
-import { GRADE_VALUES } from 'src/app/types/song-utils';
 
 @Component({
   selector: 'app-grade-profile',
@@ -12,8 +11,6 @@ import { GRADE_VALUES } from 'src/app/types/song-utils';
   styleUrls: ['./grade-profile.component.scss']
 })
 export class GradeProfileComponent implements OnChanges {
-  readonly GRADE_VALUES = GRADE_VALUES;
-
   @Input() result: UserGradeResults = EMPTY_USER_GRADE_RESULTS;
   @Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
@@ -90,4 +87,9 @@ export class GradeProfileComponent implements OnChanges {
   isAdmin(): boolean {
     return this.auth.user.roles.includes(Role.ADMIN);
   }
+
+  getGradeList(): number[] {
+		const maxGrade = this.constitution.maxGrade || 10;
+		return range(1, maxGrade+1);
+	}
 }

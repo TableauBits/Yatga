@@ -32,7 +32,7 @@ export class CalendarComponent extends Charts implements AfterViewInit, OnChange
     return {
       tooltip: {
         formatter: function (p) {
-          return `${(p as any).data[1]} chansons ajoutées le ${(p as any).data[0]}`;
+          return `${(p as any).data[1]} musiques ajoutées le ${(p as any).data[0]}`;
         },
       },
       visualMap: {
