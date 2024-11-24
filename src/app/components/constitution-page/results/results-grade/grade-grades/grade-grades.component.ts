@@ -148,14 +148,16 @@ export class GradeGradesComponent implements OnChanges {
     }));
 
     const max = Math.max(...data.map(d => d[2]));
-    const min = Math.min(...data.map(d => d[2]));
 
     // Config
     this.languagesScatterConfig = {
       axisMax: 10,
       symbolSize: (param) => {
-        const minMaxNormalized = (param[1] - min) / (max - min);
-        return minMaxNormalized * 50;
+        return (param[1] / max) * 50 + 8;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
       },
       data: data,
       names: languages.map(language => LANGUAGES_CODE_TO_FR.get(language ?? "") ?? "")
@@ -176,13 +178,15 @@ export class GradeGradesComponent implements OnChanges {
     }));
 
     const max = Math.max(...data.map(d => d[2]));
-    const min = Math.min(...data.map(d => d[2]));
 
     this.genresScatterConfig = {
       axisMax: 10,
       symbolSize: (param) => {
-        const minMaxNormalized = (param[1] - min) / (max - min);
-        return minMaxNormalized * 50;
+        return (param[1] / max) * 50 + 8;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
       },
       data: data,
       names: genres
@@ -206,14 +210,16 @@ export class GradeGradesComponent implements OnChanges {
     }));
 
     const max = Math.max(...data.map(d => d[2]));
-    const min = Math.min(...data.map(d => d[2]));
 
     // Config
     this.decadesScatterConfig = {
       axisMax: 10,
       symbolSize: (param) => {
-        const minMaxNormalized = (param[1] - min) / (max - min);
-        return minMaxNormalized * 50;
+        return (param[1] / max) * 50 + 8;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
       },
       data: data,
       names: decades.map(d => d.toString())
@@ -232,16 +238,15 @@ export class GradeGradesComponent implements OnChanges {
       data.push([0, grade-1, count]);
     });
 
-    const max = Math.max(...data.map(d => d[2]));
-    const min = Math.min(...data.map(d => d[2]));
-
     // Config
     this.favoritesScatterConfig = {
       axisMax: 10,
       symbolSize: (param) => {
-        // const minMaxNormalized = (param[1] - min) / (max - min);
-        // return minMaxNormalized * 50;
-        return param[1] * 15
+        return param[1] * 15;
+      },
+      formatter: (p) => {
+        const data = p.data as number[];
+        return `${data[1]} musiques`;
       },
       color: "#CF387C",
       data: data,
