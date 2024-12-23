@@ -22,7 +22,7 @@
 	</table>
 	<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
 	<hr>
-	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution()" (click)="openDialogManageSongs()">
+	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution() || isJudge(auth.uid)" (click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes musiques
 	</button>
 	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
@@ -33,7 +33,8 @@
 		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
 			<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
 			<ng-template #isNotOwner>
-				<mat-icon matTooltip="Membre">account_box</mat-icon>
+				<mat-icon *ngIf="!isJudge(user.uid)" matTooltip="Participant">account_box</mat-icon>
+				<mat-icon *ngIf="isJudge(user.uid)" matTooltip="Juge">how_to_vote</mat-icon>
 			</ng-template>
 			<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
 			<span class="list-item"> {{user.displayName}} </span>

@@ -40,7 +40,7 @@ export class ConstitutionComponent implements OnDestroy {
 	favorites: Map<string, UserFavorites>;
 
 	constructor(
-		private auth: AuthService,
+		public auth: AuthService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private dialog: MatDialog,
@@ -198,6 +198,11 @@ export class ConstitutionComponent implements OnDestroy {
 	isOwner(user?: User): boolean {
 		if (user) return user.uid === this.constitution.users[OWNER_INDEX];
 		else return this.auth.uid === this.constitution.users[OWNER_INDEX];
+	}
+
+	isJudge(uid: string): boolean {
+		if (!this.constitution.judges) return false;
+		return this.constitution.judges.includes(uid);
 	}
 
 	isAdmin(user: User): boolean {

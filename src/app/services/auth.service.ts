@@ -75,7 +75,6 @@ export class AuthService {
 	constructor(
 		private fireAuth: AngularFireAuth,
 		private title: Title,
-		private http: HttpClient
 	) {
 		this.isAuthenticate = false;
 		this.isConnected = false;
@@ -92,7 +91,6 @@ export class AuthService {
 		if (!environment.production) {
 			console.warn("Debug mode enabled! Yatga will attempt to connect to: ", this.WSconnectionURL, this.HTTPconnectionURL);
 		}
-
 
 		this.ws = new WebSocket(this.WSconnectionURL);
 		this.ws.onopen = () => {
@@ -161,6 +159,7 @@ export class AuthService {
 	pushEventHandler(eventHandler: EventHandlerFunction, context: any): void {
 		this.eventHandlers.push([eventHandler, context]);
 	}
+	
 	pushAuthFunction(authCallback: AuthCallbackFunction, context: any): void {
 		if (this.isAuthenticate) {
 			authCallback.call(context);
