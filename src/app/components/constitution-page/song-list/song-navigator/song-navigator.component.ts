@@ -1,6 +1,14 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Constitution, FavResUpdate, EventType, extractMessageData, Message, Song, UserFavorites } from 'chelys';
+import {
+	Constitution,
+	FavResUpdate,
+	EventType,
+	extractMessageData,
+	Message,
+	Song,
+	UserFavorites,
+} from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 
@@ -8,19 +16,21 @@ const NEXT_SHIFT = 1;
 const PREVIOUS_SHIFT = -1;
 
 interface SongNavigatorInjectedData {
-	constitution: Constitution,
-	currentSong: Song,
-	songs: Song[],
-	favorites: UserFavorites
+	constitution: Constitution;
+	currentSong: Song;
+	songs: Song[];
+	favorites: UserFavorites;
 }
 
 @Component({
 	selector: 'app-song-navigator',
 	templateUrl: './song-navigator.component.html',
-	styleUrls: ['./song-navigator.component.scss']
+	styleUrls: ['./song-navigator.component.scss'],
 })
-export class SongNavigatorComponent extends YatgaUserFavorites implements OnDestroy {
-
+export class SongNavigatorComponent
+	extends YatgaUserFavorites
+	implements OnDestroy
+{
 	constitution: Constitution;
 	currentSong: Song;
 	songs: Song[];
@@ -29,7 +39,7 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 	constructor(
 		public auth: AuthService,
 		private dialogRef: MatDialogRef<SongNavigatorComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData,
+		@Inject(MAT_DIALOG_DATA) public data: SongNavigatorInjectedData
 	) {
 		super();
 
@@ -50,7 +60,8 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 		switch (message.event) {
 			case EventType.CST_SONG_FAV_update: {
-				const favorites = extractMessageData<FavResUpdate>(message).userFavorites;
+				const favorites =
+					extractMessageData<FavResUpdate>(message).userFavorites;
 				if (favorites.uid === this.auth.uid) this.favorites = favorites;
 			}
 		}
@@ -75,8 +86,7 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 	keyPressed(keyEvent: KeyboardEvent): void {
 		if (keyEvent.key === 'ArrowRight' && this.nextSongExist()) {
 			this.changeSong(NEXT_SHIFT);
-		}
-		else if (keyEvent.key === 'ArrowLeft' && this.previousSongExist()) {
+		} else if (keyEvent.key === 'ArrowLeft' && this.previousSongExist()) {
 			this.changeSong(PREVIOUS_SHIFT);
 		}
 	}
@@ -84,7 +94,7 @@ export class SongNavigatorComponent extends YatgaUserFavorites implements OnDest
 	closeWindow(): void {
 		this.dialogRef.close();
 	}
-	
+
 	isInConstitution(): boolean {
 		return this.constitution.users.includes(this.auth.uid);
 	}

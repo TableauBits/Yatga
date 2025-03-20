@@ -50,8 +50,11 @@ hr {
 	margin: auto;
 }
 
-.mat-mdc-dialog-container {
-	background-color: $cape-cod;
+::ng-deep {
+	.mat-mdc-dialog-surface {
+		background-color: rgba($cape-cod, 0.5);
+		backdrop-filter: blur(8rem);
+	}
 }
 
 .bg-dark {
