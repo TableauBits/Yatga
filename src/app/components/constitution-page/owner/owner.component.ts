@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Constitution, ConstitutionType, createMessage, CstReqDelete, CstReqNameURL, EMPTY_CONSTITUTION, EventType, Song, User } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,7 +16,7 @@ export class OwnerComponent implements OnChanges {
 	@Input() songs: Map<number, Song> = new Map();
 
 	public security: boolean;
-	public constitutionParameterForm: FormGroup;
+	public constitutionParameterForm: UntypedFormGroup;
 
 	// HTML can't access the ConstiutionType enum directly
 	public get constitutionType(): typeof ConstitutionType {
@@ -30,7 +30,7 @@ export class OwnerComponent implements OnChanges {
 		});
 	}
 
-	constructor(public fb: FormBuilder, private auth: AuthService) {
+	constructor(public fb: UntypedFormBuilder, private auth: AuthService) {
 		this.constitutionParameterForm = this.fb.group({
 			name: [this.constitution.name, Validators.required], 
 			playlistLink: [this.constitution.playlistLink],

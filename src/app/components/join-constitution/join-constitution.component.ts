@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { createMessage, CstResJoin, EventType, extractMessageData, Message } from 'chelys';
@@ -14,12 +14,12 @@ import { Status } from 'src/app/types/status';
 export class JoinConstitutionComponent implements OnDestroy {
 
   public errorStatus: Status;
-	public joinForm: FormGroup;
+	public joinForm: UntypedFormGroup;
 
   constructor(
     private auth: AuthService,
     private dialogRef: MatDialogRef<JoinConstitutionComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router
   ) {
     this.joinForm = this.fb.group({

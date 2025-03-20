@@ -1,118 +1,121 @@
 /* You can add global styles to this file, and also import other style files */
 // MDB SCSS
 // Font Awesome
-@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "~@fortawesome/fontawesome-free/scss/solid.scss";
-@import "~@fortawesome/fontawesome-free/scss/regular.scss";
-@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "@fortawesome/fontawesome-free/scss/solid.scss";
+@import "@fortawesome/fontawesome-free/scss/regular.scss";
+@import "@fortawesome/fontawesome-free/scss/brands.scss";
 @import "styles/variables.scss";
-@import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
+@import "node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss";
 
-html, body { height: 100%; }
+html,
 body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  color: whitesmoke;
-  background-color:  $cape-cod;
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	color: whitesmoke;
+	background-color: $cape-cod;
 }
 
 hr {
-  border:none;
-  border-top: 1px solid $purple ;
-  opacity:0.8;
-  width: min(100%, 600px);
-  margin:auto;
+	border: none;
+	border-top: 1px solid $purple;
+	opacity: 0.8;
+	width: min(100%, 600px);
+	margin: auto;
 }
 
 .mat-dialog-container {
-  background-color: $cape-cod;
+	background-color: $cape-cod;
 }
 
 .bg-dark {
-  background-color: $mineshaft !important; 
+	background-color: $mineshaft !important;
 }
 
 .picture {
-  width: 45px;
-  height: 45px;
-  -moz-border-radius: 25px;
-  border-radius: 25px;
-  border: 2px solid $sasuke;
+	width: 45px;
+	height: 45px;
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	border: 2px solid $sasuke;
 }
 
 .picture2 {
-  width: 105px;
-  height: 75px;
-  border: 2px solid $sasuke;
+	width: 105px;
+	height: 75px;
+	border: 2px solid $sasuke;
 }
 
 .picture3 {
-  width: 55px;
-  height: 55px;
-  -moz-border-radius: 28px;
-  border-radius: 28px;
-  border: 2px solid $sasuke;
+	width: 55px;
+	height: 55px;
+	-moz-border-radius: 28px;
+	border-radius: 28px;
+	border: 2px solid $sasuke;
 }
 
 .warning {
-  color: red;
+	color: red;
 }
 
 .valid {
-  color:green;
+	color: green;
 }
 
 .unknown {
-  color: yellow;
+	color: yellow;
 }
 
 .role {
-  color:cadetblue;
-  margin: 10px;
-  margin-right: 17px;
-  font-size:xx-large;
+	color: cadetblue;
+	margin: 10px;
+	margin-right: 17px;
+	font-size: xx-large;
 }
 
 .status {
-  grid-area: status;
-  justify-self: center;
-  display: flex;
-  align-items: center;
-  text-align: center;
+	grid-area: status;
+	justify-self: center;
+	display: flex;
+	align-items: center;
+	text-align: center;
 }
 
 .status-message {
-  box-sizing: border-box;
-  padding: 10px;
-  border-radius: 15px;
-  text-align: center;
-  color: darkred;
-  background-color: lightcoral;
-  text-align: center;
-  margin: auto;
-  margin-bottom: 15px;
+	box-sizing: border-box;
+	padding: 10px;
+	border-radius: 15px;
+	text-align: center;
+	color: darkred;
+	background-color: lightcoral;
+	text-align: center;
+	margin: auto;
+	margin-bottom: 15px;
 }
 
 .title {
-  color: whitesmoke;
-  text-align: center;
+	color: whitesmoke;
+	text-align: center;
 }
 
 .previous-button {
-  background-color: $mineshaft;
-  color: whitesmoke;
-  float: left;
+	background-color: $mineshaft;
+	color: whitesmoke;
+	float: left;
 }
 
 .next-button {
-  background-color: $mineshaft;
-  color: whitesmoke;
-  float: right;
+	background-color: $mineshaft;
+	color: whitesmoke;
+	float: right;
 }
 
 .black-and-white {
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+	filter: grayscale(100%);
 }
 
 .clickable {
@@ -120,40 +123,44 @@ hr {
 }
 
 .panel {
-  mat-expansion-panel {
-    background-color: $mineshaft;
-    color: whitesmoke;
-  }
-  
-  mat-panel-title {
-    color: whitesmoke;
-  }
-  
-  mat-form-field {
-    width: 35%;
-  }
+	mat-expansion-panel {
+		background-color: $mineshaft;
+		color: whitesmoke;
+	}
 
-  .mat-expansion-panel-header-description, .mat-expansion-indicator::after {
-    color: whitesmoke;
-  }
+	mat-panel-title {
+		color: whitesmoke;
+	}
+
+	mat-form-field {
+		width: 35%;
+	}
+
+	.mat-expansion-panel-header-description,
+	.mat-expansion-indicator::after {
+		color: whitesmoke;
+	}
 }
 
 ::ng-deep {
-  .mat-form-field-appearance-outline .mat-form-field-outline {
-    color: whitesmoke;
-  }
-  .mat-form-field.mat-focused .mat-form-field-label {
-    color: whitesmoke !important;
-  }
-  .mat-input-element {
-    caret-color: whitesmoke!important;
-  }
-  
-  mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
-          color: whitesmoke;
-      }
-  }
+	.mat-form-field-appearance-outline .mat-form-field-outline {
+		color: whitesmoke;
+	}
+	.mat-form-field.mat-focused .mat-form-field-label {
+		color: whitesmoke !important;
+	}
+	.mat-input-element {
+		caret-color: whitesmoke !important;
+	}
+
+	mat-form-field {
+		.mat-hint,
+		input,
+		::placeholder,
+		.mat-form-field-label {
+			color: whitesmoke;
+		}
+	}
 }
 
 .front {
@@ -161,7 +168,7 @@ hr {
 }
 
 .same-line {
-  display: inline-block;
+	display: inline-block;
 }
 
 .image-de {
@@ -170,72 +177,72 @@ hr {
 }
 
 .favorite {
-	color:#CF387C;
+	color: #cf387c;
 }
 
 .love {
-  -ms-transform: translate(-55%, 60%);
-  transform: translate(-55%, 60%);
+	-ms-transform: translate(-55%, 60%);
+	transform: translate(-55%, 60%);
 	font-size: small;
 	margin-right: -15px;
 }
 
 .page {
-  display: block;
-  width: 100%;
+	display: block;
+	width: 100%;
 }
 
 .round {
-  border-radius: 25px;
+	border-radius: 25px;
 }
 
 .disable-click {
-  pointer-events: none;
-  cursor: default;
+	pointer-events: none;
+	cursor: default;
 }
 
 .admin-background {
-  border: 2px solid $sasuke;
-  background-color: $mineshaft;
-  border-radius: 25px;
-  font-size:medium;
+	border: 2px solid $sasuke;
+	background-color: $mineshaft;
+	border-radius: 25px;
+	font-size: medium;
 }
 
 .text-overflowable {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 a {
-  color: #388ACF;
+	color: #388acf;
 }
 
 // scroll bar :
 
 /* width */
 ::-webkit-scrollbar {
-  width: 3px;
-  height:3px;
+	width: 3px;
+	height: 3px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px $mineshaft;
-  border-radius: 10px;
+	box-shadow: inset 0 0 5px $mineshaft;
+	border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $purple;
-  border-radius: 10px;
+	background: $purple;
+	border-radius: 10px;
 }
 
 mat-option {
-  color: whitesmoke;
-  background-color: $cape-cod;
+	color: whitesmoke;
+	background-color: $cape-cod;
 }
 
 .mat-option-text {
-  color: whitesmoke;
+	color: whitesmoke;
 }

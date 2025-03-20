@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { isNil } from 'lodash';
 import { environment } from 'src/environments/environment';
 
@@ -18,7 +18,7 @@ const NO_INVITE = "";
 })
 export class InvitePageComponent {
 
-  public inviteForm: FormGroup;
+  public inviteForm: UntypedFormGroup;
   public hasReceivedGETResponse: boolean;
   public inviteGETResponse: InvResGET;
   public hasReceivedPOSTResponse: boolean;
@@ -26,7 +26,7 @@ export class InvitePageComponent {
   public HTTPconnectionURL: string;
 
   constructor(
-    public fb: FormBuilder,
+    public fb: UntypedFormBuilder,
     private http: HttpClient,
     private fireAuth: AngularFireAuth,
     public auth: AuthService

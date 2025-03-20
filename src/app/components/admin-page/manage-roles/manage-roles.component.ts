@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { createMessage, EventType, extractMessageData, Message, User, UsrReqEditRoles, UsrReqUnsubscribe, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +13,7 @@ import { returnUserRoles, RoleData, USER_ROLES } from 'src/app/types/role';
 export class ManageRolesComponent implements OnDestroy {
 
   public users: Map<string, User> = new Map();
-  public roles: Map<string, FormControl> = new Map();
+  public roles: Map<string, UntypedFormControl> = new Map();
 
   rolesList: string[];
 
@@ -39,7 +39,7 @@ export class ManageRolesComponent implements OnDestroy {
     if (message.event === EventType.USER_update) {
       const data = extractMessageData<UsrResUpdate>(message).userInfo;
       this.users.set(data.uid, data);
-      const userRole = new FormControl();
+      const userRole = new UntypedFormControl();
       userRole.setValue(data.roles);
       this.roles.set(data.uid, userRole);
     }
@@ -59,8 +59,8 @@ export class ManageRolesComponent implements OnDestroy {
 		return roles ?? [];
 	}
 
-  getUserForm(uid: string): FormControl {
-    return this.roles.get(uid) || new FormControl();
+  getUserForm(uid: string): UntypedFormControl {
+    return this.roles.get(uid) || new UntypedFormControl();
   }
 
   newSelection(uid: string): void {

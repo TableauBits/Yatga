@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnonymousLevel, Constitution, ConstitutionType, createMessage, EventType } from 'chelys';
 import { isEmpty, isNil, isNull } from 'lodash';
@@ -16,11 +16,11 @@ const ANONIMITY_LEVELS = ["Toutes informations révélées", /*"Utilisateur cach
 export class NewConstitutionComponent {
 
 	public errorStatus: Status;
-	public newConstitutionForm: FormGroup;
+	public newConstitutionForm: UntypedFormGroup;
 
 	constructor(
 		public auth: AuthService,
-		public fb: FormBuilder,
+		public fb: UntypedFormBuilder,
 		private router: Router) {
 		this.newConstitutionForm = this.fb.group({
 			season: [, Validators.required],
