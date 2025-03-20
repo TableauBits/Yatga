@@ -76,7 +76,7 @@
   </div>
   <ng-template #cardsView>
     <div class="cards">
-      <mat-card *ngFor="let song of getSongsToVote()" class="card-r">
+      <mat-card appearance="outlined" *ngFor="let song of getSongsToVote()" class="card-r">
         <mat-card-header>
           <img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
           <mat-card-title class="card-text text-overflowable"> {{songPropertyManager.getTitle(song)}} </mat-card-title>

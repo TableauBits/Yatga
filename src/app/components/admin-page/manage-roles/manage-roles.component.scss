@@ -41,34 +41,40 @@ td, th {
 	background-color: $cape-cod;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 mat-select {
   color: whitesmoke;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 mat-select-value {
   color: whitesmoke !important;
 }
 
 ::ng-deep {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   .mat-form-field-appearance-outline .mat-form-field-outline {
      color: whitesmoke;
   }
-  .mat-form-field.mat-focused .mat-form-field-label {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+  .mat-mdc-form-field.mat-focused .mat-form-field-label {
       color: whitesmoke !important;
   }
-  .mat-input-element {
+  .mat-mdc-input-element {
       caret-color: whitesmoke!important;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
   .mat-select-value {
     color: whitesmoke;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
   .mat-select-arrow-wrapper {
       color: whitesmoke;
   }
 
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+      .mat-mdc-form-field-hint, input, ::placeholder, .mat-form-field-label {
           color: whitesmoke;
       }
   }

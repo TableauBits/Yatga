@@ -1,95 +1,109 @@
 @import "../../../styles/variables.scss";
 
-
 .active {
-  background-color: $cape-cod;
+	background-color: $cape-cod;
 }
 
 .h1 {
-  margin: 16px 0px;
+	margin: 16px 0px;
 }
 
 .sidenav {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 18%; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 0; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: $mineshaft;
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 80px;
-  text-align: center;
-  color: whitesmoke;
-  border-right: 2px solid $sasuke;
-  background-color: $mineshaft;
+	height: 100%; /* Full-height: remove this if you want "auto" height */
+	width: 18%; /* Set the width of the sidebar */
+	position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+	z-index: 0; /* Stay on top */
+	top: 0; /* Stay at the top */
+	left: 0;
+	background-color: $mineshaft;
+	overflow-x: hidden; /* Disable horizontal scroll */
+	padding-top: 80px;
+	text-align: center;
+	color: whitesmoke;
+	border-right: 2px solid $sasuke;
+	background-color: $mineshaft;
 }
 
 hr {
-  margin: 10px ;
-  border-top: 2px solid $dark-purple ;
-  opacity : 0.2;
-  width:90%;
+	margin: 10px;
+	border-top: 2px solid $dark-purple;
+	opacity: 0.2;
+	width: 90%;
 }
 
 .sidenav button {
-  margin:5px;
-  color: whitesmoke;
+	margin: 5px;
+	color: whitesmoke;
 }
 
-.sidenav .mat-button-disabled {
-  background-color: #222;
-  color: #b7b7b7;
-  font-weight: 400;
-  opacity: 0.6;
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.sidenav .mdc-button:disabled {
+	background-color: #222;
+	color: #b7b7b7;
+	font-weight: 400;
+	opacity: 0.6;
 }
-
 
 .avatar {
-  margin-left: 3%;
-  margin-right: 3%;
-  margin-bottom: 1%;
+	margin-left: 3%;
+	margin-right: 3%;
+	margin-bottom: 1%;
 }
 
 .list-roles {
-  margin:20px 0px;
+	margin: 12px;
 }
 
 .item {
-  background-color: linear-gradient(300deg, $mineshaft 0%, #1f1535 35%, #222222 100%);
-  border-radius: 0px;
-  text-align: center;
-  border: 0px solid $sasuke;
-  // max-width: 300px;
+	background-color: linear-gradient(
+		300deg,
+		$mineshaft 0%,
+		#1f1535 35%,
+		#222222 100%
+	);
+	border-radius: 0px;
+	text-align: center;
+	border: 0px solid $sasuke;
+	// max-width: 300px;
 }
 
 .admin-color {
-  color: $admin;
+	color: $admin;
 }
 
 .member-color {
-  color: $guest;
+	color: $guest;
 }
 
-.mat-list-base {
+.mat-mdc-list-base {
 	width: 97%;
 	margin: auto;
 }
 
 .admin {
-  color: $admin;
+	color: $admin;
 }
 
 .custom-br2 {
-  margin-top: 8px ;
-  border : solid 0px;
-  background-color: transparent;
+	margin-top: 8px;
+	border: solid 0px;
+	background-color: transparent;
+}
+
+.user-list {
+	text-align: left;
+
+	.item {
+		display: flex;
+		align-items: center;
+		width: 90%;
+	}
 }
 
 .naviguation_cons {
-  margin:2% 3% 1% 19% !important;
-  margin-top: 8px;
-  margin-bottom: 8px;
+	margin: 2% 3% 1% 19% !important;
+	margin-top: 8px;
+	margin-bottom: 8px;
 }
 
 ::ng-deep {
@@ -99,41 +113,42 @@ hr {
 }
 
 .filtres {
-  margin-top: 25px !important;
+	margin-top: 25px !important;
 }
 
 .round-navbard {
-  border: 2px solid $sasuke;
-  background-color: $mineshaft;
-  border-radius: 25px;
+	border: 2px solid $sasuke;
+	background-color: $mineshaft;
+	border-radius: 25px;
 }
 
 .content {
-  margin-left: 19%;
-  margin-right: 3%;
-  margin-bottom: 3%;
-  margin-top: 2%;
+	margin-left: 19%;
+	margin-right: 3%;
+	margin-bottom: 3%;
+	margin-top: 2%;
+	color: whitesmoke;
 }
 
 .list-item {
-  text-align: left;
-  overflow-x: auto;
+	text-align: left;
+	overflow-x: auto;
 }
 
 table {
-  margin-left: auto;
-  margin-right: auto;
-  width: 65%;
-  overflow-x: auto;
-  align-items: center;
-  border: 2px solid $sasuke;
-  background-color: $bg-dark;
+	margin-left: auto;
+	margin-right: auto;
+	width: 65%;
+	overflow-x: auto;
+	align-items: center;
+	border: 2px solid $sasuke;
+	background-color: $bg-dark;
 }
 
 span {
-  overflow-x: hidden;
+	overflow-x: hidden;
 }
 
 .content[_ngcontent-fcv-c154] {
-  margin:2% 3% 2% 19%;
- }
+	margin: 2% 3% 2% 19%;
+}

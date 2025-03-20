@@ -4,35 +4,37 @@
 		<a class="navbar-brand" routerLink="/">Matbay!</a>
 		<div class="container">
 			<div class="container left">
-			<button mat-raised-button class="btn btn-primary dropdown-toggle purple navbar-button" [matMenuTriggerFor]="menu">
-				Constitutions
-			</button>
-			<mat-menu #menu="matMenu">
-				<button mat-menu-item class="menu-panel" (click)="openJoinConstitution()">
-					<mat-icon class="menu-panel">open_in_browser</mat-icon>
-					<span>Rejoindre une Constitution privée</span>
+				<button mat-raised-button color="primary" class="btn btn-primary dropdown-toggle purple navbar-button"
+					[matMenuTriggerFor]="menu">
+					Constitutions
 				</button>
-				<button mat-menu-item class="menu-panel" routerLink="/current-constitutions">
-					<mat-icon class="menu-panel">dvr</mat-icon>
-					<span>Voir la liste des Constitutions</span>
+				<mat-menu #menu="matMenu">
+					<button mat-menu-item class="menu-panel" (click)="openJoinConstitution()">
+						<mat-icon class="menu-panel">open_in_browser</mat-icon>
+						<span>Rejoindre une Constitution privée</span>
+					</button>
+					<button mat-menu-item class="menu-panel" routerLink="/current-constitutions">
+						<mat-icon class="menu-panel">dvr</mat-icon>
+						<span>Voir la liste des Constitutions</span>
+					</button>
+				</mat-menu>
+
+				<button mat-raised-button color="primary" class="btn purple btn-primary navbar-button"
+					routerLink="/users">Utilisateurs</button>
+
+				<button mat-raised-button color="primary" class="btn btn-primary purple dropdown-toggle navbar-button"
+					[matMenuTriggerFor]="ressourceMenu">
+					Ressources
 				</button>
-			</mat-menu>
-
-			<button mat-raised-button class="btn purple btn-primary navbar-button"
-				routerLink="/users">Utilisateurs</button>
-
-			<button mat-raised-button class="btn btn-primary purple dropdown-toggle navbar-button" [matMenuTriggerFor]="ressourceMenu">
-				Ressources
-			</button>
-			<mat-menu #ressourceMenu="matMenu">
-				<button mat-menu-item class="menu-panel" (click)="navigateTo('https://mellotron.pages.dev')">
-					<img src="assets/icons/mellotron.png" class="ressource-icon">
+				<mat-menu #ressourceMenu="matMenu">
+					<button mat-menu-item class="menu-panel" (click)="navigateTo('https://mellotron.pages.dev')">
+						<img src="assets/icons/mellotron.png" class="ressource-icon">
 						<span>Mellotron - Archive Matbay</span>
-				</button>
-			</mat-menu>
+					</button>
+				</mat-menu>
 
-			<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
-				routerLink="/admin-page">Administrateur</button>
+				<button *ngIf="isAuthorized()" mat-raised-button class="btn purple btn-primary navbar-button"
+					routerLink="/admin-page">Administrateur</button>
 
 			</div>
 			<!-- Dropdown Menu -->
@@ -43,15 +45,16 @@
 
 <ng-template #signedIn>
 	<div class="container right">
-		<mat-icon *ngIf="!auth.isConnected" class="warning vertical image-de" matTooltip="Vous êtes déconnecté de Kalimba. Essayez de recharger la page. Si le problème persiste, contactez un administrateur.">cloud_off</mat-icon>
+		<mat-icon *ngIf="!auth.isConnected" class="warning vertical image-de"
+			matTooltip="Vous êtes déconnecté de Kalimba. Essayez de recharger la page. Si le problème persiste, contactez un administrateur.">cloud_off</mat-icon>
 
 		<button mat-button [matMenuTriggerFor]="menu">
-			<img src="{{auth.user.photoURL}}" class="rounded-circle navbar-button" width="50"	height="50">
+			<img src="{{auth.user.photoURL}}" class="rounded-circle navbar-button" width="50" height="50">
 		</button>
 	</div>
 
 	<mat-menu #menu="matMenu">
-		<button mat-menu-item class="menu-panel"  routerLink="/profile">
+		<button mat-menu-item class="menu-panel" routerLink="/profile">
 			<mat-icon class="menu-panel">person</mat-icon>
 			<span>Profil</span>
 		</button>
@@ -64,7 +67,9 @@
 </ng-template>
 <ng-template #signedOut>
 	<div class="container right">
-		<button mat-raised-button class="navbar-button" color="primary" (click)="navigateTo('invite')">Inscription</button>
-		<button mat-raised-button class="navbar-button" color="primary" (click)="auth.signIn()">Connexion</button>
+		<button mat-raised-button color="primary" class="navbar-button" color="primary"
+			(click)="navigateTo('invite')">Inscription</button>
+		<button mat-raised-button color="primary" class="navbar-button" color="primary"
+			(click)="auth.signIn()">Connexion</button>
 	</div>
 </ng-template>

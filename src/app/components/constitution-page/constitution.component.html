@@ -22,24 +22,27 @@
 	</table>
 	<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
 	<hr>
-	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution() || isJudge(auth.uid)" (click)="openDialogManageSongs()">
+	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution() || isJudge(auth.uid)"
+		(click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes musiques
 	</button>
 	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
 		<mat-icon>shuffle</mat-icon> Sélection aléatoire
 	</button>
 	<hr>
-	<mat-list role="list" *ngFor="let user of getUsers()" class="list-roles">
-		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
-			<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
-			<ng-template #isNotOwner>
-				<mat-icon *ngIf="!isJudge(user.uid)" matTooltip="Participant">account_box</mat-icon>
-				<mat-icon *ngIf="isJudge(user.uid)" matTooltip="Juge">how_to_vote</mat-icon>
-			</ng-template>
-			<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
-			<span class="list-item"> {{user.displayName}} </span>
-		</mat-list-item>
-	</mat-list>
+	<div class="user-list">
+		<div role="list" *ngFor="let user of getUsers()" class="list-roles">
+			<span role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
+				<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
+				<ng-template #isNotOwner>
+					<mat-icon *ngIf="!isJudge(user.uid)" matTooltip="Participant">account_box</mat-icon>
+					<mat-icon *ngIf="isJudge(user.uid)" matTooltip="Juge">how_to_vote</mat-icon>
+				</ng-template>
+				<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
+				<span class="list-item"> {{user.displayName}} </span>
+			</span>
+		</div>
+	</div>
 	<hr>
 	<button mat-raised-button [disabled]="true" class="warning">
 		<mat-icon>highlight_off</mat-icon> Quitter la constitution
@@ -53,49 +56,48 @@
 			<i class="fas fa-bars"></i>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav" mdbCollapse #basicNav="mdbCollapse">
-			<button mat-button [ngClass]="isSectionActive(constitutionSection.SONG_LIST) ? 'active' : ''" 
-							(click)="setCurrentSection(constitutionSection.SONG_LIST)">
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.SONG_LIST) ? 'active' : ''"
+				(click)="setCurrentSection(constitutionSection.SONG_LIST)">
 				<mat-icon>queue_music</mat-icon> Liste des Musiques
 			</button>
-			<button *ngIf="isInConstitution()" mat-button [ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''" 
-							(click)="setCurrentSection(constitutionSection.VOTES)">
+			<button *ngIf="isInConstitution()" mat-button
+				[ngClass]="isSectionActive(constitutionSection.VOTES) ? 'active' : ''"
+				(click)="setCurrentSection(constitutionSection.VOTES)">
 				<mat-icon>how_to_vote</mat-icon> Zone Électorale
 			</button>
-			<button mat-button [ngClass]="isSectionActive(constitutionSection.OWNER) ? 'active' : ''" 
-							*ngIf="isOwner()" 
-							(click)="setCurrentSection(constitutionSection.OWNER)">
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.OWNER) ? 'active' : ''" *ngIf="isOwner()"
+				(click)="setCurrentSection(constitutionSection.OWNER)">
 				<mat-icon>account_balance</mat-icon> Présidence
 			</button>
-			<button mat-button [ngClass]="isSectionActive(constitutionSection.RESULTS) ? 'active' : ''" 
-							(click)="setCurrentSection(constitutionSection.RESULTS)">
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.RESULTS) ? 'active' : ''"
+				(click)="setCurrentSection(constitutionSection.RESULTS)">
 				<mat-icon>equalizer</mat-icon> Résultats
 			</button>
-			<button mat-button [ngClass]="isSectionActive(constitutionSection.EXPORT) ? 'active' : ''" 
-							(click)="setCurrentSection(constitutionSection.EXPORT)">
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.EXPORT) ? 'active' : ''"
+				(click)="setCurrentSection(constitutionSection.EXPORT)">
 				<mat-icon>get_app</mat-icon> Exporter
 			</button>
-			<button mat-button [ngClass]="isSectionActive(constitutionSection.PARAMETERS) ? 'active' : ''" 
-							(click)="setCurrentSection(constitutionSection.PARAMETERS)">
+			<button mat-button [ngClass]="isSectionActive(constitutionSection.PARAMETERS) ? 'active' : ''"
+				(click)="setCurrentSection(constitutionSection.PARAMETERS)">
 				<mat-icon>settings</mat-icon> Paramètres
 			</button>
 		</div>
 	</div>
 </nav>
 <div [ngSwitch]="currentSection" class="content filtres">
-	<app-song-list *ngSwitchCase="constitutionSection.SONG_LIST"
-		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="getCurrentUserFavs()">
+	<app-song-list *ngSwitchCase="constitutionSection.SONG_LIST" [songs]="songs" [users]="users"
+		[constitution]="constitution" [favorites]="getCurrentUserFavs()">
 	</app-song-list>
-	<app-votes *ngSwitchCase="constitutionSection.VOTES"
-		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="getCurrentUserFavs()">
+	<app-votes *ngSwitchCase="constitutionSection.VOTES" [songs]="songs" [users]="users" [constitution]="constitution"
+		[favorites]="getCurrentUserFavs()">
 	</app-votes>
-	<app-owner *ngSwitchCase="constitutionSection.OWNER" 
-		[songs]="songs" [users]="users" [constitution]="constitution">
+	<app-owner *ngSwitchCase="constitutionSection.OWNER" [songs]="songs" [users]="users" [constitution]="constitution">
 	</app-owner>
-	<app-results *ngSwitchCase="constitutionSection.RESULTS"
-		[songs]="songs" [users]="users" [constitution]="constitution" [favorites]="favorites">
+	<app-results *ngSwitchCase="constitutionSection.RESULTS" [songs]="songs" [users]="users"
+		[constitution]="constitution" [favorites]="favorites">
 	</app-results>
-	<app-export *ngSwitchCase="constitutionSection.EXPORT"
-		[songs]="songs" [users]="users" [constitution]="constitution">
+	<app-export *ngSwitchCase="constitutionSection.EXPORT" [songs]="songs" [users]="users"
+		[constitution]="constitution">
 	</app-export>
 	<app-parameters *ngSwitchCase="constitutionSection.PARAMETERS"> </app-parameters>
 </div>

@@ -49,16 +49,16 @@
 					matTooltip='"En présence de / avec". Liste des auteurs supplémentaires.'>help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Liste des featurings</mat-label>
-					<mat-chip-list #chipListFeats>
-						<mat-chip *ngFor="let feat of feats" (removed)="remove(feat, 'feats')">
+					<mat-chip-grid #chipListFeats>
+						<mat-chip-row *ngFor="let feat of feats" (removed)="remove(feat, 'feats')">
 							{{feat}}
 							<button matChipRemove>
 								<mat-icon>cancel</mat-icon>
 							</button>
-						</mat-chip>
+						</mat-chip-row>
 						<input placeholder="Autre auteur..." [matChipInputFor]="chipListFeats" [matChipInputAddOnBlur]="true"
 							(matChipInputTokenEnd)="add($event, 'feats')">
-					</mat-chip-list>
+					</mat-chip-grid>
 				</mat-form-field><br>
 				<mat-icon *ngIf="isValidURL() && !isNil('url')" class="valid icon">check_circle_outline</mat-icon>
 				<mat-icon *ngIf="isNil('url')" class="warning icon"
@@ -85,31 +85,31 @@
 					matTooltip="Autres titres possibles de la musique. Il peut s'agir de traductions.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Titres alternatifs</mat-label>
-					<mat-chip-list #chipListTitles>
-						<mat-chip *ngFor="let title of altTitles" (removed)="remove(title, 'altTitles')">
+					<mat-chip-grid #chipListTitles>
+						<mat-chip-row *ngFor="let title of altTitles" (removed)="remove(title, 'altTitles')">
 							{{title}}
 							<button matChipRemove>
 								<mat-icon>cancel</mat-icon>
 							</button>
-						</mat-chip>
+						</mat-chip-row>
 						<input placeholder="Autre titre..." [matChipInputFor]="chipListTitles" [matChipInputAddOnBlur]="true"
 							(matChipInputTokenEnd)="add($event, 'altTitles')">
-					</mat-chip-list>
+					</mat-chip-grid>
 				</mat-form-field><br>
 				<mat-icon class="icon"
 					matTooltip="Liste des genres de la musique. Il est possible d'en avoir plusieurs.">help_outline</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Genres</mat-label>
-					<mat-chip-list #chipListGenre>
-						<mat-chip *ngFor="let genre of genres" (removed)="remove(genre, 'genres')">
+					<mat-chip-grid #chipListGenre>
+						<mat-chip-row *ngFor="let genre of genres" (removed)="remove(genre, 'genres')">
 							{{genre}}
 							<button matChipRemove>
 								<mat-icon>cancel</mat-icon>
 							</button>
-						</mat-chip>
+						</mat-chip-row>
 						<input placeholder="Ajouter un genre..." #genreInput [formControl]="genresForm"
 							[matAutocomplete]="autoGenre" [matChipInputFor]="chipListGenre">
-					</mat-chip-list>
+					</mat-chip-grid>
 					<mat-autocomplete #autoGenre="matAutocomplete" (optionSelected)="selected($event, 'genres')">
 						<mat-option *ngFor="let genre of filteredGenres | async" [value]="genre">
 							{{genre}}
@@ -120,16 +120,16 @@
 					matTooltip="Liste des langues chantées dans la musique. Il est possible d'en avoir plusieurs ou aucune. Sélectionner 'Autre' si aucune langue ne correspond.">help_outline</mat-icon>
 				<mat-form-field appearance="outline" *ngIf="!isInstrumental()">
 					<mat-label>Langues</mat-label>
-					<mat-chip-list #chipListLanguage>
-						<mat-chip *ngFor="let language of languages" (removed)="remove(language, 'languages')">
+					<mat-chip-grid #chipListLanguage>
+						<mat-chip-row *ngFor="let language of languages" (removed)="remove(language, 'languages')">
 							{{language}}
 							<button matChipRemove>
 								<mat-icon>cancel</mat-icon>
 							</button>
-						</mat-chip>
+						</mat-chip-row>
 						<input placeholder="Ajouter une langue..." #languageInput [formControl]="languagesForm"
 							[matAutocomplete]="autoLanguage" [matChipInputFor]="chipListLanguage">
-					</mat-chip-list>
+					</mat-chip-grid>
 					<mat-autocomplete #autoLanguage="matAutocomplete" (optionSelected)="selected($event, 'languages')">
 						<mat-option *ngFor="let language of filteredLanguages | async" [value]="language">
 							{{language}}

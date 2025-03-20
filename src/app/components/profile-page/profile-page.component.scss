@@ -41,18 +41,21 @@ mat-form-field {
 }
 
 ::ng-deep {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   .mat-form-field-appearance-outline .mat-form-field-outline {
      color: whitesmoke;
   }
-  .mat-form-field.mat-focused .mat-form-field-label {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+  .mat-mdc-form-field.mat-focused .mat-form-field-label {
       color: whitesmoke !important;
   }
-  .mat-input-element {
+  .mat-mdc-input-element {
       caret-color: whitesmoke!important;
   }
 
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+      .mat-mdc-form-field-hint, input, ::placeholder, .mat-form-field-label {
           color: whitesmoke;
       }
   }

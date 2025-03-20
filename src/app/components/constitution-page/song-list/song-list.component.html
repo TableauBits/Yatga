@@ -1,16 +1,16 @@
 <div class="filter">
-	<span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
+	<span class="filter-text"> Filtre des utilisateurs :</span>
 	<img *ngFor="let user of getUsers()" class="picture clickable"
 		matTooltip="{{userFilterTooltip(user.uid, user.displayName)}}" [src]="user.photoURL"
 		(click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
-	<button mat-raised-button color="primary" (click)="select('all')" class="filter-button"
+	<button mat-mini-fab color="primary" (click)="select('all')" class="filter-button"
 		matTooltip="Afficher tous les utilisateurs">
 		<mat-icon>add_circle_outline</mat-icon>
 	</button>
-	<button mat-raised-button color="primary" (click)="select('none')" matTooltip="Cacher tous les utilisateurs">
+	<button mat-mini-fab color="primary" (click)="select('none')" matTooltip="Cacher tous les utilisateurs">
 		<mat-icon>block</mat-icon>
 	</button>
-	<button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu"
+	<button mat-mini-fab color="primary" class="filter-button" [matMenuTriggerFor]="menu"
 		matTooltip="Classer les musiques">
 		<mat-icon>filter_list</mat-icon>
 	</button>
@@ -29,19 +29,20 @@
 		</button>
 	</mat-menu>
 </div>
-<br>
-<br>
+
 <div *ngIf="cardsViewEnabled; then cardsView; else compactView">
 </div>
 <ng-template #cardsView>
 	<div class="cards">
-		<mat-card *ngFor="let song of getSongs()" class="card-r">
+		<mat-card appearance="outlined" *ngFor="let song of getSongs()" class="card-r">
 			<mat-card-header>
 				<img mat-card-avatar src="{{getUser(song.user).photoURL}}"
 					matTooltip="{{getUser(song.user).displayName}}">
 				<mat-card-title class="card-text text-overflowable"> {{songPropertyManager.getTitle(song)}}
 				</mat-card-title>
-				<mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}"> <i> {{songPropertyManager.getSubTitle(song)}}
+				<mat-card-subtitle class="card-text text-overflowable"
+					matTooltip="{{songPropertyManager.getSubTitle(song)}}"> <i>
+						{{songPropertyManager.getSubTitle(song)}}
 					</i> </mat-card-subtitle>
 			</mat-card-header>
 			<hr>
@@ -56,25 +57,25 @@
 					<img src="{{urlGetter.getImageURL(song)}}" class="iframe-image"
 						(click)="updateCurrentIframeSong(song)">
 					<div class="centered">
-						<button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
+						<button mat-fab color="primary" (click)="updateCurrentIframeSong(song)">
 							<mat-icon>play_arrow</mat-icon></button>
 					</div>
 				</ng-template>
-				<button mat-button color="primary" (click)="openSongNavigator(song)"
+				<button mat-icon-button color="primary" (click)="openSongNavigator(song)"
 					matTooltip="Ouvrir le navigateur Matbay">
 					<mat-icon>music_video</mat-icon>
 				</button>
-				<button mat-button color="primary" (click)="songPropertyManager.onNavigate(song)"
+				<button mat-icon-button color="primary" (click)="songPropertyManager.onNavigate(song)"
 					matTooltip="Regarder la vidéo sur le site d'origine">
 					<mat-icon>play_circle_outline</mat-icon>
 				</button>
-				<button mat-button color="primary" (click)="toggleFavorite(song, auth)"
+				<button mat-icon-button color="primary" (click)="toggleFavorite(song, auth)"
 					[disabled]="noMoreFavorites(song) || !canModifyFavorite() || !isInConstitution()">
 					<mat-icon *ngIf="isAFavorite(song); else normalSong" class="favorite">favorite</mat-icon>
 				</button>
 				<app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
 				</app-optionnal-song-infos-button>
-				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
+				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-icon-button color="warn"
 					class="cancel" (click)="openDeleteSongWarning(song)" matTooltip="Retirer la musique">
 					<mat-icon>cancel</mat-icon>
 				</button>

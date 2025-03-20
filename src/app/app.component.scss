@@ -1,21 +1,21 @@
 .main-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  grid-template-areas:
-      "navbar"
-      "content";
-  height: 100%;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto 1fr;
+	grid-template-areas:
+		"navbar"
+		"content";
+	height: 100%;
 }
 
 #navbar {
-  grid-area: navbar;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+	grid-area: navbar;
+	position: sticky;
+	top: 0;
+	z-index: 2;
 }
 
 #content {
-  grid-area: content;
-  color: whitesmoke;
+	grid-area: content;
+	color: whitesmoke;
 }
