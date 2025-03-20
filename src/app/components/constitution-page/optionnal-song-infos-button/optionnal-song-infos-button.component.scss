@@ -1,6 +1,6 @@
 @import "../../../../styles/variables.scss";
 ::ng-deep {
-  .mat-menu-content { // :not(:empty)
+  .mat-mdc-menu-content { // :not(:empty)
     padding-left: 8px;
     padding-right: 8px;
     border-style: solid;

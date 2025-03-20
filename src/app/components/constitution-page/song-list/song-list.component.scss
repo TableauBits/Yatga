@@ -69,15 +69,15 @@ button {
 }
 
 ::ng-deep {
-	.mat-menu-content {
+	.mat-mdc-menu-content {
 		background-color: $bg-dark  !important;
 	}
 
-	.mat-menu-item:hover {
+	.mat-mdc-menu-item:hover {
 		background-color: $sasuke !important;
 	}
 
-	.mat-menu-panel {
+	.mat-mdc-menu-panel {
 		background-color: unset !important;
 	}
 }
@@ -108,10 +108,10 @@ button {
 			border-radius: 10px;
 		}
 	}
-	.mat-card-subtitle {
+	.mat-mdc-card-subtitle {
 		color: $angular-purple;
 	}
-	.mat-card-avatar {
+	.mat-mdc-card-avatar {
 		width: 45px;
 		height: 45px;
 		margin-top: -8px;

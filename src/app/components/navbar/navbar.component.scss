@@ -103,20 +103,20 @@
 	color: whitesmoke;
 }
 
-.mat-menu-item {
+.mat-mdc-menu-item {
   vertical-align: middle;
 }
 
 ::ng-deep {
-	.mat-menu-content {
+	.mat-mdc-menu-content {
 		background-color: $mineshaft  !important;
 	}
 
-	.mat-menu-item:hover {
+	.mat-mdc-menu-item:hover {
 		background-color: $sasuke !important;
 	}
 
-	.mat-menu-panel {
+	.mat-mdc-menu-panel {
 		background-color: unset !important;
 	}
 }

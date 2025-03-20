@@ -52,18 +52,21 @@ mat-form-field {
 }
 
 ::ng-deep {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   .mat-form-field-appearance-outline .mat-form-field-outline {
      color: whitesmoke;
   }
-  .mat-form-field.mat-focused .mat-form-field-label {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+  .mat-mdc-form-field.mat-focused .mat-form-field-label {
       color: whitesmoke !important;
   }
-  .mat-input-element {
+  .mat-mdc-input-element {
       caret-color: whitesmoke!important;
   }
   
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+      .mat-mdc-form-field-hint, input, ::placeholder, .mat-form-field-label {
           color: whitesmoke;
       }
   }
@@ -109,15 +112,15 @@ mat-form-field {
 }
 
 ::ng-deep {
-	.mat-menu-content {
+	.mat-mdc-menu-content {
 		background-color: $bg-dark  !important;
 	}
 
-	.mat-menu-item:hover {
+	.mat-mdc-menu-item:hover {
 		background-color: $sasuke !important;
 	}
 
-	.mat-menu-panel {
+	.mat-mdc-menu-panel {
 		background-color: unset !important;
 	}
 }
@@ -148,10 +151,10 @@ mat-form-field {
 			border-radius: 10px;
 		}
 	}
-	.mat-card-subtitle {
+	.mat-mdc-card-subtitle {
 		color: $angular-purple;
 	}
-	.mat-card-avatar {
+	.mat-mdc-card-avatar {
 		width: 45px;
 		height: 45px;
 		margin-top: -8px;

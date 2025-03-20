@@ -37,6 +37,7 @@ hr {
   color: whitesmoke;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
 .sidenav .mat-button-disabled {
   background-color: #222;
   color: #b7b7b7;
@@ -71,7 +72,7 @@ hr {
   color: $guest;
 }
 
-.mat-list-base {
+.mat-mdc-list-base {
 	width: 97%;
 	margin: auto;
 }
