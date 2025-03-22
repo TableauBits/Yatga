@@ -5,10 +5,11 @@ table {
 	margin-right: auto;
 	width: 95%;
 	overflow-x: auto;
-	font-size:medium;
+	font-size: medium;
 }
 
-td, th {
+td,
+th {
 	border: 1px solid $sasuke;
 	text-align: center;
 	padding: 8px;
@@ -33,9 +34,9 @@ td, th {
 }
 
 canvas {
-  width: 100%;
-  top: 0;
-  left: 0;
+	width: 100%;
+	top: 0;
+	left: 0;
 }
 
 .card {
@@ -45,11 +46,12 @@ canvas {
 	margin: auto;
 	position: absolute;
 	position: absolute;
-    top: 50%;  /* position the top  edge of the element at the middle of the parent */
-    left: 50%; /* position the left edge of the element at the middle of the parent */
+	top: 50%; /* position the top  edge of the element at the middle of the parent */
+	left: 50%; /* position the left edge of the element at the middle of the parent */
 
-    transform: translate(-50%, -50%); /* This is a shorthand of
-                                         translateX(-50%) and translateY(-50%) */
+	transform: translate(-50%, -50%);
+	border: 1px solid #fff2;
+	border-radius: 16px;
 }
 
 .no-overflow {
@@ -66,9 +68,9 @@ canvas {
 .blur {
 	filter: blur($blur);
 	-webkit-filter: blur($blur);
-    -moz-filter: blur($blur);
-    -o-filter: blur($blur);
-    -ms-filter: blur($blur);
+	-moz-filter: blur($blur);
+	-o-filter: blur($blur);
+	-ms-filter: blur($blur);
 	user-select: none;
 }
 
@@ -94,8 +96,8 @@ iframe {
 
 .centered {
 	cursor: pointer;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }

@@ -1,7 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
-// MDB SCSS
-
 @use "@angular/material" as mat;
+
+// Font Awesome
+@import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "@fortawesome/fontawesome-free/scss/solid.scss";
+@import "@fortawesome/fontawesome-free/scss/regular.scss";
+@import "@fortawesome/fontawesome-free/scss/brands.scss";
+@import "styles/variables.scss";
+@import "node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss";
 
 @include mat.core();
 
@@ -21,13 +26,18 @@ $my-theme: mat.define-dark-theme(
 
 @include mat.all-component-themes($my-theme);
 
-// Font Awesome
-@import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "@fortawesome/fontawesome-free/scss/solid.scss";
-@import "@fortawesome/fontawesome-free/scss/regular.scss";
-@import "@fortawesome/fontawesome-free/scss/brands.scss";
-@import "styles/variables.scss";
-@import "node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss";
+:root {
+	--mat-mdc-form-field-filled-caret-color: orange;
+	--mat-mdc-form-field-filled-focus-active-indicator-color: red;
+}
+
+.mat-mdc-form-field-focus-overlay {
+	background-color: black;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+	background-color: #1b1917;
+}
 
 html,
 body {
