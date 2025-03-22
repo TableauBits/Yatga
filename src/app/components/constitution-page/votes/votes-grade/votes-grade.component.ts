@@ -1,9 +1,35 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { canModifySongs, Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import {
+	canModifySongs,
+	Constitution,
+	createMessage,
+	CstResUpdate,
+	EMPTY_CONSTITUTION,
+	EMPTY_USER,
+	EventType,
+	extractMessageData,
+	GradeReqGetSummary,
+	GradeReqGetUser,
+	GradeResSummaryUpdate,
+	GradeResUserDataUpdate,
+	GradeSummary,
+	GradeUserData,
+	Message,
+	Song,
+	SongPlatform,
+	User,
+	UserFavorites,
+	canModifyVotes,
+} from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
+import {
+	CARDS_SORT_KEY,
+	CARDS_VIEW_KEY,
+	GRADE_SHOW_STATS_KEY,
+	GRADE_ALREADY_VOTES_KEY,
+} from 'src/app/types/local-storage';
 import { mean, variance } from 'src/app/types/math';
 import { compareObjectsFactory, toMap, toMapNumber } from 'src/app/types/utils';
 import { VoteNavigatorComponent } from './vote-navigator/vote-navigator.component';
@@ -16,15 +42,18 @@ import { range } from 'lodash';
 enum GradeOrder {
 	INCREASE,
 	DECREASE,
-	NONE
+	NONE,
 }
 
 @Component({
 	selector: 'app-votes-grade',
 	templateUrl: './votes-grade.component.html',
-	styleUrls: ['./votes-grade.component.scss']
+	styleUrls: ['./votes-grade.component.scss'],
 })
-export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy {
+export class VotesGradeComponent
+	extends YatgaUserFavorites
+	implements OnDestroy
+{
 	@Input() constitution: Constitution = EMPTY_CONSTITUTION;
 	@Input() users: Map<string, User> = new Map();
 	@Input() songs: Map<number, Song> = new Map();
@@ -37,7 +66,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	histogramGrades: number[];
 	summary: GradeSummary;
 
-	cstID = "";
+	cstID = '';
 
 	cardsSortASC: boolean;
 	cardsViewEnabled: boolean;
@@ -45,7 +74,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	showAlreadyVoted: boolean;
 
 	// Filter
-	selectedUsers: string[];	// TODO : Meilleur manière de filtrer ?
+	selectedUsers: string[]; // TODO : Meilleur manière de filtrer ?
 	orderByUser: boolean;
 	orderByFavs: boolean;
 	orderByGrade: GradeOrder;
@@ -62,12 +91,16 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		this.currentIframeSongID = -1;
 		this.votes = { uid: this.auth.uid, values: new Map() };
 		this.summary = { voteCount: 0, userCount: new Map() };
-		this.favorites = {uid: "", favs: []};
+		this.favorites = { uid: '', favs: [] };
 		this.histogramGrades = [];
-		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
-		this.showStats = (localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === "true";
-		this.showAlreadyVoted = (localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === "true";
+		this.cardsSortASC =
+			(localStorage.getItem(CARDS_SORT_KEY) ?? true) === 'false';
+		this.cardsViewEnabled =
+			(localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== 'false';
+		this.showStats =
+			(localStorage.getItem(GRADE_SHOW_STATS_KEY) ?? true) === 'true';
+		this.showAlreadyVoted =
+			(localStorage.getItem(GRADE_ALREADY_VOTES_KEY) ?? true) === 'true';
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
 		this.orderByFavs = false;
@@ -85,10 +118,16 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	private onConnect(): void {
 		this.route.params.subscribe((params) => {
 			this.cstID = params.cstID;
-			const messageGetUserVotes = createMessage<GradeReqGetUser>(EventType.CST_SONG_GRADE_get_user, { cstId: this.cstID });
+			const messageGetUserVotes = createMessage<GradeReqGetUser>(
+				EventType.CST_SONG_GRADE_get_user,
+				{ cstId: this.cstID }
+			);
 			this.auth.ws.send(messageGetUserVotes);
 
-			const messageGetSummary = createMessage<GradeReqGetSummary>(EventType.CST_SONG_GRADE_get_summary, { cstId: this.cstID });
+			const messageGetSummary = createMessage<GradeReqGetSummary>(
+				EventType.CST_SONG_GRADE_get_summary,
+				{ cstId: this.cstID }
+			);
 			this.auth.ws.send(messageGetSummary);
 		});
 	}
@@ -97,16 +136,32 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		let message = JSON.parse(event.data.toString()) as Message<unknown>;
 
 		switch (message.event) {
-			case EventType.CST_SONG_GRADE_summary_update: {
-				const data = extractMessageData<GradeResSummaryUpdate>(message).summary;
-				this.summary = { voteCount: data.voteCount, userCount: toMap(data.userCount) };
-			}
+			case EventType.CST_SONG_GRADE_summary_update:
+				{
+					const data =
+						extractMessageData<GradeResSummaryUpdate>(
+							message
+						).summary;
+					this.summary = {
+						voteCount: data.voteCount,
+						userCount: toMap(data.userCount),
+					};
+				}
 				break;
-			case EventType.CST_SONG_GRADE_userdata_update: {
-				const data = extractMessageData<GradeResUserDataUpdate>(message).userData;
-				this.votes = { uid: data.uid, values: toMapNumber<number>(data.values) };
-				this.histogramGrades = Array.from(this.votes.values.values());
-			}
+			case EventType.CST_SONG_GRADE_userdata_update:
+				{
+					const data =
+						extractMessageData<GradeResUserDataUpdate>(
+							message
+						).userData;
+					this.votes = {
+						uid: data.uid,
+						values: toMapNumber<number>(data.values),
+					};
+					this.histogramGrades = Array.from(
+						this.votes.values.values()
+					);
+				}
 				break;
 			case EventType.CST_update: {
 				const cst = extractMessageData<CstResUpdate>(message).cstInfo;
@@ -118,7 +173,10 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	updateGradeAlreadyVoted(): void {
 		this.showAlreadyVoted = !this.showAlreadyVoted;
-		localStorage.setItem(GRADE_ALREADY_VOTES_KEY, this.showAlreadyVoted.toString());
+		localStorage.setItem(
+			GRADE_ALREADY_VOTES_KEY,
+			this.showAlreadyVoted.toString()
+		);
 	}
 
 	setOrderByGrade(order: GradeOrder | number): void {
@@ -128,17 +186,34 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	getSongsToVote(): Song[] {
 		let songsToVote = Array.from(this.songs.values());
 
-		songsToVote = songsToVote.filter(song => song.user !== this.auth.uid);
-		songsToVote = songsToVote.filter(song => !(this.votes.values.has(song.id) && this.showAlreadyVoted));
-		songsToVote = songsToVote.filter(song => this.isSelected(song.user));
+		songsToVote = songsToVote.filter((song) => song.user !== this.auth.uid);
+		songsToVote = songsToVote.filter(
+			(song) => !(this.votes.values.has(song.id) && this.showAlreadyVoted)
+		);
+		songsToVote = songsToVote.filter((song) => this.isSelected(song.user));
 
-		songsToVote.sort(compareObjectsFactory("id", !this.cardsSortASC));
-		if (this.orderByUser) 
-			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
+		songsToVote.sort(compareObjectsFactory('id', !this.cardsSortASC));
+		if (this.orderByUser)
+			songsToVote = songsToVote.sort(
+				compareObjectsFactory<Song>(
+					(s: Song) => this.users.get(s.user) + s.user,
+					false
+				)
+			);
 		if (this.orderByGrade !== GradeOrder.NONE)
-			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.getVote(s) || 0, this.orderByGrade == GradeOrder.DECREASE));
+			songsToVote = songsToVote.sort(
+				compareObjectsFactory<Song>(
+					(s: Song) => this.getVote(s) || 0,
+					this.orderByGrade == GradeOrder.DECREASE
+				)
+			);
 		if (this.orderByFavs)
-			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
+			songsToVote = songsToVote.sort(
+				compareObjectsFactory<Song>(
+					(s: Song) => this.isAFavorite(s),
+					true
+				)
+			);
 
 		return songsToVote;
 	}
@@ -171,27 +246,35 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 			currentVote: this.getVote(song),
 			songs: this.getSongsToVote(),
 			votes: this.votes,
-			favorites: this.favorites
+			favorites: this.favorites,
 		};
 
-		config.width = "780px";
-		config.height = "830px";
+		config.width = '780px';
+		config.height = '830px';
+		config.panelClass = 'custom-dialog';
 
 		this.dialog.open(VoteNavigatorComponent, config);
 		this.currentIframeSongID = -1;
 	}
 
 	userVotesProgressBarValue(): number {
-		return this.votes.values.size / (this.constitution.numberOfSongsPerUser * (this.constitution.maxUserCount - 1)) * 100;
+		return (
+			(this.votes.values.size /
+				(this.constitution.numberOfSongsPerUser *
+					(this.constitution.maxUserCount - 1))) *
+			100
+		);
 	}
 
 	totalVotesProgressBarValue(): number {
-		return this.summary.voteCount / this.numberOfVotes() * 100;
+		return (this.summary.voteCount / this.numberOfVotes()) * 100;
 	}
 
 	getOtherUsers(): User[] {
 		const users = Array.from(this.users.values());
-		const currentUserIndex = users.findIndex((user) => user.uid === this.auth.uid);
+		const currentUserIndex = users.findIndex(
+			(user) => user.uid === this.auth.uid
+		);
 		users.splice(currentUserIndex, 1);
 		return users;
 	}
@@ -207,7 +290,11 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	// TODO : Duplication de code //
 
 	numberOfVotes(): number {
-		return this.constitution.maxUserCount * this.constitution.numberOfSongsPerUser * (this.constitution.maxUserCount - 1);
+		return (
+			this.constitution.maxUserCount *
+			this.constitution.numberOfSongsPerUser *
+			(this.constitution.maxUserCount - 1)
+		);
 	}
 
 	getUser(uid: string): User {
@@ -228,7 +315,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	// FILTER FUNCTIONS
 	toggleUserFilter(uid: string): void {
-		const index = this.selectedUsers.findIndex((user) => { return user === uid; });
+		const index = this.selectedUsers.findIndex((user) => {
+			return user === uid;
+		});
 		if (index !== -1) {
 			this.selectedUsers.splice(index, 1);
 		} else {
@@ -267,12 +356,14 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	}
 
 	userFilterTooltip(uid: string, displayName: string): string {
-		const status = !this.selectedUsers.includes(uid) ? "Cacher" : "Afficher";
+		const status = !this.selectedUsers.includes(uid)
+			? 'Cacher'
+			: 'Afficher';
 		return `${status} ${displayName}`;
 	}
 
 	getGradeList(): number[] {
 		const maxGrade = this.constitution.maxGrade || 10;
-		return range(1, maxGrade+1);
+		return range(1, maxGrade + 1);
 	}
 }

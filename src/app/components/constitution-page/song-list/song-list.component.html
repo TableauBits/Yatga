@@ -1,4 +1,4 @@
-<div class="filter">
+<div class="filter-bar">
 	<span class="filter-text"> Filtre des utilisateurs :</span>
 	<img *ngFor="let user of getUsers()" class="picture clickable"
 		matTooltip="{{userFilterTooltip(user.uid, user.displayName)}}" [src]="user.photoURL"
