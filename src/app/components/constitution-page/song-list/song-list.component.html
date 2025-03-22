@@ -39,7 +39,7 @@
 			<mat-card-header>
 				<img mat-card-avatar src="{{getUser(song.user).photoURL}}"
 					matTooltip="{{getUser(song.user).displayName}}">
-				<mat-card-title class="card-text text-overflowable"> {{songPropertyManager.getTitle(song)}}
+				<mat-card-title class="card-text text-overflowable" matTooltip="{{songPropertyManager.getTitle(song)}}"> {{songPropertyManager.getTitle(song)}}
 				</mat-card-title>
 				<mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}"> <i> {{songPropertyManager.getSubTitle(song)}}
 					</i> </mat-card-subtitle>
