@@ -78,10 +78,10 @@
           "options": {},
           "configurations": {
             "production": {
-              "browserTarget": "Yatga:build:production"
+              "buildTarget": "Yatga:build:production"
             },
             "development": {
-              "browserTarget": "Yatga:build:development"
+              "buildTarget": "Yatga:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Yatga:build"
+            "buildTarget": "Yatga:build"
           }
         },
         "test": {
