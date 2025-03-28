@@ -77,9 +77,8 @@
       <mat-card appearance="outlined" *ngFor="let song of getSongsToVote()" class="card-r">
         <mat-card-header>
           <img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
-          <mat-card-title class="card-text text-overflowable"> {{songPropertyManager.getTitle(song)}} </mat-card-title>
-          <mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}">
-            <i> {{songPropertyManager.getSubTitle(song)}} </i> </mat-card-subtitle>
+          <mat-card-title class="card-text text-overflowable" matTooltip="{{songPropertyManager.getTitle(song)}}"> {{songPropertyManager.getTitle(song)}} </mat-card-title>
+          <mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}"> <i> {{songPropertyManager.getSubTitle(song)}} </i> </mat-card-subtitle>
         </mat-card-header>
         <hr>
         <img src="{{urlGetter.getImageURL(song)}}" class="card-background-img" (click)="updateCurrentIframeSong(song)">
