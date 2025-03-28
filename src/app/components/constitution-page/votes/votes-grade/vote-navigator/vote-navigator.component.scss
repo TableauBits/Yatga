@@ -1,14 +1,42 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: min(100%, 100vh);
+	padding: 16px;
+	gap: 16px;
+	align-items: center;
+}
+
+.title {
+	width: 100%;
+}
+
 .alignment {
-  text-align: center;
+	text-align: center;
+
+	span:first-child .vote-button {
+		border-radius: 24px 0 0 24px;
+	}
+
+	span:last-child .vote-button {
+		border-radius: 0 24px 24px 0;
+	}
 }
 
 .favorite-button {
-  color: whitesmoke;
-  text-align: center;
+	color: whitesmoke;
+	text-align: center;
+	margin: 0 8px;
 }
 
 .vote-button {
-  background-color: #2E2E2E;
-  color: whitesmoke;
-  text-align: center;
+	color: whitesmoke;
+	text-align: center;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 0;
+}
+
+.close-button {
+	width: max-content;
 }

@@ -96,33 +96,36 @@ td, th {
 }
 
 ::ng-deep {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   .mat-form-field-appearance-outline .mat-form-field-outline {
     color: whitesmoke;
   }
-  .mat-form-field.mat-focused .mat-form-field-label {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+  .mat-mdc-form-field.mat-focused .mat-form-field-label {
     color: whitesmoke !important;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
   .mat-select-value {
     color: whitesmoke;
   }
 
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+      .mat-mdc-form-field-hint, input, ::placeholder, .mat-form-field-label {
           color: whitesmoke;
       }
   }
 
-  .mat-primary .mat-option:hover {
+  .mat-primary .mat-mdc-option:hover {
     background-color: $sasuke;
   }
 
-  .mat-option.mat-active {
+  .mat-mdc-option.mat-active {
     color: whitesmoke;
     background-color: $cape-cod;
   }
 
-  .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  .mat-mdc-select-panel .mat-mdc-option.mat-selected:not(.mat-mdc-option-multiple) {
     color: whitesmoke;
     background-color: $angular-purple;
   }

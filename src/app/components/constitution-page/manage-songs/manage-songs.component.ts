@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { createMessage, CstSongReqAdd, CstSongReqRemove, CstSongResUpdate, EventType, extractMessageData, Message, Song, SongPlatform, SONG_AUTHOR_LENGTH, SONG_NAME_LENGTH } from 'chelys';
 import { isEmpty, isNil, isNull } from 'lodash';
@@ -28,7 +28,7 @@ interface ManageSongsInjectedData {
 export class ManageSongsComponent implements OnDestroy {
 
 	public songs: Map<number, Song>;
-	public newSongForm: FormGroup;
+	public newSongForm: UntypedFormGroup;
 	public errorStatus: Status;
 	private cstID: string;
 
@@ -38,26 +38,26 @@ export class ManageSongsComponent implements OnDestroy {
 	public genres: string[] = [];
 	public filteredGenres: Observable<string[]>;
 	private allGenres: string[] = ALL_GENRES;
-	public genresForm: FormControl;
+	public genresForm: UntypedFormControl;
 	@ViewChild('genreInput') genreInput!: ElementRef<HTMLInputElement>;
 
 	public languages: string[] = [];
 	public filteredLanguages: Observable<string[]>;
 	private allLanguages: string[];
-	public languagesForm: FormControl;
+	public languagesForm: UntypedFormControl;
 	@ViewChild('languageInput') languageInput!: ElementRef<HTMLInputElement>;
 
 	constructor(
 		private auth: AuthService,
 		private dialogRef: MatDialogRef<ManageSongsComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: ManageSongsInjectedData,
-		public fb: FormBuilder
+		public fb: UntypedFormBuilder
 	) {
 		this.cstID = data.cstID;
 		this.songs = data.songs;
 		this.allLanguages = ALL_LANGUAGES_FR.sort();
-		this.genresForm = new FormControl();
-		this.languagesForm = new FormControl();
+		this.genresForm = new UntypedFormControl();
+		this.languagesForm = new UntypedFormControl();
 		this.newSongForm = this.fb.group({
 			title: [, Validators.required],
 			author: [, Validators.required],

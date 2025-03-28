@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { createMessage, EMPTY_USER, EventType, User } from 'chelys';
 import { isEqual } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,9 +19,9 @@ const DESCRIPTION_MAX_LENGTH = 140;
 export class ProfilePageComponent implements OnDestroy {
 
 	public errorStatus: Status;
-	public profileForm: FormGroup;
+	public profileForm: UntypedFormGroup;
 
-	constructor(public auth: AuthService, public fb: FormBuilder) {
+	constructor(public auth: AuthService, public fb: UntypedFormBuilder) {
 		this.profileForm = this.fb.group({
 			displayName: [this.isAlreadyAuth() ? this.auth.user.displayName : "", Validators.required],
 			photoURL: [this.isAlreadyAuth() ? this.auth.user.photoURL : "", Validators.required],

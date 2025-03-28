@@ -1,31 +1,28 @@
 <app-navigator-song-display [song]="currentSong"></app-navigator-song-display>
 <div class="title" (window:keydown)="keyPressed($event)">
-  <button mat-raised-button color="primary" class="previous-button" [disabled]="!previousSongExist()"
+  <button mat-mini-fab color="primary" class="previous-button" [disabled]="!previousSongExist()"
     (click)="changeSong(-1)">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
-  <button mat-raised-button color="primary" class="favorite-button" (click)="toggleFavorite(currentSong, auth)"
+  <button mat-mini-fab color="primary" class="favorite-button" (click)="toggleFavorite(currentSong, auth)"
     [disabled]="noMoreFavorites(currentSong)">
     <mat-icon *ngIf="isAFavorite(currentSong); else normalSong" class="favorite">favorite</mat-icon>
   </button>
   <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong"> </app-optionnal-song-infos-button>
-  <button mat-raised-button color="primary" class="next-button" [disabled]="!nextSongExist()" (click)="changeSong(1)">
+  <button mat-mini-fab color="primary" class="next-button" [disabled]="!nextSongExist()" (click)="changeSong(1)">
     <mat-icon>keyboard_arrow_right</mat-icon>
   </button>
-  <br>
 </div>
-<br>
+
 <div class="alignment">
-  <br>
   <span *ngFor="let button of array(constitution.maxGrade || 10) ; index as i">
     <button *ngIf="!isSelected(i)" mat-raised-button class="vote-button" (click)="vote(i+1)"> {{i+1}} </button>
     <button *ngIf="isSelected(i)" mat-raised-button color="primary"> {{i+1}} </button>
     <br *ngIf="((i+1) % 10 === 0)">
   </span>
 </div>
-<br>
-<br>
-<button mat-raised-button color="primary" (click)="closeWindow()">
+
+<button mat-raised-button color="primary" (click)="closeWindow()" class="close-button">
   Fermer
 </button>
 

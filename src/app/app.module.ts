@@ -4,11 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // Angular Fire
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule, PERSISTENCE } from "@angular/fire/compat/auth";
+import { AngularFireAuthModule, PERSISTENCE } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
 
 // Components
@@ -65,21 +65,21 @@ import { GradeElectoralComponent } from './components/constitution-page/results/
 import { GradeRelationshipComponent } from './components/constitution-page/results/results-grade/grade-relationship/grade-relationship.component';
 
 // Material
-import { MatButtonModule } from "@angular/material/button";
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatTooltipModule } from "@angular/material/tooltip";
-import { MatSelectModule } from "@angular/material/select";
-import { MatSliderModule } from "@angular/material/slider";
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatExpansionModule } from "@angular/material/expansion";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -100,99 +100,93 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { AuthService } from './services/auth.service';
 
-@NgModule({
-	declarations: [
-		AppComponent,
-		ProfilePageComponent,
-		NavbarComponent,
-		HomePageComponent,
-		UsersPageComponent,
-		CurrentConstitutionPageComponent,
-		ConstitutionComponent,
-		AdminPageComponent,
-		NewConstitutionComponent,
-		SongListComponent,
-		VotesComponent,
-		OwnerComponent,
-		ResultsComponent,
-		ExportComponent,
-		ManageSongsComponent,
-		ParametersComponent,
-		DeleteSongWarningComponent,
-		SongNavigatorComponent,
-		GradeOwnerComponent,
-		VotesGradeComponent,
-		HistogramComponent,
-		VoteNavigatorComponent,
-		JoinConstitutionComponent,
-		ResultsGradeComponent,
-		GradeProfileComponent,
-		GradeRanksComponent,
-		GradeGradesComponent,
-		GradeAverageComponent,
-		GradeRankingComponent,
-		RadarComponent,
-		ScatterComponent,
-		ResultsFavoritesComponent,
-		PieComponent,
-		GradeElectoralComponent,
-		RandomSongComponent,
-		GradeRelationshipComponent,
-		HeatmapComponent,
-		ChordComponent,
-		ManageInvitesComponent,
-		ManageRolesComponent,
-		InvitePageComponent,
-		OptionnalSongInfosButtonComponent,
-		ResultsConstitutionComponent,
-		NavigatorSongDisplayComponent,
-		CalendarComponent,
-		SimpleScatterComponent,
-		InvHistogramComponent,
-	],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		AngularFireModule.initializeApp(environment.firebase),
-		AngularFireAuthModule,
-		BrowserAnimationsModule,
-		FormsModule,
-		ReactiveFormsModule,
-		TextFieldModule,
-		HttpClientModule,
-		MatButtonModule,
-		MatFormFieldModule,
-		MatIconModule,
-		MatInputModule,
-		MatSelectModule,
-		MatSliderModule,
-		MatTooltipModule,
-		MatCheckboxModule,
-		MatSidenavModule,
-		MatSlideToggleModule,
-		MatListModule,
-		MatTabsModule,
-		MatMenuModule,
-		MatDialogModule,
-		MatExpansionModule,
-		MatProgressBarModule,
-		MatSnackBarModule,
-		MatStepperModule,
-		MatProgressSpinnerModule,
-		MdbDropdownModule,
-		MdbCollapseModule,
-		MatDatepickerModule,
-		MatNativeDateModule,
-		MatCardModule,
-		MatChipsModule,
-		MatAutocompleteModule,
-	],
-	providers: [
-		AuthService,
-		{ provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
-		MatDatepickerModule,
-		MatNativeDateModule
-	],
-	bootstrap: [AppComponent]
-})
-export class AppModule { }
+@NgModule({ declarations: [
+        AppComponent,
+        ProfilePageComponent,
+        NavbarComponent,
+        HomePageComponent,
+        UsersPageComponent,
+        CurrentConstitutionPageComponent,
+        ConstitutionComponent,
+        AdminPageComponent,
+        NewConstitutionComponent,
+        SongListComponent,
+        VotesComponent,
+        OwnerComponent,
+        ResultsComponent,
+        ExportComponent,
+        ManageSongsComponent,
+        ParametersComponent,
+        DeleteSongWarningComponent,
+        SongNavigatorComponent,
+        GradeOwnerComponent,
+        VotesGradeComponent,
+        HistogramComponent,
+        VoteNavigatorComponent,
+        JoinConstitutionComponent,
+        ResultsGradeComponent,
+        GradeProfileComponent,
+        GradeRanksComponent,
+        GradeGradesComponent,
+        GradeAverageComponent,
+        GradeRankingComponent,
+        RadarComponent,
+        ScatterComponent,
+        ResultsFavoritesComponent,
+        PieComponent,
+        GradeElectoralComponent,
+        RandomSongComponent,
+        GradeRelationshipComponent,
+        HeatmapComponent,
+        ChordComponent,
+        ManageInvitesComponent,
+        ManageRolesComponent,
+        InvitePageComponent,
+        OptionnalSongInfosButtonComponent,
+        ResultsConstitutionComponent,
+        NavigatorSongDisplayComponent,
+        CalendarComponent,
+        SimpleScatterComponent,
+        InvHistogramComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TextFieldModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatSelectModule,
+        MatSliderModule,
+        MatTooltipModule,
+        MatCheckboxModule,
+        MatSidenavModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatTabsModule,
+        MatMenuModule,
+        MatDialogModule,
+        MatExpansionModule,
+        MatProgressBarModule,
+        MatSnackBarModule,
+        MatStepperModule,
+        MatProgressSpinnerModule,
+        MdbDropdownModule,
+        MdbCollapseModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCardModule,
+        MatChipsModule,
+        MatAutocompleteModule], providers: [
+        AuthService,
+        { provide: PERSISTENCE, useValue: 'local' }, // Firebase login persitance
+        MatDatepickerModule,
+        MatNativeDateModule,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
+export class AppModule {}

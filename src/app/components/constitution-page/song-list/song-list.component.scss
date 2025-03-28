@@ -1,25 +1,7 @@
 @import "../../../../styles/variables.scss";
 
-.filter {
-	display: inline-block;
-	margin-top: -5%;
-	margin-bottom: 20px;
-	width: 100%;
-	background-color: $mineshaft;
-	border-radius: 25px;
-	border: 2px solid $sasuke;
-}
-
-.filter-text {
-	margin-left: 2%;
-	margin-top: 2%;
-	margin-right: 2%;
-}
-
 .filter-button {
 	margin-left: 2%;
-	margin-top: 8px;
-	margin-bottom: 8px;
 }
 
 table {
@@ -27,10 +9,11 @@ table {
 	margin-right: auto;
 	width: 95%;
 	overflow-x: auto;
-	font-size:medium;
+	font-size: medium;
 }
 
-td, th {
+td,
+th {
 	border: 1px solid $sasuke;
 	text-align: center;
 	padding: 8px;
@@ -50,10 +33,10 @@ td, th {
 
 .centered {
 	cursor: pointer;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 button {
@@ -69,52 +52,16 @@ button {
 }
 
 ::ng-deep {
-	.mat-menu-content {
-		background-color: $bg-dark  !important;
+	.mat-mdc-menu-content {
+		background-color: $bg-dark !important;
 	}
 
-	.mat-menu-item:hover {
+	.mat-mdc-menu-item:hover {
 		background-color: $sasuke !important;
 	}
 
-	.mat-menu-panel {
+	.mat-mdc-menu-panel {
 		background-color: unset !important;
-	}
-}
-
-.card-r {
-	width: 26rem;
-	height: 19.75rem;
-	color: whitesmoke;
-	background-color: $mineshaft;
-	z-index: 0;
-	overflow: hidden;
-	.card-text {
-		width: 21rem;
-	}
-	.card-body {
-		padding: 5px 0 0 0;
-		user-select: none;
-		.iframe-image {
-			width: 100%;
-			height: 208px;
-			border-radius: 10px;
-			margin-bottom: 2px;
-		}
-		.iframe {
-			width: 100%;
-			height: 203px;
-			padding: 0 0 0 0;
-			border-radius: 10px;
-		}
-	}
-	.mat-card-subtitle {
-		color: $angular-purple;
-	}
-	.mat-card-avatar {
-		width: 45px;
-		height: 45px;
-		margin-top: -8px;
 	}
 }
 
@@ -127,21 +74,14 @@ button {
 	opacity: 35%;
 	filter: saturate(2);
 	-webkit-filter: blur($blur);
-		-moz-filter: blur($blur);
-		-o-filter: blur($blur);
-		-ms-filter: blur($blur);
+	-moz-filter: blur($blur);
+	-o-filter: blur($blur);
+	-ms-filter: blur($blur);
 	user-select: none;
-}
-
-.cards {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, 26rem);
-	grid-gap: 25px;
-	justify-content: center;
 }
 
 .table-navigator-button {
 	background-color: $mineshaft;
 	border-radius: 2px;
-  border: 1px solid $angular-purple;
+	border: 1px solid $angular-purple;
 }

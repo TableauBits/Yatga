@@ -1,163 +1,179 @@
 @import "../../../styles/variables.scss";
 
-
 .bakamitai {
-  color: whitesmoke;
-  background-color: $mineshaft;
-  text-align: left;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+	color: whitesmoke;
+	background-color: $mineshaft;
+	text-align: left;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
 }
- 
+
 .vertical {
-  position: absolute;
-  top: 50%;
-  bottom: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
+	position: absolute;
+	top: 50%;
+	bottom: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
 }
 
 .container-fluid {
-  width:100%;
-  justify-content: flex-start;
-  display:flex;
+	width: 100%;
+	justify-content: flex-start;
+	display: flex;
 }
 
 .cnavbar {
-  background-color: $mineshaft;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  padding: 8px;
-  box-shadow: 0px 5px 15px #0004;
+	background-color: $mineshaft;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px;
+	box-shadow: 0px 5px 15px #0004;
+	z-index: 1;
 }
 
 .container .left {
-  width:min-content;
+	width: min-content;
 }
 
 .container .right {
-  width:min-content;
+	width: min-content;
 }
 
 .left:last-child {
-  align-items: right;
-  float: right;
+	align-items: right;
+	float: right;
 }
 
 .container {
-  display: flex;
-  flex-wrap: inherit;
-  align-items: center;
-  justify-content: space-between;
-  width:100%;
-  max-width: none;
-  padding:0;
-  margin:0;
+	display: flex;
+	flex-wrap: inherit;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	max-width: none;
+	padding: 0;
+	margin: 0;
 }
 
 .navbar-brand {
-  text-decoration: none;
-  align-self: center;
-  color: white;
-  font-size: 25px;
-  line-height: 100%;
-  vertical-align: middle;
-  display:flex;
-  font-weight: 100;
-  margin:0px 5px;
-  margin-right: max(15px,2vw) ;
+	text-decoration: none;
+	align-self: center;
+	color: white;
+	font-size: 25px;
+	line-height: 100%;
+	vertical-align: middle;
+	display: flex;
+	font-weight: 100;
+	margin: 0px 5px;
+	margin-right: max(15px, 2vw);
 }
 
 .content {
-  color: whitesmoke;
-  background-color: $mineshaft;
-  text-align: left;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  display: flex;
+	color: whitesmoke;
+	background-color: $mineshaft;
+	text-align: left;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	display: flex;
 }
 
 .purple {
-  background-color: $angular-purple;
+	background-color: $angular-purple;
 }
 
 .content:hover {
-  background-color: $sasuke;
+	background-color: $sasuke;
 }
 
 .navbar-button {
-  margin: 3px max(10px, 1vw);
-  text-transform: uppercase;
-  color:white;
-  font-weight: 400;
+	margin: 3px max(10px, 1vw);
+	text-transform: uppercase;
+	color: white;
+	font-weight: 400;
 }
 
-
-.noHover{
-  pointer-events: none;
+.noHover {
+	pointer-events: none;
 }
 
 .menu-panel {
 	color: whitesmoke;
 }
 
-.mat-menu-item {
-  vertical-align: middle;
+.mat-mdc-menu-item {
+	vertical-align: middle;
 }
 
 ::ng-deep {
-	.mat-menu-content {
-		background-color: $mineshaft  !important;
+	.mat-mdc-menu-content {
+		background-color: $mineshaft !important;
 	}
 
-	.mat-menu-item:hover {
+	.mat-mdc-menu-item:hover {
 		background-color: $sasuke !important;
 	}
 
-	.mat-menu-panel {
+	.mat-mdc-menu-panel {
 		background-color: unset !important;
 	}
 }
 
 .ressource-icon {
-  height: 25px;
-  width: 25px;
-  margin-right: 15px;
-  vertical-align: middle;
+	height: 25px;
+	width: 25px;
+	margin-right: 15px;
+	vertical-align: middle;
 }
 
 .buttonOpen {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  cursor: pointer;
-  color: white;
+	border: none;
+	background-color: transparent;
+	padding: 0;
+	cursor: pointer;
+	color: white;
 }
 
-@media all and (max-width: 918px)  {
-  .navbar-button {
-    margin: 5px 5px;
-    height:80%;
-    font-size: 95%;
-    padding:10px;
-    line-height: 70%;
-  }
-  .container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    flex-flow: row wrap;
-  }
+@media all and (max-width: 918px) {
+	.cnavbar {
+		width: 100vw;
+		flex-wrap: wrap;
+		padding: 0;
 
-  .container .container{
-    flex-flow: row-reverse nowrap;
-  }
+		.container-fluid {
+			padding: 0;
+		}
 
-  @media all and (max-width: 768px){
-  .container {
-    flex-flow: row-reverse wrap;
-  }
-  }
+		a.navbar-brand {
+			position: absolute;
+			top: 8px;
+			left: 8px;
+		}
+	}
+
+	.navbar-button {
+		margin: 2px;
+		height: 80%;
+		font-size: 95%;
+		padding: 10px;
+		line-height: 70%;
+	}
+	.container {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		flex-flow: row wrap;
+	}
+
+	.container .container {
+		flex-flow: row-reverse nowrap;
+	}
+
+	@media all and (max-width: 768px) {
+		.container {
+			flex-flow: column-reverse;
+			align-items: end;
+		}
+	}
 }

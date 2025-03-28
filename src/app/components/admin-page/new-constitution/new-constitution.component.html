@@ -40,9 +40,9 @@
 		<hr>
 		<br>
 		<mat-label> Nombre de participants : </mat-label>
-		<mat-slider thumbLabel min="4" max="10" step="1" formControlName="maxUserCount" required></mat-slider>
+		<mat-slider thumbLabel min="4" max="10" step="1" formControlName="maxUserCount" required><input matSliderThumb /></mat-slider>
 		<mat-label> Nombre de musiques par participants : </mat-label>
-		<mat-slider thumbLabel min="1" max="25" step="1" formControlName="numberOfSongsPerUser" required></mat-slider>
+		<mat-slider thumbLabel min="1" max="25" step="1" formControlName="numberOfSongsPerUser" required><input matSliderThumb /></mat-slider>
 		<br>
 		<span class="warning"> Le nombre total de musique ne peut dépasser 100 musiques. </span>
 		<br>

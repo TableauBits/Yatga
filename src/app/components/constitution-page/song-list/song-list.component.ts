@@ -1,7 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { canModifySongs, Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User, UserFavorites, canModifyVotes } from 'chelys';
+import {
+	canModifySongs,
+	Constitution,
+	EMPTY_CONSTITUTION,
+	EMPTY_USER,
+	Song,
+	User,
+	UserFavorites,
+	canModifyVotes,
+} from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY } from 'src/app/types/local-storage';
@@ -14,10 +23,9 @@ import { SongPropertyManagerService } from 'src/app/services/song-property-manag
 @Component({
 	selector: 'app-song-list',
 	templateUrl: './song-list.component.html',
-	styleUrls: ['./song-list.component.scss']
+	styleUrls: ['./song-list.component.scss'],
 })
 export class SongListComponent extends YatgaUserFavorites {
-
 	// Input
 	@Input() constitution: Constitution;
 	@Input() songs: Map<number, Song> = new Map();
@@ -46,9 +54,11 @@ export class SongListComponent extends YatgaUserFavorites {
 		super();
 		this.constitution = EMPTY_CONSTITUTION;
 		this.currentIframeSongID = -1;
-		this.favorites = { uid: "", favs: [] };
-		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
-		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
+		this.favorites = { uid: '', favs: [] };
+		this.cardsViewEnabled =
+			(localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== 'false';
+		this.cardsSortASC =
+			(localStorage.getItem(CARDS_SORT_KEY) ?? true) === 'false';
 		this.selectedUsers = Array.from(this.users.keys());
 		this.orderByUser = false;
 		this.orderByFavs = false;
@@ -57,13 +67,23 @@ export class SongListComponent extends YatgaUserFavorites {
 	getSongs(): Song[] {
 		let songs = Array.from(this.songs.values());
 
-		songs = songs.filter(song => this.isSelected(song.user));
+		songs = songs.filter((song) => this.isSelected(song.user));
 
-		songs.sort(compareObjectsFactory("id", !this.cardsSortASC));
+		songs.sort(compareObjectsFactory('id', !this.cardsSortASC));
 		if (this.orderByUser)
-			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.users.get(s.user) + s.user, false));
+			songs = songs.sort(
+				compareObjectsFactory<Song>(
+					(s: Song) => this.users.get(s.user) + s.user,
+					false
+				)
+			);
 		if (this.orderByFavs)
-			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
+			songs = songs.sort(
+				compareObjectsFactory<Song>(
+					(s: Song) => this.isAFavorite(s),
+					true
+				)
+			);
 
 		return songs;
 	}
@@ -92,7 +112,7 @@ export class SongListComponent extends YatgaUserFavorites {
 
 		config.data = {
 			song,
-			cstId: this.constitution.id
+			cstId: this.constitution.id,
 		};
 
 		this.dialog.open(DeleteSongWarningComponent, config);
@@ -108,8 +128,7 @@ export class SongListComponent extends YatgaUserFavorites {
 			favorites: this.favorites,
 		};
 
-		config.width = "780px";
-		config.height = "760px";
+		config.panelClass = 'custom-dialog';
 
 		this.dialog.open(SongNavigatorComponent, config);
 		this.currentIframeSongID = -1;
@@ -129,7 +148,9 @@ export class SongListComponent extends YatgaUserFavorites {
 
 	// FILTER FUNCTIONS
 	toggleUserFilter(uid: string): void {
-		const index = this.selectedUsers.findIndex((user) => { return user === uid; });
+		const index = this.selectedUsers.findIndex((user) => {
+			return user === uid;
+		});
 		if (index !== -1) {
 			this.selectedUsers.splice(index, 1);
 		} else {
@@ -167,7 +188,9 @@ export class SongListComponent extends YatgaUserFavorites {
 	}
 
 	userFilterTooltip(uid: string, displayName: string): string {
-		const status = !this.selectedUsers.includes(uid) ? "Cacher" : "Afficher";
+		const status = !this.selectedUsers.includes(uid)
+			? 'Cacher'
+			: 'Afficher';
 		return `${status} ${displayName}`;
 	}
 

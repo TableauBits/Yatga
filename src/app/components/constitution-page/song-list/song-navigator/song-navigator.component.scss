@@ -1,13 +1,37 @@
 .previous-button {
-  color: whitesmoke;
-  float: left;
+	color: whitesmoke;
+	float: left;
 }
 
 .next-button {
-  color: whitesmoke;
-  float: right;
+	color: whitesmoke;
+	float: right;
 }
 
 .favorite-button {
-  color: whitesmoke;
+	color: whitesmoke;
+}
+
+:host {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: min(100%, 100vh);
+	padding: 16px;
+	gap: 16px;
+	align-items: center;
+}
+
+.title {
+	width: 100%;
+}
+
+.favorite-button {
+	color: whitesmoke;
+	text-align: center;
+	margin: 0 8px;
+}
+
+.close-button {
+	width: max-content;
 }

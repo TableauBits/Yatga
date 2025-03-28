@@ -5,10 +5,11 @@ table {
 	margin-right: auto;
 	width: 95%;
 	overflow-x: auto;
-	font-size:medium;
+	font-size: medium;
 }
 
-td, th {
+td,
+th {
 	border: 1px solid $sasuke;
 	text-align: center;
 	padding: 8px;
@@ -28,59 +29,76 @@ td, th {
 
 .centered {
 	cursor: pointer;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 button {
 	overflow: hidden;
 }
 
+mat-accordion {
+	display: flex;
+	margin: 0;
+}
+
 mat-expansion-panel {
-  background-color: $mineshaft;
-  color: whitesmoke;
+	width: 100%;
+	background-color: $mineshaft;
+	color: whitesmoke;
+	border-radius: 0 0 16px 16px !important;
+	--mat-expansion-header-collapsed-state-height: 36px;
+	--mat-expansion-header-expanded-state-height: 36px;
 }
 
 mat-panel-title {
-  color: whitesmoke;
+	color: whitesmoke;
 }
 
 mat-form-field {
-  width: 35%;
+	width: 35%;
 }
 
 ::ng-deep {
-  .mat-form-field-appearance-outline .mat-form-field-outline {
-     color: whitesmoke;
-  }
-  .mat-form-field.mat-focused .mat-form-field-label {
-      color: whitesmoke !important;
-  }
-  .mat-input-element {
-      caret-color: whitesmoke!important;
-  }
-  
-  mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
-          color: whitesmoke;
-      }
-  }
+	/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+	.mat-form-field-appearance-outline .mat-form-field-outline {
+		color: whitesmoke;
+	}
+	/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+	.mat-mdc-form-field.mat-focused .mat-form-field-label {
+		color: whitesmoke !important;
+	}
+	.mat-mdc-input-element {
+		caret-color: whitesmoke !important;
+	}
+
+	mat-form-field {
+		/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+		.mat-mdc-form-field-hint,
+		input,
+		::placeholder,
+		.mat-form-field-label {
+			color: whitesmoke;
+		}
+	}
 }
 
 .vote {
 	float: right;
 	font-size: medium;
 	background-color: $mineshaft;
-	border-radius: 2px;
-  border: 1px solid $angular-purple;
+	border-radius: 25px;
+	border: 1px solid $angular-purple;
+	height: 36px;
+	margin: 6px;
 }
 
 .table-navigator-button {
 	background-color: $mineshaft;
 	border-radius: 2px;
-  border: 1px solid $angular-purple;
+	border: 1px solid $angular-purple;
 }
 
 .filter {
@@ -88,20 +106,12 @@ mat-form-field {
 	width: 100%;
 
 	background-color: $mineshaft;
-  border-radius: 25px;
-  border: 2px solid $sasuke;
-}
-
-.filter-text {
-	margin-left: 2%;
-	margin-top: 2%;
-	margin-right: 2%;
+	border-radius: 25px;
+	border: 2px solid $sasuke;
 }
 
 .filter-button {
 	margin-left: 2%;
-	margin-top: 8px;
-	margin-bottom: 8px;
 }
 
 .menu-panel {
@@ -109,52 +119,16 @@ mat-form-field {
 }
 
 ::ng-deep {
-	.mat-menu-content {
-		background-color: $bg-dark  !important;
+	.mat-mdc-menu-content {
+		background-color: $bg-dark !important;
 	}
 
-	.mat-menu-item:hover {
+	.mat-mdc-menu-item:hover {
 		background-color: $sasuke !important;
 	}
 
-	.mat-menu-panel {
+	.mat-mdc-menu-panel {
 		background-color: unset !important;
-	}
-}
-
-.card-r {
-	width: 26rem;
-	height: 19.75rem;
-	color: whitesmoke;
-	background-color: $mineshaft;
-	z-index: 0;
-	overflow: hidden;
-	.card-text {
-		width: 21rem;
-	}
-	.card-body {
-		padding: 5px 0 0 0;
-		user-select: none;
-		.iframe-image {
-			width: 100%;
-			height: 208px;
-			border-radius: 10px;
-			margin-bottom: 2px;
-		}
-		.iframe {
-			width: 100%;
-			height: 203px;
-			padding: 0 0 0 0;
-			border-radius: 10px;
-		}
-	}
-	.mat-card-subtitle {
-		color: $angular-purple;
-	}
-	.mat-card-avatar {
-		width: 45px;
-		height: 45px;
-		margin-top: -8px;
 	}
 }
 
@@ -167,15 +141,8 @@ mat-form-field {
 	opacity: 35%;
 	filter: saturate(2);
 	-webkit-filter: blur($blur);
-		-moz-filter: blur($blur);
-		-o-filter: blur($blur);
-		-ms-filter: blur($blur);
+	-moz-filter: blur($blur);
+	-o-filter: blur($blur);
+	-ms-filter: blur($blur);
 	user-select: none;
-}
-
-.cards {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, 26rem);
-	grid-gap: 25px;
-	justify-content: center;
 }
