@@ -136,8 +136,24 @@
 }
 
 @media all and (max-width: 918px) {
+	.cnavbar {
+		width: 100vw;
+		flex-wrap: wrap;
+		padding: 0;
+
+		.container-fluid {
+			padding: 0;
+		}
+
+		a.navbar-brand {
+			position: absolute;
+			top: 8px;
+			left: 8px;
+		}
+	}
+
 	.navbar-button {
-		margin: 5px 5px;
+		margin: 2px;
 		height: 80%;
 		font-size: 95%;
 		padding: 10px;
@@ -156,7 +172,8 @@
 
 	@media all and (max-width: 768px) {
 		.container {
-			flex-flow: row-reverse wrap;
+			flex-flow: column-reverse;
+			align-items: end;
 		}
 	}
 }
