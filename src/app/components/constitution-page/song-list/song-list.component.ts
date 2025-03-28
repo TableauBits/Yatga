@@ -126,11 +126,9 @@ export class SongListComponent extends YatgaUserFavorites {
 			currentSong: song,
 			songs: this.getSongs(),
 			favorites: this.favorites,
-			panelClass: 'custom-dialog-container',
 		};
 
-		config.width = '780px';
-		config.height = '760px';
+		config.panelClass = 'custom-dialog';
 
 		this.dialog.open(SongNavigatorComponent, config);
 		this.currentIframeSongID = -1;
