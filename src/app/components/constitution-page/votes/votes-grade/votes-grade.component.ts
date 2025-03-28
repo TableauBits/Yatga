@@ -249,8 +249,6 @@ export class VotesGradeComponent
 			favorites: this.favorites,
 		};
 
-		config.width = '780px';
-		config.height = '830px';
 		config.panelClass = 'custom-dialog';
 
 		this.dialog.open(VoteNavigatorComponent, config);

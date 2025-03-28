@@ -1,14 +1,22 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+	padding: 16px;
+}
+
 .alignment {
-  text-align: center;
+	text-align: center;
 }
 
 .favorite-button {
-  color: whitesmoke;
-  text-align: center;
+	color: whitesmoke;
+	text-align: center;
 }
 
 .vote-button {
-  background-color: #2E2E2E;
-  color: whitesmoke;
-  text-align: center;
+	background-color: #2e2e2e;
+	color: whitesmoke;
+	text-align: center;
 }

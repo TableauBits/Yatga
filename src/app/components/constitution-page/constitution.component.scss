@@ -22,6 +22,11 @@
 	color: whitesmoke;
 	border-right: 2px solid $sasuke;
 	background-color: $mineshaft;
+	--mat-sidenav-container-background-color: $mineshaft;
+}
+
+.sidenav-small-screen {
+	width: auto;
 }
 
 hr {
@@ -100,10 +105,12 @@ hr {
 	}
 }
 
-.naviguation_cons {
-	margin: 2% 3% 1% 19% !important;
-	margin-top: 8px;
-	margin-bottom: 8px;
+.left-margin {
+	margin-left: 18% !important;
+}
+
+.naviguation_cons.small-screen {
+	width: calc(100vw - 2px);
 }
 
 ::ng-deep {
@@ -113,20 +120,23 @@ hr {
 }
 
 .filtres {
-	margin-top: 25px !important;
+	left: 18%;
+	position: absolute;
+	width: 82%;
+}
+
+.filtres.small-screen {
+	left: 0;
+	width: 100%;
 }
 
 .round-navbard {
-	border: 2px solid $sasuke;
 	background-color: $mineshaft;
-	border-radius: 25px;
+	outline: 1px solid #222;
+	margin-top: 1px;
 }
 
 .content {
-	margin-left: 19%;
-	margin-right: 3%;
-	margin-bottom: 3%;
-	margin-top: 2%;
 	color: whitesmoke;
 }
 
@@ -150,5 +160,5 @@ span {
 }
 
 .content[_ngcontent-fcv-c154] {
-	margin: 2% 3% 2% 19%;
+	margin-left: 19%;
 }

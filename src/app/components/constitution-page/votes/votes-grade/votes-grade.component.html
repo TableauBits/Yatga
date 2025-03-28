@@ -30,7 +30,6 @@
       </app-histogram>
     </mat-expansion-panel>
   </mat-accordion>
-  <br>
   <div class="filter-bar">
     <span class="filter-text"> Filtre des utilisateurs :</span>
     <img *ngFor="let user of getOtherUsers()" class="picture"
@@ -70,8 +69,7 @@
       </button>
     </mat-menu>
   </div>
-  <br>
-  <br>
+
   <div *ngIf="cardsViewEnabled; then cardsView; else compactView">
   </div>
   <ng-template #cardsView>

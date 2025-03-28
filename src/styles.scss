@@ -30,6 +30,7 @@ $my-theme: mat.m2-define-dark-theme(
 	--mdc-filled-text-field-container-color: #1e1e1e;
 	--mat-select-panel-background-color: #1e1e1e;
 	--mat-form-field-state-layer-color: black;
+	--mdc-dialog-container-color: #0000;
 }
 
 .mat-mdc-form-field-focus-overlay {
@@ -72,6 +73,7 @@ hr {
 	background: rgba($mineshaft, 0.5);
 	backdrop-filter: blur(8rem);
 	border: 1px solid #fff2;
+	border-radius: 24px;
 }
 
 .card-r {
@@ -114,14 +116,17 @@ hr {
 
 .filter-bar {
 	display: flex;
-	margin-top: -1%;
-	margin-bottom: 2%;
-	width: 100%;
+	width: fit-content;
 	background-color: $mineshaft;
-	border-radius: 25px;
-	border: 2px solid $sasuke;
+	border-radius: 0 0 32px 32px;
+	border: 1px solid $sasuke;
 	align-items: center;
-	padding: 5px;
+	padding: 8px 5px;
+	margin: 0 auto 16px;
+}
+
+.small-screen .filter-bar {
+	flex-wrap: wrap;
 }
 
 .filter-text {
@@ -348,4 +353,11 @@ mat-option {
 /* TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version. */
 .mat-option-text {
 	color: whitesmoke;
+}
+
+.cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, min(26rem, 100vw));
+	grid-gap: 16px;
+	justify-content: center;
 }

@@ -1,54 +1,57 @@
-<mat-sidenav-container class="sidenav">
-	<h1 *ngIf="constitution.playlistLink === ''; else playlistLink"> {{constitution.name}} </h1>
-	<ng-template #playlistLink>
-		<a href="{{constitution.playlistLink}}" target="_blank">
-			<h1> {{constitution.name}} </h1>
-		</a>
-	</ng-template>
-	<hr>
-	<table class="custom-br2">
-		<tr>
-			<td> Constitution </td>
-			<td> {{songs.size}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}} </td>
-		</tr>
-		<tr>
-			<td> Mes musiques </td>
-			<td> {{numberOfSongsOfCurrentUser()}} / {{constitution.numberOfSongsPerUser}} </td>
-		</tr>
-		<tr>
-			<td> Mes favoris </td>
-			<td> {{numberOfCurrentUserFavorites()}} / {{numberOfMaxFavorites()}} </td>
-		</tr>
-	</table>
-	<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
-	<hr>
-	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution() || isJudge(auth.uid)"
-		(click)="openDialogManageSongs()">
-		<mat-icon>apps</mat-icon> Gérer mes musiques
-	</button>
-	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
-		<mat-icon>shuffle</mat-icon> Sélection aléatoire
-	</button>
-	<hr>
-	<div class="user-list">
-		<div role="list" *ngFor="let user of getUsers()" class="list-roles">
-			<span role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
-				<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
-				<ng-template #isNotOwner>
-					<mat-icon *ngIf="!isJudge(user.uid)" matTooltip="Participant">account_box</mat-icon>
-					<mat-icon *ngIf="isJudge(user.uid)" matTooltip="Juge">how_to_vote</mat-icon>
-				</ng-template>
-				<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
-				<span class="list-item"> {{user.displayName}} </span>
-			</span>
+<mat-sidenav-container class="sidenav" [ngClass]="{'sidenav-small-screen': isSmallScreen}">
+	<mat-drawer #drawer [mode]="isSmallScreen ? 'over' : 'side'" [opened]="!isSmallScreen" class="drawer">
+		<h1 *ngIf="constitution.playlistLink === ''; else playlistLink"> {{constitution.name}} </h1>
+		<ng-template #playlistLink>
+			<a href="{{constitution.playlistLink}}" target="_blank">
+				<h1> {{constitution.name}} </h1>
+			</a>
+		</ng-template>
+		<hr>
+		<table class="custom-br2">
+			<tr>
+				<td> Constitution </td>
+				<td> {{songs.size}} / {{constitution.numberOfSongsPerUser * constitution.maxUserCount}} </td>
+			</tr>
+			<tr>
+				<td> Mes musiques </td>
+				<td> {{numberOfSongsOfCurrentUser()}} / {{constitution.numberOfSongsPerUser}} </td>
+			</tr>
+			<tr>
+				<td> Mes favoris </td>
+				<td> {{numberOfCurrentUserFavorites()}} / {{numberOfMaxFavorites()}} </td>
+			</tr>
+		</table>
+		<span class="remaining-time-text"> {{getRemainingTimeMsg()}} </span>
+		<hr>
+		<button mat-raised-button color="primary"
+			[disabled]="!updateSongs() || !isInConstitution() || isJudge(auth.uid)" (click)="openDialogManageSongs()">
+			<mat-icon>apps</mat-icon> Gérer mes musiques
+		</button>
+		<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
+			<mat-icon>shuffle</mat-icon> Sélection aléatoire
+		</button>
+		<hr>
+		<div class="user-list">
+			<div role="list" *ngFor="let user of getUsers()" class="list-roles">
+				<span role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
+					<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
+					<ng-template #isNotOwner>
+						<mat-icon *ngIf="!isJudge(user.uid)" matTooltip="Participant">account_box</mat-icon>
+						<mat-icon *ngIf="isJudge(user.uid)" matTooltip="Juge">how_to_vote</mat-icon>
+					</ng-template>
+					<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
+					<span class="list-item"> {{user.displayName}} </span>
+				</span>
+			</div>
 		</div>
-	</div>
-	<hr>
-	<button mat-raised-button [disabled]="true" class="warning">
-		<mat-icon>highlight_off</mat-icon> Quitter la constitution
-	</button>
+		<hr>
+		<button mat-raised-button [disabled]="true" class="warning">
+			<mat-icon>highlight_off</mat-icon> Quitter la constitution
+		</button>
+	</mat-drawer>
 </mat-sidenav-container>
-<nav class="navbar round-navbard navbar-expand-lg navbar-dark bg-dark content naviguation_cons">
+<nav class="navbar round-navbard navbar-expand-lg navbar-dark bg-dark content naviguation_cons"
+	[ngClass]="{'small-screen': isSmallScreen, 'left-margin': !isSmallScreen}">
 	<div class="container-fluid">
 		<!-- Collapse button-->
 		<button class="navbar-toggler" type="button" (click)="basicNav.toggle()" aria-expanded="false"
@@ -84,7 +87,7 @@
 		</div>
 	</div>
 </nav>
-<div [ngSwitch]="currentSection" class="content filtres">
+<div [ngSwitch]="currentSection" class="content filtres" [ngClass]="{'small-screen': isSmallScreen}">
 	<app-song-list *ngSwitchCase="constitutionSection.SONG_LIST" [songs]="songs" [users]="users"
 		[constitution]="constitution" [favorites]="getCurrentUserFavs()">
 	</app-song-list>

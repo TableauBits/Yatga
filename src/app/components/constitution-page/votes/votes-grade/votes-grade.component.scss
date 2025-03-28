@@ -39,9 +39,18 @@ button {
 	overflow: hidden;
 }
 
+mat-accordion {
+	display: flex;
+	margin: 0;
+}
+
 mat-expansion-panel {
+	width: 100%;
 	background-color: $mineshaft;
 	color: whitesmoke;
+	border-radius: 0 0 16px 16px !important;
+	--mat-expansion-header-collapsed-state-height: 36px;
+	--mat-expansion-header-expanded-state-height: 36px;
 }
 
 mat-panel-title {
@@ -136,11 +145,4 @@ mat-form-field {
 	-o-filter: blur($blur);
 	-ms-filter: blur($blur);
 	user-select: none;
-}
-
-.cards {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, 26rem);
-	grid-gap: 16px;
-	justify-content: center;
 }

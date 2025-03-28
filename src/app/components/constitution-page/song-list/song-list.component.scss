@@ -80,13 +80,6 @@ button {
 	user-select: none;
 }
 
-.cards {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, 26rem);
-	grid-gap: 16px;
-	justify-content: center;
-}
-
 .table-navigator-button {
 	background-color: $mineshaft;
 	border-radius: 2px;
