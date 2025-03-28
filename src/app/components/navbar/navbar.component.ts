@@ -4,13 +4,13 @@ import { Role } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { JoinConstitutionComponent } from '../join-constitution/join-constitution.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-
+import { OnInit } from '@angular/core';
 @Component({
 	selector: 'app-navbar',
 	templateUrl: './navbar.component.html',
 	styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 	isSmallScreen = false;
 	constructor(
 		public auth: AuthService,
