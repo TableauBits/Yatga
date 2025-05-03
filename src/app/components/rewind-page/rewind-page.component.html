@@ -1,3 +1,28 @@
-<span *ngFor="let year of listRewinds()">
-  {{year}}
+<br>
+<span *ngIf="selectedRewind !== undefined;else no_rewind">
+    <h1>
+        MATBAY REWIND <b>
+            <mat-form-field>
+                <mat-label>Année</mat-label>
+                <mat-select [(value)]="selectedYear" (selectionChange)="selectYear()">
+                    <mat-option [value]="year.key" *ngFor="let year of rewinds | keyvalue">{{year.key}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </b> DE <br>
+        <b> <img src="{{getUser(selectedRewind.baseStats.uid).photoURL}}" class="rounded-circle" width="80" height="80">
+            {{getUser(selectedRewind.baseStats.uid).displayName}} </b>
+    </h1>
+    <span>
+        Cette page vous permet de consulter les Rewinds de Matbay. <br>
+        Un Rewind est un résumé de l'année de Matbay, incluant les événements marquants, les statistiques et les
+        anecdotes. <br>
+        Vous pouvez également consulter les Rewinds des années précédentes pour voir l'évolution de votre participation
+        Matbay
+        au fil du temps. <br>
+        <br>
+        Vous avez ajouté {{selectedRewind.baseStats.nSongs}} chansons. <br>
+        Vous avez participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br>
+    </span>
+
 </span>
+<ng-template #no_rewind>Pas de Rewinds</ng-template>
