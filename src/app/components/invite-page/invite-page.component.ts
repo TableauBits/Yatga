@@ -70,7 +70,6 @@ export class InvitePageComponent {
     return {
       uid: user.uid,
       displayName: user.displayName ?? "",
-      email: user.email ?? "",
       photoURL: user.photoURL ?? "",
     };
   }
