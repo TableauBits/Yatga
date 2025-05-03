@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { createMessage, EMPTY_USER, EventType, extractMessageData, Message, RewindPerYear, RwdReqGet, RwdResUpdate, User, UsrReqGet, UsrResUpdate } from 'chelys';
+import { createMessage, EMPTY_USER, EventType, extractMessageData, Message, RewindPerYear, RwdReqGet, RwdResUpdate, User, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 

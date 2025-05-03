@@ -1,17 +1,26 @@
 @import "../../../styles/variables.scss";
 
-mat-select {
-  color: whitesmoke;
+.rwd-header {
+  text-align: center;
 }
 
-mat-select-value {
-  color: whitesmoke !important;
+::ng-deep .mat-select-value {
+  max-width: 100%;
+  min-width: 0%;
+  width: fit-content;
+}
+
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
+  min-width: 0px !important;
+  padding-right: 13px !important;
 }
 
 ::ng-deep {
   .mat-form-field-appearance-outline .mat-form-field-outline {
     color: whitesmoke;
   }
+
   .mat-form-field.mat-focused .mat-form-field-label {
     color: whitesmoke !important;
   }
@@ -21,9 +30,13 @@ mat-select-value {
   }
 
   mat-form-field {
-      .mat-hint, input, ::placeholder, .mat-form-field-label {
-          color: whitesmoke;
-      }
+
+    .mat-hint,
+    input,
+    ::placeholder,
+    .mat-form-field-label {
+      color: whitesmoke;
+    }
   }
 
   .mat-primary .mat-option:hover {
