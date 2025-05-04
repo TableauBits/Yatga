@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { createMessage, EMPTY_USER, EventType, extractMessageData, Message, RewindPerYear, RwdReqGet, RwdResUpdate, User, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
+import { RingGaugeData } from 'src/app/types/charts';
 
 @Component({
   selector: 'app-rewind-page',
@@ -16,13 +17,15 @@ export class RewindPageComponent {
 
   private users: Map<string, User> = new Map();
 
+  public gaugeData: RingGaugeData[] = [];
+
   constructor(public auth: AuthService) {
     this.auth.pushAuthFunction(this.onConnect, this);
     this.auth.pushEventHandler(this.handleEvents, this);
   }
 
   private handleEvents(event: MessageEvent<any>): void {
-    let message = JSON.parse(event.data.toString()) as Message<unknown>;
+    const message = JSON.parse(event.data.toString()) as Message<unknown>;
 
     switch (message.event) {
       case EventType.REWIND_update: {
@@ -32,6 +35,7 @@ export class RewindPageComponent {
         if (this.selectedYear === undefined || this.selectedYear < data.year) {
           this.selectedYear = data.year;
           this.selectedRewind = data.rewind;
+          this.generateGaugeData();
         }
       } break;
 
@@ -61,5 +65,51 @@ export class RewindPageComponent {
     const year = this.selectedYear;
     if (isNil(year)) return;
     this.selectedRewind = this.rewinds.get(year);
+    this.generateGaugeData();
+  }
+
+  generateGaugeData(): void {
+    this.gaugeData = [];
+
+    if (isNil(this.selectedRewind)) return;
+
+    this.gaugeData.push({
+      value: 100 - Number((this.selectedRewind.baseStats.missing.decades * 100 / this.selectedRewind.baseStats.nSongs).toFixed(2)),
+      name: "Décennies",
+      title : {
+        offsetCenter: ['0%', '-30%'],
+        color: '#F5F5F5',
+      },
+      detail: {
+        valueAnimation: true,
+        offsetCenter: ['0%', '-20%']
+      }
+    });
+
+    this.gaugeData.push({
+      value: 100 - Number((this.selectedRewind.baseStats.missing.languages * 100 / this.selectedRewind.baseStats.nSongs).toFixed(2)),
+      name: "Langues",
+      title : {
+        offsetCenter: ['0%', '0%'],
+        color: '#F5F5F5',
+      },
+      detail: {
+        valueAnimation: true,
+        offsetCenter: ['0%', '10%']
+      }
+    });
+
+    this.gaugeData.push({
+      value: 100 - Number((this.selectedRewind.baseStats.missing.genres * 100 / this.selectedRewind.baseStats.nSongs).toFixed(2)),
+      name: "Genres",
+      title : {
+        offsetCenter: ['0%', '30%'],
+        color: '#F5F5F5',
+      },
+      detail: {
+        valueAnimation: true,
+        offsetCenter: ['0%', '40%']
+      }
+    });
   }
 }

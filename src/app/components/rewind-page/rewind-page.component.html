@@ -23,9 +23,12 @@
             au fil du temps. <br>
             <br>
             Vous avez ajouté {{selectedRewind.baseStats.nSongs}} chansons. <br>
-            Vous avez participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br>
+            Vous avez participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br> <br>
         </span>
     </div>
+
+    % de complétion des chansons ajoutées :
+    <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
 
 </span>
 <ng-template #no_rewind>Pas de Rewinds</ng-template>

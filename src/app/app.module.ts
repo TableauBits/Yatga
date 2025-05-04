@@ -100,6 +100,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { RingGaugeComponent } from './components/template/ring-gauge/ring-gauge.component';
 
 @NgModule({
 	declarations: [
@@ -151,6 +152,7 @@ import { AuthService } from './services/auth.service';
 		SimpleScatterComponent,
 		InvHistogramComponent,
   RewindPageComponent,
+  RingGaugeComponent,
 	],
 	imports: [
 		BrowserModule,
