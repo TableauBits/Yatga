@@ -30,5 +30,12 @@
     % de complétion des chansons ajoutées :
     <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
 
+    Meilleures musiques :
+    <ul class="flex-container">
+        <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs" class="flex-item">
+            <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"></song-card>
+        </li>
+    </ul>
+
 </span>
 <ng-template #no_rewind>Pas de Rewinds</ng-template>

@@ -101,6 +101,7 @@ import { AppRoutingModule } from './app-routing.module';
 // Services
 import { AuthService } from './services/auth.service';
 import { RingGaugeComponent } from './components/template/ring-gauge/ring-gauge.component';
+import { SongCardComponent } from './components/rewind-page/song-card/song-card.component';
 
 @NgModule({
 	declarations: [
@@ -151,8 +152,9 @@ import { RingGaugeComponent } from './components/template/ring-gauge/ring-gauge.
 		CalendarComponent,
 		SimpleScatterComponent,
 		InvHistogramComponent,
-  RewindPageComponent,
-  RingGaugeComponent,
+		RewindPageComponent,
+		RingGaugeComponent,
+		SongCardComponent,
 	],
 	imports: [
 		BrowserModule,
