@@ -1,4 +1,4 @@
-import { isNil, toNumber } from "lodash";
+import { isNil, isObjectLike, toNumber } from "lodash";
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -65,7 +65,7 @@ export function keepUniqueValues<T>(array: T[]): T[] {
  * songs.sort(compare);
  * // songs = [song1, song2, song3]
  */
- export function compareObjectsFactory<T>(key: keyof T | ((arg: T) => any), invert: boolean): (o1: T, o2: T) => number {
+export function compareObjectsFactory<T>(key: keyof T | ((arg: T) => any), invert: boolean): (o1: T, o2: T) => number {
 	return (o1: T, o2: T) => {
 		const v1 = typeof key === "function" ? key(o1) : o1[key];
 		const v2 = typeof key === "function" ? key(o2) : o2[key];
@@ -78,4 +78,24 @@ export function keepUniqueValues<T>(array: T[]): T[] {
 export function toDecade(year: number | undefined, groupBy: number = 10): number {
 	if (isNil(year)) return -1;
 	return Math.floor((year) / groupBy) * groupBy;
+}
+
+export function deepRecordConvert<T>(data: any, template: T): T {
+	let sourceKey: keyof typeof data;
+	for (sourceKey in data) {
+		const targetKey = sourceKey as keyof T;
+
+		let sourceField = data[sourceKey];
+		let targetField = template[targetKey];
+		if (!isNil(targetField) && isObjectLike(sourceField)) {
+			// Depth-First
+			sourceField = deepRecordConvert(sourceField, targetField);
+
+			if (targetField instanceof Map) {
+				data[sourceKey] = new Map(Object.entries(sourceField));
+			}
+		}
+	}
+
+	return data as T;
 }
