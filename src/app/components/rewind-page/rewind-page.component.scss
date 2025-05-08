@@ -1,7 +1,20 @@
 @import "../../../styles/variables.scss";
 
 .rwd-header {
+  background: linear-gradient(137.42deg, #00d5ff 0%, #d0266f 40%, #b9b500 100%);
+  background-size: 300% 300%;
+  animation: gradient 15s ease infinite;
   text-align: center;
+  padding-bottom: 3rem;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 70px;
+  }
+
+  span {
+    font-size: 25px;
+  }
 }
 
 mat-select {
@@ -34,6 +47,11 @@ mat-select {
     color: whitesmoke;
   }
 
+  .mat-select-panel .mat-option {
+    height: 4rem !important;
+    font-size: 40px !important;
+  }
+
   mat-form-field {
 
     .mat-hint,
@@ -42,6 +60,8 @@ mat-select {
     .mat-form-field-label {
       color: whitesmoke;
     }
+
+
   }
 
   .mat-primary .mat-option:hover {
@@ -56,6 +76,7 @@ mat-select {
   .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
     color: whitesmoke;
     background-color: $angular-purple;
+
   }
 }
 
@@ -121,5 +142,25 @@ ul.teams {
       // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
       // and the internal structure of rewind-team (see below).
     }
+  }
+}
+
+@keyframes gradient {
+
+  /*
+  background: linear-gradient(137.42deg, #00d5ff 0%, #d0266f 40%, #b9b500 100%);
+  background-size: 300% 300%;
+  animation: gradient 15s ease infinite;
+  */
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }

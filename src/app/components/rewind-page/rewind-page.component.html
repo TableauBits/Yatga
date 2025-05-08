@@ -9,15 +9,19 @@
                     </mat-select>
                 </mat-form-field>
             </b> DE <br>
-            <b> <img src="{{getUser(selectedRewind.baseStats.uid).photoURL}}" class="rounded-circle" width="80"
-                    height="80">
+            <b> <img src="{{getUser(selectedRewind.baseStats.uid).photoURL}}" class="rounded-circle" width="150"
+                    height="150">
                 {{getUser(selectedRewind.baseStats.uid).displayName}} </b>
+            <br>
+            <br>
+            <br>
         </h1>
         <span>
-            Cette page vous permet de consulter les Rewinds de Matbay. <br>
-            Un Rewind est un résumé de l'année de Matbay. <br>
-            Vous pouvez également consulter les Rewinds des années précédentes en cliquant sur l'année. <br>
+            Les Rewinds résument votre participation d'une année sur Matbay. <br>
+            Vous pouvez également consulter les Rewinds des années précédentes en cliquant sur l'année sélectionnée en
+            haut de la page. <br>
             <br>
+            Cette année: <br>
             Vous avez ajouté {{selectedRewind.baseStats.nSongs}} chansons. <br>
             Vous avez participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br> <br>
         </span>
