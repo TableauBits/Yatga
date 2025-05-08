@@ -102,22 +102,24 @@ mat-select {
   padding: 20px;
 }
 
-.teams {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  /* space between cards */
-  justify-content: center;
-  /* center them in the row */
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
+// rewind-page-component.scss
 
-.teams li {
-  /* each card will try to be at least 280px wide,
-     grow to fill the row, but never exceed 32% of the row */
-  flex-grow: 1;
-  padding: 1.5rem;
-  box-sizing: border-box;
+ul.teams {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 30px 20px 30px; // Add some bottom margin to the list itself
+  display: flex; // Enable flexbox
+  gap: 20px; // Space between the team cards (list items)
+
+  li {
+    flex: 1; // Each list item will take up equal available space (width)
+    display: flex; // Allow the rewind-team component to fill the li height
+    min-width: 0; // Important for flex items to prevent overflow if content is too wide
+
+    rewind-team {
+      width: 100%; // Ensure the component fills its parent <li>
+      // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
+      // and the internal structure of rewind-team (see below).
+    }
+  }
 }

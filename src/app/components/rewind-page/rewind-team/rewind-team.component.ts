@@ -9,13 +9,13 @@ import { EMPTY_REWIND, EMPTY_USER, Team, User } from 'chelys';
 export class RewindTeamComponent {
 
   @Input() type: string = "";
-  @Input() teamInfo: Team = EMPTY_REWIND.teamSongs;
+  @Input() teamInfo: Team = { ...EMPTY_REWIND.teamSongs }; // Use spread for a fresh object
 
   @Input() users: Map<string, User> = new Map();
 
   constructor() { }
 
   getUser(uid: string): User {
-    return this.users.get(uid) ?? EMPTY_USER;
+    return this.users.get(uid) ?? { ...EMPTY_USER, displayName: 'Unknown User', photoURL: '' }; // Ensure displayName and photoURL exist
   }
 }
