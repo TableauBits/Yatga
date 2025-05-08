@@ -1,31 +1,31 @@
 <mat-accordion multi class="panel">
   <mat-expansion-panel [expanded]="false">
-    <mat-expansion-panel-header (click)=launchFireworks()> 
-        <mat-panel-title> Gagnant </mat-panel-title>
+    <mat-expansion-panel-header (click)=launchFireworks()>
+      <mat-panel-title> Gagnant </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="winner-container">
       <div class="card shadow-0 bg-dark">
         <h3 class="card-header front">
           <div>
             {{winner.title}}
-            <img src="{{getUser(winner.user).photoURL}}" class="image-de picture3" matTooltip="{{getUser(winner.user).displayName}}">
+            <img src="{{getUser(winner.user).photoURL}}" class="image-de picture3"
+              matTooltip="{{getUser(winner.user).displayName}}">
           </div>
-          <i> {{winner.author}} </i> 
+          <i> {{winner.author}} </i>
         </h3>
         <img src="{{urlGetter.getImageURL(winner)}}" class="card-img blur">
         <div class="card-img-overlay">
           <div class="card-body">
-            <iframe *ngIf="winner !== empty()"
-            height="350" frameborder="0" [src]="getSongSafeURL(winner)" 
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
+            <iframe *ngIf="winner !== empty()" height="350" frameborder="0" [src]="getSongSafeURL(winner)"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
             </iframe>
             <br>
-            <button mat-raised-button color="primary" (click)="onNavigate(winner)" matTooltip="Regarder la vidéo sur le site d'origine">
+            <button mat-raised-button color="primary" (click)="onNavigate(winner)"
+              matTooltip="Regarder la vidéo sur le site d'origine">
               <mat-icon>play_circle_outline</mat-icon>
             </button>
             <app-optionnal-song-infos-button [song]="winner"> </app-optionnal-song-infos-button>
-            <span class="image-de front"> <b> Score : {{getWinnerScore()}} </b>  </span>
+            <span class="image-de front"> <b> Score : {{getWinnerScore()}} </b> </span>
           </div>
         </div>
       </div>
@@ -33,8 +33,8 @@
     </div>
   </mat-expansion-panel>
   <mat-expansion-panel [expanded]="false">
-    <mat-expansion-panel-header> 
-        <mat-panel-title> Classement Global </mat-panel-title>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Classement Global </mat-panel-title>
     </mat-expansion-panel-header>
     <table id="t01">
       <tr>
@@ -48,7 +48,7 @@
       <tr *ngFor="let result of songResults;let indexOfelement=index;">
         <td> {{ indexOfelement + 1 }} </td>
         <td class="text-overflowable"> {{ getSong(result.id).author }} </td>
-        <td class="text-overflowable"> {{ getSong(result.id).title }}  </td>
+        <td class="text-overflowable"> {{ getSong(result.id).title }} </td>
         <td>
           <a href="{{getSong(result.id).url}}" target="_blank">
             <mat-icon>play_circle_outline</mat-icon>

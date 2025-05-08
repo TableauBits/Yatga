@@ -6,15 +6,15 @@
     <br>
     <div class="title">
       <a href="{{currentSong.url}}" target="_blank">
-        <h1 class="remove-margin text-overflowable"> <b> {{currentRank+1}}. {{songPropertyManager.getTitle(currentSong)}} </b> </h1>
+        <h1 class="remove-margin text-overflowable"> <b> {{currentRank+1}}.
+            {{songPropertyManager.getTitle(currentSong)}} </b> </h1>
         <h2 class="remove-margin text-overflowable"> {{songPropertyManager.getSubTitle(currentSong)}} </h2>
       </a>
       <hr>
     </div>
     <br>
     <br>
-    <iframe class="round" width="{{iframeWidth}}" height="{{iframeHeight}}" frameborder="0"
-      [src]="currentSongSafeURL"
+    <iframe class="round" width="{{iframeWidth}}" height="{{iframeHeight}}" frameborder="0" [src]="currentSongSafeURL"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
     </iframe>
     <br>
@@ -23,13 +23,15 @@
       <img class="picture" matTooltip="{{getUser(fav.uid).displayName}}" [src]="getUser(fav.uid).photoURL">
       <mat-icon class="favorite love">favorite</mat-icon>
     </div>
-    <br> 
+    <br>
     <br>
     <hr>
     <div>
       <br>
-      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}" [src]="getUser(currentSong.user).photoURL">
-      <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong" [isButtonRaised]="false"></app-optionnal-song-infos-button>
+      Ajouté par : <img class="picture" matTooltip="{{getUser(currentSong.user).displayName}}"
+        [src]="getUser(currentSong.user).photoURL">
+      <app-optionnal-song-infos-button class="favorite-button" [song]="currentSong"
+        [isButtonRaised]="false"></app-optionnal-song-infos-button>
       <br>
       Score : <b> {{songResults[currentRank].score.toFixed(3)}} </b>
       <br>
@@ -67,16 +69,20 @@
     <br>
     <hr>
     <br>
-    <button mat-button class="previous-button purple" [disabled]="isFirstResult()" (click)="goToFirstResult()" matTooltip="Premier"> <mat-icon>fast_rewind</mat-icon> </button>
-    <button mat-button class="previous-button purple left" [disabled]="!previousResultExist()" (click)="changeResult(-1)" matTooltip="Suivant"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
+    <button mat-button class="previous-button purple" [disabled]="isFirstResult()" (click)="goToFirstResult()"
+      matTooltip="Premier"> <mat-icon>fast_rewind</mat-icon> </button>
+    <button mat-button class="previous-button purple left" [disabled]="!previousResultExist()"
+      (click)="changeResult(-1)" matTooltip="Suivant"> <mat-icon>keyboard_arrow_left</mat-icon> </button>
     <mat-form-field appearance="fill" class="rank-button">
       <mat-label>Aller au rang</mat-label>
       <mat-select [(value)]="selected" (selectionChange)="goToResult()">
         <mat-option *ngFor="let i of range" value="{{i}}"> {{i+1}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-button class="next-button purple left" [disabled]="isLastResult()" (click)="goToLastResult()" matTooltip="Dernier"> <mat-icon>fast_forward</mat-icon> </button>
-    <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)" matTooltip="Précédant"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
+    <button mat-button class="next-button purple left" [disabled]="isLastResult()" (click)="goToLastResult()"
+      matTooltip="Dernier"> <mat-icon>fast_forward</mat-icon> </button>
+    <button mat-button class="next-button purple" [disabled]="!nextResultExist()" (click)="changeResult(1)"
+      matTooltip="Précédant"> <mat-icon>keyboard_arrow_right</mat-icon> </button>
     <br>
     <br>
   </div>

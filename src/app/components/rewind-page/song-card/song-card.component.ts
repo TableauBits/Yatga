@@ -26,7 +26,16 @@ export class SongCardComponent {
     nSongs: 0,
   };
 
-  constructor(public urlGetter: GetUrlService) { }
+  @Input()
+  emoji: string = ""
+
+
+  constructor(public urlGetter: GetUrlService) {
+  }
+
+  async asyncGetImageURL(): Promise<string> {
+    return `url(${await this.urlGetter.asyncGetImageURL(this.songInfo)})`;
+  }
 
   getImageURL(): string {
     return `url(${this.urlGetter.getImageURL(this.songInfo)})`;

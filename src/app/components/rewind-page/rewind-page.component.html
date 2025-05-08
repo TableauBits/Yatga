@@ -27,24 +27,24 @@
         </span>
     </div>
 
-    % de complétion des chansons ajoutées :
-    <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
-
     Meilleures musiques :
-    <ul class="flex-container">
-        <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs" class="flex-item">
+    <ul class="song-list">
+        <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs; let isFirst = first">
             <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
-                [associatedCstStats]="getCstData(songStats.id)"></song-card>
+                [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ? '👑' : ''"></song-card>
         </li>
     </ul>
 
     Pires musiques :
-    <ul class="flex-container">
-        <li *ngFor="let songStats of selectedRewind.baseStats.worstSongs.songs" class="flex-item">
+    <ul class="song-list">
+        <li *ngFor="let songStats of selectedRewind.baseStats.worstSongs.songs.reverse(); let isFirst = first">
             <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
-                [associatedCstStats]="getCstData(songStats.id)"></song-card>
+                [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ?'💩':''"></song-card>
         </li>
     </ul>
+
+    % de complétion des chansons ajoutées :
+    <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
 
 </span>
 <ng-template #no_rewind>Pas de Rewinds</ng-template>

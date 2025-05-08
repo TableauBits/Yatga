@@ -1,8 +1,39 @@
-<div [style.background-image]="getImageURL()" class="component-container">
-    <div class="title">{{songInfo.title}}</div>
+<!-- <div [style.background-image]="getImageURL()" class="component-container">
+    <div class="title">{{songInfo.title}} - {{songInfo.author}}</div>
     <ul class="stats">
         <li>Score: {{songStats.score}} ({{songStats.mean_score}} en moyenne)</li>
         <li>Placement: {{songStats.rank}}/{{associatedCstStats.nSongs}} dans la constitution
             "{{associatedCstStats.name}}"</li>
     </ul>
+</div> -->
+
+
+<div class="song-card">
+    <div class="stamp">{{emoji}}</div>
+    <div class="card-content">
+        <!-- this layer holds & animates your image+brightness -->
+        <div class="bg" [style.background-image]="getImageURL()"></div>
+
+        <!-- this adds the vignette over the bg -->
+        <div class="vignette"></div>
+
+        <!-- your text overlay -->
+        <div class="info">
+            <h3 class="title"> <b> {{ songInfo.title }} </b> </h3>
+            <h4 class="author">{{ songInfo.author }}</h4>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-label">Score</span>
+                    <span class="stat-value">{{ songStats.score | number: '1.2-2' }}</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label right-align">Placement</span>
+                    <span class="stat-value right-align">
+                        {{ songStats.rank }}/{{ associatedCstStats.nSongs }}
+                    </span>
+                </div>
+            </div>
+            <div class="constitution-name">{{associatedCstStats.name}}</div>
+        </div>
+    </div>
 </div>

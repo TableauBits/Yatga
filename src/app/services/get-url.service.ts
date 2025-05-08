@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Song, SongPlatform } from 'chelys';
 import { getIDFromURL } from '../types/url';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetUrlService {
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private http: HttpClient) { }
 
   getEmbedURL(song: Song): SafeResourceUrl {
     switch (song.platform) {
@@ -28,6 +30,7 @@ export class GetUrlService {
     switch (song.platform) {
       case SongPlatform.YOUTUBE: {
         const videoID = getIDFromURL(song);
+
         return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
       }
       case SongPlatform.SOUNDCLOUD:
@@ -37,5 +40,16 @@ export class GetUrlService {
       default:
         return "";
     }
+  }
+
+  async asyncGetImageURL(song: Song): Promise<String> {
+    const videoID = "";
+    let tnURL = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+    const response = await this.http.head(tnURL, { observe: 'response' }).toPromise();
+    if (response.status !== 200) {
+      tnURL = `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
+    }
+
+    return tnURL;
   }
 }

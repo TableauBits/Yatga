@@ -83,3 +83,25 @@ mat-select {
   padding: 5px;
   margin-top: 10px;
 }
+
+/* rewind */
+
+.song-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  /* space between cards */
+  justify-content: center;
+  /* center them in the row */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.song-list li {
+  /* each card will try to be at least 280px wide,
+     grow to fill the row, but never exceed 32% of the row */
+  flex: 0 0 280px;
+  max-width: 32%;
+  box-sizing: border-box;
+}
