@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConstitutionMetadata, EMPTY_SONG, RewindRankSong, Song } from 'chelys';
 import { GetUrlService } from 'src/app/services/get-url.service';
 
@@ -7,7 +7,7 @@ import { GetUrlService } from 'src/app/services/get-url.service';
   templateUrl: './song-card.component.html',
   styleUrls: ['./song-card.component.scss']
 })
-export class SongCardComponent {
+export class SongCardComponent implements OnInit {
 
   @Input()
   songInfo: Song = EMPTY_SONG;
@@ -29,8 +29,13 @@ export class SongCardComponent {
   @Input()
   emoji: string = ""
 
+  thumbnailURL = ""
 
   constructor(public urlGetter: GetUrlService) {
+
+  }
+  ngOnInit() {
+    this.asyncGetImageURL().then(elem => this.thumbnailURL = elem);
   }
 
   async asyncGetImageURL(): Promise<string> {

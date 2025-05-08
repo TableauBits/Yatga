@@ -43,13 +43,25 @@ export class GetUrlService {
   }
 
   async asyncGetImageURL(song: Song): Promise<String> {
-    const videoID = "";
-    let tnURL = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
-    const response = await this.http.head(tnURL, { observe: 'response' }).toPromise();
-    if (response.status !== 200) {
-      tnURL = `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
-    }
+    switch (song.platform) {
+      case SongPlatform.YOUTUBE: {
+        const videoID = getIDFromURL(song);
 
-    return tnURL;
+        let tnURL = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+        try {
+          await (this.http.head(tnURL, { observe: 'response' }).toPromise());
+        } catch (error) {
+          tnURL = `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
+        }
+
+        return tnURL;
+      }
+      case SongPlatform.SOUNDCLOUD:
+        return 'assets/soundcloud-card.jpg';
+      case SongPlatform.PEERTUBE:
+        return `${song.url.replace("/videos/watch/", "/lazy-static/previews/")}.jpg`;
+      default:
+        return "";
+    }
   }
 }
