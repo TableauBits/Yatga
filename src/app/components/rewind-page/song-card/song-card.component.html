@@ -1,1 +1,8 @@
-<div [style.background-image]="getImageURL()" class="component-container">{{songInfo.title}}</div>
+<div [style.background-image]="getImageURL()" class="component-container">
+    <div class="title">{{songInfo.title}}</div>
+    <ul class="stats">
+        <li>Score: {{songStats.score}} ({{songStats.mean_score}} en moyenne)</li>
+        <li>Placement: {{songStats.rank}}/{{associatedCstStats.nSongs}} dans la constitution
+            "{{associatedCstStats.name}}"</li>
+    </ul>
+</div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { createMessage, EMPTY_REWIND, EMPTY_SONG, EMPTY_USER, EventType, extractMessageData, Message, RewindPerYear, RwdReqGet, RwdResUpdate, Song, User, UsrResUpdate } from 'chelys';
+import { ConstitutionMetadata, createMessage, EMPTY_REWIND, EMPTY_SONG, EMPTY_USER, EventType, extractMessageData, Message, RewindPerYear, RwdReqGet, RwdResUpdate, Song, User, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { RingGaugeData } from 'src/app/types/charts';
@@ -119,5 +119,10 @@ export class RewindPageComponent {
 
   getSongInfo(id: string): Song {
     return this.selectedRewind?.metadata.songInfo.get(id) ?? EMPTY_SONG;
+  }
+
+  getCstData(globalID: string): ConstitutionMetadata {
+    const cstID = globalID.split('.')[0];
+    return this.selectedRewind?.metadata.cstInfo.get(cstID) ?? { name: "INVALID", nSongs: 0 };
   }
 }

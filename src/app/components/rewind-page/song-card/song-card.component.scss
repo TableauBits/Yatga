@@ -1,4 +1,12 @@
 .component-container {
     background-repeat: no-repeat;
     aspect-ratio: 16 / 9;
+    color: white;
+    text-align: center;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 3em;
+    backdrop-filter: blur(10px);
 }

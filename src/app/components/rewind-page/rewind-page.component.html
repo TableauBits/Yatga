@@ -33,7 +33,16 @@
     Meilleures musiques :
     <ul class="flex-container">
         <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs" class="flex-item">
-            <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"></song-card>
+            <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                [associatedCstStats]="getCstData(songStats.id)"></song-card>
+        </li>
+    </ul>
+
+    Pires musiques :
+    <ul class="flex-container">
+        <li *ngFor="let songStats of selectedRewind.baseStats.worstSongs.songs" class="flex-item">
+            <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                [associatedCstStats]="getCstData(songStats.id)"></song-card>
         </li>
     </ul>
 
