@@ -15,36 +15,44 @@
         </h1>
         <span>
             Cette page vous permet de consulter les Rewinds de Matbay. <br>
-            Un Rewind est un résumé de l'année de Matbay, incluant les événements marquants, les statistiques et les
-            anecdotes. <br>
-            Vous pouvez également consulter les Rewinds des années précédentes pour voir l'évolution de votre
-            participation
-            Matbay
-            au fil du temps. <br>
+            Un Rewind est un résumé de l'année de Matbay. <br>
+            Vous pouvez également consulter les Rewinds des années précédentes en cliquant sur l'année. <br>
             <br>
             Vous avez ajouté {{selectedRewind.baseStats.nSongs}} chansons. <br>
             Vous avez participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br> <br>
         </span>
     </div>
 
-    Meilleures musiques :
-    <ul class="song-list">
-        <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs; let isFirst = first">
-            <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
-                [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ? '👑' : ''"></song-card>
-        </li>
-    </ul>
+    <div id="one">
+        <div class="section-title">Meilleures musiques :</div>
+        <ul class="song-list">
+            <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs; let isFirst = first">
+                <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ? '👑' : ''"></song-card>
+            </li>
+        </ul>
+    </div>
+    <div id="two">
+        <div class="section-title">Pires musiques :</div>
+        <ul class="song-list">
+            <li *ngFor="let songStats of selectedRewind.baseStats.worstSongs.songs; let isLast = last">
+                <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isLast ?'💩':''"></song-card>
+            </li>
+        </ul>
+    </div>
 
-    Pires musiques :
-    <ul class="song-list">
-        <li *ngFor="let songStats of selectedRewind.baseStats.worstSongs.songs.reverse(); let isFirst = first">
-            <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
-                [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ?'💩':''"></song-card>
-        </li>
-    </ul>
+    <div>
+        <div class="section-title">Vos équipes :</div>
+        <ul class="teams">
+            <li><rewind-team [type]="'Team de chansons'" [teamInfo]="selectedRewind.teamSongs"
+                    [users]="users"></rewind-team></li>
+            <li><rewind-team [type]="'Team de votes'" [teamInfo]="selectedRewind.teamVotes"
+                    [users]="users"></rewind-team></li>
+        </ul>
+    </div>
 
-    % de complétion des chansons ajoutées :
+    <div class="section-title">% de complétion des chansons ajoutées :</div>
     <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
-
 </span>
 <ng-template #no_rewind>Pas de Rewinds</ng-template>

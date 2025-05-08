@@ -59,31 +59,6 @@ mat-select {
   }
 }
 
-.flex-container {
-  /* We first create a flex layout context */
-  display: flex;
-
-  /* Then we define the flow direction 
-     and if we allow the items to wrap 
-   * Remember this is the same as:
-   * flex-direction: row;
-   * flex-wrap: wrap;
-   */
-  flex-flow: row wrap;
-
-  /* Then we define how is distributed the remaining space */
-  justify-content: space-around;
-
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.flex-item {
-  padding: 5px;
-  margin-top: 10px;
-}
-
 /* rewind */
 
 .song-list {
@@ -103,5 +78,46 @@ mat-select {
      grow to fill the row, but never exceed 32% of the row */
   flex: 0 0 280px;
   max-width: 32%;
+  box-sizing: border-box;
+}
+
+.section-title {
+  padding-bottom: 30px;
+  font-size: x-large;
+  text-align: center;
+  text-decoration: underline;
+}
+
+#one {
+  margin-left: 12%;
+  margin-right: 12%;
+  // background: linear-gradient(to top right, #ffc928a6, transparent);
+  padding: 20px;
+}
+
+#two {
+  margin-left: 12%;
+  margin-right: 12%;
+  // background: linear-gradient(to bottom right, rgb(121, 21, 3), transparent);
+  padding: 20px;
+}
+
+.teams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  /* space between cards */
+  justify-content: center;
+  /* center them in the row */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.teams li {
+  /* each card will try to be at least 280px wide,
+     grow to fill the row, but never exceed 32% of the row */
+  flex-grow: 1;
+  padding: 1.5rem;
   box-sizing: border-box;
 }

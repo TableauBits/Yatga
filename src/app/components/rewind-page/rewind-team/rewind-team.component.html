@@ -1,0 +1,9 @@
+<div class="team-background">
+    <h1>{{type}}</h1>
+    Leader : {{getUser(teamInfo.leader).displayName}} <br>
+    Membres :
+    <span *ngFor="let member of teamInfo.members">
+        {{getUser(member).displayName}} <br>
+    </span>
+    Extremiste : {{getUser(teamInfo.extremist).displayName}}
+</div>

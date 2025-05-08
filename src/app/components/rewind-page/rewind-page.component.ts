@@ -16,7 +16,7 @@ export class RewindPageComponent {
   public selectedYear?: number;
   public selectedRewind?: RewindPerYear;
 
-  private users: Map<string, User> = new Map();
+  users: Map<string, User> = new Map();
 
   public gaugeData: RingGaugeData[] = [];
 
@@ -79,7 +79,7 @@ export class RewindPageComponent {
 
     this.gaugeData.push({
       value: 100 - Number((this.selectedRewind.baseStats.missing.decades * 100 / this.selectedRewind.baseStats.nSongs).toFixed(2)),
-      name: "Décennies",
+      name: "Année",
       title: {
         offsetCenter: ['0%', '-30%'],
         color: '#F5F5F5',
