@@ -140,7 +140,7 @@ export class RewindPageComponent {
     }
 
     // Sort by values
-    const sortedIndices = finalValues.map((_, index) => index).sort((a, b) => finalValues[b] - finalValues[a]).reverse();
+    const sortedIndices = finalValues.map((_, index) => index).sort((a, b) => finalValues[a] - finalValues[b]);
     // Sort rows and values based on sorted indices
     const sortedRows = sortedIndices.map(index => finalRows[index]);
     const sortedValues = sortedIndices.map(index => finalValues[index]);
