@@ -9,6 +9,7 @@ import { EMPTY_REWIND, EMPTY_USER, Team, User } from 'chelys';
 export class RewindTeamComponent {
 
   @Input() type: string = "";
+  @Input() description: string = "";
   @Input() teamInfo: Team = { ...EMPTY_REWIND.teamSongs }; // Use spread for a fresh object
 
   @Input() users: Map<string, User> = new Map();

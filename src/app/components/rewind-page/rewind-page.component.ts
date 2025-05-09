@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ConstitutionMetadata, createMessage, EMPTY_REWIND, EMPTY_SONG, EMPTY_USER, EventType, extractMessageData, Message, RewindPerYear, RwdReqGet, RwdResUpdate, Song, User, UsrResUpdate } from 'chelys';
 import { isNil } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
-import { RingGaugeData } from 'src/app/types/charts';
+import { InvHistogramData, RingGaugeData } from 'src/app/types/charts';
+import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
 import { deepRecordConvert } from 'src/app/types/utils';
 
 @Component({
@@ -19,10 +20,16 @@ export class RewindPageComponent {
   users: Map<string, User> = new Map();
 
   public gaugeData: RingGaugeData[] = [];
+  public languagesHistData: InvHistogramData;
 
   constructor(public auth: AuthService) {
     this.auth.pushAuthFunction(this.onConnect, this);
     this.auth.pushEventHandler(this.handleEvents, this);
+
+    this.languagesHistData = {
+      rows: [],
+      values: []
+    }
   }
 
   private handleEvents(event: MessageEvent<any>): void {
@@ -37,7 +44,7 @@ export class RewindPageComponent {
         if (this.selectedYear === undefined || this.selectedYear < data.year) {
           this.selectedYear = data.year;
           this.selectedRewind = data.rewind;
-          this.generateGaugeData();
+          this.generateChartsData();
 
           this.selectedRewind.baseStats.bestSongs.songs
         }
@@ -69,7 +76,47 @@ export class RewindPageComponent {
     const year = this.selectedYear;
     if (isNil(year)) return;
     this.selectedRewind = this.rewinds.get(year);
+    this.generateChartsData();
+  }
+
+  generateChartsData(): void {
+    if (isNil(this.selectedRewind)) return;
     this.generateGaugeData();
+    this.generateInvHistData();
+  }
+
+  generateInvHistData(): void {
+    if (isNil(this.selectedRewind)) return;
+    const rows = Array.from(this.selectedRewind.baseStats.languages.participation.keys());
+    const values = Array.from(this.selectedRewind.baseStats.languages.participation.values());
+
+    const finalRows: string[] = [];
+    const finalValues: number[] = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      if (values[i] > 0) {
+        finalRows.push(LANGUAGES_CODE_TO_FR.get(rows[i]) ?? rows[i]);
+        finalValues.push(values[i]);
+      }
+    }
+
+    // Sort by values
+    const sortedIndices = finalValues.map((_, index) => index).sort((a, b) => finalValues[b] - finalValues[a]).reverse();
+    // Sort rows and values based on sorted indices
+    const sortedRows = sortedIndices.map(index => finalRows[index]);
+    const sortedValues = sortedIndices.map(index => finalValues[index]);
+
+    this.languagesHistData = {
+      rows: sortedRows,
+      values: sortedValues,
+      visualMap: {
+        min: 0,
+        max: this.selectedRewind.baseStats.nSongs,
+        text: ["Beaucoup de musiques", "Peu de musiques"],
+        colorRange: ['#FD665F', '#FFCE34', '#65B581']
+      }
+    }
+
   }
 
   generateGaugeData(): void {

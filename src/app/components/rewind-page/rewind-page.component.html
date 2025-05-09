@@ -21,9 +21,10 @@
             Vous pouvez également consulter les Rewinds des années précédentes en cliquant sur l'année sélectionnée en
             haut de la page. <br>
             <br>
-            Cette année: <br>
-            Vous avez ajouté {{selectedRewind.baseStats.nSongs}} chansons. <br>
-            Vous avez participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br> <br>
+            En {{selectedYear}} vous avez : <br> <br>
+            Participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br>
+            Ajouté {{selectedRewind.baseStats.nSongs}} chansons. <br>
+            Donné {{selectedRewind.baseStats.fav.count}} favoris. <br>
         </span>
     </div>
 
@@ -49,14 +50,18 @@
     <div>
         <div class="section-title">Vos équipes :</div>
         <ul class="teams">
-            <li><rewind-team [type]="'Team de chansons'" [teamInfo]="selectedRewind.teamSongs"
+            <li><rewind-team [type]="'Équipe de chansons'" [description]="'Les personnes dont les chansons se rapproche le plus des votres'" [teamInfo]="selectedRewind.teamSongs"
                     [users]="users"></rewind-team></li>
-            <li><rewind-team [type]="'Team de votes'" [teamInfo]="selectedRewind.teamVotes"
+            <li><rewind-team [type]="'Équipe de votes'" [description]="'Les personnes dont la manière de voter se rapproche le plus de la votre'" [teamInfo]="selectedRewind.teamVotes"
                     [users]="users"></rewind-team></li>
         </ul>
     </div>
 
     <div class="section-title">% de complétion des chansons ajoutées :</div>
     <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
+
+    <div class="section-title">Répartition des langues des chansons ajoutées :</div>
+    <app-inv-histogram [id]="'rewind-lang-histogram'" [data]='languagesHistData' [height]="'700px'" [width]="'100%'"></app-inv-histogram>
+    <br>
 </span>
 <ng-template #no_rewind>Pas de Rewinds</ng-template>

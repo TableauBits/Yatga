@@ -1,6 +1,6 @@
 <div class="team-card-container">
-    <h1 class="team-type-title">{{ type }}</h1>
-    <div class="team-name" *ngIf="teamInfo.name && teamInfo.name.trim() !== ''">Team: {{teamInfo.name}}</div>
+    <h1 class="team-type-title"><b>{{ type }}</b></h1>
+    <div class="team-name"> {{ description }}</div>
 
     <!-- Wrapper for Leader and Extremist -->
     <div class="special-roles-wrapper" *ngIf="teamInfo.leader || teamInfo.extremist">

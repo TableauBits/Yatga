@@ -10,6 +10,8 @@ import { Charts, InvHistogramData } from 'src/app/types/charts';
 export class InvHistogramComponent extends Charts implements AfterViewInit, OnChanges {
   @Input() data: InvHistogramData;
   @Input() id: string;
+  @Input() width: string = '100%';
+  @Input() height: string = '500%';
 
   ngAfterViewInit() {
     this.updateChart();
@@ -27,6 +29,10 @@ export class InvHistogramComponent extends Charts implements AfterViewInit, OnCh
       rows: [],
       values: []
     };
+  }
+
+  getStyle() {
+    return `width:${this.width}; height:${this.height};`
   }
 
   generateChartOption(): EChartsOption {
