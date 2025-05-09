@@ -21,12 +21,17 @@ export class RewindPageComponent {
 
   public gaugeData: RingGaugeData[] = [];
   public languagesHistData: InvHistogramData;
+  public decadesHistData: InvHistogramData;
 
   constructor(public auth: AuthService) {
     this.auth.pushAuthFunction(this.onConnect, this);
     this.auth.pushEventHandler(this.handleEvents, this);
 
     this.languagesHistData = {
+      rows: [],
+      values: []
+    }
+    this.decadesHistData = {
       rows: [],
       values: []
     }
@@ -82,10 +87,11 @@ export class RewindPageComponent {
   generateChartsData(): void {
     if (isNil(this.selectedRewind)) return;
     this.generateGaugeData();
-    this.generateInvHistData();
+    this.generateLangInvHistData();
+    this.generateDecInvHistData();
   }
 
-  generateInvHistData(): void {
+  generateLangInvHistData(): void {
     if (isNil(this.selectedRewind)) return;
     const rows = Array.from(this.selectedRewind.baseStats.languages.participation.keys());
     const values = Array.from(this.selectedRewind.baseStats.languages.participation.values());
@@ -116,7 +122,39 @@ export class RewindPageComponent {
         colorRange: ['#FD665F', '#FFCE34', '#65B581']
       }
     }
+  }
 
+  generateDecInvHistData(): void {
+    if (isNil(this.selectedRewind)) return;
+    const rows = Array.from(this.selectedRewind.baseStats.decades.participation.keys());
+    const values = Array.from(this.selectedRewind.baseStats.decades.participation.values());
+
+    const finalRows: string[] = [];
+    const finalValues: number[] = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      if (values[i] > 0) {
+        finalRows.push(rows[i]);
+        finalValues.push(values[i]);
+      }
+    }
+
+    // Sort by values
+    const sortedIndices = finalValues.map((_, index) => index).sort((a, b) => finalValues[b] - finalValues[a]).reverse();
+    // Sort rows and values based on sorted indices
+    const sortedRows = sortedIndices.map(index => finalRows[index]);
+    const sortedValues = sortedIndices.map(index => finalValues[index]);
+
+    this.decadesHistData = {
+      rows: sortedRows,
+      values: sortedValues,
+      visualMap: {
+        min: 0,
+        max: this.selectedRewind.baseStats.nSongs,
+        text: ["Beaucoup de musiques", "Peu de musiques"],
+        colorRange: ['#FD665F', '#FFCE34', '#65B581']
+      }
+    }
   }
 
   generateGaugeData(): void {

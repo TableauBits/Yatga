@@ -60,8 +60,12 @@
     <div class="section-title">% de complétion des chansons ajoutées :</div>
     <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
 
+    <div class="section-title">Répartition des décennies des chansons ajoutées :</div>
+    <app-inv-histogram [id]="'rewind-lang-histogram'" [data]='decadesHistData' [height]="'700px'" [width]="'100%'"></app-inv-histogram>
+    <br>
+
     <div class="section-title">Répartition des langues des chansons ajoutées :</div>
-    <app-inv-histogram [id]="'rewind-lang-histogram'" [data]='languagesHistData' [height]="'700px'" [width]="'100%'"></app-inv-histogram>
+    <app-inv-histogram [id]="'rewind-decade-histogram'" [data]='languagesHistData' [height]="'700px'" [width]="'100%'"></app-inv-histogram>
     <br>
 </span>
 <ng-template #no_rewind>Pas de Rewinds</ng-template>
