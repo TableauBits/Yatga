@@ -146,7 +146,6 @@ ul.teams {
 }
 
 @keyframes gradient {
-
   /*
   background: linear-gradient(137.42deg, #00d5ff 0%, #d0266f 40%, #b9b500 100%);
   background-size: 300% 300%;
@@ -162,5 +161,18 @@ ul.teams {
 
   100% {
     background-position: 0% 50%;
+  }
+}
+
+.rwd-container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
