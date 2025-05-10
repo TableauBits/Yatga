@@ -22,6 +22,7 @@ export class RewindPageComponent {
   public gaugeData: RingGaugeData[] = [];
   public languagesHistData: InvHistogramData;
   public decadesHistData: InvHistogramData;
+  public genresHistData: InvHistogramData;
 
   constructor(public auth: AuthService) {
     this.auth.pushAuthFunction(this.onConnect, this);
@@ -32,6 +33,10 @@ export class RewindPageComponent {
       values: []
     }
     this.decadesHistData = {
+      rows: [],
+      values: []
+    }
+    this.genresHistData = {
       rows: [],
       values: []
     }
@@ -89,6 +94,40 @@ export class RewindPageComponent {
     this.generateGaugeData();
     this.generateLangInvHistData();
     this.generateDecInvHistData();
+    this.generateGenreInvHistData();
+  }
+
+  generateGenreInvHistData(): void {
+    if (isNil(this.selectedRewind)) return;
+    const rows = Array.from(this.selectedRewind.baseStats.genres.participation.keys());
+    const values = Array.from(this.selectedRewind.baseStats.genres.participation.values());
+
+    const finalRows: string[] = [];
+    const finalValues: number[] = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      if (values[i] > 0) {
+        finalRows.push(rows[i]);
+        finalValues.push(values[i]);
+      }
+    }
+
+    // Sort by values
+    const sortedIndices = finalValues.map((_, index) => index).sort((a, b) => finalValues[b] - finalValues[a]).reverse();
+    // Sort rows and values based on sorted indices
+    const sortedRows = sortedIndices.map(index => finalRows[index]);
+    const sortedValues = sortedIndices.map(index => finalValues[index]);
+
+    this.genresHistData = {
+      rows: sortedRows,
+      values: sortedValues,
+      visualMap: {
+        min: 0,
+        max: this.selectedRewind.baseStats.nSongs,
+        text: ["Beaucoup de musiques", "Peu de musiques"],
+        colorRange: ['#FD665F', '#FFCE34', '#65B581']
+      }
+    }
   }
 
   generateLangInvHistData(): void {
