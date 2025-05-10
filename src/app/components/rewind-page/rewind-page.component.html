@@ -49,6 +49,14 @@
     </div>
 
     <div>
+        <div class="section-title">Répartition des favoris :</div>
+        <ul class="teams">
+            <li><rewind-fav [title]="'Favoris donnés'"[favs]="selectedRewind.baseStats.fav.perUser" [users]="users"></rewind-fav></li>
+            <li><rewind-fav [title]="'Favoris reçus'" [favs]="selectedRewind.baseStats.fav.fromUsers" [users]="users"></rewind-fav></li>
+        </ul>
+    </div>
+
+    <div>
         <div class="section-title">Vos équipes :</div>
         <ul class="teams">
             <li><rewind-team [type]="'Équipe de chansons'" [description]="'Les personnes dont les chansons se rapproche le plus des votres'" [teamInfo]="selectedRewind.teamSongs"

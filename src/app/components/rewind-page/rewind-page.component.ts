@@ -99,6 +99,7 @@ export class RewindPageComponent {
 
   generateGenreInvHistData(): void {
     if (isNil(this.selectedRewind)) return;
+
     const rows = Array.from(this.selectedRewind.baseStats.genres.participation.keys());
     const values = Array.from(this.selectedRewind.baseStats.genres.participation.values());
 

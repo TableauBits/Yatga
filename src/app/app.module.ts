@@ -103,6 +103,7 @@ import { AuthService } from './services/auth.service';
 import { RingGaugeComponent } from './components/template/ring-gauge/ring-gauge.component';
 import { SongCardComponent } from './components/rewind-page/song-card/song-card.component';
 import { RewindTeamComponent } from './components/rewind-page/rewind-team/rewind-team.component';
+import { RewindFavComponent } from './components/rewind-page/rewind-fav/rewind-fav.component';
 
 @NgModule({
 	declarations: [
@@ -157,6 +158,7 @@ import { RewindTeamComponent } from './components/rewind-page/rewind-team/rewind
 		RingGaugeComponent,
 		SongCardComponent,
   RewindTeamComponent,
+  RewindFavComponent,
 	],
 	imports: [
 		BrowserModule,

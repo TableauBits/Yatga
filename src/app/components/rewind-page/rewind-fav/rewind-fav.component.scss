@@ -11,10 +11,10 @@ $section-spacing: 25px; // For spacing between sections
 :host {
     display: flex; // Allows the host to participate in flex layouts (like filling parent li)
     flex-direction: column; // Stack content vertically inside the host
-    height: 100%; // Crucial for matching height with other team cards
+    height: 100%; // Crucial for matching height with other fav cards
 }
 
-.team-card-container {
+.fav-card-container {
     background-color: $card-bg;
     border-radius: 12px;
     padding: 20px;
@@ -26,7 +26,7 @@ $section-spacing: 25px; // For spacing between sections
     height: 100%; // Ensure it tries to fill available vertical space
 }
 
-.team-type-title {
+.fav-type-title {
     text-align: center;
     font-size: 1.7em;
     color: $primary-accent;
@@ -34,7 +34,7 @@ $section-spacing: 25px; // For spacing between sections
     font-weight: 300;
 }
 
-.team-name {
+.fav-name {
     text-align: center;
     font-size: 1.0em;
     color: lighten($text-color, 15%);
@@ -61,7 +61,7 @@ $section-spacing: 25px; // For spacing between sections
     }
 }
 
-.team-category {
+.fav-category {
 
     // Base styles for all categories (leader, extremist, members)
     &.leader-category,
@@ -134,7 +134,7 @@ $section-spacing: 25px; // For spacing between sections
     white-space: nowrap;
 }
 
-.no-team-data {
+.no-fav-data {
     text-align: center;
     padding: 20px;
     color: darken($text-color, 25%);
