@@ -16,6 +16,15 @@ export class RewindFavComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getMaxFavs(): number {
+    const values = Array.from(this.favs.values())
+    if (values.length === 0) {
+      return 0;
+    }
+
+    return Math.max(...values);
+  }
+
   getNumberOfFavs(): number {
     return Array.from(this.favs.values()).reduce((a, b) => a + b, 0);
   }

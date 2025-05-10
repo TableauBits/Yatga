@@ -1,16 +1,17 @@
-<div class="fav-card-container">
+<div class="fav-card-container ">
   <h1 class="fav-type-title"><b>{{ title }}</b></h1>
-  <div class="fav-name"> Pour un total de {{ getNumberOfFavs() }} favoris :</div>
+  <div class="fav-name"> Pour un total de <span class="emph">{{ getNumberOfFavs() }}</span> favoris :</div>
 
     <div class="team-category members-category">
-        <h2 class="category-title">Membres</h2>
         <div class="user-display-area">
-            <div #memberCard *ngFor="let fav of getFavsSorted()" class="user-card">
+            <div #memberCard *ngFor="let fav of getFavsSorted()" class="user-card song-card">
+                <div *ngIf="fav[1] === getMaxFavs()" class="stamp">😍</div>
                 <img *ngIf="getUser(fav[0]).photoURL" [src]="getUser(fav[0]).photoURL"
                     [alt]="getUser(fav[0]).displayName + ' profile picture'" class="user-avatar">
                 <span class="user-name">
+                  
                   {{ getUser(fav[0]).displayName }} <br>
-                  <i> {{ fav[1] }} favoris </i>
+                  <i> <span class="emph"> {{ fav[1] }} </span> favoris </i>
                 </span>
             </div>
         </div>
