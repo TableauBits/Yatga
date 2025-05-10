@@ -1,6 +1,8 @@
 <div class="fav-card-container ">
   <h1 class="fav-type-title"><b>{{ title }}</b></h1>
-  <div class="fav-name"> Pour un total de <span class="emph">{{ getNumberOfFavs() }}</span> favoris :</div>
+  <div class="fav-name"> 
+    Pour un total de <span class="emph">{{ getNumberOfFavs() }}</span> favoris
+    <span *ngIf="maxFavs > 0">sur <span class="emph"> {{ maxFavs }} </span> possibles</span> : <br> <br>
 
     <div class="team-category members-category">
         <div class="user-display-area">

@@ -3,7 +3,6 @@ $dark-bg: #1e1e1e;
 $card-bg: #2a2a2a;
 $text-color: #e0e0e0;
 $primary-accent: #00acc1; // A teal/cyan accent
-$secondary-accent: #7e57c2; // A purple accent for category titles
 $border-color: #444;
 $avatar-size: 70px; // Adjusted for potentially tighter space
 $section-spacing: 25px; // For spacing between sections
@@ -80,7 +79,7 @@ $section-spacing: 25px; // For spacing between sections
 .category-title {
     text-align: center;
     font-size: 1.2em;
-    color: $secondary-accent;
+    color: $primary-accent;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5px;

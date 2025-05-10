@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EMPTY_USER, User } from 'chelys';
 
 @Component({
@@ -6,15 +6,13 @@ import { EMPTY_USER, User } from 'chelys';
   templateUrl: './rewind-fav.component.html',
   styleUrls: ['./rewind-fav.component.scss']
 })
-export class RewindFavComponent implements OnInit {
+export class RewindFavComponent {
   @Input() title: string = "";
+  @Input() maxFavs: number = 0;
   @Input() favs: Map<string, number> = new Map();
   @Input() users: Map<string, User> = new Map();
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   getMaxFavs(): number {
     const values = Array.from(this.favs.values())

@@ -18,14 +18,14 @@
         </h1>
         <span>
             Les Rewinds résument votre participation d'une année sur Matbay. <br>
-            Vous pouvez également consulter les Rewinds des années précédentes en cliquant sur l'année sélectionnée en
+            Vous pouvez consulter les Rewinds des années précédentes en cliquant sur l'année sélectionnée en
             haut de la page. <br>
             <br>
-            En {{selectedYear}} vous avez : <br> <br>
-            Participé à {{selectedRewind.baseStats.nConstitutions}} constitutions. <br>
-            Ajouté {{selectedRewind.baseStats.nSongs}} chansons. <br>
-            Voté {{selectedRewind.baseStats.nVotes}} fois. <br>
-            Donné {{selectedRewind.baseStats.fav.count}} favoris. <br>
+            En <b> {{selectedYear}} </b> vous avez : <br> <br>
+            Participé à <b> {{selectedRewind.baseStats.nConstitutions}} </b> constitutions. <br>
+            Ajouté <b> {{selectedRewind.baseStats.nSongs}} </b> chansons. <br>
+            Voté <b> {{selectedRewind.baseStats.nVotes}} </b> fois. <br>
+            Donné <b> {{selectedRewind.baseStats.fav.count}} </b> favoris. <br>
         </span>
     </div>
 
@@ -51,7 +51,7 @@
     <div>
         <div class="section-title">Répartition des favoris :</div>
         <ul class="teams">
-            <li><rewind-fav [title]="'Favoris donnés'"[favs]="selectedRewind.baseStats.fav.perUser" [users]="users"></rewind-fav></li>
+            <li><rewind-fav [title]="'Favoris donnés'"[favs]="selectedRewind.baseStats.fav.perUser" [maxFavs]="selectedRewind.baseStats.fav.totalAvailable" [users]="users"></rewind-fav></li>
             <li><rewind-fav [title]="'Favoris reçus'" [favs]="selectedRewind.baseStats.fav.fromUsers" [users]="users"></rewind-fav></li>
         </ul>
     </div>
@@ -66,7 +66,7 @@
         </ul>
     </div>
 
-    <div class="section-title">% de complétion des chansons ajoutées :</div>
+    <div class="section-title">Pourcentage de complétion des chansons ajoutées :</div>
     <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
 
     <div class="section-title">Répartition des décennies des chansons ajoutées :</div>
