@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { EMPTY_REWIND, EMPTY_USER, Team, User } from 'chelys';
 
 @Component({
-  selector: 'rewind-team',
+  selector: 'app-rewind-team',
   templateUrl: './rewind-team.component.html',
   styleUrls: ['./rewind-team.component.scss']
 })

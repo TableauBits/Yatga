@@ -3,7 +3,7 @@ import { ConstitutionMetadata, EMPTY_SONG, RewindRankSong, Song } from 'chelys';
 import { GetUrlService } from 'src/app/services/get-url.service';
 
 @Component({
-  selector: 'song-card',
+  selector: 'app-song-card',
   templateUrl: './song-card.component.html',
   styleUrls: ['./song-card.component.scss']
 })
@@ -27,9 +27,9 @@ export class SongCardComponent implements OnInit {
   };
 
   @Input()
-  emoji: string = ""
+  emoji: string = "";
 
-  thumbnailURL = ""
+  thumbnailURL = "";
 
   constructor(public urlGetter: GetUrlService) {
 

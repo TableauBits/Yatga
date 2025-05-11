@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { EMPTY_USER, User } from 'chelys';
 
 @Component({
-  selector: 'rewind-fav',
+  selector: 'app-rewind-fav',
   templateUrl: './rewind-fav.component.html',
   styleUrls: ['./rewind-fav.component.scss']
 })
@@ -15,7 +15,7 @@ export class RewindFavComponent {
   constructor() { }
 
   getMaxFavs(): number {
-    const values = Array.from(this.favs.values())
+    const values = Array.from(this.favs.values());
     if (values.length === 0) {
       return 0;
     }

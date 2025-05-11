@@ -33,8 +33,8 @@
         <div class="section-title">Meilleures musiques :</div>
         <ul class="song-list">
             <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs; let isFirst = first">
-                <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
-                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ? '👑' : ''"></song-card>
+                <app-song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ? '👑' : ''"></app-song-card>
             </li>
         </ul>
     </div>
@@ -42,8 +42,8 @@
         <div class="section-title">Pires musiques :</div>
         <ul class="song-list">
             <li *ngFor="let songStats of selectedRewind.baseStats.worstSongs.songs; let isLast = last">
-                <song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
-                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isLast ?'💩':''"></song-card>
+                <app-song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isLast ?'💩':''"></app-song-card>
             </li>
         </ul>
     </div>
@@ -51,34 +51,34 @@
     <div>
         <div class="section-title">Notes des utilisateurs :</div>
         <ul class="teams">
-            <li><rewind-user-score [title]="'Scores moyen donnés'"
+            <li><app-rewind-user-score [title]="'Scores moyen donnés'"
                     [userMeanScore]="selectedRewind.baseStats.users.meanScorePerUser"
-                    [users]="users"></rewind-user-score></li>
-            <li><rewind-user-score [title]="'Scores moyen reçus'"
+                    [users]="users"></app-rewind-user-score></li>
+            <li><app-rewind-user-score [title]="'Scores moyen reçus'"
                     [userMeanScore]="selectedRewind.baseStats.users.meanScoreFromUser"
-                    [users]="users"></rewind-user-score></li>
+                    [users]="users"></app-rewind-user-score></li>
         </ul>
     </div>
 
     <div>
         <div class="section-title">Répartition des favoris :</div>
         <ul class="teams">
-            <li><rewind-fav [title]="'Favoris donnés'" [favs]="selectedRewind.baseStats.fav.perUser"
-                    [maxFavs]="selectedRewind.baseStats.fav.totalAvailable" [users]="users"></rewind-fav></li>
-            <li><rewind-fav [title]="'Favoris reçus'" [favs]="selectedRewind.baseStats.fav.fromUsers"
-                    [users]="users"></rewind-fav></li>
+            <li><app-rewind-fav [title]="'Favoris donnés'" [favs]="selectedRewind.baseStats.fav.perUser"
+                    [maxFavs]="selectedRewind.baseStats.fav.totalAvailable" [users]="users"></app-rewind-fav></li>
+            <li><app-rewind-fav [title]="'Favoris reçus'" [favs]="selectedRewind.baseStats.fav.fromUsers"
+                    [users]="users"></app-rewind-fav></li>
         </ul>
     </div>
 
     <div>
         <div class="section-title">Vos équipes :</div>
         <ul class="teams">
-            <li><rewind-team [type]="'Équipe de chansons'"
+            <li><app-rewind-team [type]="'Équipe de chansons'"
                     [description]="'Les personnes dont les chansons se rapproche le plus des votres'"
-                    [teamInfo]="selectedRewind.teamSongs" [users]="users"></rewind-team></li>
-            <li><rewind-team [type]="'Équipe de votes'"
+                    [teamInfo]="selectedRewind.teamSongs" [users]="users"></app-rewind-team></li>
+            <li><app-rewind-team [type]="'Équipe de votes'"
                     [description]="'Les personnes dont la manière de voter se rapproche le plus de la votre'"
-                    [teamInfo]="selectedRewind.teamVotes" [users]="users"></rewind-team></li>
+                    [teamInfo]="selectedRewind.teamVotes" [users]="users"></app-rewind-team></li>
         </ul>
     </div>
 

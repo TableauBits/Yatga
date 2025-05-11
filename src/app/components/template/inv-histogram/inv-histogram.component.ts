@@ -32,7 +32,7 @@ export class InvHistogramComponent extends Charts implements AfterViewInit, OnCh
   }
 
   getStyle() {
-    return `width:${this.width}; height:${this.height};`
+    return `width:${this.width}; height:${this.height};`;
   }
 
   generateChartOption(): EChartsOption {

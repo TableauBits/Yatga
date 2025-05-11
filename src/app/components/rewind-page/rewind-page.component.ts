@@ -31,15 +31,15 @@ export class RewindPageComponent {
     this.languagesHistData = {
       rows: [],
       values: []
-    }
+    };
     this.decadesHistData = {
       rows: [],
       values: []
-    }
+    };
     this.genresHistData = {
       rows: [],
       values: []
-    }
+    };
   }
 
   private handleEvents(event: MessageEvent<any>): void {
@@ -56,7 +56,7 @@ export class RewindPageComponent {
           this.selectedRewind = data.rewind;
           this.generateChartsData();
 
-          this.selectedRewind.baseStats.bestSongs.songs
+          this.selectedRewind.baseStats.bestSongs.songs;
         }
         if (this.selectedYear === data.year) {
           this.selectedRewind = data.rewind;
@@ -99,7 +99,7 @@ export class RewindPageComponent {
       case "lang":
         return !(this.languagesHistData.rows.length === 0);
       case "dec":
-        return !(this.decadesHistData.rows.length === 0)
+        return !(this.decadesHistData.rows.length === 0);
       case "genres":
         return !(this.genresHistData.rows.length === 0);
       default:
@@ -146,7 +146,7 @@ export class RewindPageComponent {
         text: ["Beaucoup de musiques", "Peu de musiques"],
         colorRange: ['#FD665F', '#FFCE34', '#65B581']
       }
-    }
+    };
   }
 
   generateLangInvHistData(): void {
@@ -179,7 +179,7 @@ export class RewindPageComponent {
         text: ["Beaucoup de musiques", "Peu de musiques"],
         colorRange: ['#FD665F', '#FFCE34', '#65B581']
       }
-    }
+    };
   }
 
   generateDecInvHistData(): void {
@@ -212,7 +212,7 @@ export class RewindPageComponent {
         text: ["Beaucoup de musiques", "Peu de musiques"],
         colorRange: ['#FD665F', '#FFCE34', '#65B581']
       }
-    }
+    };
   }
 
   generateGaugeData(): void {

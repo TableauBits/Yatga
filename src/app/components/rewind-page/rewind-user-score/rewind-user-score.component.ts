@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { EMPTY_USER, User } from 'chelys';
 
 @Component({
-  selector: 'rewind-user-score',
+  selector: 'app-rewind-user-score',
   templateUrl: './rewind-user-score.component.html',
   styleUrls: ['./rewind-user-score.component.scss']
 })
