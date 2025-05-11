@@ -1,0 +1,49 @@
+<div class="team-card-container">
+    <h1 class="team-type-title"><b>{{ type }}</b></h1>
+    <div class="team-name"> {{ description }}</div>
+
+    <!-- Wrapper for Leader and Extremist -->
+    <div class="special-roles-wrapper" *ngIf="teamInfo.leader || teamInfo.extremist">
+        <div class="team-category leader-category" *ngIf="teamInfo.leader">
+            <h2 class="category-title"
+                matTooltip="Le membre de l'équipe le plus similaire à tous les autres membres de l'équipe. N'est pas incompatible avec le status d'extrémiste.">
+                Leader</h2>
+            <div class="user-display-area">
+                <div #leaderCard class="user-card">
+                    <img *ngIf="getUser(teamInfo.leader).photoURL" [src]="getUser(teamInfo.leader).photoURL"
+                        [alt]="getUser(teamInfo.leader).displayName + ' profile picture'" class="user-avatar">
+                    <span class="user-name">{{ getUser(teamInfo.leader).displayName }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-category extremist-category" *ngIf="teamInfo.extremist">
+            <h2 class="category-title"
+                matTooltip="Le membre de l'équipe le moins similaire à toutes les autres équipes. N'est pas incompatible avec le status de leader.">
+                Extrémiste</h2>
+            <div class="user-display-area">
+                <div #extremistCard class="user-card">
+                    <img *ngIf="getUser(teamInfo.extremist).photoURL" [src]="getUser(teamInfo.extremist).photoURL"
+                        [alt]="getUser(teamInfo.extremist).displayName + ' profile picture'" class="user-avatar">
+                    <span class="user-name">{{ getUser(teamInfo.extremist).displayName }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="team-category members-category" *ngIf="teamInfo.members && teamInfo.members.length > 0">
+        <h2 class="category-title">Membres</h2>
+        <div class="user-display-area">
+            <div #memberCard *ngFor="let memberId of teamInfo.members" class="user-card">
+                <img *ngIf="getUser(memberId).photoURL" [src]="getUser(memberId).photoURL"
+                    [alt]="getUser(memberId).displayName + ' profile picture'" class="user-avatar">
+                <span class="user-name">{{ getUser(memberId).displayName }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!teamInfo.leader && (!teamInfo.members || teamInfo.members.length === 0) && !teamInfo.extremist"
+        class="no-team-data">
+        Aucune donnée d'équipe disponible.
+    </div>
+</div>

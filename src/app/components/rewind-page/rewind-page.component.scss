@@ -1,0 +1,188 @@
+@import "../../../styles/variables.scss";
+
+.rwd-header {
+  background: linear-gradient(137.42deg, #00d5ff 0%, #d0266f 40%, #b9b500 100%);
+  background-size: 300% 300%;
+  animation: gradient 15s ease infinite;
+  text-align: center;
+  padding-bottom: 3rem;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 70px;
+  }
+
+  span {
+    font-size: 25px;
+  }
+}
+
+mat-select {
+  color: whitesmoke;
+  text-align: center;
+}
+
+::ng-deep .mat-select-value {
+  max-width: 100%;
+  min-width: 0%;
+  width: fit-content;
+}
+
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
+  min-width: 0px !important;
+  padding-right: 13px !important;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: whitesmoke;
+  }
+
+  .mat-form-field.mat-focused .mat-form-field-label {
+    color: whitesmoke !important;
+  }
+
+  .mat-select-value {
+    color: whitesmoke;
+  }
+
+  .mat-select-panel .mat-option {
+    height: 4rem !important;
+    font-size: 40px !important;
+  }
+
+  mat-form-field {
+
+    .mat-hint,
+    input,
+    ::placeholder,
+    .mat-form-field-label {
+      color: whitesmoke;
+    }
+
+
+  }
+
+  .mat-primary .mat-option:hover {
+    background-color: $sasuke;
+  }
+
+  .mat-option.mat-active {
+    color: whitesmoke;
+    background-color: $cape-cod;
+  }
+
+  .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+    color: whitesmoke;
+    background-color: $angular-purple;
+
+  }
+}
+
+/* rewind */
+
+.song-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  /* space between cards */
+  justify-content: center;
+  /* center them in the row */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.song-list li {
+  /* each card will try to be at least 280px wide,
+     grow to fill the row, but never exceed 32% of the row */
+  flex: 0 0 280px;
+  max-width: 32%;
+  box-sizing: border-box;
+}
+
+.section-title {
+  padding-bottom: 30px;
+  font-size: x-large;
+  text-align: center;
+  text-decoration: underline;
+}
+
+#one {
+  margin-left: 12%;
+  margin-right: 12%;
+  // background: linear-gradient(to top right, #ffc928a6, transparent);
+  padding: 20px;
+}
+
+#two {
+  margin-left: 12%;
+  margin-right: 12%;
+  // background: linear-gradient(to bottom right, rgb(121, 21, 3), transparent);
+  padding: 20px;
+}
+
+// rewind-page-component.scss
+
+ul.teams {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 30px 20px 30px; // Add some bottom margin to the list itself
+  display: flex; // Enable flexbox
+  gap: 20px; // Space between the team cards (list items)
+
+  li {
+    flex: 1; // Each list item will take up equal available space (width)
+    display: flex; // Allow the rewind-team component to fill the li height
+    min-width: 0; // Important for flex items to prevent overflow if content is too wide
+
+    rewind-fav {
+      width: 100%; // Ensure the component fills its parent <li>
+      // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
+      // and the internal structure of rewind-team (see below).
+    }
+    rewind-team {
+      width: 100%; // Ensure the component fills its parent <li>
+      // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
+      // and the internal structure of rewind-team (see below).
+    }
+    rewind-user-score {
+      width: 100%; // Ensure the component fills its parent <li>
+      // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
+      // and the internal structure of rewind-team (see below).
+    }
+  }
+}
+
+@keyframes gradient {
+  /*
+  background: linear-gradient(137.42deg, #00d5ff 0%, #d0266f 40%, #b9b500 100%);
+  background-size: 300% 300%;
+  animation: gradient 15s ease infinite;
+  */
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rwd-container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

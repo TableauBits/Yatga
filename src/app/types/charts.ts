@@ -145,3 +145,17 @@ export type InvHistogramData = {
     colorRange?: string[];
   }
 }
+
+// Ring Gauge
+export type RingGaugeData = {
+  value: number;
+  name: string;
+  title?: {
+    offsetCenter: [string, string];
+    color?: string;
+  },
+  detail?: {
+    valueAnimation?: boolean;
+    offsetCenter: [string, string];
+  }
+}

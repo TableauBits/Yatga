@@ -6,6 +6,7 @@ import { HomePageComponent } from "../components/home-page/home-page.component";
 import { InvitePageComponent } from "../components/invite-page/invite-page.component";
 import { ProfilePageComponent } from "../components/profile-page/profile-page.component";
 import { UsersPageComponent } from "../components/users-page/users-page.component";
+import { RewindPageComponent } from "../components/rewind-page/rewind-page.component";
 
 export const ROUTES: Routes = [
 	{ path: '', 																component: HomePageComponent 								},
@@ -15,4 +16,5 @@ export const ROUTES: Routes = [
 	{	path: 'invite',														component: InvitePageComponent 							},
 	{ path: 'profile', 													component: ProfilePageComponent 						},
 	{ path: 'users', 														component: UsersPageComponent 							},
+	{ path: 'rewind', 													component: RewindPageComponent							},
 ];

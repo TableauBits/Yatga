@@ -1,0 +1,118 @@
+<br>
+<span class="rwd-container" *ngIf="selectedRewind !== undefined;else no_rewind">
+    <div class="rwd-header">
+        <h1>
+            MATBAY REWIND <b>
+                <mat-form-field>
+                    <mat-select [(value)]="selectedYear" (selectionChange)="selectYear()" focused="true">
+                        <mat-option [value]="year.key" *ngFor="let year of rewinds | keyvalue">{{year.key}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </b> DE <br>
+            <b> <img src="{{getUser(selectedRewind.baseStats.uid).photoURL}}" class="rounded-circle" width="150"
+                    height="150">
+                {{getUser(selectedRewind.baseStats.uid).displayName}} </b>
+            <br>
+            <br>
+            <br>
+        </h1>
+        <span>
+            Les Rewinds résument votre participation d'une année sur Matbay. <br>
+            Vous pouvez consulter les Rewinds des années précédentes en cliquant sur l'année sélectionnée en
+            haut de la page. <br>
+            <br>
+            En <b> {{selectedYear}} </b> vous avez : <br> <br>
+            Participé à <b> {{selectedRewind.baseStats.nConstitutions}} </b> constitutions. <br>
+            Ajouté <b> {{selectedRewind.baseStats.nSongs}} </b> chansons. <br>
+            Voté <b> {{selectedRewind.baseStats.nVotes}} </b> fois. <br>
+            Donné <b> {{selectedRewind.baseStats.fav.count}} </b> favoris. <br>
+        </span>
+    </div>
+
+    <div id="one">
+        <div class="section-title">Meilleures musiques :</div>
+        <ul class="song-list">
+            <li *ngFor="let songStats of selectedRewind.baseStats.bestSongs.songs; let isFirst = first">
+                <app-song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isFirst ? '👑' : ''"></app-song-card>
+            </li>
+        </ul>
+    </div>
+    <div id="two">
+        <div class="section-title">Pires musiques :</div>
+        <ul class="song-list">
+            <li *ngFor="let songStats of selectedRewind.baseStats.worstSongs.songs; let isLast = last">
+                <app-song-card [songStats]="songStats" [songInfo]="getSongInfo(songStats.id)"
+                    [associatedCstStats]="getCstData(songStats.id)" [emoji]="isLast ?'💩':''"></app-song-card>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+        <div class="section-title">Notes des utilisateurs :</div>
+        <ul class="teams">
+            <li><app-rewind-user-score [title]="'Scores moyen donnés'"
+                    [userMeanScore]="selectedRewind.baseStats.users.meanScorePerUser"
+                    [users]="users"></app-rewind-user-score></li>
+            <li><app-rewind-user-score [title]="'Scores moyen reçus'"
+                    [userMeanScore]="selectedRewind.baseStats.users.meanScoreFromUser"
+                    [users]="users"></app-rewind-user-score></li>
+        </ul>
+    </div>
+
+    <div>
+        <div class="section-title">Répartition des favoris :</div>
+        <ul class="teams">
+            <li><app-rewind-fav [title]="'Favoris donnés'" [favs]="selectedRewind.baseStats.fav.perUser"
+                    [maxFavs]="selectedRewind.baseStats.fav.totalAvailable" [users]="users"></app-rewind-fav></li>
+            <li><app-rewind-fav [title]="'Favoris reçus'" [favs]="selectedRewind.baseStats.fav.fromUsers"
+                    [users]="users"></app-rewind-fav></li>
+        </ul>
+    </div>
+
+    <div>
+        <div class="section-title">Vos équipes :</div>
+        <ul class="teams">
+            <li><app-rewind-team [type]="'Équipe de chansons'"
+                    [description]="'Les personnes dont les chansons se rapproche le plus des votres'"
+                    [teamInfo]="selectedRewind.teamSongs" [users]="users"></app-rewind-team></li>
+            <li><app-rewind-team [type]="'Équipe de votes'"
+                    [description]="'Les personnes dont la manière de voter se rapproche le plus de la votre'"
+                    [teamInfo]="selectedRewind.teamVotes" [users]="users"></app-rewind-team></li>
+        </ul>
+    </div>
+
+    <div class="section-title">Pourcentage de complétion des chansons ajoutées :</div>
+    <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
+
+    <span *ngIf="checkIfChartIsEmpty('dec') ; else no_dec_chart">
+        <div class="section-title">Répartition des décennies des chansons ajoutées :</div>
+        <app-inv-histogram [id]="'rewind-decade-histogram'" [data]='decadesHistData' [height]="'700px'"
+            [width]="'100%'"></app-inv-histogram>
+        <br>
+    </span>
+    <ng-template #no_dec_chart>
+        <div class="section-title">Pas assez de données pour afficher la répartition des décennies </div>
+    </ng-template>
+
+    <span *ngIf="checkIfChartIsEmpty('lang') ; else no_lang_chart">
+        <div class="section-title">Répartition des langues des chansons ajoutées :</div>
+        <app-inv-histogram [id]="'rewind-lang-histogram'" [data]='languagesHistData' [height]="'700px'"
+            [width]="'100%'"></app-inv-histogram>
+        <br>
+    </span>
+    <ng-template #no_lang_chart>
+        <div class="section-title">Pas assez de données pour afficher la répartition des langues </div>
+    </ng-template>
+
+    <span *ngIf="checkIfChartIsEmpty('genres') ; else no_genres_chart">
+        <div class="section-title">Répartition des genres des chansons ajoutées :</div>
+        <app-inv-histogram [id]="'rewind-genre-histogram'" [data]='genresHistData' [height]="'700px'"
+            [width]="'100%'"></app-inv-histogram>
+        <br>
+    </span>
+    <ng-template #no_genres_chart>
+        <div class="section-title">Pas assez de données pour afficher la répartition des genres </div>
+    </ng-template>
+</span>
+<ng-template #no_rewind>Pas de Rewinds</ng-template>

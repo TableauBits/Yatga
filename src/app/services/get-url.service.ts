@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Song, SongPlatform } from 'chelys';
 import { getIDFromURL } from '../types/url';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetUrlService {
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private http: HttpClient) { }
 
   getEmbedURL(song: Song): SafeResourceUrl {
     switch (song.platform) {
@@ -28,7 +30,31 @@ export class GetUrlService {
     switch (song.platform) {
       case SongPlatform.YOUTUBE: {
         const videoID = getIDFromURL(song);
+
         return `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
+      }
+      case SongPlatform.SOUNDCLOUD:
+        return 'assets/soundcloud-card.jpg';
+      case SongPlatform.PEERTUBE:
+        return `${song.url.replace("/videos/watch/", "/lazy-static/previews/")}.jpg`;
+      default:
+        return "";
+    }
+  }
+
+  async asyncGetImageURL(song: Song): Promise<String> {
+    switch (song.platform) {
+      case SongPlatform.YOUTUBE: {
+        const videoID = getIDFromURL(song);
+
+        let tnURL = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+        try {
+          await (this.http.head(tnURL, { observe: 'response' }).toPromise());
+        } catch (error) {
+          tnURL = `https://img.youtube.com/vi/${videoID}/mqdefault.jpg`;
+        }
+
+        return tnURL;
       }
       case SongPlatform.SOUNDCLOUD:
         return 'assets/soundcloud-card.jpg';

@@ -67,7 +67,7 @@ export class GradeGradesComponent implements OnChanges {
       displayName: this.constitution.name,
     }];
 
-    usersChange.forEach((value, ) => {
+    usersChange.forEach((value,) => {
       this.secondaryUsers.push(value);
     });
 
@@ -81,8 +81,8 @@ export class GradeGradesComponent implements OnChanges {
     this.selectedSecondaryUser = CONSTITUTION_USER_ID;
     this.selectedSong = '-1';
     this.minMaxGrades = {
-      max: {uid: "", songId: -1, normalizeScore: 0, grade: -1},
-      min: {uid: "", songId: -1, normalizeScore: 0, grade: -1}
+      max: { uid: "", songId: -1, normalizeScore: 0, grade: -1 },
+      min: { uid: "", songId: -1, normalizeScore: 0, grade: -1 }
     };
   }
 
@@ -183,7 +183,7 @@ export class GradeGradesComponent implements OnChanges {
       range(1, 11).forEach(grade => {
         const count = songs.filter(s => s.languages?.includes(language ?? "") && votes?.get(s.id) === grade).length;
         if (count === 0) return;
-        scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+        scatterPoints.push([index, grade - 1, count]);  // grade-1 because index should start at 0
       });
       return scatterPoints;
     }));
@@ -206,8 +206,8 @@ export class GradeGradesComponent implements OnChanges {
   }
 
   generateMinMaxGrades(): void {
-    let maxGrade: UserGrade =  {uid: "", songId: -1, normalizeScore: 0, grade: -1};
-    let minGrade: UserGrade = {uid: "", songId: -1, normalizeScore: Infinity, grade: -1};
+    let maxGrade: UserGrade = { uid: "", songId: -1, normalizeScore: 0, grade: -1 };
+    let minGrade: UserGrade = { uid: "", songId: -1, normalizeScore: Infinity, grade: -1 };
     this.users.forEach(user => {
       const result = this.userResults.get(user.uid);
       if (isNil(result)) return;
@@ -215,9 +215,9 @@ export class GradeGradesComponent implements OnChanges {
         const score = result.normalizeScores.get(song.id);
         if (isNil(score)) return;
         if (maxGrade.normalizeScore < score) {
-          maxGrade = {uid: user.uid, songId: song.id, normalizeScore: score, grade: result.data.values.get(song.id) ?? -1};
+          maxGrade = { uid: user.uid, songId: song.id, normalizeScore: score, grade: result.data.values.get(song.id) ?? -1 };
         } else if (minGrade.normalizeScore > score) {
-          minGrade = {uid: user.uid, songId: song.id, normalizeScore: score, grade: result.data.values.get(song.id) ?? -1};
+          minGrade = { uid: user.uid, songId: song.id, normalizeScore: score, grade: result.data.values.get(song.id) ?? -1 };
         }
       });
     });
@@ -234,7 +234,7 @@ export class GradeGradesComponent implements OnChanges {
       range(1, 11).forEach(grade => {
         const count = songs.filter(s => s.genres?.includes(genre ?? "") && votes?.get(s.id) === grade).length;
         if (count === 0) return;
-        scatterPoints.push([index, grade-1, count]);  // grade-1 because index should start at 0
+        scatterPoints.push([index, grade - 1, count]);  // grade-1 because index should start at 0
       });
       return scatterPoints;
     }));
@@ -243,7 +243,7 @@ export class GradeGradesComponent implements OnChanges {
 
     this.genresScatterConfig = {
       axisMax: 10,
-      
+
       symbolSize: (param) => {
         return (param[1] / max) * 50 + 8;
       },
@@ -267,7 +267,7 @@ export class GradeGradesComponent implements OnChanges {
       range(1, 11).forEach(grade => {
         const count = songs.filter(s => toDecade(s.releaseYear) === decade && votes?.get(s.id) === grade).length;
         if (count === 0) return;
-        scatterPoints.push([index, grade-1, count]);
+        scatterPoints.push([index, grade - 1, count]);
       });
       return scatterPoints;
     }));

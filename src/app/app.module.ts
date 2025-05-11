@@ -40,6 +40,7 @@ import { InvitePageComponent } from './components/invite-page/invite-page.compon
 import { OptionnalSongInfosButtonComponent } from './components/constitution-page/optionnal-song-infos-button/optionnal-song-infos-button.component';
 import { ResultsConstitutionComponent } from './components/constitution-page/results/results-constitution/results-constitution.component';
 import { NavigatorSongDisplayComponent } from './components/constitution-page/navigator-song-display/navigator-song-display.component';
+import { RewindPageComponent } from './components/rewind-page/rewind-page.component';
 
 // Charts Component
 import { HistogramComponent } from './components/template/histogram/histogram.component';
@@ -99,6 +100,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Services
 import { AuthService } from './services/auth.service';
+import { RingGaugeComponent } from './components/template/ring-gauge/ring-gauge.component';
+import { SongCardComponent } from './components/rewind-page/song-card/song-card.component';
+import { RewindTeamComponent } from './components/rewind-page/rewind-team/rewind-team.component';
+import { RewindFavComponent } from './components/rewind-page/rewind-fav/rewind-fav.component';
+import { RewindUserScoreComponent } from './components/rewind-page/rewind-user-score/rewind-user-score.component';
 
 @NgModule({
 	declarations: [
@@ -149,6 +155,12 @@ import { AuthService } from './services/auth.service';
 		CalendarComponent,
 		SimpleScatterComponent,
 		InvHistogramComponent,
+		RewindPageComponent,
+		RingGaugeComponent,
+		SongCardComponent,
+  RewindTeamComponent,
+  RewindFavComponent,
+  RewindUserScoreComponent,
 	],
 	imports: [
 		BrowserModule,

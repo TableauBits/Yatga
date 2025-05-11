@@ -1,0 +1,170 @@
+// Define some dark theme variables for reusability
+$dark-bg: #1e1e1e;
+$card-bg: #2a2a2a;
+$text-color: #e0e0e0;
+$primary-accent: rgb(228, 29, 155); // A teal/cyan accent
+$secondary-accent: #7e57c2; // A purple accent for category titles
+$border-color: #444;
+$avatar-size: 70px; // Adjusted for potentially tighter space
+$section-spacing: 25px; // For spacing between sections
+
+.song-card {
+    position: relative;
+    /* make room for the stamp to overflow */
+    overflow: visible;
+    /* keeps the overall footprint square-ish */
+    aspect-ratio: 1 / 1;
+}
+
+:host {
+    display: flex; // Allows the host to participate in flex layouts (like filling parent li)
+    flex-direction: column; // Stack content vertically inside the host
+    height: 100%; // Crucial for matching height with other fav cards
+}
+
+.emph {
+    color: $primary-accent;
+}
+
+.fav-card-container {
+    background-color: $card-bg;
+    border-radius: 12px;
+    padding: 20px;
+    color: $text-color;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; // Allows card to grow to fill host (and thus li)
+    height: 100%; // Ensure it tries to fill available vertical space
+}
+
+.fav-type-title {
+    text-align: center;
+    font-size: 1.7em;
+    color: $primary-accent;
+    margin-bottom: 8px;
+    font-weight: 300;
+}
+
+.fav-name {
+    text-align: center;
+    font-size: 1.2em;
+    color: lighten($text-color, 15%);
+    margin-bottom: 20px;
+    // font-style: italic;
+}
+
+.special-roles-wrapper {
+    display: flex;
+    justify-content: space-around; // Distributes space, centers if only one is present
+    align-items: flex-start; // Align to top if content height differs
+    gap: 15px; // Space between leader and extremist blocks
+
+    // Add a separator if the members section follows this wrapper
+    &+.members-category {
+        margin-top: $section-spacing;
+        padding-top: $section-spacing / 1.5;
+        border-top: 1px solid $border-color;
+    }
+
+    // If this is the last content block (no members following)
+    &:not(+ .members-category) {
+        margin-bottom: $section-spacing / 2; // Add some space at the bottom
+    }
+}
+
+.fav-category {
+
+    // Base styles for all categories (leader, extremist, members)
+    &.leader-category,
+    &.extremist-category {
+        flex: 1; // Allows them to share space within the special-roles-wrapper
+        min-width: 0; // Important for flex children
+    }
+
+    &.members-category {
+
+        // If this is the only content category (no leader/extremist)
+        margin-bottom: $section-spacing / 2; // Add some space if it's the last content
+    }
+}
+
+.category-title {
+    text-align: center;
+    font-size: 1.2em;
+    color: $secondary-accent;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+}
+
+.user-display-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px; // Spacing between user cards if there are multiple (e.g., members)
+}
+
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px; // Max width for a user card
+    text-align: center;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+}
+
+.user-avatar,
+.fallback-avatar {
+    width: $avatar-size;
+    height: $avatar-size;
+    border-radius: 50%;
+    object-fit: cover;
+    // border: 2px solid $avatar-border-color;
+    padding: 3px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.fallback-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.9em;
+    font-weight: bold;
+    color: $text-color;
+}
+
+.user-name {
+    font-size: 1.1em;
+    color: $text-color;
+    word-break: break-word; // Prevents long names from breaking layout
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.no-fav-data {
+    text-align: center;
+    padding: 20px;
+    color: darken($text-color, 25%);
+    font-style: italic;
+    margin-top: auto; // Pushes to bottom if card is flex-column and has space
+    flex-grow: 1; // Helps it take remaining space
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.song-card .stamp {
+    position: absolute;
+    top: -5px;
+    right: 28px;
+    font-size: 1.8rem;
+    /* bump it up until you like the size */
+    transform: rotate(15deg);
+    pointer-events: none;
+    z-index: 5;
+}
