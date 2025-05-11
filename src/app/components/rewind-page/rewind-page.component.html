@@ -51,42 +51,68 @@
     <div>
         <div class="section-title">Notes des utilisateurs :</div>
         <ul class="teams">
-            <li><rewind-user-score [title]="'Scores moyen donnés'" [userMeanScore]="selectedRewind.baseStats.users.meanScorePerUser" [users]="users"></rewind-user-score></li>
-            <li><rewind-user-score [title]="'Scores moyen reçus'" [userMeanScore]="selectedRewind.baseStats.users.meanScoreFromUser" [users]="users"></rewind-user-score></li>
+            <li><rewind-user-score [title]="'Scores moyen donnés'"
+                    [userMeanScore]="selectedRewind.baseStats.users.meanScorePerUser"
+                    [users]="users"></rewind-user-score></li>
+            <li><rewind-user-score [title]="'Scores moyen reçus'"
+                    [userMeanScore]="selectedRewind.baseStats.users.meanScoreFromUser"
+                    [users]="users"></rewind-user-score></li>
         </ul>
     </div>
 
     <div>
         <div class="section-title">Répartition des favoris :</div>
         <ul class="teams">
-            <li><rewind-fav [title]="'Favoris donnés'"[favs]="selectedRewind.baseStats.fav.perUser" [maxFavs]="selectedRewind.baseStats.fav.totalAvailable" [users]="users"></rewind-fav></li>
-            <li><rewind-fav [title]="'Favoris reçus'" [favs]="selectedRewind.baseStats.fav.fromUsers" [users]="users"></rewind-fav></li>
+            <li><rewind-fav [title]="'Favoris donnés'" [favs]="selectedRewind.baseStats.fav.perUser"
+                    [maxFavs]="selectedRewind.baseStats.fav.totalAvailable" [users]="users"></rewind-fav></li>
+            <li><rewind-fav [title]="'Favoris reçus'" [favs]="selectedRewind.baseStats.fav.fromUsers"
+                    [users]="users"></rewind-fav></li>
         </ul>
     </div>
 
     <div>
         <div class="section-title">Vos équipes :</div>
         <ul class="teams">
-            <li><rewind-team [type]="'Équipe de chansons'" [description]="'Les personnes dont les chansons se rapproche le plus des votres'" [teamInfo]="selectedRewind.teamSongs"
-                    [users]="users"></rewind-team></li>
-            <li><rewind-team [type]="'Équipe de votes'" [description]="'Les personnes dont la manière de voter se rapproche le plus de la votre'" [teamInfo]="selectedRewind.teamVotes"
-                    [users]="users"></rewind-team></li>
+            <li><rewind-team [type]="'Équipe de chansons'"
+                    [description]="'Les personnes dont les chansons se rapproche le plus des votres'"
+                    [teamInfo]="selectedRewind.teamSongs" [users]="users"></rewind-team></li>
+            <li><rewind-team [type]="'Équipe de votes'"
+                    [description]="'Les personnes dont la manière de voter se rapproche le plus de la votre'"
+                    [teamInfo]="selectedRewind.teamVotes" [users]="users"></rewind-team></li>
         </ul>
     </div>
 
     <div class="section-title">Pourcentage de complétion des chansons ajoutées :</div>
     <app-ring-gauge [id]="'rewind-completion-gauge'" [data]='gaugeData'></app-ring-gauge>
 
-    <div class="section-title">Répartition des décennies des chansons ajoutées :</div>
-    <app-inv-histogram [id]="'rewind-lang-histogram'" [data]='decadesHistData' [height]="'700px'" [width]="'100%'"></app-inv-histogram>
-    <br>
+    <span *ngIf="checkIfChartIsEmpty('dec') ; else no_dec_chart">
+        <div class="section-title">Répartition des décennies des chansons ajoutées :</div>
+        <app-inv-histogram [id]="'rewind-decade-histogram'" [data]='decadesHistData' [height]="'700px'"
+            [width]="'100%'"></app-inv-histogram>
+        <br>
+    </span>
+    <ng-template #no_dec_chart>
+        <div class="section-title">Pas assez de données pour afficher la répartition des décennies </div>
+    </ng-template>
 
-    <div class="section-title">Répartition des langues des chansons ajoutées :</div>
-    <app-inv-histogram [id]="'rewind-decade-histogram'" [data]='languagesHistData' [height]="'700px'" [width]="'100%'"></app-inv-histogram>
-    <br>
+    <span *ngIf="checkIfChartIsEmpty('lang') ; else no_lang_chart">
+        <div class="section-title">Répartition des langues des chansons ajoutées :</div>
+        <app-inv-histogram [id]="'rewind-lang-histogram'" [data]='languagesHistData' [height]="'700px'"
+            [width]="'100%'"></app-inv-histogram>
+        <br>
+    </span>
+    <ng-template #no_lang_chart>
+        <div class="section-title">Pas assez de données pour afficher la répartition des langues </div>
+    </ng-template>
 
-    <div class="section-title">Répartition des genres des chansons ajoutées :</div>
-    <app-inv-histogram [id]="'rewind-genre-histogram'" [data]='genresHistData' [height]="'700px'" [width]="'100%'"></app-inv-histogram>
-    <br>
+    <span *ngIf="checkIfChartIsEmpty('genres') ; else no_genres_chart">
+        <div class="section-title">Répartition des genres des chansons ajoutées :</div>
+        <app-inv-histogram [id]="'rewind-genre-histogram'" [data]='genresHistData' [height]="'700px'"
+            [width]="'100%'"></app-inv-histogram>
+        <br>
+    </span>
+    <ng-template #no_genres_chart>
+        <div class="section-title">Pas assez de données pour afficher la répartition des genres </div>
+    </ng-template>
 </span>
 <ng-template #no_rewind>Pas de Rewinds</ng-template>

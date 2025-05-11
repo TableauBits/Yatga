@@ -93,6 +93,20 @@ export class RewindPageComponent {
     this.generateChartsData();
   }
 
+  checkIfChartIsEmpty(name: string): boolean {
+    if (isNil(this.selectedRewind)) return true;
+    switch (name) {
+      case "lang":
+        return !(this.languagesHistData.rows.length === 0);
+      case "dec":
+        return !(this.decadesHistData.rows.length === 0)
+      case "genres":
+        return !(this.genresHistData.rows.length === 0);
+      default:
+        return false;
+    }
+  }
+
   generateChartsData(): void {
     if (isNil(this.selectedRewind)) return;
     this.generateGaugeData();
