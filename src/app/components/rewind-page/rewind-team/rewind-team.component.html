@@ -5,7 +5,9 @@
     <!-- Wrapper for Leader and Extremist -->
     <div class="special-roles-wrapper" *ngIf="teamInfo.leader || teamInfo.extremist">
         <div class="team-category leader-category" *ngIf="teamInfo.leader">
-            <h2 class="category-title">Leader</h2>
+            <h2 class="category-title"
+                matTooltip="Le membre de l'équipe le plus similaire à tous les autres membres de l'équipe. N'est pas incompatible avec le status d'extrémiste">
+                Leader</h2>
             <div class="user-display-area">
                 <div #leaderCard class="user-card">
                     <img *ngIf="getUser(teamInfo.leader).photoURL" [src]="getUser(teamInfo.leader).photoURL"
@@ -16,7 +18,9 @@
         </div>
 
         <div class="team-category extremist-category" *ngIf="teamInfo.extremist">
-            <h2 class="category-title">Extrémiste</h2>
+            <h2 class="category-title"
+                matTooltip="Le membre de l'équipe le moins similaire à toutes les auters équipes. N'est pas incompatible avec le status de leader.">
+                Extrémiste</h2>
             <div class="user-display-area">
                 <div #extremistCard class="user-card">
                     <img *ngIf="getUser(teamInfo.extremist).photoURL" [src]="getUser(teamInfo.extremist).photoURL"
