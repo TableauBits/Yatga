@@ -58,6 +58,10 @@ export class RewindPageComponent {
 
           this.selectedRewind.baseStats.bestSongs.songs
         }
+        if (this.selectedYear === data.year) {
+          this.selectedRewind = data.rewind;
+          this.generateChartsData();
+        }
       } break;
 
       case EventType.USER_update: {
