@@ -2,7 +2,7 @@
 $dark-bg: #1e1e1e;
 $card-bg: #2a2a2a;
 $text-color: #e0e0e0;
-$primary-accent: rgb(228, 29, 155); // A teal/cyan accent
+$primary-accent: rgb(34, 110, 59); // A teal/cyan accent
 $secondary-accent: #7e57c2; // A purple accent for category titles
 $border-color: #444;
 $avatar-size: 70px; // Adjusted for potentially tighter space
@@ -19,14 +19,14 @@ $section-spacing: 25px; // For spacing between sections
 :host {
     display: flex; // Allows the host to participate in flex layouts (like filling parent li)
     flex-direction: column; // Stack content vertically inside the host
-    height: 100%; // Crucial for matching height with other fav cards
+    height: 100%; // Crucial for matching height with other user-score cards
 }
 
 .emph {
     color: $primary-accent;
 }
 
-.fav-card-container {
+.user-score-card-container {
     background-color: $card-bg;
     border-radius: 12px;
     padding: 20px;
@@ -38,7 +38,7 @@ $section-spacing: 25px; // For spacing between sections
     height: 100%; // Ensure it tries to fill available vertical space
 }
 
-.fav-type-title {
+.user-score-type-title {
     text-align: center;
     font-size: 1.7em;
     color: $primary-accent;
@@ -46,7 +46,7 @@ $section-spacing: 25px; // For spacing between sections
     font-weight: 300;
 }
 
-.fav-name {
+.user-score-name {
     text-align: center;
     font-size: 1.2em;
     color: lighten($text-color, 15%);
@@ -73,7 +73,7 @@ $section-spacing: 25px; // For spacing between sections
     }
 }
 
-.fav-category {
+.user-score-category {
 
     // Base styles for all categories (leader, extremist, members)
     &.leader-category,
@@ -146,7 +146,7 @@ $section-spacing: 25px; // For spacing between sections
     white-space: nowrap;
 }
 
-.no-fav-data {
+.no-user-score-data {
     text-align: center;
     padding: 20px;
     color: darken($text-color, 25%);

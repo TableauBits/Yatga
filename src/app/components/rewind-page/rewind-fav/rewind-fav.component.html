@@ -1,4 +1,4 @@
-<div class="fav-card-container ">
+<div class="fav-card-container">
   <h1 class="fav-type-title"><b>{{ title }}</b></h1>
   <div class="fav-name"> 
     Pour un total de <span class="emph">{{ getNumberOfFavs() }}</span> favoris
@@ -11,7 +11,6 @@
                 <img *ngIf="getUser(fav[0]).photoURL" [src]="getUser(fav[0]).photoURL"
                     [alt]="getUser(fav[0]).displayName + ' profile picture'" class="user-avatar">
                 <span class="user-name">
-                  
                   {{ getUser(fav[0]).displayName }} <br>
                   <i> <span class="emph"> {{ fav[1] }} </span> favoris </i>
                 </span>

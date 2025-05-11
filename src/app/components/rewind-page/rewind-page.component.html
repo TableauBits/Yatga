@@ -49,6 +49,14 @@
     </div>
 
     <div>
+        <div class="section-title">Notes des utilisateurs :</div>
+        <ul class="teams">
+            <li><rewind-user-score [title]="'Scores moyen donnés'" [userMeanScore]="selectedRewind.baseStats.users.meanScorePerUser" [users]="users"></rewind-user-score></li>
+            <li><rewind-user-score [title]="'Scores moyen reçus'" [userMeanScore]="selectedRewind.baseStats.users.meanScoreFromUser" [users]="users"></rewind-user-score></li>
+        </ul>
+    </div>
+
+    <div>
         <div class="section-title">Répartition des favoris :</div>
         <ul class="teams">
             <li><rewind-fav [title]="'Favoris donnés'"[favs]="selectedRewind.baseStats.fav.perUser" [maxFavs]="selectedRewind.baseStats.fav.totalAvailable" [users]="users"></rewind-fav></li>

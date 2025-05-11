@@ -1,0 +1,19 @@
+<div class="user-score-card-container">
+  <h1 class="user-score-type-title"><b>{{ title }}</b></h1>
+  <div class="user-score-name"> 
+    
+        <div class="user-score-category members-category">
+        <div class="user-display-area">
+            <div #memberCard *ngFor="let score of getScoresSorted()" class="user-card song-card">
+                <!-- <div *ngIf="fav[1] === getMaxFavs()" class="stamp">😍</div> -->
+                <img *ngIf="getUser(score[0]).photoURL" [src]="getUser(score[0]).photoURL"
+                    [alt]="getUser(score[0]).displayName + ' profile picture'" class="user-avatar">
+                <span class="user-name">
+                  {{ getUser(score[0]).displayName }} <br>
+                  <i> Score de : <span class="emph"> {{ formatScore(score[1]) }} </span> </i>
+                </span>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

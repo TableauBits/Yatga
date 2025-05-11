@@ -147,6 +147,11 @@ ul.teams {
       // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
       // and the internal structure of rewind-team (see below).
     }
+    rewind-user-score {
+      width: 100%; // Ensure the component fills its parent <li>
+      // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
+      // and the internal structure of rewind-team (see below).
+    }
   }
 }
 

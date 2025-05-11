@@ -104,6 +104,7 @@ import { RingGaugeComponent } from './components/template/ring-gauge/ring-gauge.
 import { SongCardComponent } from './components/rewind-page/song-card/song-card.component';
 import { RewindTeamComponent } from './components/rewind-page/rewind-team/rewind-team.component';
 import { RewindFavComponent } from './components/rewind-page/rewind-fav/rewind-fav.component';
+import { RewindUserScoreComponent } from './components/rewind-page/rewind-user-score/rewind-user-score.component';
 
 @NgModule({
 	declarations: [
@@ -159,6 +160,7 @@ import { RewindFavComponent } from './components/rewind-page/rewind-fav/rewind-f
 		SongCardComponent,
   RewindTeamComponent,
   RewindFavComponent,
+  RewindUserScoreComponent,
 	],
 	imports: [
 		BrowserModule,
