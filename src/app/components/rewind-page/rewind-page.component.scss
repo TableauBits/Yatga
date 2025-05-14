@@ -137,17 +137,17 @@ ul.teams {
     display: flex; // Allow the rewind-team component to fill the li height
     min-width: 0; // Important for flex items to prevent overflow if content is too wide
 
-    rewind-fav {
+    app-rewind-fav {
       width: 100%; // Ensure the component fills its parent <li>
       // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
       // and the internal structure of rewind-team (see below).
     }
-    rewind-team {
+    app-rewind-team {
       width: 100%; // Ensure the component fills its parent <li>
       // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
       // and the internal structure of rewind-team (see below).
     }
-    rewind-user-score {
+    app-rewind-user-score {
       width: 100%; // Ensure the component fills its parent <li>
       // Height will be matched due to `align-items: stretch` (default for flex items on `li`)
       // and the internal structure of rewind-team (see below).

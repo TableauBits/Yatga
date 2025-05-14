@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Define some dark theme variables for reusability
 $dark-bg: #1e1e1e;
 $card-bg: #2a2a2a;
@@ -50,13 +52,13 @@ $section-spacing: 25px; // For spacing between sections
     // Add a separator if the members section follows this wrapper
     &+.members-category {
         margin-top: $section-spacing;
-        padding-top: $section-spacing / 1.5;
+        padding-top: math.div($section-spacing, 1.5);
         border-top: 1px solid $border-color;
     }
 
     // If this is the last content block (no members following)
     &:not(+ .members-category) {
-        margin-bottom: $section-spacing / 2; // Add some space at the bottom
+        margin-bottom: math.div($section-spacing, 2); // Add some space at the bottom
     }
 }
 
@@ -72,7 +74,7 @@ $section-spacing: 25px; // For spacing between sections
     &.members-category {
 
         // If this is the only content category (no leader/extremist)
-        margin-bottom: $section-spacing / 2; // Add some space if it's the last content
+        margin-bottom: math.div($section-spacing, 2); // Add some space if it's the last content
     }
 }
 
