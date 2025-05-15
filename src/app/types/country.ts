@@ -7,4 +7,3 @@ for (const [key, value] of Object.entries(countries)) {
   COUNTRY_CODES_TO_NAME.set(key, value.name);
   COUNTRY_NAMES_TO_CODE.set(value.name, key);
 }
-

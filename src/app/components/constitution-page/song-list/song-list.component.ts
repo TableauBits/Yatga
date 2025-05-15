@@ -10,6 +10,7 @@ import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-son
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
+import { COUNTRY_CODES_TO_NAME } from 'src/app/types/country';
 
 @Component({
 	selector: 'app-song-list',
@@ -173,5 +174,15 @@ export class SongListComponent extends YatgaUserFavorites {
 
 	isInConstitution(): boolean {
 		return this.constitution.users.includes(this.auth.uid);
+	}
+
+	getCountryFlagSVG(countries: string[]): string {
+		if (countries.length === 0) return '';
+  	return `http://purecatamphetamine.github.io/country-flag-icons/3x2/${countries[0]}.svg`;
+	}
+
+	getCountryName(countries: string[]): string {
+		if (countries.length === 0) return '';
+		return COUNTRY_CODES_TO_NAME.get(countries[0]) || countries[0];
 	}
 }

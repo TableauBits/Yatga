@@ -12,6 +12,7 @@ import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
 import { range } from 'lodash';
+import { COUNTRY_CODES_TO_NAME } from 'src/app/types/country';
 
 enum GradeOrder {
 	INCREASE,
@@ -62,7 +63,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		this.currentIframeSongID = -1;
 		this.votes = { uid: this.auth.uid, values: new Map() };
 		this.summary = { voteCount: 0, userCount: new Map() };
-		this.favorites = {uid: "", favs: []};
+		this.favorites = { uid: "", favs: [] };
 		this.histogramGrades = [];
 		this.cardsSortASC = (localStorage.getItem(CARDS_SORT_KEY) ?? true) === "false";
 		this.cardsViewEnabled = (localStorage.getItem(CARDS_VIEW_KEY) ?? true) !== "false";
@@ -133,8 +134,8 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		songsToVote = songsToVote.filter(song => this.isSelected(song.user));
 
 		songsToVote.sort(compareObjectsFactory("id", !this.cardsSortASC));
-		if (this.orderByUser) 
-			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s:Song) => this.users.get(s.user) + s.user, false));
+		if (this.orderByUser)
+			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByGrade !== GradeOrder.NONE)
 			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.getVote(s) || 0, this.orderByGrade == GradeOrder.DECREASE));
 		if (this.orderByFavs)
@@ -273,6 +274,16 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 	getGradeList(): number[] {
 		const maxGrade = this.constitution.maxGrade || 10;
-		return range(1, maxGrade+1);
+		return range(1, maxGrade + 1);
+	}
+
+	getCountryFlagSVG(countries: string[]): string {
+		if (countries.length === 0) return '';
+		return `http://purecatamphetamine.github.io/country-flag-icons/3x2/${countries[0]}.svg`;
+	}
+
+	getCountryName(countries: string[]): string {
+		if (countries.length === 0) return '';
+		return COUNTRY_CODES_TO_NAME.get(countries[0]) || countries[0];
 	}
 }
