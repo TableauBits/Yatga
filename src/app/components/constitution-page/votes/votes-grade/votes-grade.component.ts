@@ -12,7 +12,7 @@ import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
 import { range } from 'lodash';
-import { COUNTRY_CODES_TO_NAME } from 'src/app/types/country';
+import { CountryManagerService } from 'src/app/services/country-manager.service';
 
 enum GradeOrder {
 	INCREASE,
@@ -56,7 +56,8 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
 		public urlGetter: GetUrlService,
-		public songPropertyManager: SongPropertyManagerService
+		public songPropertyManager: SongPropertyManagerService,
+		public countryManager: CountryManagerService
 	) {
 		super();
 
@@ -275,15 +276,5 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	getGradeList(): number[] {
 		const maxGrade = this.constitution.maxGrade || 10;
 		return range(1, maxGrade + 1);
-	}
-
-	getCountryFlagSVG(countries: string[]): string {
-		if (countries.length === 0) return '';
-		return `http://purecatamphetamine.github.io/country-flag-icons/3x2/${countries[0]}.svg`;
-	}
-
-	getCountryName(countries: string[]): string {
-		if (countries.length === 0) return '';
-		return COUNTRY_CODES_TO_NAME.get(countries[0]) || countries[0];
 	}
 }

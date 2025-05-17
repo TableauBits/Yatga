@@ -105,6 +105,7 @@ import { SongCardComponent } from './components/rewind-page/song-card/song-card.
 import { RewindTeamComponent } from './components/rewind-page/rewind-team/rewind-team.component';
 import { RewindFavComponent } from './components/rewind-page/rewind-fav/rewind-fav.component';
 import { RewindUserScoreComponent } from './components/rewind-page/rewind-user-score/rewind-user-score.component';
+import { CountryManagerService } from './services/country-manager.service';
 
 @NgModule({
 	declarations: [
@@ -158,9 +159,9 @@ import { RewindUserScoreComponent } from './components/rewind-page/rewind-user-s
 		RewindPageComponent,
 		RingGaugeComponent,
 		SongCardComponent,
-  RewindTeamComponent,
-  RewindFavComponent,
-  RewindUserScoreComponent,
+		RewindTeamComponent,
+		RewindFavComponent,
+		RewindUserScoreComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -201,6 +202,7 @@ import { RewindUserScoreComponent } from './components/rewind-page/rewind-user-s
 	],
 	providers: [
 		AuthService,
+		CountryManagerService,
 		{ provide: PERSISTENCE, useValue: 'local' },  // Firebase login persitance
 		MatDatepickerModule,
 		MatNativeDateModule

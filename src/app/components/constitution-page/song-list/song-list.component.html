@@ -77,8 +77,8 @@
 				</button>
 				<app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
 				</app-optionnal-song-infos-button>
-				<img *ngIf="song.countries" src="{{getCountryFlagSVG(song.countries)}}" class="country-flag" 
-					matTooltip="{{getCountryName(song.countries)}}">
+				<img *ngIf="song.countries" src="{{countryManager.getCountryFlagSVG(song.countries)}}" class="country-flag" 
+					matTooltip="{{countryManager.getCountryName(song.countries)}}">
 				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
 					class="cancel" (click)="openDeleteSongWarning(song)" matTooltip="Retirer la musique">
 					<mat-icon>cancel</mat-icon>
