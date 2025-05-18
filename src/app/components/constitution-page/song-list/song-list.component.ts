@@ -10,6 +10,7 @@ import { DeleteSongWarningComponent } from '../../delete-song-warning/delete-son
 import { SongNavigatorComponent } from './song-navigator/song-navigator.component';
 import { GetUrlService } from 'src/app/services/get-url.service';
 import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
+import { CountryManagerService } from 'src/app/services/country-manager.service';
 
 @Component({
 	selector: 'app-song-list',
@@ -41,7 +42,8 @@ export class SongListComponent extends YatgaUserFavorites {
 		public auth: AuthService,
 		private dialog: MatDialog,
 		public urlGetter: GetUrlService,
-		public songPropertyManager: SongPropertyManagerService
+		public songPropertyManager: SongPropertyManagerService,
+		public countryManager: CountryManagerService,
 	) {
 		super();
 		this.constitution = EMPTY_CONSTITUTION;

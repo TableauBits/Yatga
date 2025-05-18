@@ -116,6 +116,26 @@
 						</mat-option>
 					</mat-autocomplete>
 				</mat-form-field><br>
+				<mat-icon class="icon"
+					matTooltip="Liste des pays de la musique. Il est possible d'en avoir plusieurs.">help_outline</mat-icon>
+				<mat-form-field appearance="outline">
+					<mat-label>Pays</mat-label>
+					<mat-chip-list #chipListCountry>
+						<mat-chip *ngFor="let country of countries" (removed)="remove(country, 'countries')">
+							{{country}}
+							<button matChipRemove>
+								<mat-icon>cancel</mat-icon>
+							</button>
+						</mat-chip>
+						<input placeholder="Ajouter un pays..." #countryInput [formControl]="countriesForm"
+							[matAutocomplete]="autoCountry" [matChipInputFor]="chipListCountry">
+					</mat-chip-list>
+					<mat-autocomplete #autoCountry="matAutocomplete" (optionSelected)="selected($event, 'countries')">
+						<mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+							{{country}}
+						</mat-option>
+					</mat-autocomplete>
+				</mat-form-field><br>
 				<mat-icon *ngIf="!isInstrumental()" class="icon"
 					matTooltip="Liste des langues chantées dans la musique. Il est possible d'en avoir plusieurs ou aucune. Sélectionner 'Autre' si aucune langue ne correspond.">help_outline</mat-icon>
 				<mat-form-field appearance="outline" *ngIf="!isInstrumental()">
