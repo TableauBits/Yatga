@@ -76,6 +76,21 @@
       <app-inv-histogram [id]="'results-constitution-languages-histogram'" [data]="languagesInvHistogramData"> </app-inv-histogram>
     </div>
   </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Répartition des pays </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div *ngIf="propertyExists('countries'); else missingData">
+      Résumé de :
+      <mat-form-field appearance="fill">
+        <mat-label> Choisir un utilisateur </mat-label>
+        <mat-select [(value)]="selectedUser" (selectionChange)="newSelection()">
+          <mat-option *ngFor="let user of getUserList()" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-inv-histogram [id]="'results-constitution-countries-histogram'" [data]="countriesInvHistogramData"> </app-inv-histogram>
+    </div>
+  </mat-expansion-panel>
 </mat-accordion>
 
 <ng-template #missingData> Aucune donnée disponible. </ng-template>
