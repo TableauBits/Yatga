@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Constitution, EMPTY_CONSTITUTION, EMPTY_USER, Song, User } from 'chelys';
 import { isEmpty, isNil, max, min, range } from 'lodash';
+import { CountryManagerService } from 'src/app/services/country-manager.service';
 import { CalendarData, InvHistogramData } from 'src/app/types/charts';
 import { mean, median } from 'src/app/types/math';
 import { CONSTITUTION_USER_ID } from 'src/app/types/results';
@@ -37,6 +38,7 @@ export class ResultsConstitutionComponent implements OnChanges {
 
   releaseYearSection: ReleaseYearSection;
   languagesInvHistogramData: InvHistogramData;
+  countriesInvHistogramData: InvHistogramData;
   calendarData: CalendarData[] = [];
   genreTabeData: GenreTableData[] = [];
 
@@ -55,11 +57,12 @@ export class ResultsConstitutionComponent implements OnChanges {
 
     this.generateHistogramData();
     this.generateLanguageData();
+    this.generateCountriesData();
     this.generateCalendarData();
     this.generateGenreTableData();
   }
 
-  constructor() {
+  constructor(public countryManager: CountryManagerService) {
     this.selectedUser = CONSTITUTION_USER_ID;
     this.releaseYearSection = {
       histogramValues: [],
@@ -69,6 +72,10 @@ export class ResultsConstitutionComponent implements OnChanges {
       median: -1
     };
     this.languagesInvHistogramData = {
+      rows: [],
+      values: [],
+    };
+    this.countriesInvHistogramData = {
       rows: [],
       values: [],
     };
@@ -89,6 +96,7 @@ export class ResultsConstitutionComponent implements OnChanges {
   newSelection(): void {
     this.generateHistogramData();
     this.generateLanguageData();
+    this.generateCountriesData();
     this.generateGenreTableData();
   }
 
@@ -155,6 +163,40 @@ export class ResultsConstitutionComponent implements OnChanges {
       }
     };
   }
+
+  generateCountriesData(): void {
+    const rows: string[] = [];
+    const values: number[] = [];
+
+    const countries = Array.from(this.songs.values())
+      .filter(song => this.songFilter(song, "countries"))
+      .map(song => song.countries || [])
+      .map(countries => {
+        return this.countryManager.getCountryName(countries.sort());
+      })
+      .sort()
+      .reverse();
+
+    for (const country of keepUniqueValues(countries)) {
+      if (isNil(country)) return;
+      rows.push(country);
+      values.push(countries.filter(value => value === country).length);
+    }
+
+    // get the indexes of values sorted in descending order
+    const sortedIndexes = values.map((_, i) => i).sort((a, b) => values[a] - values[b]);
+
+    this.countriesInvHistogramData = {
+      rows: sortedIndexes.map(i => rows[i]),
+      values: sortedIndexes.map(i => values[i]),
+      visualMap: {
+        min: 0,
+        max: countries.length,
+        text: ["Beaucoup de musiques", "Peu de musiques",]
+      }
+    };
+  }
+
 
   generateCalendarData(): void {
     const dates = Array.from(this.songs.values()).filter(song => song.addedDate).map(song => {
