@@ -172,7 +172,7 @@ export class ResultsConstitutionComponent implements OnChanges {
       .filter(song => this.songFilter(song, "countries"))
       .map(song => song.countries || [])
       .map(countries => {
-        return this.countryManager.getCountryName(countries.sort()); // countries.map(country => this.countryManager.getCountryName()).sort().join(", ");
+        return this.countryManager.getCountryName(countries.sort());
       })
       .sort()
       .reverse();
