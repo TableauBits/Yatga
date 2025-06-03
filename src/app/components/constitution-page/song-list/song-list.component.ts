@@ -37,6 +37,7 @@ export class SongListComponent extends YatgaUserFavorites {
 	selectedUsers: string[];
 	orderByUser: boolean;
 	orderByFavs: boolean;
+	songsSortedIndex?: number[];
 
 	constructor(
 		public auth: AuthService,
@@ -66,6 +67,12 @@ export class SongListComponent extends YatgaUserFavorites {
 			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByFavs)
 			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
+
+		if (this.songsSortedIndex) {
+			const sortedSongs = this.songsSortedIndex.map(i => songs[i]);
+			songs = sortedSongs.filter(song => song !== undefined);
+		}
+
 
 		return songs;
 	}
@@ -166,6 +173,11 @@ export class SongListComponent extends YatgaUserFavorites {
 	resetOrder() {
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
+		this.songsSortedIndex = undefined;
+	}
+
+	shuffleOrder() {
+		this.songsSortedIndex = Array.from(this.songs.keys()).sort(() => Math.random() - 0.5);
 	}
 
 	userFilterTooltip(uid: string, displayName: string): string {
