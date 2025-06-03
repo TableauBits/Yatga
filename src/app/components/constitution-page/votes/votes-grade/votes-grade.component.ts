@@ -50,6 +50,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	orderByUser: boolean;
 	orderByFavs: boolean;
 	orderByGrade: GradeOrder;
+	songsSortedIndex?: number[];
 
 	constructor(
 		public auth: AuthService,
@@ -141,6 +142,11 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.getVote(s) || 0, this.orderByGrade == GradeOrder.DECREASE));
 		if (this.orderByFavs)
 			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.isAFavorite(s), true));
+
+		if (this.songsSortedIndex) {
+			const sortedSongs = this.songsSortedIndex.map(i => songsToVote[i]);
+			songsToVote = sortedSongs.filter(song => song !== undefined);
+		}
 
 		return songsToVote;
 	}
@@ -266,6 +272,11 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 		this.setOrderByUser(false);
 		this.setOrderByFavs(false);
 		this.setOrderByGrade(GradeOrder.NONE);
+		this.songsSortedIndex = undefined;
+	}
+
+	shuffleOrder() {
+		this.songsSortedIndex = Array.from(this.songs.keys()).sort(() => Math.random() - 0.5);
 	}
 
 	userFilterTooltip(uid: string, displayName: string): string {

@@ -23,6 +23,10 @@
 			<mat-icon class="menu-panel">favorite</mat-icon>
 			<span>Classer par favori</span>
 		</button>
+		<button mat-menu-item class="menu-panel" (click)="shuffleOrder()">
+			<mat-icon class="menu-panel">shuffle</mat-icon>
+			<span>Classer aléatoirement</span>
+		</button>
 		<button mat-menu-item class="menu-panel" (click)="resetOrder()">
 			<mat-icon class="menu-panel">replay</mat-icon>
 			<span>Réinitialiser</span>
@@ -37,34 +41,30 @@
 	<div class="cards">
 		<mat-card *ngFor="let song of getSongs()" class="card-r">
 			<mat-card-header>
-				<img mat-card-avatar src="{{getUser(song.user).photoURL}}"
-					matTooltip="{{getUser(song.user).displayName}}">
+				<img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
 				<mat-card-title class="card-text text-overflowable" matTooltip="{{songPropertyManager.getTitle(song)}}">
 					{{songPropertyManager.getTitle(song)}}
 				</mat-card-title>
-				<mat-card-subtitle class="card-text text-overflowable"
-					matTooltip="{{songPropertyManager.getSubTitle(song)}}"> <i>
+				<mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}">
+					<i>
 						{{songPropertyManager.getSubTitle(song)}}
 					</i> </mat-card-subtitle>
 			</mat-card-header>
 			<hr>
-			<img src="{{urlGetter.getImageURL(song)}}" class="card-background-img"
-				(click)="updateCurrentIframeSong(song)">
+			<img src="{{urlGetter.getImageURL(song)}}" class="card-background-img" (click)="updateCurrentIframeSong(song)">
 			<div class="card-body">
 				<iframe *ngIf="currentIframeSongID === song.id; else loadImage" frameborder="0" class="iframe"
-					[src]="getSongSafeURL(song)"
-					allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+					[src]="getSongSafeURL(song)" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen>
 				</iframe>
 				<ng-template #loadImage>
-					<img src="{{urlGetter.getImageURL(song)}}" class="iframe-image"
-						(click)="updateCurrentIframeSong(song)">
+					<img src="{{urlGetter.getImageURL(song)}}" class="iframe-image" (click)="updateCurrentIframeSong(song)">
 					<div class="centered">
 						<button mat-raised-button color="primary" (click)="updateCurrentIframeSong(song)">
 							<mat-icon>play_arrow</mat-icon></button>
 					</div>
 				</ng-template>
-				<button mat-button color="primary" (click)="openSongNavigator(song)"
-					matTooltip="Ouvrir le navigateur Matbay">
+				<button mat-button color="primary" (click)="openSongNavigator(song)" matTooltip="Ouvrir le navigateur Matbay">
 					<mat-icon>music_video</mat-icon>
 				</button>
 				<button mat-button color="primary" (click)="songPropertyManager.onNavigate(song)"
@@ -77,10 +77,10 @@
 				</button>
 				<app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
 				</app-optionnal-song-infos-button>
-				<img *ngIf="song.countries" src="{{countryManager.getCountryFlagSVG(song.countries)}}" class="country-flag" 
+				<img *ngIf="song.countries" src="{{countryManager.getCountryFlagSVG(song.countries)}}" class="country-flag"
 					matTooltip="{{countryManager.getCountryName(song.countries)}}">
-				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn"
-					class="cancel" (click)="openDeleteSongWarning(song)" matTooltip="Retirer la musique">
+				<button *ngIf="isCurrentUserSong(song)" [disabled]="!canDeleteSong()" mat-button color="warn" class="cancel"
+					(click)="openDeleteSongWarning(song)" matTooltip="Retirer la musique">
 					<mat-icon>cancel</mat-icon>
 				</button>
 			</div>
