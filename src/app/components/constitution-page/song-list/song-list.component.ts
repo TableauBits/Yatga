@@ -73,7 +73,6 @@ export class SongListComponent extends YatgaUserFavorites {
 			songs = sortedSongs.filter(song => song !== undefined);
 		}
 
-
 		return songs;
 	}
 

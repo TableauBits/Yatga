@@ -56,6 +56,10 @@
         <mat-icon class="menu-panel">favorite</mat-icon>
         <span>Classer par favori</span>
       </button>
+      <button mat-menu-item class="menu-panel" (click)="shuffleOrder()">
+        <mat-icon class="menu-panel">shuffle</mat-icon>
+        <span>Classer aléatoirement</span>
+      </button>
       <button mat-menu-item class="menu-panel" (click)="setOrderByGrade(0)">
         <mat-icon class="menu-panel">trending_up</mat-icon>
         <span>Classer par ordre croissant</span>
@@ -79,8 +83,10 @@
       <mat-card *ngFor="let song of getSongsToVote()" class="card-r">
         <mat-card-header>
           <img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
-          <mat-card-title class="card-text text-overflowable" matTooltip="{{songPropertyManager.getTitle(song)}}"> {{songPropertyManager.getTitle(song)}} </mat-card-title>
-          <mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}"> <i> {{songPropertyManager.getSubTitle(song)}} </i> </mat-card-subtitle>
+          <mat-card-title class="card-text text-overflowable" matTooltip="{{songPropertyManager.getTitle(song)}}">
+            {{songPropertyManager.getTitle(song)}} </mat-card-title>
+          <mat-card-subtitle class="card-text text-overflowable" matTooltip="{{songPropertyManager.getSubTitle(song)}}">
+            <i> {{songPropertyManager.getSubTitle(song)}} </i> </mat-card-subtitle>
         </mat-card-header>
         <hr>
         <img src="{{urlGetter.getImageURL(song)}}" class="card-background-img" (click)="updateCurrentIframeSong(song)">
@@ -99,7 +105,8 @@
           <button mat-button color="primary" (click)="openVoteNavigator(song)" matTooltip="Ouvrir le navigateur Matbay">
             <mat-icon>music_video</mat-icon>
           </button>
-          <button mat-button color="primary" (click)="songPropertyManager.onNavigate(song)" matTooltip="Regarder la vidéo sur le site d'origine">
+          <button mat-button color="primary" (click)="songPropertyManager.onNavigate(song)"
+            matTooltip="Regarder la vidéo sur le site d'origine">
             <mat-icon>play_circle_outline</mat-icon>
           </button>
           <button mat-button color="primary" (click)="toggleFavorite(song, auth)"
@@ -108,9 +115,10 @@
           </button>
           <app-optionnal-song-infos-button class="favorite-button" [song]="song" [isButtonRaised]="false">
           </app-optionnal-song-infos-button>
-                    <img *ngIf="song.countries" src="{{countryManager.getCountryFlagSVG(song.countries)}}" class="country-flag"
+          <img *ngIf="song.countries" src="{{countryManager.getCountryFlagSVG(song.countries)}}" class="country-flag"
             matTooltip="{{countryManager.getCountryName(song.countries)}}">
-          <button *ngIf="getVote(song)" mat-button class="vote" [matMenuTriggerFor]="menu" matTooltip="Classer les votes">
+          <button *ngIf="getVote(song)" mat-button class="vote" [matMenuTriggerFor]="menu"
+            matTooltip="Classer les votes">
             {{getVote(song)}}
           </button>
           <mat-menu #menu="matMenu">
@@ -162,7 +170,8 @@
           </a>
         </td>
         <td> {{getUser(song.user).displayName}} </td>
-        <td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false"> </app-optionnal-song-infos-button> </td>
+        <td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false"> </app-optionnal-song-infos-button>
+        </td>
         <td> {{getVote(song)}} </td>
       </tr>
     </table>
