@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { EMPTY_SONG, Song } from 'chelys';
 import { isArray, isNil } from 'lodash';
 import { LANGUAGES_CODE_TO_FR } from 'src/app/types/song-utils';
-import { getCountryData, getEmojiFlag, TCountryCode } from 'countries-list';
+import { getEmojiFlag, TCountryCode } from 'countries-list';
+import { COUNTRY_CODES_TO_NAME } from 'src/app/types/country';
 
 type SongKey = keyof Song;
 const OPTIONNAL_FIELDS: SongKey[] = ["album", "genres", "releaseYear", "languages", "countries"];
@@ -34,10 +35,9 @@ export class OptionnalSongInfosButtonComponent {
     if (isNil(value)) return "/";
     return value.map(v => {
       const code = v as TCountryCode;
-
-      const country = getCountryData(code);
-      if (country) {
-        return `${getEmojiFlag(code)} ${country.name}`;
+      const name = COUNTRY_CODES_TO_NAME.get(code);
+      if (name) {
+        return `${getEmojiFlag(code)} ${name}`;
       } else {
         return v;
       }
