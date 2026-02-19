@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { createMessage, FavResUpdate, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites, Constitution } from 'chelys';
+import { createMessage, FavResUpdate, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites, Constitution, User } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { toMapNumber } from 'src/app/types/utils';
@@ -14,7 +14,8 @@ interface VoteNavigatorInjectedData {
 	songs: Song[],
 	currentVote: number,
 	votes: GradeUserData,
-	favorites: UserFavorites
+	favorites: UserFavorites,
+	users: User[]
 }
 
 @Component({
@@ -23,7 +24,6 @@ interface VoteNavigatorInjectedData {
 	styleUrls: ['./vote-navigator.component.scss']
 })
 export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDestroy {
-
 	constitution: Constitution;
 
 	currentSong: Song;
@@ -32,6 +32,7 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 	songs: Song[];
 	votes: GradeUserData;
 	favorites: UserFavorites;
+	users: User[];
 
 	constructor(
 		public auth: AuthService,
@@ -46,6 +47,7 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 		this.songs = data.songs;
 		this.votes = data.votes;
 		this.favorites = data.favorites;
+		this.users = data.users;
 
 		this.auth.pushEventHandler(this.handleEvent, this);
 	}
@@ -111,6 +113,14 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 	closeWindow(): void {
 		this.dialogRef.close();
+	}
+
+	showGuess(): boolean {
+		return this.constitution.anonymousLevel > 0;
+	}
+
+	votingOnly(): boolean {
+		return this.constitution.state == 1;
 	}
 
 }

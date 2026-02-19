@@ -30,7 +30,7 @@
 	</button>
 	<hr>
 	<mat-list role="list" *ngFor="let user of getUsers()" class="list-roles">
-		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
+		<mat-list-item *ngIf="!isAnonymous(); else anonymousUser" role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
 			<mat-icon *ngIf="isOwner(user); else isNotOwner" matTooltip="Président">account_balance</mat-icon>
 			<ng-template #isNotOwner>
 				<mat-icon *ngIf="!isJudge(user.uid)" matTooltip="Participant">account_box</mat-icon>
@@ -39,6 +39,13 @@
 			<img class="picture avatar" [src]="user.photoURL" [alt]="user.displayName">
 			<span class="list-item"> {{user.displayName}} </span>
 		</mat-list-item>
+		<ng-template #anonymousUser>
+			<mat-list-item role="listitem" class="item anonymous-color">
+				<mat-icon matTooltip="Utilisateur anonyme">visibility_off</mat-icon>
+				<img class="picture avatar" [src]="'assets/question_mark.svg'" alt="Utilisateur anonyme">
+				<span class="list-item"> Utilisateur anonyme </span>
+			</mat-list-item>
+		</ng-template>
 	</mat-list>
 	<hr>
 	<button mat-raised-button [disabled]="true" class="warning">

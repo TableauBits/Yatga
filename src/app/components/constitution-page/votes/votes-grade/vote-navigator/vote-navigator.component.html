@@ -24,6 +24,21 @@
   </span>
 </div>
 <br>
+<div *ngIf="showGuess() && currentSong.user !== this.auth.uid" class="alignment guess">
+  <span *ngIf="votingOnly(); else canModifySong">
+    Essayez de deviner qui ajouté cette chanson parmi la liste des utilisateurs :
+  <mat-form-field appearance="fill">
+      <mat-label> Choisir un utilisateur </mat-label>
+      <mat-select > <!--   [(value)]="selectedUser" (selectionChange)="newSelection()" -->
+        <mat-option *ngFor="let user of users" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      </mat-select>
+  </mat-form-field>
+  </span>
+  <ng-template #canModifySong>
+    Vous pourrez essayer de deviner qui a ajouté cette chanson lorsque la constitution sera en mode vote seulement.
+  </ng-template>
+
+</div>
 <br>
 <button mat-raised-button color="primary" (click)="closeWindow()">
   Fermer

@@ -187,4 +187,8 @@ export class SongListComponent extends YatgaUserFavorites {
 	isInConstitution(): boolean {
 		return this.constitution.users.includes(this.auth.uid);
 	}
+
+	isAnonymous(): boolean {
+		return this.constitution.anonymousLevel > 0;
+	}
 }

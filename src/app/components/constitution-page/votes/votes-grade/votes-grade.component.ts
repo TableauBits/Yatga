@@ -13,6 +13,7 @@ import { GetUrlService } from 'src/app/services/get-url.service';
 import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
 import { range } from 'lodash';
 import { CountryManagerService } from 'src/app/services/country-manager.service';
+import { use } from 'echarts';
 
 enum GradeOrder {
 	INCREASE,
@@ -179,7 +180,8 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 			currentVote: this.getVote(song),
 			songs: this.getSongsToVote(),
 			votes: this.votes,
-			favorites: this.favorites
+			favorites: this.favorites,
+			users: Array.from(this.users.values())
 		};
 
 		config.width = "780px";
@@ -287,5 +289,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	getGradeList(): number[] {
 		const maxGrade = this.constitution.maxGrade || 10;
 		return range(1, maxGrade + 1);
+	}
+
+	isAnonymous(): boolean {
+		return this.constitution.anonymousLevel > 0;
 	}
 }
