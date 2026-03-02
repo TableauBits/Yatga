@@ -3,7 +3,7 @@
 <ng-template #hideVotes>
   La période de votes n'est pas ouverte.
 </ng-template>
-
+<span *ngIf="this.isAnonymous() && this.constitution.state === 0"> Vous ne pouvez voter que lorsque toutes les chansons sont ajoutées. </span>
 <ng-template #allowVotes>
   <mat-accordion multi>
     <mat-expansion-panel [expanded]="showStats">

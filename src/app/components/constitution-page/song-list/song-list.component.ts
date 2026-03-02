@@ -60,9 +60,17 @@ export class SongListComponent extends YatgaUserFavorites {
 	getSongs(): Song[] {
 		let songs = Array.from(this.songs.values());
 
-		songs = songs.filter(song => this.isSelected(song.user));
+		// Return only the current user's songs if the constitution is anonymous and the constitution is not in the voting phase or later
+		if (this.isAnonymous() && this.constitution.state === 0) {
+			songs = songs.filter(song => song.user === this.auth.uid);
+		} else {
+			// Filter songs to only keep those whose user is selected
+			songs = songs.filter(song => this.isSelected(song.user));
+		}
 
-		songs.sort(compareObjectsFactory("id", !this.cardsSortASC));
+		const defaultSort = this.isAnonymous() ? compareObjectsFactory("title", this.cardsSortASC) : compareObjectsFactory("id", !this.cardsSortASC);
+
+		songs.sort(defaultSort);
 		if (this.orderByUser)
 			songs = songs.sort(compareObjectsFactory<Song>((s: Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByFavs)

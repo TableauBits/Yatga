@@ -13,7 +13,6 @@ import { GetUrlService } from 'src/app/services/get-url.service';
 import { SongPropertyManagerService } from 'src/app/services/song-property-manager.service';
 import { range } from 'lodash';
 import { CountryManagerService } from 'src/app/services/country-manager.service';
-import { use } from 'echarts';
 
 enum GradeOrder {
 	INCREASE,
@@ -130,13 +129,17 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	}
 
 	getSongsToVote(): Song[] {
+		if (this.isAnonymous() && this.constitution.state === 0) return [];
+
 		let songsToVote = Array.from(this.songs.values());
 
 		songsToVote = songsToVote.filter(song => song.user !== this.auth.uid);
 		songsToVote = songsToVote.filter(song => !(this.votes.values.has(song.id) && this.showAlreadyVoted));
 		songsToVote = songsToVote.filter(song => this.isSelected(song.user));
 
-		songsToVote.sort(compareObjectsFactory("id", !this.cardsSortASC));
+		const defaultSort = this.isAnonymous() ? compareObjectsFactory("title", this.cardsSortASC) : compareObjectsFactory("id", !this.cardsSortASC);
+
+		songsToVote.sort(defaultSort);
 		if (this.orderByUser)
 			songsToVote = songsToVote.sort(compareObjectsFactory<Song>((s: Song) => this.users.get(s.user) + s.user, false));
 		if (this.orderByGrade !== GradeOrder.NONE)

@@ -40,10 +40,10 @@
 		</button>
 	</mat-menu>
 </div>
+<span *ngIf="this.isAnonymous() && this.constitution.state === 0"> Vous ne pouvez voir que vos propres musiques lors de la période d'ajout. </span>
 <br>
 <br>
-<div *ngIf="cardsViewEnabled; then cardsView; else compactView">
-</div>
+<div *ngIf="cardsViewEnabled; then cardsView; else compactView"></div>
 <ng-template #cardsView>
 	<div class="cards">
 		<mat-card *ngFor="let song of getSongs()" class="card-r">
