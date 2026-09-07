@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { canModifySongs, Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes } from 'chelys';
+import { canModifySongs, Constitution, createMessage, CstResUpdate, EMPTY_CONSTITUTION, EMPTY_USER, EventType, extractMessageData, GradeReqGetSummary, GradeReqGetUser, GradeResSummaryUpdate, GradeResUserDataUpdate, GradeSummary, GradeUserData, Message, Song, SongPlatform, User, UserFavorites, canModifyVotes, GuessReqGetUser, GuessResUserDataUpdate, GuessUserData } from 'chelys';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { CARDS_SORT_KEY, CARDS_VIEW_KEY, GRADE_SHOW_STATS_KEY, GRADE_ALREADY_VOTES_KEY } from 'src/app/types/local-storage';
@@ -35,6 +35,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 	currentIframeSongID: number;
 
 	votes: GradeUserData;
+	guesses: GuessUserData;
 	histogramGrades: number[];
 	summary: GradeSummary;
 
@@ -64,6 +65,7 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 		this.currentIframeSongID = -1;
 		this.votes = { uid: this.auth.uid, values: new Map() };
+		this.guesses = { uid: this.auth.uid, guesses: new Map() };
 		this.summary = { voteCount: 0, userCount: new Map() };
 		this.favorites = { uid: "", favs: [] };
 		this.histogramGrades = [];
@@ -93,6 +95,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 
 			const messageGetSummary = createMessage<GradeReqGetSummary>(EventType.CST_SONG_GRADE_get_summary, { cstId: this.cstID });
 			this.auth.ws.send(messageGetSummary);
+
+			const messageGetUserGuesses = createMessage<GuessReqGetUser>(EventType.CST_SONG_GUESS_get_user, { cstId: this.cstID });
+			this.auth.ws.send(messageGetUserGuesses);
 		});
 	}
 
@@ -116,6 +121,12 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 				if (cst.id !== this.constitution.id) return;
 				this.constitution = cst;
 			}
+				break;
+			case EventType.CST_SONG_GUESS_update: {
+				const data = extractMessageData<GuessResUserDataUpdate>(message).userData;
+				this.guesses = { uid: data.uid, guesses: toMapNumber<string>(data.values) };
+			}
+				break;
 		}
 	}
 
@@ -184,7 +195,9 @@ export class VotesGradeComponent extends YatgaUserFavorites implements OnDestroy
 			songs: this.getSongsToVote(),
 			votes: this.votes,
 			favorites: this.favorites,
-			users: Array.from(this.users.values())
+			users: Array.from(this.users.values()),
+			currentGuess:  this.guesses.guesses.get(song.id),
+			guesses: this.guesses,
 		};
 
 		config.width = "780px";
