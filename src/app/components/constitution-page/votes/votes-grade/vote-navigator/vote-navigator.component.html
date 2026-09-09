@@ -29,8 +29,8 @@
     Essayez de deviner qui ajouté cette chanson parmi la liste des utilisateurs :
   <mat-form-field appearance="fill">
       <mat-label> Choisir un utilisateur </mat-label>
-      <mat-select (selectionChange)="guess($event.value)"> <!--   [(value)]="selectedUser" (selectionChange)="newSelection()" -->
-        <mat-option *ngFor="let user of users" value="{{user.uid}}"> {{user.displayName}} </mat-option>
+      <mat-select [value]="currentGuess" (selectionChange)="guess($event.value)">
+        <mat-option *ngFor="let user of users" [value]="user.uid"> {{user.displayName}} </mat-option>
       </mat-select>
   </mat-form-field>
   </span>

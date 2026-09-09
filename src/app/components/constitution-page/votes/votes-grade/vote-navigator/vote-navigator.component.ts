@@ -116,6 +116,7 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 		this.currentSong = this.songs[currentIndex + shift];
 		this.currentVote = this.votes.values.get(this.currentSong.id);
+		this.currentGuess = this.guesses.guesses.get(this.currentSong.id);
 	}
 
 	keyPressed(keyEvent: KeyboardEvent): void {
