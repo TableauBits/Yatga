@@ -61,6 +61,22 @@ td, th {
 	background-color: $cape-cod;
 }
 
+#t01 tr.correct-guess {
+  background-color: rgba(102, 187, 106, 0.55);
+}
+
+#t01 tr.invalid-guess {
+  background-color: rgba(239, 83, 80, 0.55);
+}
+
+.correct-icon {
+  color: #81c784;
+}
+
+.invalid-icon {
+  color: #ef9a9a;
+}
+
 .background {
   opacity: 35%;
   position: absolute;

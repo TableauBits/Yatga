@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, Input, OnChanges, ViewChild } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { EMPTY_SONG, EMPTY_USER, Song, User, UserFavorites } from 'chelys';
+import { EMPTY_SONG, EMPTY_USER, GuessUserData, Song, User, UserFavorites } from 'chelys';
 import { InvHistogramData } from 'src/app/types/charts';
 import { mean, randomInRange } from 'src/app/types/math';
 import { SongGradeResult, UserGradeResults } from 'src/app/types/results';
@@ -16,6 +16,11 @@ interface VoteData {
   user: User,
   grade: number,
   score: number
+}
+
+interface GuessRow {
+  voters: User[],
+  guessUser: User
 }
 
 function compareUserScore(v1: VoteData, v2: VoteData): number {
@@ -43,6 +48,7 @@ export class GradeElectoralComponent implements OnChanges {
 	@Input() songs: Map<number, Song> = new Map();
   @Input() favorites: Map<string, UserFavorites> = new Map();
   @Input() userResults: Map<string, UserGradeResults> = new Map();
+  @Input() userGuesses: Map<string, GuessUserData> = new Map();
   @Input() songResults: SongGradeResult[] = [];
 
   currentRank: number = 0;
@@ -120,6 +126,45 @@ export class GradeElectoralComponent implements OnChanges {
     return Array.from(this.users.values()).filter((user) => {
       return this.favorites.get(user.uid)?.favs.includes(this.currentSong.id);
     });
+  }
+
+  getGuessRows(): GuessRow[] {
+    const rows = new Map<string, GuessRow>();
+    const correctGuess = this.currentSong.user;
+
+    rows.set(correctGuess, {
+      voters: [],
+      guessUser: this.getUser(correctGuess)
+    });
+
+    for (const user of this.users.values()) {
+      if (user.uid === this.currentSong.user) continue;
+
+      const guessedUserId = this.userGuesses.get(user.uid)?.guesses.get(this.currentSong.id);
+      if (!guessedUserId) continue;
+
+      const row = rows.get(guessedUserId);
+      if (row) {
+        row.voters.push(user);
+      } else {
+        rows.set(guessedUserId, {
+          voters: [user],
+          guessUser: this.getUser(guessedUserId)
+        });
+      }
+    }
+
+    return Array.from(rows.values()).sort((a, b) => {
+      const aIsCorrect = a.guessUser.uid === this.currentSong.user;
+      const bIsCorrect = b.guessUser.uid === this.currentSong.user;
+
+      if (aIsCorrect !== bIsCorrect) return aIsCorrect ? -1 : 1;
+      return a.guessUser.displayName.localeCompare(b.guessUser.displayName);
+    });
+  }
+
+  isCorrectGuess(guessRow: GuessRow): boolean {
+    return guessRow.guessUser.uid === this.currentSong.user;
   }
 
   meanOfVotes(): number {

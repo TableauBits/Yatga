@@ -28,6 +28,7 @@ export class GradeRankingComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.songResults = changes['songResults'].currentValue;
     this.winner = this.getSongWinner();
+    console.log("WESH", this.songResults)
   }
 
   constructor(public urlGetter: GetUrlService) {}

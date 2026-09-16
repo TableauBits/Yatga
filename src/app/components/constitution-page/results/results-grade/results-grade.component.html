@@ -77,7 +77,7 @@
 			[result]="getAuthResult()" [songResults]="songResults" [userResults]="userResults" [constitution]="constitution">
 		</app-grade-profile>
 		<app-grade-electoral *ngSwitchCase="gradeResultSection.ELECTORAL" [users]="users" [songs]="songs"
-			[favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
+			[favorites]="favorites" [songResults]="songResults" [userResults]="userResults" [userGuesses]="userGuesses">
 		</app-grade-electoral>
 		<app-grade-relationship *ngSwitchCase="gradeResultSection.RELATIONSHIP" [users]="users" [songs]="songs"
 			[favorites]="favorites" [songResults]="songResults" [userResults]="userResults">
