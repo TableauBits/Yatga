@@ -163,7 +163,7 @@ import { GradeGuessComponent } from './components/constitution-page/results/resu
 		RewindTeamComponent,
 		RewindFavComponent,
 		RewindUserScoreComponent,
-  GradeGuessComponent,
+		GradeGuessComponent,
 	],
 	imports: [
 		BrowserModule,
