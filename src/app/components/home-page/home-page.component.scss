@@ -21,6 +21,16 @@
     radial-gradient(circle at top left, rgba(105, 59, 184, 0.35), transparent 32%),
     radial-gradient(circle at bottom right, rgba(56, 138, 207, 0.26), transparent 28%),
     linear-gradient(135deg, #09060f 0%, #0f0d1a 40%, #09060f 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.home-background.special-background {
+  background-image:
+    linear-gradient(135deg, rgba(8, 6, 15, 0.55), rgba(8, 6, 15, 0.72)),
+    url('/assets/special_asset.webp');
+  background-size: cover;
+  background-position: center;
 }
 
 .bg-orb {
