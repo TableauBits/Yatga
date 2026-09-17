@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { canModifySongs, Constitution, createMessage, CstReqGet, CstResUpdate, CstSongReqGetAll, CstSongResUpdate, EMPTY_CONSTITUTION, EventType, extractMessageData, Message, OWNER_INDEX, Role, Song, User, UsrReqGet, UsrReqUnsubscribe, UsrResUpdate, FavResUpdate, FavReqGet, UserFavorites, CstSongReqUnsubscribe, FavReqUnsubscribe, FAVORITES_MAX_LENGTH, canModifyVotes } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { ManageSongsComponent } from './manage-songs/manage-songs.component';
-import { RandomSongComponent } from './random-song/random-song.component';
 import { isNil } from 'lodash';
 
 const MS_TO_DAY = 1000 * 3600 * 24;
@@ -171,20 +170,6 @@ export class ConstitutionComponent implements OnDestroy {
 		this.dialog.open(ManageSongsComponent, config);
 	}
 
-	openDialogRandomSong(): void {
-		const config = new MatDialogConfig();
-
-		config.data = {
-			constitution: this.constitution,
-			songs: Array.from(this.songs.values()),
-			favorites: this.favorites.get(this.auth.uid),
-		};
-
-		config.width = "780px";
-		config.height = "720px";
-
-		this.dialog.open(RandomSongComponent, config);
-	}
 
 	setCurrentSection(newSection: ConstitutionSection): void {
 		this.currentSection = newSection;

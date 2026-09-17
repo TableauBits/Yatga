@@ -25,9 +25,6 @@
 	<button mat-raised-button color="primary" [disabled]="!updateSongs() || !isInConstitution() || isJudge(auth.uid)" (click)="openDialogManageSongs()">
 		<mat-icon>apps</mat-icon> Gérer mes musiques
 	</button>
-	<button mat-raised-button color="primary" (click)="openDialogRandomSong()">
-		<mat-icon>shuffle</mat-icon> Sélection aléatoire
-	</button>
 	<hr>
 	<mat-list role="list" *ngFor="let user of getUsers()" class="list-roles">
 		<mat-list-item role="listitem" class="item" [ngClass]="isAdmin(user) ? 'admin-color' : 'member-color'">
