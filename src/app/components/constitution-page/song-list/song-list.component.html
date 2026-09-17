@@ -22,7 +22,7 @@
 		<mat-icon>filter_list</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu">
-		<button mat-menu-item class="menu-panel" (click)="setOrderByUser(true)" disabled="isAnonymous()">
+		<button mat-menu-item class="menu-panel" (click)="setOrderByUser(true)" [disabled]="isAnonymous()">
 			<mat-icon class="menu-panel">list</mat-icon>
 			<span>Classer par utilisateur</span>
 		</button>

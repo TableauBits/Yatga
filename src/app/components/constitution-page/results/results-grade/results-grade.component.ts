@@ -76,7 +76,6 @@ export class ResultsGradeComponent implements OnDestroy {
       const kData = extractMessageData<GradeResUserDataUpdate>(message).userData;
       const data = {uid: kData.uid, values: toMapNumber<number>(kData.values)};
 
-      console.log(data);
 
       this.userResults.set(data.uid, generateUserGradeResults(data));
     }
