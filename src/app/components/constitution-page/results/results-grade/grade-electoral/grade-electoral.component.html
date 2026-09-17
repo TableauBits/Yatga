@@ -63,25 +63,14 @@
       </tr>
     </table>
     <br>
-    <table id="t01">
+    <table id="t01" *ngIf="hasCurrentSongGuesses()">
       <tr>
-        <th style="width: 55%;"> Utilisateurs </th>
-        <th style="width: 30%;"> Guess </th>
-        <th style="width: 15%;"> Résultat </th>
+        <th style="width: 15%;">  </th>
+        <th style="width: 60%;"> Utilisateurs </th>
+        <th style="width: 25%;"> Guess </th>
       </tr>
-      <tr *ngFor="let guessRow of getGuessRows()"
-        [ngClass]="isCorrectGuess(guessRow) ? 'correct-guess' : 'invalid-guess'">
-        <td style="width: 30%;">
-          <span class="same-line" *ngFor="let voter of guessRow.voters">
-            <img class="picture" matTooltip="{{voter.displayName}}" [src]="voter.photoURL">
-          </span>
-        </td>
-        <td style="width: 55%;">
-          <span class="same-line">
-            <img class="picture" matTooltip="{{guessRow.guessUser.displayName}}" [src]="guessRow.guessUser.photoURL">
-          </span>
-        </td>
-        <td style="width: 15%;">
+      <tr *ngFor="let guessRow of getGuessRows()">
+        <td>
           <mat-icon
             [class.correct-icon]="isCorrectGuess(guessRow)"
             [class.invalid-icon]="!isCorrectGuess(guessRow)"
@@ -90,9 +79,16 @@
             {{isCorrectGuess(guessRow) ? 'check_circle' : 'cancel'}}
           </mat-icon>
         </td>
-      </tr>
-      <tr *ngIf="getGuessRows().length === 0">
-        <td colspan="3"> Aucun pronostic pour cette chanson </td>
+        <td>
+          <span class="same-line" *ngFor="let voter of guessRow.voters">
+            <img class="picture" matTooltip="{{voter.displayName}}" [src]="voter.photoURL">
+          </span>
+        </td>
+        <td>
+          <span class="same-line">
+            <img class="picture" matTooltip="{{guessRow.guessUser.displayName}}" [src]="guessRow.guessUser.photoURL">
+          </span>
+        </td>
       </tr>
     </table>
     <br>

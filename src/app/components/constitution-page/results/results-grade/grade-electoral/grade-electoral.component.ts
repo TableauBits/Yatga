@@ -59,6 +59,7 @@ export class GradeElectoralComponent implements OnChanges {
   iframeWidth: number = 0;
   shouldLaunchFireworks: boolean = true;
   selected: number = 0;
+  selectedUser: string = '';
   range: number[] = [];
 
   invHistogramData: InvHistogramData;
@@ -154,17 +155,36 @@ export class GradeElectoralComponent implements OnChanges {
       }
     }
 
-    return Array.from(rows.values()).sort((a, b) => {
+    const sortedRows = Array.from(rows.values()).sort((a, b) => {
       const aIsCorrect = a.guessUser.uid === this.currentSong.user;
       const bIsCorrect = b.guessUser.uid === this.currentSong.user;
 
       if (aIsCorrect !== bIsCorrect) return aIsCorrect ? -1 : 1;
       return a.guessUser.displayName.localeCompare(b.guessUser.displayName);
     });
+
+    if (!this.selectedUser) return sortedRows;
+
+    return sortedRows.filter((row) => {
+      return row.guessUser.uid === this.selectedUser || row.voters.some((voter) => voter.uid === this.selectedUser);
+    });
   }
 
   isCorrectGuess(guessRow: GuessRow): boolean {
     return guessRow.guessUser.uid === this.currentSong.user;
+  }
+
+  hasCurrentSongGuesses(): boolean {
+    const rows = this.getGuessRows();
+    return rows.length > 0;
+  }
+
+  getUserList(): User[] {
+    return Array.from(this.users.values());
+  }
+
+  getSelectedUser(): User {
+    return this.users.get(this.selectedUser) || EMPTY_USER;
   }
 
   meanOfVotes(): number {

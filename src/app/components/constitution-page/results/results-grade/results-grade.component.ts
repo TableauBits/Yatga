@@ -13,6 +13,7 @@ enum GradeResultSection {
   FAVORITES,
   PROFIL,
   ELECTORAL,
+  GUESS,
   RELATIONSHIP,
   CONSTITUTION
 }
@@ -128,4 +129,8 @@ export class ResultsGradeComponent implements OnDestroy {
   isInConstitution(): boolean {
 		return this.constitution.users.includes(this.auth.uid);
 	}
+
+  hasAnyGuess(): boolean {
+    return Array.from(this.userGuesses.values()).some((userData) => userData.guesses.size > 0);
+  }
 }

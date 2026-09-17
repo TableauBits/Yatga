@@ -1,0 +1,103 @@
+@import "../../../../../styles/variables.scss";
+
+.panel {
+  width: 100%;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  overflow-x: auto;
+  font-size: medium;
+}
+
+#t01 th,
+#t01 td {
+  border: 1px solid $sasuke;
+  text-align: center;
+  padding: 8px;
+}
+
+#t01 th {
+  background-color: $mineshaft;
+  color: whitesmoke;
+}
+
+#t01 tr:nth-child(even) {
+  background-color: $sasuke;
+}
+
+#t01 tr:nth-child(odd) {
+  background-color: $cape-cod;
+}
+
+.picture {
+  width: 55px;
+  height: 55px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
+}
+
+mat-select {
+  color: whitesmoke;
+}
+
+mat-select-value {
+  color: whitesmoke !important;
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: whitesmoke;
+  }
+
+  .mat-form-field.mat-focused .mat-form-field-label {
+    color: whitesmoke !important;
+  }
+
+  .mat-select-value {
+    color: whitesmoke;
+  }
+
+  mat-form-field {
+    .mat-hint, input, ::placeholder, .mat-form-field-label {
+      color: whitesmoke;
+    }
+  }
+
+  .mat-primary .mat-option:hover {
+    background-color: $sasuke;
+  }
+
+  .mat-option.mat-active {
+    color: whitesmoke;
+    background-color: $cape-cod;
+  }
+
+  .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+    color: whitesmoke;
+    background-color: $angular-purple;
+  }
+}
+
+.matrix-scroll {
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.correct-cell {
+  background-color: rgba(102, 187, 106, 0.35);
+  color: #c8e6c9;
+  font-weight: bold;
+}
+
+.matrix-total {
+  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+}
+
+.stat-text {
+  margin-top: 20px;
+}

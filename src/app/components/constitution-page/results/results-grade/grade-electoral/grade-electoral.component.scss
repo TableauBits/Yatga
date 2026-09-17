@@ -147,3 +147,38 @@ td, th {
 .remove-margin {
   margin: 0 0 0 0;
 }
+
+.confusion-matrix-section {
+  clear: both;
+  padding: 2% 1% 4%;
+  text-align: center;
+}
+
+.matrix-caption {
+  color: whitesmoke;
+}
+
+.matrix-scroll {
+  overflow-x: auto;
+}
+
+.confusion-matrix {
+  width: max-content;
+  min-width: 60%;
+}
+
+.confusion-matrix th,
+.confusion-matrix td {
+  min-width: 48px;
+}
+
+.confusion-matrix .correct-cell {
+  background-color: rgba(102, 187, 106, 0.35);
+  color: #c8e6c9;
+  font-weight: bold;
+}
+
+.confusion-matrix .matrix-total {
+  background-color: rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+}
