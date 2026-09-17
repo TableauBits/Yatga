@@ -105,6 +105,7 @@ import { RewindTeamComponent } from './components/rewind-page/rewind-team/rewind
 import { RewindFavComponent } from './components/rewind-page/rewind-fav/rewind-fav.component';
 import { RewindUserScoreComponent } from './components/rewind-page/rewind-user-score/rewind-user-score.component';
 import { CountryManagerService } from './services/country-manager.service';
+import { GradeGuessComponent } from './components/constitution-page/results/results-grade/grade-guess/grade-guess.component';
 
 @NgModule({
 	declarations: [
@@ -160,6 +161,7 @@ import { CountryManagerService } from './services/country-manager.service';
 		RewindTeamComponent,
 		RewindFavComponent,
 		RewindUserScoreComponent,
+		GradeGuessComponent,
 	],
 	imports: [
 		BrowserModule,

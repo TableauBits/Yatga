@@ -1,21 +1,28 @@
 <div class="filter">
-	<span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
-	<img *ngFor="let user of getUsers()" class="picture clickable"
-		matTooltip="{{userFilterTooltip(user.uid, user.displayName)}}" [src]="user.photoURL"
-		(click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
-	<button mat-raised-button color="primary" (click)="select('all')" class="filter-button"
-		matTooltip="Afficher tous les utilisateurs">
-		<mat-icon>add_circle_outline</mat-icon>
-	</button>
-	<button mat-raised-button color="primary" (click)="select('none')" matTooltip="Cacher tous les utilisateurs">
-		<mat-icon>block</mat-icon>
-	</button>
+	<span *ngIf="!isAnonymous(); else anonymousUser" class="filter-text">
+		<span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
+		<img *ngFor="let user of getUsers()" class="picture clickable"
+			matTooltip="{{userFilterTooltip(user.uid, user.displayName)}}" [src]="user.photoURL"
+			(click)="toggleUserFilter(user.uid)" [ngClass]="isSelected(user.uid) ? '' : 'black-and-white'">
+		<button mat-raised-button color="primary" (click)="select('all')" class="filter-button"
+			matTooltip="Afficher tous les utilisateurs">
+			<mat-icon>add_circle_outline</mat-icon>
+		</button>
+		<button mat-raised-button color="primary" (click)="select('none')" matTooltip="Cacher tous les utilisateurs">
+			<mat-icon>block</mat-icon>
+		</button>
+	</span>
+	<ng-template #anonymousUser>
+		<span class="filter-text"> <b> Filtre des utilisateurs : </b> </span>
+		<span class="filter-text"> Impossible de filtrer les utilisateurs, la constitution est anonyme. </span>
+	</ng-template>
+
 	<button mat-raised-button color="primary" class="filter-button" [matMenuTriggerFor]="menu"
 		matTooltip="Classer les musiques">
 		<mat-icon>filter_list</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu">
-		<button mat-menu-item class="menu-panel" (click)="setOrderByUser(true)">
+		<button mat-menu-item class="menu-panel" (click)="setOrderByUser(true)" [disabled]="isAnonymous()">
 			<mat-icon class="menu-panel">list</mat-icon>
 			<span>Classer par utilisateur</span>
 		</button>
@@ -33,15 +40,15 @@
 		</button>
 	</mat-menu>
 </div>
+<span *ngIf="this.isAnonymous() && this.constitution.state === 0"> Vous ne pouvez voir que vos propres musiques lors de la période d'ajout. </span>
 <br>
 <br>
-<div *ngIf="cardsViewEnabled; then cardsView; else compactView">
-</div>
+<div *ngIf="cardsViewEnabled; then cardsView; else compactView"></div>
 <ng-template #cardsView>
 	<div class="cards">
 		<mat-card *ngFor="let song of getSongs()" class="card-r">
 			<mat-card-header>
-				<img mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
+				<img *ngIf="!isAnonymous()" mat-card-avatar src="{{getUser(song.user).photoURL}}" matTooltip="{{getUser(song.user).displayName}}">
 				<mat-card-title class="card-text text-overflowable" matTooltip="{{songPropertyManager.getTitle(song)}}">
 					{{songPropertyManager.getTitle(song)}}
 				</mat-card-title>
@@ -116,7 +123,12 @@
 					<mat-icon>play_circle_outline</mat-icon>
 				</a>
 			</td>
-			<td> {{ getUser(song.user).displayName }} </td>
+			<td>
+				<span *ngIf="!isAnonymous(); else anonymousUser">{{ getUser(song.user).displayName }}</span> 
+				<ng-template #anonymousUser>
+					<span> Utilisateur anonyme </span>
+				</ng-template>
+			</td>
 			<td> <app-optionnal-song-infos-button [song]="song" [isButtonRaised]="false">
 				</app-optionnal-song-infos-button> </td>
 			<td>

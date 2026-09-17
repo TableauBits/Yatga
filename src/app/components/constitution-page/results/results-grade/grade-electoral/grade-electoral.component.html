@@ -63,6 +63,35 @@
       </tr>
     </table>
     <br>
+    <table id="t01" *ngIf="hasCurrentSongGuesses()">
+      <tr>
+        <th style="width: 15%;">  </th>
+        <th style="width: 60%;"> Utilisateurs </th>
+        <th style="width: 25%;"> Guess </th>
+      </tr>
+      <tr *ngFor="let guessRow of getGuessRows()">
+        <td>
+          <mat-icon
+            [class.correct-icon]="isCorrectGuess(guessRow)"
+            [class.invalid-icon]="!isCorrectGuess(guessRow)"
+            [matTooltip]="isCorrectGuess(guessRow) ? 'Bonne réponse' : 'Mauvaise réponse'"
+            [attr.aria-label]="isCorrectGuess(guessRow) ? 'Bonne réponse' : 'Mauvaise réponse'">
+            {{isCorrectGuess(guessRow) ? 'check_circle' : 'cancel'}}
+          </mat-icon>
+        </td>
+        <td>
+          <span class="same-line" *ngFor="let voter of guessRow.voters">
+            <img class="picture" matTooltip="{{voter.displayName}}" [src]="voter.photoURL">
+          </span>
+        </td>
+        <td>
+          <span class="same-line">
+            <img class="picture" matTooltip="{{guessRow.guessUser.displayName}}" [src]="guessRow.guessUser.photoURL">
+          </span>
+        </td>
+      </tr>
+    </table>
+    <br>
   </div>
   <div class="title">
     <br>

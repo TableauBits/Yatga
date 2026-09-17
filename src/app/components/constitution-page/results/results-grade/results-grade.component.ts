@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, Message, Song, User, UserFavorites } from 'chelys';
+import { Constitution, createMessage, EMPTY_CONSTITUTION, EventType, extractMessageData, GradeReqGetAll, GradeReqUnsubscribe, GradeResUserDataUpdate, GuessReqGetAll, GuessResUserDataUpdate, GuessUserData, Message, Song, User, UserFavorites } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { EMPTY_USER_GRADE_RESULTS, generateUserGradeResults, SongGradeResult, UserGradeResults } from 'src/app/types/results';
 import { toMapNumber } from 'src/app/types/utils';
@@ -13,6 +13,7 @@ enum GradeResultSection {
   FAVORITES,
   PROFIL,
   ELECTORAL,
+  GUESS,
   RELATIONSHIP,
   CONSTITUTION
 }
@@ -36,6 +37,7 @@ export class ResultsGradeComponent implements OnDestroy {
   @Input() favorites: Map<string, UserFavorites> = new Map();
 
   userResults: Map<string, UserGradeResults> = new Map();
+  userGuesses: Map<string, GuessUserData> = new Map();
   songResults: SongGradeResult[] = [];
 
   currentSection: GradeResultSection = GradeResultSection.RANKING;
@@ -59,21 +61,31 @@ export class ResultsGradeComponent implements OnDestroy {
     // When connected send a request to get all votes
     this.route.params.subscribe((params) => {
       const cstID = params.cstID;
-      const messagesGetAllUserVotes = createMessage<GradeReqGetAll>(EventType.CST_SONG_GRADE_get_all, {cstId: cstID});
-      this.auth.ws.send(messagesGetAllUserVotes);
+      const messageGetAllVotes = createMessage<GradeReqGetAll>(EventType.CST_SONG_GRADE_get_all, {cstId: cstID});
+      this.auth.ws.send(messageGetAllVotes);
+
+      const messageGetAllGuesses = createMessage<GuessReqGetAll>(EventType.CST_SONG_GUESS_get_all, {cstId: cstID});
+      this.auth.ws.send(messageGetAllGuesses);
     });
   }
 
   private handleEvents(event: MessageEvent<any>): void {
-    let message = JSON.parse(event.data.toString()) as Message<unknown>;
+    const message = JSON.parse(event.data.toString()) as Message<unknown>;
 
-    // TODO : Other events needed ?
     if (message.event === EventType.CST_SONG_GRADE_userdata_update) {
       const kData = extractMessageData<GradeResUserDataUpdate>(message).userData;
       const data = {uid: kData.uid, values: toMapNumber<number>(kData.values)};
 
+
       this.userResults.set(data.uid, generateUserGradeResults(data));
     }
+
+    if (message.event === EventType.CST_SONG_GUESS_update) {
+      const kData = extractMessageData<GuessResUserDataUpdate>(message).userData;
+      const data = {uid: kData.uid, values: toMapNumber<string>(kData.values)};
+      this.userGuesses.set(data.uid, {guesses: data.values, uid: data.uid});
+    }   
+    
 
     if (this.constitution.maxUserCount === this.userResults.size) {
       this.generateSongResults();
@@ -116,4 +128,8 @@ export class ResultsGradeComponent implements OnDestroy {
   isInConstitution(): boolean {
 		return this.constitution.users.includes(this.auth.uid);
 	}
+
+  hasAnyGuess(): boolean {
+    return Array.from(this.userGuesses.values()).some((userData) => userData.guesses.size > 0);
+  }
 }

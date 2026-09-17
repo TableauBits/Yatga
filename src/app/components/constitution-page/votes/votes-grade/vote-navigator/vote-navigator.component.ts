@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { createMessage, FavResUpdate, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites, Constitution } from 'chelys';
+import { createMessage, FavResUpdate, EventType, extractMessageData, GradeReqEdit, GradeResUserDataUpdate, GradeUserData, Message, Song, UserFavorites, Constitution, User, GuessUserData, GuessResUserDataUpdate, GuessReqEdit } from 'chelys';
 import { AuthService } from 'src/app/services/auth.service';
 import { YatgaUserFavorites } from 'src/app/types/extends/favorite';
 import { toMapNumber } from 'src/app/types/utils';
@@ -11,10 +11,13 @@ const PREVIOUS_SHIFT = -1;
 interface VoteNavigatorInjectedData {
 	constitution: Constitution,
 	currentSong: Song,
+	currentGuess: string | undefined,
 	songs: Song[],
 	currentVote: number,
 	votes: GradeUserData,
-	favorites: UserFavorites
+	favorites: UserFavorites,
+	users: User[],
+	guesses: GuessUserData;
 }
 
 @Component({
@@ -23,15 +26,17 @@ interface VoteNavigatorInjectedData {
 	styleUrls: ['./vote-navigator.component.scss']
 })
 export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDestroy {
-
 	constitution: Constitution;
 
 	currentSong: Song;
 	currentVote: number | undefined;
+	currentGuess: string | undefined;
 
+	guesses: GuessUserData;
 	songs: Song[];
 	votes: GradeUserData;
 	favorites: UserFavorites;
+	users: User[];
 
 	constructor(
 		public auth: AuthService,
@@ -43,9 +48,12 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 		this.constitution = data.constitution;
 		this.currentSong = data.currentSong;
 		this.currentVote = data.currentVote;
+		this.currentGuess = data.currentGuess;
 		this.songs = data.songs;
 		this.votes = data.votes;
 		this.favorites = data.favorites;
+		this.users = data.users;
+		this.guesses = data.guesses;
 
 		this.auth.pushEventHandler(this.handleEvent, this);
 	}
@@ -55,7 +63,7 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 	}
 
 	handleEvent(event: MessageEvent<any>): void {
-		let message = JSON.parse(event.data.toString()) as Message<unknown>;
+		const message = JSON.parse(event.data.toString()) as Message<unknown>;
 
 		switch (message.event) {
 			case EventType.CST_SONG_GRADE_userdata_update: {
@@ -65,7 +73,11 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 			case EventType.CST_SONG_FAV_update: {
 				const favorites = extractMessageData<FavResUpdate>(message).userFavorites;
 				if (favorites.uid === this.auth.uid) this.favorites = favorites;
-			}
+			} break;
+			case EventType.CST_SONG_GUESS_update: {
+				const data = extractMessageData<GuessResUserDataUpdate>(message).userData;
+				this.guesses = { uid: data.uid, guesses: toMapNumber<string>(data.values) };
+			} break;
 		}
 	}
 
@@ -75,7 +87,13 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 		this.currentVote = grade; // TODO : Necessary ?
 	}
 
-	array(n: number): any[] {
+	guess(guess: string) {
+		const message = createMessage<GuessReqEdit>(EventType.CST_SONG_GUESS_edit, { cstId: this.constitution.id, guessData: { guess: guess, songId: this.currentSong.id } });
+		this.auth.ws.send(message);
+		this.currentGuess = guess; // TODO : Necessary ?
+	}
+
+	array(n: number): number[] {
 		return Array(n);
 	}
 
@@ -98,6 +116,7 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 		this.currentSong = this.songs[currentIndex + shift];
 		this.currentVote = this.votes.values.get(this.currentSong.id);
+		this.currentGuess = this.guesses.guesses.get(this.currentSong.id);
 	}
 
 	keyPressed(keyEvent: KeyboardEvent): void {
@@ -111,6 +130,14 @@ export class VoteNavigatorComponent extends YatgaUserFavorites implements OnDest
 
 	closeWindow(): void {
 		this.dialogRef.close();
+	}
+
+	showGuess(): boolean {
+		return this.constitution.anonymousLevel > 0;
+	}
+
+	votingOnly(): boolean {
+		return this.constitution.state == 1;
 	}
 
 }

@@ -1,0 +1,99 @@
+<mat-accordion multi class="panel" *ngIf="hasAnyGuesses()">
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Matrice de confusion des pronostics </mat-panel-title>
+    </mat-expansion-panel-header>
+    Pronostics de :
+    <mat-form-field appearance="fill">
+      <mat-label> Choisir un pronostiqueur </mat-label>
+      <mat-select [(value)]="selectedUser">
+        <mat-option value="">Tous</mat-option>
+        <mat-option *ngFor="let user of getUserList()" [value]="user.uid"> {{user.displayName}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <img class="picture image-de" [src]="getSelectedUser().photoURL" matTooltip="{{getSelectedUser().displayName}}">
+    <br>
+    <br>
+    <i> Lignes : propriétaire réel · Colonnes : utilisateur pronostiqué. </i>
+    <div class="matrix-scroll">
+      <table class="stat-text" id="t01">
+        <tr>
+          <th scope="col">Réel \ Pronostic</th>
+          <th scope="col" *ngFor="let guessedUser of getConfusionMatrixUsers()">
+            <img class="picture" matTooltip="{{guessedUser.displayName}}" [src]="guessedUser.photoURL"
+              [alt]="guessedUser.displayName">
+          </th>
+          <th scope="col">Total</th>
+        </tr>
+        <tr *ngFor="let row of getConfusionMatrixRows()">
+          <th scope="row">
+            <img class="picture" matTooltip="{{row.actualUser.displayName}}" [src]="row.actualUser.photoURL"
+              [alt]="row.actualUser.displayName">
+          </th>
+          <td *ngFor="let guessedUser of getConfusionMatrixUsers()"
+            [class.correct-cell]="isCorrectMatrixCell(row, guessedUser)">
+            {{getConfusionMatrixValue(row, guessedUser)}}
+          </td>
+          <td class="matrix-total">{{row.total}}</td>
+        </tr>
+      </table>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Précision des pronostics </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table class="stat-text" id="t01">
+      <tr>
+        <th> Utilisateur </th>
+        <th> Bonnes réponses </th>
+        <th> Total </th>
+        <th> Précision </th>
+      </tr>
+      <tr *ngFor="let row of getGuessAccuracyRows()">
+        <td>
+          <img class="picture" matTooltip="{{row.user.displayName}}" [src]="row.user.photoURL"
+            [alt]="row.user.displayName">
+        </td>
+        <td> {{row.correct}} </td>
+        <td> {{row.total}} </td>
+        <td> {{row.precision.toFixed(2)}}% </td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Classement des chansons par reconnaissance </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table class="stat-text" id="t01">
+      <tr>
+        <th> Position </th>
+        <th> Chanson </th>
+        <th> Auteur </th>
+        <th> Vidéo </th>
+        <th> Ajouté par </th>
+        <th> Bonnes réponses </th>
+        <th> Total </th>
+        <th> Précision </th>
+      </tr>
+      <tr *ngFor="let row of getSongRecognitionRows(); let index = index">
+        <td> {{index + 1}} </td>
+        <td> {{row.song.title}} </td>
+        <td> {{row.song.author}} </td>
+        <td>
+          <a href="{{row.song.url}}" target="_blank">
+            <mat-icon>play_circle_outline</mat-icon>
+          </a>
+        </td>
+        <td>
+          <img class="picture avatar" [src]="getUser(row.song.user).photoURL" matTooltip="{{ getUser(row.song.user).displayName }}">
+        </td>
+        <td> {{row.correct}} </td>
+        <td> {{row.total}} </td>
+        <td> {{row.precision.toFixed(2)}}% </td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>

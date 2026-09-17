@@ -1,6 +1,6 @@
 {
   "name": "yatga",
-  "version": "1.5.2",
+  "version": "1.8.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -29,7 +29,7 @@
     "@types/url-parse": "^1.4.8",
     "all-iso-language-codes": "^1.0.12",
     "canvas-confetti": "^1.6.0",
-    "chelys": "^2.19.0",
+    "chelys": "^2.22.0",
     "countries-list": "^3.1.1",
     "echarts": "^5.4.0",
     "events": "^3.3.0",

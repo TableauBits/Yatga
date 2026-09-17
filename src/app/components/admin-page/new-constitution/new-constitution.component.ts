@@ -6,7 +6,7 @@ import { isEmpty, isNil, isNull } from 'lodash';
 import { AuthService } from 'src/app/services/auth.service';
 import { Status } from 'src/app/types/status';
 
-const ANONIMITY_LEVELS = ["Toutes informations révélées", /*"Utilisateur caché", "Audio seulement"*/];	// TODO : Adapt Anonimity Level
+const ANONIMITY_LEVELS = ["Toutes informations révélées", "Utilisateurs masqués"];
 
 @Component({
 	selector: 'app-new-constitution',
