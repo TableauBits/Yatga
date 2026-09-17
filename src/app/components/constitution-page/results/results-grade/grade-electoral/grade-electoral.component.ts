@@ -175,8 +175,8 @@ export class GradeElectoralComponent implements OnChanges {
   }
 
   hasCurrentSongGuesses(): boolean {
-    const rows = this.getGuessRows();
-    return rows.length > 0;
+    // Return true if there are any guesses for the current song, otherwise false
+    return Array.from(this.userGuesses.values()).some((userData) => userData.guesses.has(this.currentSong.id));
   }
 
   getUserList(): User[] {
