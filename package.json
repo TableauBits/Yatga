@@ -1,6 +1,6 @@
 {
   "name": "yatga",
-  "version": "1.5.2",
+  "version": "1.8.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
