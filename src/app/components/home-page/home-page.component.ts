@@ -37,9 +37,11 @@ interface GithubRelease {
 })
 export class HomePageComponent {
 	releases: MatbayRelease[];
+	public readonly useSpecialBackground: boolean;
 
 	constructor(private http: HttpClient) {
 		this.releases = [];
+		this.useSpecialBackground = Math.random() < 0.1;
 		this.get();
 	}
 
