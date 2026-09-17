@@ -33,7 +33,6 @@ import { SongNavigatorComponent } from './components/constitution-page/song-list
 import { VoteNavigatorComponent } from './components/constitution-page/votes/votes-grade/vote-navigator/vote-navigator.component';
 import { JoinConstitutionComponent } from './components/join-constitution/join-constitution.component';
 import { ResultsFavoritesComponent } from './components/constitution-page/results/results-favorites/results-favorites.component';
-import { RandomSongComponent } from './components/constitution-page/random-song/random-song.component';
 import { ManageInvitesComponent } from './components/admin-page/manage-invites/manage-invites.component';
 import { ManageRolesComponent } from './components/admin-page/manage-roles/manage-roles.component';
 import { InvitePageComponent } from './components/invite-page/invite-page.component';
@@ -143,7 +142,6 @@ import { CountryManagerService } from './services/country-manager.service';
 		ResultsFavoritesComponent,
 		PieComponent,
 		GradeElectoralComponent,
-		RandomSongComponent,
 		GradeRelationshipComponent,
 		HeatmapComponent,
 		ChordComponent,
