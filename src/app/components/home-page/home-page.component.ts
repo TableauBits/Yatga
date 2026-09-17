@@ -41,7 +41,7 @@ export class HomePageComponent {
 
 	constructor(private http: HttpClient) {
 		this.releases = [];
-		this.useSpecialBackground = Math.random() < 0.5;
+		this.useSpecialBackground = Math.random() < 0.1;
 		this.get();
 	}
 
