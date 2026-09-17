@@ -60,10 +60,11 @@ mat-select-value {
     color: whitesmoke;
   }
 
-  mat-form-field {
-    .mat-hint, input, ::placeholder, .mat-form-field-label {
-      color: whitesmoke;
-    }
+  .mat-hint,
+  input,
+  .mat-form-field-label,
+  input::placeholder {
+    color: whitesmoke;
   }
 
   .mat-primary .mat-option:hover {
